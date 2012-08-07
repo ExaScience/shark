@@ -5,6 +5,7 @@
 #include <getopt.h>
 #include <cassert>
 #include <shark.hpp>
+#include "cg.hpp"
 
 using namespace std;
 using namespace shark;
@@ -19,10 +20,8 @@ class LaplaceExp {
 public:
 	typedef LaplaceAcc accessor;
 	static const int number_of_dimensions = 2;
-	LaplaceExp(double h, const GlobalArrayD& gx): h(h), gx(gx) {
-		assert(gx.ghost_width()[0] >= 1 && gx.ghost_width()[1] >= 1);
-	}
-	~LaplaceExp() { }
+	LaplaceExp(double h, const GlobalArrayD& gx);
+	~LaplaceExp();
 	const Domain& domain() const {
 		return gx.domain();
 	}
@@ -30,6 +29,12 @@ public:
 		return gx.region();
 	}
 };
+
+LaplaceExp::LaplaceExp(double h, const GlobalArrayD& gx): h(h), gx(gx) {
+	assert(gx.ghost_width()[0] >= 1 && gx.ghost_width()[1] >= 1);
+}
+
+LaplaceExp::~LaplaceExp() { }
 
 class LaplaceAcc {
 	const double h;
@@ -54,41 +59,6 @@ public:
 		return r;
 	}
 };
-
-LaplaceExp laplace2D(double h, const GlobalArrayD& x) {
-	return LaplaceExp(h, x);
-}
-
-void cg(double h, GlobalArrayD& x, const GlobalArrayD& b, double tol, int& k, int maxit) {
-
-	GlobalArrayD r(b.domain(), b.ghost_width());
-	r = b - laplace2D(h,x);
-
-	GlobalArrayD p(x.domain(), x.ghost_width());
-	p = r;
-
-	GlobalArrayD w(p.domain(), p.ghost_width());
-
-	double rho = norm2(r);
-
-	for(k = 0; k < maxit; k++) {
-		if(rho <= tol)
-			break;
-
-		w = laplace2D(h, p);
-
-		double alpha = rho*rho / dot(p,w);
-		x = x + alpha * p;
-		r = r - alpha * w;
-
-		double rho_old = rho;
-		rho = norm2(r);
-
-		double beta = rho*rho / (rho_old*rho_old);
-		p = r + beta * p;
-	}
-
-}
 
 int main(int argc, char **argv) {
 	Init(&argc, &argv);
@@ -154,6 +124,9 @@ int main(int argc, char **argv) {
 	SetupThreads();
 	{
 		double h = 1.0 / (n + 1.0);
+		auto Amult = [h](const GlobalArrayD& x) {
+			return LaplaceExp(h, x);
+		};
 
 		coords size = {{n,n}};
 		coords gw = {{1,1}};
@@ -165,15 +138,15 @@ int main(int argc, char **argv) {
 		x_exact = constant(d, 1.0);
 
 		GlobalArrayD b(d);
-		b = laplace2D(h, x_exact);
+		b = Amult(x_exact);
 
 		GlobalArrayD sol(d, gw);
 		sol = constant(d, 0.0);
 
-		int k;
+		int k = 0;
 		double starttime = Wtime();
 		if (method.compare("cg") == 0) {
-			cg(h, sol, b, tol, k, maxit);
+			cg(Amult, sol, b, tol, k, maxit);
 		} else {
 			cerr << "Invalid CG method" << endl;
 			Abort(1);

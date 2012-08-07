@@ -95,6 +95,8 @@ namespace shark {
 			 */
 			GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width = coords<ndim>(), bool ghost_corners = false);
 
+			GlobalArray(const GlobalArray<ndim,T>& other, bool copy);
+
 			/**
 			 * Destruct a GlobalArray (collective).
 			 * If active, the memory of the global array is released

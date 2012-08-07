@@ -106,6 +106,15 @@ GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_
 	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld);
 }
 
+template<int ndim, typename T>
+GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
+  dom(other.dom), gw(other.gw), gc(other.gc), impl(new GAImpl<ndim>()), lc(0) {
+	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld);
+
+	if(copy)
+		*this = other;
+}
+
 // Destructor
 
 template<int ndim,typename T>
