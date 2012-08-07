@@ -35,4 +35,3 @@ void mpi_type<vec<ndim,T>>::destroy() {
 #include "inst_dimtype"
 #undef SYMB
 
-

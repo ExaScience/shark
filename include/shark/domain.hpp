@@ -195,14 +195,6 @@ namespace shark {
 			template<typename T, typename Func>
 			T internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
-			template<typename T>
-			T external_sum(T&& val) const;
-
-#ifdef SHARK_ASYNC
-			template<typename T>
-			Future<T> external_isum(T&& val) const;
-#endif
-
 		};
 
 		// Inline function implementations
@@ -316,7 +308,7 @@ namespace shark {
 
 		template<int ndim> template<typename T, typename Func>
 		T Domain<ndim>::sum(coords_range<ndim> r, const T& zero, const Func& f) const {
-			return external_sum(internal_sum(r, zero, f));
+			return group.external_sum(internal_sum(r, zero, f));
 		}
 
 	}

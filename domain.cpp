@@ -144,21 +144,6 @@ void Domain<ndim>::sync() const {
 	group.sync();
 }
 
-template<int ndim> template<typename T>
-T Domain<ndim>::external_sum(T&& sum) const {
-	MPI_Allreduce(MPI_IN_PLACE, mpi_type<T>::address(sum), mpi_type<T>::count(sum), mpi_type<T>::t, MPI_SUM, group.impl->comm);
-	return sum;
-}
-
-#ifdef ECL_ASYNC
-template<int ndim> template<typename T>
-Future<T> Domain<ndim>::external_isum(T&& sum) const {
-	Future<T> f(false, std::move(sum));
-	MPIX_Iallreduce(MPI_IN_PLACE, mpi_type<T>::address(*f.val), mpi_type<T>::count(*f.val), mpi_type<T>::t, MPI_SUM, group.impl->comm, &f.h->r);
-	return f;
-}
-#endif
-
 template<int ndim>
 int Domain<ndim>::shiftd(int d, int disp, int id) const {
 	pcoords ip = indexp(id);
@@ -182,6 +167,3 @@ int Domain<ndim>::shiftd(int d, int disp, int id) const {
 #include "inst_dim"
 #undef SYMB
 
-#define SYMB(d,T) template T Domain<d>::external_sum(T&&) const;
-#include "inst_dimtype"
-#undef SYMB

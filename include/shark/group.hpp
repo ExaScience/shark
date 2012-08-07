@@ -49,6 +49,15 @@ namespace shark {
 		 * Synchronize all processes in the group (collective).
 		 */
 		void sync() const;
+
+		template<typename T>
+		T external_sum(T&& val) const;
+
+#ifdef SHARK_ASYNC
+		template<typename T>
+		Future<T> external_isum(T&& val) const;
+#endif
+
 	};
 
 }

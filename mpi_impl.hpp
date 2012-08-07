@@ -64,4 +64,23 @@ namespace shark {
 	}
 }
 
+
+
+#define SHARK_MPI_INT_INST \
+	SYMB(int) \
+	SYMB(long)
+#define SHARK_MPI_FP_INST \
+	SYMB(float) \
+	SYMB(double) \
+	SYMB(long double) 
+
+#if (MPI_VERSION > 2 || MPI_VERSION == 2 && MPI_SUBVERSION >= 2)
+#define SHARK_MPI_COMP_INST \
+	SYMB(std::complex<float>) \
+	SYMB(std::complex<double>) \
+	SYMB(std::complex<long double>)
+#else
+#define SHARK_MPI_COMP_INST
+#endif
+
 #endif
