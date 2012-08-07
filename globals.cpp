@@ -34,6 +34,8 @@ int shark::nthrds(8);
 
 #endif
 
+#include "types"
+
 void shark::Init(int* argc, char*** argv) {
 	MPI_Init(argc, argv);
 	{

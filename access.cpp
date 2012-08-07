@@ -60,6 +60,8 @@ void Access<ndim,T>::release() {
 
 // Set-up instantiations
 
+#include "types"
+
 #define SYMB(d,T) template class Access<d,T>; 
 #include "inst_dimtype"
 #undef SYMB

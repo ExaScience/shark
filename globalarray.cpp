@@ -320,6 +320,8 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 
 // Set-up instantiations
 
+#include "types"
+
 #define SYMB(d,T) template class GlobalArray<d,T>; 
 #include "inst_dimtype"
 #undef SYMB
