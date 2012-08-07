@@ -25,7 +25,7 @@ namespace shark {
 			typedef Access<ndim,T> accessor;
 			static const /*constexpr*/ int number_of_dimensions = ndim;
 
-		protected:
+		private:
 			const Domain<ndim>* dom;
 			coords<ndim> gw;
 			bool gc;
@@ -33,6 +33,8 @@ namespace shark {
 
 			std::unique_ptr<GAImpl<ndim>> impl;
 			coords<ndim+1> ld;
+
+			mutable int lc;
 
 			static void allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T **ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld);
 			void deallocate();

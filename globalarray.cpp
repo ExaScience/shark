@@ -17,8 +17,10 @@ GlobalArray<ndim,T>::GlobalArray(): ptr(0) { }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::~GlobalArray() {
-	if(*this)
+	if(*this) {
+		assert(lc == 0);
 		deallocate();
+	}
 }
 
 template<int ndim, typename T>
@@ -28,13 +30,16 @@ GlobalArray<ndim,T>::GlobalArray(GlobalArray<ndim,T>&& other):
 	gc(other.gc),
 	ptr(other.ptr),
 	impl(std::move(other.impl)),
-	ld(std::move(other.ld))
+	ld(std::move(other.ld)),
+	lc(0)
 {
+	assert(!other || other.lc == 0);
 	other.reset();
 }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other) {
+	assert(!other || other.lc == 0);
 	if(*this)
 		deallocate();
 	dom = other.dom;
@@ -43,6 +48,7 @@ GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other)
 	ptr = other.ptr;
 	impl = std::move(other.impl);
 	ld = std::move(other.ld);
+	lc = 0;
 	other.reset();
 	return *this;
 }
@@ -97,13 +103,13 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 // Constructors
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners):
-  dom(&domain), gw(ghost_width), gc(ghost_corners), impl(new GAImpl<ndim>()) {
+  dom(&domain), gw(ghost_width), gc(ghost_corners), impl(new GAImpl<ndim>()), lc(0) {
 	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld);
 }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool):
-  dom(other.dom), gw(other.gw), gc(other.gc), impl(new GAImpl<ndim>()) {
+  dom(other.dom), gw(other.gw), gc(other.gc), impl(new GAImpl<ndim>()), lc(0) {
 	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld);
 
 	//FIXME
