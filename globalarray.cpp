@@ -107,16 +107,6 @@ GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_
 	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld);
 }
 
-template<int ndim, typename T>
-GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool):
-  dom(other.dom), gw(other.gw), gc(other.gc), impl(new GAImpl<ndim>()), lc(0) {
-	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld);
-
-	//FIXME
-	//if(copy)
-	//	copyFrom(other);
-}
-
 // Destructor
 
 template<int ndim,typename T>
@@ -155,11 +145,6 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 }
 
 // Inspectors
-
-template<int ndim,typename T>
-bool GlobalArray<ndim,T>::hasSameShape(const GlobalArray<ndim,T>& other) const {
-	return domain() == other.domain();
-}
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
@@ -216,80 +201,89 @@ class GlobalArray<ndim,T>::RMAOp {
 	coords<ndim> loff, uoff;
 
 	template<int d,typename Op>
-	typename enable_if<d < ndim>::type
-	opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
-		for(ip[d] = lip[d]; ip[d] <= uip[d]; ip[d]++) {
-			i.lower[d] = ip[d] == lip[d] ? loff[d] : 0;
-			i.upper[d] = ip[d] == uip[d] ? uoff[d] : dom.nd[d][ip[d]+1] - dom.nd[d][ip[d]];
-			opd<d+1>(op, ip, i);
-		}
-	}
+	INLINE typename enable_if<d < ndim>::type opd(const Op& op, pcoords& ip, coords_range<ndim>& i);
 
 	template<int d,typename Op>
-	typename enable_if<d == ndim>::type
-	opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
-		// Target
-		int id = dom.pindex(ip);
-		coords<ndim+1> tgtld = stride(dom.count(id), gw);
-
-		// Offsets
-		size_t ognoff = 0;
-		MPI_Aint tgtoff = 0;
-		for(int d = 0; d < ndim; d++) {
-			ognoff += (d == ndim-1 ? 1 : ognld[d]) * (dom.nd[d][ip[d]] + i.lower[d] - range.lower[d]);
-			tgtoff += tgtld[d+1] * (gw[d] + i.lower[d]);
-		}
-
-		// Types
-		MPI_Datatype ognt, tgtt;
-		{
-			MPI_Aint lb, extent;
-			MPI_Type_get_extent(mpi_type<T>::t, &lb, &extent);
-
-			MPI_Type_dup(mpi_type<T>::t, &ognt);
-			MPI_Type_dup(mpi_type<T>::t, &tgtt);
-			for(int d = ndim-1; d >= 0; d--) {
-				MPI_Datatype tmp;
-				coord n = i.upper[d] - i.lower[d];
-				tmp = ognt;
-				MPI_Type_create_hvector(n, 1, d == ndim-1 ? extent : ognld[d]*extent, tmp, &ognt);
-				MPI_Type_free(&tmp);
-				tmp = tgtt;
-				MPI_Type_create_hvector(n, 1, tgtld[d+1]*extent, tmp, &tgtt);
-				MPI_Type_free(&tmp);
-			}
-			MPI_Type_commit(&ognt);
-			MPI_Type_commit(&tgtt);
-		}
-		op(id, ognoff, ognt, tgtoff, tgtt);
-
-		MPI_Type_free(&tgtt);
-		MPI_Type_free(&ognt);
-	}
+	INLINE typename enable_if<d == ndim>::type opd(const Op& op, pcoords& ip, coords_range<ndim>& i);
 
 public:
+	RMAOp(const Domain<ndim>& dom, coords_range<ndim> range, coords<ndim> gw, array<size_t,ndim-1> ognld);
 
-	RMAOp(const Domain<ndim>& dom, coords_range<ndim> range, coords<ndim> gw, array<size_t,ndim-1> ognld)
-	: dom(dom), range(range), gw(gw), ognld(ognld) {
-		assert(range.lower >= coords<ndim>() && range.lower < dom.n);
-		assert(range.upper >= coords<ndim>() && range.upper <= dom.n);
-		assert(range.lower <= range.upper);
-		dom.find(range.lower, lip, loff);
-		dom.find(range.upper, uip, uoff);
-		for(int d = 0; d < ndim; d++)
-			if(uoff[d] == 0) {
-				uip[d]--;
-				uoff[d] = dom.nd[d][uip[d]+1] - dom.nd[d][uip[d]];
-			}
-	}
-	
 	template<typename Op>
-	void op(Op op) {
-		pcoords ip;
-		coords_range<ndim> i;
-		opd<0>(op, ip, i);
-	}
+	void op(Op op);
 };
+
+template<int ndim,typename T> template<int d,typename Op>
+inline typename enable_if<d < ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
+	for(ip[d] = lip[d]; ip[d] <= uip[d]; ip[d]++) {
+		i.lower[d] = ip[d] == lip[d] ? loff[d] : 0;
+		i.upper[d] = ip[d] == uip[d] ? uoff[d] : dom.nd[d][ip[d]+1] - dom.nd[d][ip[d]];
+		opd<d+1>(op, ip, i);
+	}
+}
+
+template<int ndim,typename T> template<int d,typename Op>
+inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
+	// Target
+	int id = dom.pindex(ip);
+	coords<ndim+1> tgtld = stride(dom.count(id), gw);
+
+	// Offsets
+	size_t ognoff = 0;
+	MPI_Aint tgtoff = 0;
+	for(int di = 0; di < ndim; di++) {
+		ognoff += (di == ndim-1 ? 1 : ognld[di]) * (dom.nd[di][ip[di]] + i.lower[di] - range.lower[di]);
+		tgtoff += tgtld[di+1] * (gw[di] + i.lower[di]);
+	}
+
+	// Types
+	MPI_Datatype ognt, tgtt;
+	{
+		MPI_Aint lb, extent;
+		MPI_Type_get_extent(mpi_type<T>::t, &lb, &extent);
+
+		MPI_Type_dup(mpi_type<T>::t, &ognt);
+		MPI_Type_dup(mpi_type<T>::t, &tgtt);
+		for(int di = ndim-1; di >= 0; di--) {
+			MPI_Datatype tmp;
+			coord n = i.upper[di] - i.lower[di];
+			tmp = ognt;
+			MPI_Type_create_hvector(n, 1, di == ndim-1 ? extent : ognld[di]*extent, tmp, &ognt);
+			MPI_Type_free(&tmp);
+			tmp = tgtt;
+			MPI_Type_create_hvector(n, 1, tgtld[di+1]*extent, tmp, &tgtt);
+			MPI_Type_free(&tmp);
+		}
+		MPI_Type_commit(&ognt);
+		MPI_Type_commit(&tgtt);
+	}
+	op(id, ognoff, ognt, tgtoff, tgtt);
+
+	MPI_Type_free(&tgtt);
+	MPI_Type_free(&ognt);
+}
+
+template<int ndim,typename T>
+GlobalArray<ndim,T>::RMAOp::RMAOp(const Domain<ndim>& dom, coords_range<ndim> range, coords<ndim> gw, array<size_t,ndim-1> ognld)
+: dom(dom), range(range), gw(gw), ognld(ognld) {
+	assert(range.lower >= coords<ndim>() && range.lower < dom.n);
+	assert(range.upper >= coords<ndim>() && range.upper <= dom.n);
+	assert(range.lower <= range.upper);
+	dom.find(range.lower, lip, loff);
+	dom.find(range.upper, uip, uoff);
+	for(int d = 0; d < ndim; d++)
+		if(uoff[d] == 0) {
+			uip[d]--;
+			uoff[d] = dom.nd[d][uip[d]+1] - dom.nd[d][uip[d]];
+		}
+}
+
+template<int ndim,typename T> template<typename Op>
+void GlobalArray<ndim,T>::RMAOp::op(Op op) {
+	pcoords ip;
+	coords_range<ndim> i;
+	opd<0>(op, ip, i);
+}
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {

@@ -82,14 +82,6 @@ namespace shark {
 			GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width = coords<ndim>(), bool ghost_corners = false);
 
 			/**
-			 * Construct a GlobalArray as a copy of another (collective).
-			 * The new array will have the same domain and ghost configuration as the old one.
-			 * @param other the array to copy from, \verbatim hasSameShape(other) \endverbatim
-			 * @param copy whether to copy the data from the other array
-			 */
-			GlobalArray(const GlobalArray<ndim,T>& other, bool copy);
-
-			/**
 			 * Destruct a GlobalArray (collective).
 			 * If active, the memory of the global array is released
 			 */
@@ -108,12 +100,6 @@ namespace shark {
 			 * @param domain the new domain, \verbatim domain().equiv(domain) \enverbatim
 			 */
 			void reshape(const Domain<ndim>& domain);
-
-			/**
-			 * Check whether some other GlobalArray has the same domain as this one (local).
-			 * @param other the global array to check against
-			 */
-			bool hasSameShape(const GlobalArray<ndim,T>& other) const;
 
 			/**
 			 * Update the ghost cells with data from their original locations (collective).

@@ -1,10 +1,6 @@
 
 #include <iostream>
-#include <shark/group.hpp>
-#include <shark/globals.hpp>
-#include <shark/domain.hpp>
-#include <shark/globalarray.hpp>
-#include <shark/access.hpp>
+#include <shark.hpp>
 
 using namespace std;
 using namespace shark;
