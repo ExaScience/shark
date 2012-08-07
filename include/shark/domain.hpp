@@ -10,6 +10,9 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "group.hpp"
+#if defined(SHARK_PTHREAD_SCHED)
+#include "globals.hpp"
+#endif
 
 namespace shark {
 
@@ -306,9 +309,11 @@ namespace shark {
 #elif defined(SHARK_PTHREAD_SCHED)
 			std::vector<T> tsum(nthrds, zero);
 			ThreadWork([this,&f,&tsum,r](int k) {
-				tdist[k].overlap(r).add(tsum[k], f);
+				tdist[k].overlap(r).for_each([&f,&tsum,k](coords<ndim> i) {
+					f(tsum[k], i);
+				});
 			});
-			for(int k=1; k < nthdrs; k++)
+			for(int k=1; k < nthrds; k++)
 				tsum[0] += tsum[k];
 			return tsum[0];
 #else
