@@ -69,6 +69,11 @@ namespace shark {
 			INLINE /*explicit*/ operator bool() const;
 
 			/**
+			 * The region of elements
+			 */
+			INLINE coords_range<ndim> region() const;
+
+			/**
 			 * Construct a GlobalArray (collective).
 			 * The global array will not be active until it is assigned.
 			 */
@@ -179,6 +184,11 @@ namespace shark {
 		}
 
 		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::region() const {
+			return domain().total();
+		}
+
+		template<int ndim, typename T>
 		inline T& GlobalArray<ndim,T>::da(coords<ndim> i) const {
 			return ptr[(i + gw).offset(ld)];
 		}
@@ -187,9 +197,10 @@ namespace shark {
 		GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const S& src) {
 			static_assert(S::number_of_dimensions == ndim, "source dimensionality");
 			assert(domain() == src.domain());
+			assert(region().contains(src.region()));
 			Access<ndim,T> d(*this);
 			const typename S::accessor s(src);
-			domain().for_each([&d, &s](coords<ndim> i){
+			domain().for_each(src.region(), [&d, &s](coords<ndim> i){
 				d(i) = s(i);
 			});
 			return *this;

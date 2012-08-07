@@ -35,10 +35,12 @@ int main(int argc, char* argv[]) {
 		}
 		ga = constant(dom, 0.0);
 		coords_range inner = {gw,c-gw};
+		ga = constant(dom, inner, 1.23);
 		{
-			AccessD a(ga);
-			dom.for_each(inner, [&a](coords i) {
-					a(i) = 1.23;
+			const AccessD a(ga);
+			dom.for_each([&a, &inner](coords i) {
+				if(a(i) != (inner.contains(i) ? 1.23 : 0.0))
+					cout << i << ": " << a(i) << endl;
 			});
 		}
 		GlobalArrayD gb(dom);

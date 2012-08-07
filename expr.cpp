@@ -17,6 +17,11 @@ NullaryExp<ndim,Const<ndim,T>> shark::ndim::constant(const Domain<ndim>& dom, co
 	return NullaryExp<ndim,Const<ndim,T>>(dom, Const<ndim,T>(val));
 }
 
+template<int ndim,typename T>
+NullaryExp<ndim,Const<ndim,T>> shark::ndim::constant(const Domain<ndim>& dom, coords_range<ndim> r, const T& val) {
+	return NullaryExp<ndim,Const<ndim,T>>(dom, r, Const<ndim,T>(val));
+}
+
 // Set-up instantiations
 
 #include "types"
@@ -26,5 +31,9 @@ NullaryExp<ndim,Const<ndim,T>> shark::ndim::constant(const Domain<ndim>& dom, co
 #undef SYMBH
 
 #define SYMBH(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, const T&); 
+#include "inst_dimtype_ho"
+#undef SYMBH
+
+#define SYMBH(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, coords_range<d>, const T&); 
 #include "inst_dimtype_ho"
 #undef SYMBH

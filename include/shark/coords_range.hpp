@@ -33,6 +33,8 @@ namespace shark {
 			INLINE void add(const Func& f, Acc& a) const;
 
 			coords_range<ndim> overlap(coords_range<ndim> other) const;
+			bool contains(coords<ndim> i) const;
+			bool contains(coords_range<ndim> other) const;
 			INLINE coord size() const;
 		};
 

@@ -35,17 +35,23 @@ namespace shark {
 		class NullaryExp {
 			friend class NullaryAcc<ndim,Func>;
 			const Domain<ndim>& dom;
+			const coords_range<ndim> r;
 			const Func f;
 		public:
 			static const int number_of_dimensions = ndim;
 			typedef NullaryAcc<ndim,Func> accessor;
 			NullaryExp(const Domain<ndim>& dom, const Func& f);
+			NullaryExp(const Domain<ndim>& dom, coords_range<ndim> r, const Func& f);
 			~NullaryExp();
 			INLINE const Domain<ndim>& domain() const;
+			INLINE coords_range<ndim> region() const;
 		};
 
 		template<int ndim, typename Func>
-		NullaryExp<ndim,Func>::NullaryExp(const Domain<ndim>& dom, const Func& f): dom(dom), f(f) { }
+		NullaryExp<ndim,Func>::NullaryExp(const Domain<ndim>& dom, const Func& f): dom(dom), r(dom.total()), f(f) { }
+
+		template<int ndim, typename Func>
+		NullaryExp<ndim,Func>::NullaryExp(const Domain<ndim>& dom, coords_range<ndim> r, const Func& f): dom(dom), r(r), f(f) { }
 
 		template<int ndim, typename Func>
 		NullaryExp<ndim,Func>::~NullaryExp() { }
@@ -53,6 +59,11 @@ namespace shark {
 		template<int ndim, typename Func>
 		inline const Domain<ndim>& NullaryExp<ndim,Func>::domain() const {
 			return dom;
+		}
+
+		template<int ndim, typename Func>
+		inline coords_range<ndim> NullaryExp<ndim,Func>::region() const {
+			return r;
 		}
 
 		template<int ndim, typename Func>
@@ -93,6 +104,7 @@ namespace shark {
 			UnaryExp(const S& src, const Func& f);
 			~UnaryExp();
 			INLINE const Domain<number_of_dimensions>& domain() const;
+			INLINE coords_range<number_of_dimensions> region() const;
 		};
 
 		template<typename S, typename Func>
@@ -104,6 +116,11 @@ namespace shark {
 		template<typename S, typename Func>
 		inline const Domain<UnaryExp<S,Func>::number_of_dimensions>& UnaryExp<S,Func>::domain() const {
 			return src.domain();
+		}
+
+		template<typename S, typename Func>
+		inline coords_range<UnaryExp<S,Func>::number_of_dimensions> UnaryExp<S,Func>::region() const {
+			return src.region();
 		}
 
 		template<typename S, typename Func>
@@ -147,6 +164,7 @@ namespace shark {
 			BinaryExp(const S1& src1, const S2& src2, const Func& f);
 			~BinaryExp();
 			INLINE const Domain<number_of_dimensions>& domain() const;
+			INLINE coords_range<number_of_dimensions> region() const;
 		};
 
 		template<typename S1, typename S2, typename Func>
@@ -160,6 +178,11 @@ namespace shark {
 		template<typename S1, typename S2, typename Func>
 		inline const Domain<BinaryExp<S1,S2,Func>::number_of_dimensions>& BinaryExp<S1,S2,Func>::domain() const {
 			return src1.domain();
+		}
+
+		template<typename S1, typename S2, typename Func>
+		inline coords_range<BinaryExp<S1,S2,Func>::number_of_dimensions> BinaryExp<S1,S2,Func>::region() const {
+			return src1.region().overlap(src2.region());
 		}
 
 		template<typename S1, typename S2, typename Func>
@@ -204,6 +227,9 @@ namespace shark {
 
 		template<int ndim, typename T>
 		NullaryExp<ndim,Const<ndim,T>> constant(const Domain<ndim>& dom, const T& val);
+
+		template<int ndim, typename T>
+		NullaryExp<ndim,Const<ndim,T>> constant(const Domain<ndim>& dom, coords_range<ndim> r, const T& val);
 
 		/**
 		 * Negation

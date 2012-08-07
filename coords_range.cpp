@@ -16,6 +16,20 @@ coords_range<ndim> coords_range<ndim>::overlap(coords_range<ndim> other) const {
 }
 
 template<int ndim>
+bool coords_range<ndim>::contains(coords<ndim> i) const {
+	return seq<0,ndim>::all_of([this, &i](int d) {
+		return lower[d] <= i[d] && upper[d] > i[d];
+	});
+}
+
+template<int ndim>
+bool coords_range<ndim>::contains(coords_range<ndim> other) const {
+	return seq<0,ndim>::all_of([this, &other](int d) {
+		return lower[d] <= other.lower[d] && upper[d] >= other.upper[d];
+	});
+}
+
+template<int ndim>
 ostream& shark::ndim::operator<<(ostream& out, const coords_range<ndim>& r) {
 	out << "[" << r.lower[0] << ":" << r.upper[0] << ")";
 	seq<1,ndim-1>::for_each([&out,&r](int d) { out << " x " << "[" << r.lower[d] << ":" << r.upper[d] << ")"; });
