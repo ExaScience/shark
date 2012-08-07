@@ -13,8 +13,8 @@ DFILES=$(CCFILES:.cpp=.d)
 
 main: libshark.a main.o
 
-libshark.a: libshark.a(mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o)
-	ranlib $@
+libshark.a: mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o
+	$(AR) csr $@ $+
 
 clean:
 	rm -f $(DFILES) $(OFILES)
