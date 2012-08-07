@@ -189,7 +189,7 @@ namespace shark {
 			assert(domain() == src.domain());
 			Access<ndim,T> d(*this);
 			const typename S::accessor s(src);
-			Region<ndim>(domain()).for_each([&d, &s](coords<ndim> i){
+			domain().for_each([&d, &s](coords<ndim> i){
 				d(i) = s(i);
 			});
 			return *this;

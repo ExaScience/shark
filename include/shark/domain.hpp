@@ -189,6 +189,18 @@ namespace shark {
 			 * Synchronize the processes of this domain (collective).
 			 */
 			void sync() const;
+
+			/**
+			 * Apply elemental function onto the elements of the domain
+			 */
+			template<typename Func>
+			void for_each(const Func& f) const;
+
+			/**
+			 * Apply elemental function onto the elements of range
+			 */
+			template<typename Func>
+			void for_each(coords_range<ndim> r, const Func& f) const;
 		};
 
 		// Inline function implementations
@@ -272,6 +284,23 @@ namespace shark {
 		template<int ndim>
 		inline bool Domain<ndim>::operator!=(const Domain<ndim>& other) const {
 			return !(*this == other);
+		}
+
+		// Generic Domain members
+		
+		template<int ndim> template<typename Func>
+		void Domain<ndim>::for_each(const Func& f) const {
+			for_each(total(), f);
+		}
+
+		template<int ndim> template<typename Func>
+		void Domain<ndim>::for_each(coords_range<ndim> r, const Func& f) const {
+			r = local().overlap(r);
+#if defined(SHARK_SER_SCHED)
+			r.for_each(f);
+#else
+#error "No scheduler for_each"
+#endif
 		}
 	}
 }

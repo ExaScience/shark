@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 		coords_range inner = {gw,c-gw};
 		{
 			AccessD a(ga);
-			Region(dom,inner).for_each([&a](coords i) {
+			dom.for_each(inner, [&a](coords i) {
 					a(i) = 1.23;
 			});
 		}
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 		gb = gb * gb;
 		{
 			const AccessD b(gb);
-			Region(dom,inner).for_each([&b](coords i) {
+			dom.for_each(inner, [&b](coords i) {
 					if(b(i) != 1.23 * 1.23)
 						cout << i << ": " << b(i) << endl;
 			});
