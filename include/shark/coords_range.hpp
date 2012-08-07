@@ -29,8 +29,6 @@ namespace shark {
 		public:
 			template<typename Func>
 			INLINE void for_each(const Func& f) const;
-			template<typename Func, typename Acc>
-			INLINE void add(const Func& f, Acc& a) const;
 
 			coords_range<ndim> overlap(coords_range<ndim> other) const;
 			bool contains(coords<ndim> i) const;
@@ -58,11 +56,6 @@ namespace shark {
 		inline void coords_range<ndim>::for_each(const Func& f) const {
 			coords<ndim> i;
 			for_eachd<0>(f, i);
-		}
-
-		template<int ndim> template<typename Func, typename Acc>
-		inline void coords_range<ndim>::add(const Func& f, Acc& a) const {
-			for_each([&f, &a](coords<ndim> i) { a += f(i); });
 		}
 
 		template<int ndim>

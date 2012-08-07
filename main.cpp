@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 		ga.region(inner) = constant(dom, 1.23);
 		{
 			const AccessD a(ga);
-			dom.for_each([&a, &inner](coords i) {
+			dom.for_each(dom.total(), [&a, &inner](coords i) {
 				if(a(i) != (inner.contains(i) ? 1.23 : 0.0))
 					cout << i << ": " << a(i) << endl;
 			});

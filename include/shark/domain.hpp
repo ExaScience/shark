@@ -91,14 +91,6 @@ namespace shark {
 
 			static void findi(const std::vector<coord>& dist, coord i, int& id, coord& off);
 
-			template <typename T>
-			T external_add_reduce(T&& val) const;
-
-#ifdef SHARK_ASYNC
-			template <typename T>
-			Future<T> external_iadd_reduce(T&& val) const;
-#endif
-
 		public:
 			/**
 			 * Get process coordinates for a process (local).
@@ -189,16 +181,28 @@ namespace shark {
 			void sync() const;
 
 			/**
-			 * Apply elemental function onto the elements of the domain
-			 */
-			template<typename Func>
-			void for_each(const Func& f) const;
-
-			/**
 			 * Apply elemental function onto the elements of range
 			 */
 			template<typename Func>
 			void for_each(coords_range<ndim> r, const Func& f) const;
+			
+			/**
+			 * Sum elemental function over the elements of range
+			 */
+			template<typename T, typename Func>
+			T sum(coords_range<ndim> r, const T& zero, const Func& f) const;
+
+			template<typename T, typename Func>
+			T internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const;
+
+			template<typename T>
+			T external_sum(T&& val) const;
+
+#ifdef SHARK_ASYNC
+			template<typename T>
+			Future<T> external_isum(T&& val) const;
+#endif
+
 		};
 
 		// Inline function implementations
@@ -287,19 +291,34 @@ namespace shark {
 		// Generic Domain members
 		
 		template<int ndim> template<typename Func>
-		void Domain<ndim>::for_each(const Func& f) const {
-			for_each(total(), f);
-		}
-
-		template<int ndim> template<typename Func>
 		void Domain<ndim>::for_each(coords_range<ndim> r, const Func& f) const {
-			r = local().overlap(r);
 #if defined(SHARK_SER_SCHED)
+			r = local().overlap(r);
 			r.for_each(f);
 #else
 #error "No scheduler for_each"
 #endif
 		}
+		
+		template<int ndim> template<typename T, typename Func>
+		T Domain<ndim>::internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const {
+#if defined(SHARK_SER_SCHED)
+			r = local().overlap(r);
+			T sum(zero);
+			r.for_each([&f,&sum](coords<ndim> i) {
+				f(sum, i);
+			});
+			return sum;
+#else
+#error "No scheduler internal_sum"
+#endif
+		}
+
+		template<int ndim> template<typename T, typename Func>
+		T Domain<ndim>::sum(coords_range<ndim> r, const T& zero, const Func& f) const {
+			return external_sum(internal_sum(r, zero, f));
+		}
+
 	}
 }
 

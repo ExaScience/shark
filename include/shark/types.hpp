@@ -5,6 +5,20 @@
 
 namespace shark {
 
+	namespace types2d {
+		typedef shark::ndim::coords<2> coords;
+		typedef shark::ndim::coords_range<2> coords_range;
+		typedef shark::ndim::Domain<2> Domain;
+		typedef shark::ndim::GlobalArray<2,int> GlobalArrayI;
+		typedef shark::ndim::GlobalArray<2,long> GlobalArrayL;
+		typedef shark::ndim::GlobalArray<2,float> GlobalArrayF;
+		typedef shark::ndim::GlobalArray<2,double> GlobalArrayD;
+		typedef shark::ndim::Access<2,int> AccessI;
+		typedef shark::ndim::Access<2,long> AccessL;
+		typedef shark::ndim::Access<2,float> AccessF;
+		typedef shark::ndim::Access<2,double> AccessD;
+	}
+
 	namespace types3d {
 		typedef shark::ndim::coords<3> coords;
 		typedef shark::ndim::coords_range<3> coords_range;

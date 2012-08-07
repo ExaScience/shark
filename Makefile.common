@@ -5,7 +5,7 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a main
+all: libshark.a main heat
 
 CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
@@ -13,12 +13,14 @@ DFILES=$(CCFILES:.cpp=.d)
 
 main: libshark.a main.o
 
+heat: libshark.a heat.o
+
 libshark.a: mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o expr.o
 	$(AR) csr $@ $+
 
 clean:
 	rm -f $(DFILES) $(OFILES)
-	rm -f libshark.a
+	rm -f libshark.a main heat
  
 include $(DFILES)
 

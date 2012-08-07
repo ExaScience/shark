@@ -24,6 +24,13 @@ namespace shark {
 			static const bool value = result_type::value;
 		};
 
+		template<typename S>
+		struct source {
+			typedef typename std::remove_reference<
+				typename std::result_of<typename S::accessor(coords<S::number_of_dimensions>)>::type
+			>::type element_type;
+		};
+
 		/**
 		 * Nullary expressions
 		 */
@@ -86,6 +93,11 @@ namespace shark {
 			return f(ii);
 		}
 
+		template<int ndim, typename Func>
+		NullaryExp<ndim,Func> nullary(const Domain<ndim>& dom, const Func& f) {
+			return NullaryExp<ndim,Func>(dom,f);
+		}
+
 		/**
 		 * Unary expressions
 		 */
@@ -142,6 +154,11 @@ namespace shark {
 		template<typename S, typename Func>
 		inline auto UnaryAcc<S,Func>::operator()(coords<S::number_of_dimensions> ii) const -> decltype(f(a, ii)) {
 			return f(a, ii);
+		}
+
+		template<typename S, typename Func>
+		UnaryExp<S,Func> unary(const S& src, const Func& f) {
+			return UnaryExp<S,Func>(src, f);
 		}
 
 		/**
@@ -207,6 +224,11 @@ namespace shark {
 			return f(a1, a2, ii);
 		}
 
+		template<typename S1, typename S2, typename Func>
+		BinaryExp<S1,S2,Func> binary(const S1& src1, const S2& src2, const Func& f) {
+			return BinaryExp<S1,S2,Func>(src1, src2, f);
+		}
+
 		/**
 		 * Constant value over domain
 		 */
@@ -246,6 +268,28 @@ namespace shark {
 		template<typename S>
 		typename std::enable_if<is_source<S>::value, UnaryExp<S,Neg<S>>>::type operator-(const S& src) {
 			return UnaryExp<S,Neg<S>>(src, Neg<S>());
+		}
+
+		/**
+		 * Absolute value
+		 */
+
+		// Make sure to prefer std::abs (overloaded C++ version) over ::abs (C version, integrals only)
+		// (but still follow unqualified lookup)
+		using std::abs;
+
+		template<typename S>
+		class Abs {
+
+		public:
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(abs(a(ii))) {
+				return abs(a(ii));
+			}
+		};
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,Abs<S>>>::type abs(const S& src) {
+			return UnaryExp<S,Abs<S>>(src, Abs<S>());
 		}
 
 		/**
@@ -321,6 +365,39 @@ namespace shark {
 		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,Mul<S1,S2>>>::type operator*(const S1& src1, const S2& src2) {
 			return BinaryExp<S1,S2,Mul<S1,S2>>(src1, src2, Mul<S1,S2>());
 		}
+
+		/**
+		 * Sum reduction
+		 */
+		template<typename R, typename S>
+		typename std::enable_if<is_source<S>::value, R>::type sum(const R& zero, const S& src) {
+			const typename S::accessor s(src);
+			return src.domain().sum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i) {
+				acc += s(i);
+			});
+		}
+
+		/**
+		 * Matrix norms
+		 */
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, typename source<S>::element_type>::type norm1(const S& src) {
+			return sum(typename source<S>::element_type(), abs(src));
+		}
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, typename source<S>::element_type>::type norm2(const S& src) {
+			return sqrt(sum(typename source<S>::element_type(), src * src));
+		}
+
+		/**
+		 * Dot product
+		 */
+		template<typename S1, typename S2>
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, typename source<S1>::element_type>::type dot(const S1& src1, const S2& src2) {
+			return sum(typename source<S1>::element_type(), src1 * src2);
+		}
+
 	}
 
 }
