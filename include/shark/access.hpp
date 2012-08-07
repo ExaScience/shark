@@ -16,8 +16,6 @@ namespace shark {
 		 */
 		template<int ndim, typename T>
 		class Access {
-			friend class Region<ndim>;
-
 		private:
 			const GlobalArray<ndim,T>* ga;
 			void release();

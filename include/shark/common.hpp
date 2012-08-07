@@ -103,8 +103,6 @@ namespace shark {
 		struct coords_range;
 		template<int ndim>
 		class Domain;
-		template<int>
-		class Region;
 		template<int,typename>
 		class SparseArray;
 		template<int,typename>

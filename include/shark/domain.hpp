@@ -17,8 +17,6 @@ namespace shark {
 
 		template<int ndim>
 		class Domain {
-			friend class Region<ndim>;
-
 		public:
 			typedef std::array<int,ndim> pcoords;
 			typedef std::array<std::vector<coord>,ndim> dists;
