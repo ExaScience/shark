@@ -3,6 +3,7 @@
 
 #include <array>                       // std::array
 #include <memory>                      // std::unique_ptr
+#include <cassert>                     // assert
 #include "common.hpp"
 #include "coords.hpp"
 #include "coords_range.hpp"
@@ -42,7 +43,7 @@ namespace shark {
 
 			static coords<ndim+1> stride(coords<ndim> count, coords<ndim> ghost_width = coords<ndim>());
 
-			INLINE T& access(coords<ndim> i) const;
+			INLINE T& da(coords<ndim> i) const;
 
 			class RMAOp;
 
@@ -88,12 +89,15 @@ namespace shark {
 			~GlobalArray();
 
 			// No copy semantics
-			GlobalArray(const GlobalArray<ndim,T>&) = delete;
-			GlobalArray<ndim,T>& operator=(const GlobalArray<ndim,T>&) = delete;
+			//GlobalArray(const GlobalArray<ndim,T>&) = delete;
+			//GlobalArray<ndim,T>& operator=(const GlobalArray<ndim,T>&) = delete;
 
 			// Move semantics
 			GlobalArray(GlobalArray<ndim,T>&& other);
 			GlobalArray<ndim,T>& operator=(GlobalArray<ndim,T>&& other);
+
+			template<typename S>
+			GlobalArray<ndim,T>& operator=(const S&);
 
 			/**
 			 * Redistribute the GlobalArray to have a Domain.
@@ -175,8 +179,20 @@ namespace shark {
 		}
 
 		template<int ndim, typename T>
-		inline T& GlobalArray<ndim,T>::access(coords<ndim> i) const {
+		inline T& GlobalArray<ndim,T>::da(coords<ndim> i) const {
 			return ptr[(i + gw).offset(ld)];
+		}
+
+		template<int ndim, typename T> template<typename S>
+		GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const S& src) {
+			static_assert(S::number_of_dimensions == ndim, "source dimensionality");
+			assert(domain() == src.domain());
+			Access<ndim,T> d(*this);
+			const typename S::accessor s(src);
+			Region<ndim>(domain()).for_each([&d, &s](coords<ndim> i){
+				d(i) = s(i);
+			});
+			return *this;
 		}
 
 	}

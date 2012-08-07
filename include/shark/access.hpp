@@ -79,22 +79,22 @@ namespace shark {
 
 		template<int ndim,typename T>
 		inline T& Access<ndim,T>::operator()(coords<ndim> i) {
-			return ga->access(i - ga->domain().local().lower);
+			return ga->da(i - ga->domain().local().lower);
 		}
 
 		template<int ndim,typename T>
 		inline const T& Access<ndim,T>::operator()(coords<ndim> i) const {
-			return ga->access(i - ga->domain().local().lower);
+			return ga->da(i - ga->domain().local().lower);
 		}
 
 		template<int ndim,typename T>
 		inline T& Access<ndim,T>::getLocal(coords<ndim> i) {
-			return ga->access(i);
+			return ga->da(i);
 		}
 
 		template<int ndim,typename T>
 		inline const T& Access<ndim,T>::getLocal(coords<ndim> i) const {
-			return ga->access(i);
+			return ga->da(i);
 		}
 
 	}

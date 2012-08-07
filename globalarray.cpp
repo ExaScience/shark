@@ -1,7 +1,6 @@
 
-#include <cassert>                     // assert
-
 #include <shark/domain.hpp>
+#include <shark/access.hpp>
 #include <shark/globalarray.hpp>
 #include "mpi_impl.hpp"
 
@@ -164,14 +163,14 @@ void GlobalArray<ndim,T>::update() const {
 				fronti[d] = gc && d < di ? -gw[d] : 0;
 				backi[d] = d == di ? count[d] : fronti[d];
 			}
-			MPI_Sendrecv(&access(fronti), 1, impl->ghost[di], prev, 2*di,
-					&access(backi), 1, impl->ghost[di], next, 2*di,
+			MPI_Sendrecv(&da(fronti), 1, impl->ghost[di], prev, 2*di,
+					&da(backi), 1, impl->ghost[di], next, 2*di,
 					domain().group.impl->comm, MPI_STATUS_IGNORE);
 			// forward
 			fronti[di] -= gw[di];
 			backi[di] -= gw[di];
-			MPI_Sendrecv(&access(backi), 1, impl->ghost[di], next, 2*di+1,
-					&access(fronti), 1, impl->ghost[di], prev, 2*di+1,
+			MPI_Sendrecv(&da(backi), 1, impl->ghost[di], next, 2*di+1,
+					&da(fronti), 1, impl->ghost[di], prev, 2*di+1,
 					domain().group.impl->comm, MPI_STATUS_IGNORE);
 		}
 	}

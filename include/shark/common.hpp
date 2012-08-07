@@ -97,6 +97,10 @@ namespace shark {
 	namespace ndim {
 
 		// Forward declarations
+		template<int>
+		struct coords;
+		template<int>
+		struct coords_range;
 		template<int ndim>
 		class Domain;
 		template<int>

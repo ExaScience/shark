@@ -189,7 +189,6 @@ namespace shark {
 			 * Synchronize the processes of this domain (collective).
 			 */
 			void sync() const;
-
 		};
 
 		// Inline function implementations
