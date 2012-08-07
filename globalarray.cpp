@@ -317,6 +317,20 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 	);
 }
 
+template<int ndim,typename T>
+GADest<ndim,T> GlobalArray<ndim,T>::region(coords_range<ndim> r) {
+	return GADest<ndim,T>(*this, r);
+}
+
+template<int ndim,typename T>
+GADest<ndim,T>::GADest(GlobalArray<ndim,T>& ga, coords_range<ndim> r): ga(ga), r(r) { }
+
+template<int ndim,typename T>
+GADest<ndim,T>::~GADest() { }
+
+template<int ndim,typename T>
+GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
+
 // Set-up instantiations
 
 #include "types"
@@ -324,3 +338,8 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 #define SYMBH(d,T) template class GlobalArray<d,T>; 
 #include "inst_dimtype_ho"
 #undef SYMBH
+
+#define SYMBH(d,T) template class GADest<d,T>; 
+#include "inst_dimtype_ho"
+#undef SYMBH
+

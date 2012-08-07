@@ -15,6 +15,9 @@ namespace shark {
 		template<int>
 		class GAImpl;
 
+		template<int,typename>
+		class GADest;
+
 		/**
 		 * A global array that is partitioned across a process group according to a domain
 		 */
@@ -74,6 +77,11 @@ namespace shark {
 			INLINE coords_range<ndim> region() const;
 
 			/**
+			 * Select a region of elements as destination
+			 */
+			GADest<ndim,T> region(coords_range<ndim> r);
+
+			/**
 			 * Construct a GlobalArray (collective).
 			 * The global array will not be active until it is assigned.
 			 */
@@ -93,14 +101,11 @@ namespace shark {
 			 */
 			~GlobalArray();
 
-			// No copy semantics
-			//GlobalArray(const GlobalArray<ndim,T>&) = delete;
-			//GlobalArray<ndim,T>& operator=(const GlobalArray<ndim,T>&) = delete;
-
 			// Move semantics
 			GlobalArray(GlobalArray<ndim,T>&& other);
 			GlobalArray<ndim,T>& operator=(GlobalArray<ndim,T>&& other);
 
+			// Copy from source
 			template<typename S>
 			GlobalArray<ndim,T>& operator=(const S&);
 
@@ -161,6 +166,20 @@ namespace shark {
 			void scatterAcc(const SparseArray<ndim,T>& sa);
 		};
 
+		template<int ndim, typename T>
+		class GADest {
+			friend class GlobalArray<ndim,T>;
+			GlobalArray<ndim,T>& ga;
+			coords_range<ndim> r;
+			GADest(GlobalArray<ndim,T>& ga, coords_range<ndim> r);
+		public:
+			~GADest();
+			GADest(const GADest<ndim,T>& gad);
+			GADest& operator=(const GADest<ndim,T>& gad) = delete;
+			template<typename S>
+			GADest<ndim,T>& operator=(const S& src);
+		};
+
 		// Inline function implementations
 
 		template<int ndim, typename T>
@@ -193,19 +212,26 @@ namespace shark {
 			return ptr[(i + gw).offset(ld)];
 		}
 
+		// Generic members
+
 		template<int ndim, typename T> template<typename S>
 		GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const S& src) {
+			region(domain().total()) = src;
+			return *this;
+		}
+
+		template<int ndim, typename T> template<typename S>
+		GADest<ndim,T>& GADest<ndim,T>::operator=(const S& src) {
 			static_assert(S::number_of_dimensions == ndim, "source dimensionality");
-			assert(domain() == src.domain());
-			assert(region().contains(src.region()));
-			Access<ndim,T> d(*this);
+			assert(ga.domain() == src.domain());
+			assert(src.region().contains(r));
+			Access<ndim,T> d(ga);
 			const typename S::accessor s(src);
-			domain().for_each(src.region(), [&d, &s](coords<ndim> i){
+			ga.domain().for_each(r, [&d, &s](coords<ndim> i){
 				d(i) = s(i);
 			});
 			return *this;
 		}
-
 	}
 
 }

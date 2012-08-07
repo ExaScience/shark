@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 		}
 		ga = constant(dom, 0.0);
 		coords_range inner = {gw,c-gw};
-		ga = constant(dom, inner, 1.23);
+		ga.region(inner) = constant(dom, 1.23);
 		{
 			const AccessD a(ga);
 			dom.for_each([&a, &inner](coords i) {
