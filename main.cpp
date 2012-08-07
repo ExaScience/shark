@@ -42,12 +42,12 @@ int main(int argc, char* argv[]) {
 			});
 		}
 		GlobalArrayD gb(dom);
-		gb = ga + (-ga) + ga;
-		gb = -(-ga);
+		gb = 2 * ga + (-ga) + ga - ga;
+		gb = gb * gb;
 		{
 			const AccessD b(gb);
 			Region(dom,inner).for_each([&b](coords i) {
-					if(b(i) != 1.23)
+					if(b(i) != 1.23 * 1.23)
 						cout << i << ": " << b(i) << endl;
 			});
 		}
