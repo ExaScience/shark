@@ -287,6 +287,10 @@ namespace shark {
 #if defined(SHARK_SER_SCHED)
 			r = local().overlap(r);
 			r.for_each(f);
+#elif defined(SHARK_PTHREAD_SCHED)
+			ThreadWork([this,&f,r](int k) {
+				tdist[k].overlap(r).for_each(f);
+			});
 #else
 #error "No scheduler for_each"
 #endif

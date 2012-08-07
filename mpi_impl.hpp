@@ -64,8 +64,6 @@ namespace shark {
 	}
 }
 
-
-
 #define SHARK_MPI_INT_INST \
 	SYMB(int) \
 	SYMB(long)

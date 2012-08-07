@@ -2,6 +2,9 @@
 #define __SHARK_GLOBALS_HPP
 
 #include <string>                      // std::string
+#if defined(SHARK_PTHREAD_SCHED)
+#include <functional>                  // std::function
+#endif
 #include "common.hpp"
 #include "group.hpp"
 
@@ -51,6 +54,10 @@ namespace shark {
 	 * This is available after initialization.
 	 */
 	INLINE const Group& world();
+
+#if defined(SHARK_PTHREAD_SCHED)
+	void ThreadWork(std::function<void(int)> w);
+#endif
 
 	// Inline function implementations
 

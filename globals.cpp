@@ -4,6 +4,7 @@
 
 #include <shark/globals.hpp>
 #include "mpi_impl.hpp"
+#include "sched_impl.hpp"
 
 using namespace std;
 using namespace shark;
@@ -97,4 +98,13 @@ double shark::Wtime() {
 	return MPI_Wtime();
 }
 
+#if defined(SHARK_PTHREAD_SCHED)
+void shark::ThreadWork(function<void(int)> w) {
+	work = w;
+	pthread_barrier_wait(&barrier);
+	work(0);
+	pthread_barrier_wait(&barrier);
+	work = 0;
+}
+#endif
 

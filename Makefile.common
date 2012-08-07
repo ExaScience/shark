@@ -15,7 +15,7 @@ main: libshark.a main.o
 
 heat: libshark.a heat.o
 
-libshark.a: mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o expr.o
+libshark.a: mpi_impl.o sched_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o expr.o
 	$(AR) csr $@ $+
 
 clean:
