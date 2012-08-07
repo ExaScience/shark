@@ -1,0 +1,24 @@
+
+CXXFLAGS=$(CFLAGS) -std=c++0x
+
+VPATH=$(ROOT)
+
+.PHONY: all clean distclean
+
+all: libshark.a
+
+CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
+OFILES=$(CCFILES:.cpp=.o)
+DFILES=$(CCFILES:.cpp=.d)
+
+libshark.a: libshark.a(mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o)
+	ranlib $@
+
+clean:
+	rm -f $(DFILES) $(OFILES)
+	rm -f libshark.a
+ 
+include $(DFILES)
+
+%.d: %.cpp
+	$(CXX) $(CXXFLAGS) -MM $< > $@
