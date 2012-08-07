@@ -5,11 +5,13 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a
+all: libshark.a main
 
 CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
+
+main: libshark.a main.o
 
 libshark.a: libshark.a(mpi_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o)
 	ranlib $@
