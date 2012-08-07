@@ -285,8 +285,7 @@ namespace shark {
 		template<int ndim> template<typename Func>
 		void Domain<ndim>::for_each(coords_range<ndim> r, const Func& f) const {
 #if defined(SHARK_SER_SCHED)
-			r = local().overlap(r);
-			r.for_each(f);
+			local().overlap(r).for_each(f);
 #elif defined(SHARK_PTHREAD_SCHED)
 			ThreadWork([this,&f,r](int k) {
 				tdist[k].overlap(r).for_each(f);
@@ -299,12 +298,19 @@ namespace shark {
 		template<int ndim> template<typename T, typename Func>
 		T Domain<ndim>::internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const {
 #if defined(SHARK_SER_SCHED)
-			r = local().overlap(r);
 			T sum(zero);
-			r.for_each([&f,&sum](coords<ndim> i) {
+			local().overlap(r).for_each([&f,&sum](coords<ndim> i) {
 				f(sum, i);
 			});
 			return sum;
+#elif defined(SHARK_PTHREAD_SCHED)
+			std::vector<T> tsum(nthrds, zero);
+			ThreadWork([this,&f,&tsum,r](int k) {
+				tdist[k].overlap(r).add(tsum[k], f);
+			});
+			for(int k=1; k < nthdrs; k++)
+				tsum[0] += tsum[k];
+			return tsum[0];
 #else
 #error "No scheduler internal_sum"
 #endif
