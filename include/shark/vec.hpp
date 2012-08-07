@@ -35,7 +35,7 @@ namespace shark {
 
 		template<int ndim,typename T>
 		inline bool vec<ndim,T>::operator==(const vec<ndim,T>& other) const {
-			return all_of<0,ndim>([this,&other](int d) { return this->val[d] == other.val[d]; } );
+			return seq<0,ndim>::all_of([this,&other](int d) { return this->val[d] == other.val[d]; } );
 		}
 		
 		template<int ndim,typename T>
@@ -45,7 +45,7 @@ namespace shark {
 
 		template<int ndim,typename T>
 		inline vec<ndim,T>& vec<ndim,T>::operator+=(const vec<ndim,T>& other) {
-			for_each<0,ndim>([this,&other](int d) { this->val[d] += other.val[d]; });
+			seq<0,ndim>::for_each([this,&other](int d) { this->val[d] += other.val[d]; });
 			return *this;
 		}
 

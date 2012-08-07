@@ -26,7 +26,7 @@ template<int ndim>
 typename Domain<ndim>::dists Domain<ndim>::distribution(coords<ndim> n, pcoords np) {
 	dists nd = {{}};
 
-	for_each<0,ndim>([&nd, &n, &np](int d) {
+	seq<0,ndim>::for_each([&nd, &n, &np](int d) {
 		auto& dist(nd[d]);
 		dist.resize(np[d]+1);
 
@@ -43,7 +43,7 @@ typename Domain<ndim>::dists Domain<ndim>::distribution(coords<ndim> n, pcoords 
 
 template<int ndim>
 bool Domain<ndim>::consistentDistribution() const {
-	return all_of<0,ndim>([this](int d) -> bool {
+	return seq<0,ndim>::all_of([this](int d) -> bool {
 		auto& dist(nd[d]);
 		if(dist.size() != static_cast<size_t>(np[d] + 1))
 			return false;
@@ -120,7 +120,7 @@ void Domain<ndim>::findi(const vector<coord>& dist, coord i, int& id, coord& off
 
 template<int ndim>
 void Domain<ndim>::find(coords<ndim> i, pcoords& ip, coords<ndim>& off) const {
-	for_each<0,ndim>([this,&i,&ip,&off](int d) {
+	seq<0,ndim>::for_each([this,&i,&ip,&off](int d) {
 		const std::vector<coord>& dist(nd[d]);
 		Domain<ndim>::findi(dist, i[d], ip[d], off[d]);
 	});

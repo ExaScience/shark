@@ -16,67 +16,76 @@ namespace shark {
 	namespace {
 
 		/**
-		 * Template functions to iterate over a compile-time range [begin..end)
+		 * Compile-time sequence consisting of [start, start+1, ..., start+count)
 		 */
-		template<int begin, int end, typename Func>
-		INLINE typename std::enable_if<begin < end>::type for_each(const Func& f);
-		template<int begin, int end, typename Func>
-		INLINE typename std::enable_if<begin == end>::type for_each(const Func& f);
-		template<int begin, int end, typename Func>
-		INLINE typename std::enable_if<begin < end,bool>::type all_of(const Func& f);
-		template<int begin, int end, typename Func>
-		INLINE typename std::enable_if<begin == end,bool>::type all_of(const Func& f);
-		template<int begin, int end, typename Func, typename T>
-		INLINE typename std::enable_if<begin < end,T>::type product(const Func& f, const T& identity);
-		template<int begin, int end, typename Func, typename T>
-		INLINE typename std::enable_if<begin == end,T>::type product(const Func& f, const T& identity);
-		template<int begin, int end, typename Func, typename T>
-		INLINE typename std::enable_if<begin < end,T>::type sum(const Func& f, const T& zero);
-		template<int begin, int end, typename Func, typename T>
-		INLINE typename std::enable_if<begin == end,T>::type sum(const Func& f, const T& zero);
+		template<int start, int count>
+		class seq {
+		public:
+			template<typename Func>
+			INLINE static void for_each(const Func& f);
+			template<typename Func>
+			INLINE static bool all_of(const Func& f);
+			template<typename Func, typename T>
+			INLINE static T product(const Func& f, const T& identity);
+			template<typename Func, typename T>
+			INLINE static T sum(const Func& f, const T& zero);
+		};
+		template<int start>
+		class seq<start,0> {
+		public:
+			template<typename Func>
+			INLINE static void for_each(const Func& f);
+			template<typename Func>
+			INLINE static bool all_of(const Func& f);
+			template<typename Func, typename T>
+			INLINE static T product(const Func& f, const T& identity);
+			template<typename Func, typename T>
+			INLINE static T sum(const Func& f, const T& zero);
+		};
+
 
 		// Inline function implementations
-
-		template<int begin, int end, typename Func>
-		inline typename std::enable_if<begin < end>::type for_each(const Func& f) {
-			f(begin);
-			for_each<begin+1,end,Func>(f);
+		
+		template<int start, int count> template<typename Func>
+		inline void seq<start,count>::for_each(const Func& f) {
+			f(start);
+			seq<start+1,count-1>::for_each(f);
 		}
 
-		template<int begin, int end, typename Func>
-		inline typename std::enable_if<begin == end>::type for_each(const Func&) {
+		template<int start> template<typename Func>
+		inline void seq<start,0>::for_each(const Func&) {
 			// Done
 		}
 
-		template<int begin, int end, typename Func>
-		inline typename std::enable_if<begin < end,bool>::type all_of(const Func& f) {
-			return f(begin) && all_of<begin+1,end,Func>(f);
+		template<int start, int count> template<typename Func>
+		inline bool seq<start,count>::all_of(const Func& f) {
+			return f(start) && seq<start+1,count-1>::all_of(f);
 		}
 
-		template<int begin, int end, typename Func>
-		inline typename std::enable_if<begin == end,bool>::type all_of(const Func&) {
+		template<int start> template<typename Func>
+		inline bool seq<start,0>::all_of(const Func&) {
 			// Base case
 			return true;
 		}
 
-		template<int begin, int end, typename Func, typename T>
-		inline typename std::enable_if<begin < end,T>::type product(const Func& f, const T& identity) {
-			return f(begin) * product<begin+1,end,Func,T>(f, identity);
+		template<int start, int count> template<typename Func, typename T>
+		inline T seq<start,count>::product(const Func& f, const T& identity) {
+			return f(start) * seq<start+1,count-1>::product(f, identity);
 		}
 
-		template<int begin, int end, typename Func, typename T>
-		inline typename std::enable_if<begin == end,T>::type product(const Func&, const T& identity) {
+		template<int start> template<typename Func, typename T>
+		inline T seq<start,0>::product(const Func&, const T& identity) {
 			// Base case
 			return identity;
 		}
 
-		template<int begin, int end, typename Func, typename T>
-		inline typename std::enable_if<begin < end,T>::type sum(const Func& f, const T& zero) {
-			return f(begin) + sum<begin+1,end,Func,T>(f, zero);
+		template<int start, int count> template<typename Func, typename T>
+		inline T seq<start,count>::sum(const Func& f, const T& zero) {
+			return f(start) + seq<start+1,count-1>::sum(f, zero);
 		}
 
-		template<int begin, int end, typename Func, typename T>
-		inline typename std::enable_if<begin == end,T>::type sum(const Func&, const T& zero) {
+		template<int start> template<typename Func, typename T>
+		inline T seq<start,0>::sum(const Func&, const T& zero) {
 			// Base case
 			return zero;
 		}

@@ -8,7 +8,7 @@ using namespace shark::ndim;
 template<int ndim>
 ostream& shark::ndim::operator<<(ostream& out, const coords<ndim>& i) {
 	out << i[0];
-	for_each<1,ndim>([&out,&i](int d) { out << "," << i[d]; });
+	seq<1,ndim-1>::for_each([&out,&i](int d) { out << "," << i[d]; });
 	return out;
 }
 

@@ -58,7 +58,7 @@ namespace shark {
 
 		template<int ndim>
 		inline bool coords<ndim>::operator==(const coords<ndim>& other) const {
-			return all_of<0,ndim>([this,&other](int d) { return val[d] == other.val[d]; });
+			return seq<0,ndim>::all_of([this,&other](int d) { return val[d] == other.val[d]; });
 		}
 
 		template<int ndim>
@@ -68,12 +68,12 @@ namespace shark {
 
 		template<int ndim>
 		inline bool coords<ndim>::operator<(const coords<ndim>& other) const {
-			return all_of<0,ndim>([this,&other](int d) { return val[d] < other.val[d]; });
+			return seq<0,ndim>::all_of([this,&other](int d) { return val[d] < other.val[d]; });
 		}
 
 		template<int ndim>
 		inline bool coords<ndim>::operator<=(const coords<ndim>& other) const {
-			return all_of<0,ndim>([this,&other](int d) { return val[d] <= other.val[d]; });
+			return seq<0,ndim>::all_of([this,&other](int d) { return val[d] <= other.val[d]; });
 		}
 
 		template<int ndim>
@@ -88,7 +88,7 @@ namespace shark {
 
 		template<int ndim>
 		inline coords<ndim>& coords<ndim>::operator+=(const coords<ndim>& other) {
-			for_each<0,ndim>([this,&other](int d) { val[d] += other.val[d]; });
+			seq<0,ndim>::for_each([this,&other](int d) { val[d] += other.val[d]; });
 			return *this;
 		}
 
@@ -99,7 +99,7 @@ namespace shark {
 
 		template<int ndim>
 		inline coords<ndim>& coords<ndim>::operator-=(const coords<ndim>& other) {
-			for_each<0,ndim>([this,&other](int d) { val[d] -= other.val[d]; });
+			seq<0,ndim>::for_each([this,&other](int d) { val[d] -= other.val[d]; });
 			return *this;
 		}
 
@@ -110,13 +110,13 @@ namespace shark {
 
 		template<int ndim>
 		inline coords<ndim>& coords<ndim>::operator<<=(unsigned short w) {
-			for_each<0,ndim>([this,w](int d) { val[d] <<= w; });
+			seq<0,ndim>::for_each([this,w](int d) { val[d] <<= w; });
 			return *this;
 		}
 
 		template<int ndim>
 		inline coords<ndim>& coords<ndim>::operator>>=(unsigned short w) {
-			for_each<0,ndim>([this,w](int d) { val[d] >>= w; });
+			seq<0,ndim>::for_each([this,w](int d) { val[d] >>= w; });
 			return *this;
 		}
 
@@ -132,7 +132,7 @@ namespace shark {
 
 		template<int ndim>
 		inline coord coords<ndim>::offset(const coords<ndim+1>& ld) const {
-			return sum<0,ndim>([this,&ld](int d) { return val[d] * ld[d+1]; }, coord(0));
+			return seq<0,ndim>::sum([this,&ld](int d) { return val[d] * ld[d+1]; }, coord(0));
 		}
 
 	}

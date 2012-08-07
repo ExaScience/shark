@@ -25,6 +25,12 @@ int main(int argc, char* argv[]) {
 
 			}
 		}
+		coords_range<3> all = {{{0,0,0}},c};
+		coords_range<3> r(dom.local().overlap(all));
+		r.for_each([](coords<3> c) {
+				if(c[0] > 100)
+					cerr << "found" << endl;
+		}); 
 
 		GlobalArray<3,double> ga(dom);
 		{

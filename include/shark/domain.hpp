@@ -197,7 +197,7 @@ namespace shark {
 		template<int ndim>
 		inline typename Domain<ndim>::pcoords Domain<ndim>::indexp(int id) const {
 			pcoords ip;
-			for_each<0,ndim>([&id,&ip,this](int d){
+			seq<0,ndim>::for_each([&id,&ip,this](int d){
 				ip[d] = id / b[d+1];
 				id = id % b[d+1];
 			});
@@ -212,7 +212,7 @@ namespace shark {
 		template<int ndim>
 		inline int Domain<ndim>::pindex(pcoords ip) const {
 			int id = 0;
-			for_each<0,ndim>([&id,&ip,this](int d) {
+			seq<0,ndim>::for_each([&id,&ip,this](int d) {
 				id += ip[d] * b[d+1];
 			});
 			return id;
@@ -227,7 +227,7 @@ namespace shark {
 		inline coords_range<ndim> Domain<ndim>::local(int id) const {
 			pcoords ip = indexp(id);
 			coords_range<ndim> r;
-			for_each<0,ndim>([this,&r,&ip](int d) {
+			seq<0,ndim>::for_each([this,&r,&ip](int d) {
 				r.lower[d] = nd[d][ip[d]];
 				r.upper[d] = nd[d][ip[d]+1];
 			});
@@ -249,7 +249,7 @@ namespace shark {
 		template<int ndim>
 		inline bool Domain<ndim>::hasData(int id) const {
 			const coords_range<ndim> r = local(id);
-			return all_of<0,ndim>([&r](int d) {
+			return seq<0,ndim>::all_of([&r](int d) {
 				return r.lower[d] < r.upper[d];
 			});
 		}
