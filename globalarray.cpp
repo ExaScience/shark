@@ -3,7 +3,7 @@
 #include <shark/domain.hpp>
 #include <shark/globalarray.hpp>
 #include <shark/sparsearray.hpp>
-#include "mpi_impl.hpp"
+#include "comm_impl.hpp"
 
 using namespace std;
 using namespace shark;

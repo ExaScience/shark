@@ -3,7 +3,7 @@
 #include <utility>                     // std::move
 
 #include <shark/globals.hpp>
-#include "mpi_impl.hpp"
+#include "comm_impl.hpp"
 #include "sched_impl.hpp"
 
 using namespace std;

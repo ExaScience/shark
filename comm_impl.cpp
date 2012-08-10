@@ -1,5 +1,5 @@
 
-#include "mpi_impl.hpp"
+#include "comm_impl.hpp"
 #include <complex>
 
 using namespace shark;
