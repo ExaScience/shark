@@ -1,9 +1,12 @@
 
 #include "comm_impl.hpp"
-#include <complex>
 
 using namespace shark;
 using namespace shark::ndim;
+
+#if defined(SHARK_MPI_COMM)
+
+#include <complex>
 
 template<> const MPI_Datatype mpi_type<int>::t = MPI_INT;
 template<> const MPI_Datatype mpi_type<long>::t = MPI_LONG;
@@ -35,3 +38,6 @@ void mpi_type<vec<ndim,T>>::destroy() {
 #include "inst_dimtype"
 #undef SYMB
 
+#else
+#error "No comm defined"
+#endif

@@ -1,5 +1,7 @@
-#ifndef __SHARK_MPI_IMPL_HPP
-#define __SHARK_MPI_IMPL_HPP
+#ifndef __SHARK_COMM_IMPL_HPP
+#define __SHARK_COMM_IMPL_HPP
+
+#if defined(SHARK_MPI_COMM)
 
 #include <shark/vec.hpp>
 
@@ -79,6 +81,12 @@ namespace shark {
 	SYMB(std::complex<long double>)
 #else
 #define SHARK_MPI_COMP_INST
+#endif
+
+#else
+
+#error "No comm defined"
+
 #endif
 
 #endif
