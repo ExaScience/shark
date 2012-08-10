@@ -1,7 +1,8 @@
 
-#include <shark/domain.hpp>
 #include <shark/access.hpp>
+#include <shark/domain.hpp>
 #include <shark/globalarray.hpp>
+#include <shark/sparsearray.hpp>
 #include "mpi_impl.hpp"
 
 using namespace std;
@@ -324,6 +325,24 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 			MPI_Win_unlock(id, impl->win);
 		}
 	);
+}
+
+template<int ndim,typename T>
+void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
+	assert(domain() == sa.dom);
+	auto eld = sa.eld();
+	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
+		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
+	});
+}
+
+template<int ndim,typename T>
+void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
+	assert(domain() == sa.dom);
+	auto eld = sa.eld();
+	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
+		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
+	});
 }
 
 template<int ndim,typename T>

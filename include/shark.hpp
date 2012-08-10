@@ -5,8 +5,9 @@
 #include "shark/domain.hpp"
 #include "shark/globalarray.hpp"
 #include "shark/access.hpp"
-#include "shark/globals.hpp"
 #include "shark/expr.hpp"
+#include "shark/sparsearray.hpp"
+#include "shark/globals.hpp"
 #include "shark/types.hpp"
 
 #endif
