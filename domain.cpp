@@ -1,5 +1,6 @@
 
 #include <cassert>                     // assert
+#include <deque>                       // std::deque
 
 #include <shark/domain.hpp>
 #include "mpi_impl.hpp"
@@ -8,9 +9,48 @@ using namespace std;
 using namespace shark;
 using namespace shark::ndim;
 
+namespace {
+
+	deque<int> factor(int n) {
+		deque<int> divs;
+		int k = 2;
+	label0:
+		if(n == 1) return divs;
+	label1:
+		if(n % k == 0) {
+			divs.push_back(k);
+			n /= k;
+			goto label0;
+		} else {
+			k++;
+			goto label1;
+		}
+	}
+
+	// This function is a reimplementation of MPI_Dims_create
+
+	void assign_dims(int n, int ndim, int dims[]) {
+		vector<int*> open;
+		for(int d = 0; d < ndim; d++)
+			if(dims[d] == 0) {
+				dims[d] = 1;
+				open.push_back(&dims[d]);
+			} else
+				n /= dims[d];
+		deque<int> facs = factor(n);
+		auto oit = open.cbegin();
+		for(auto it = facs.crbegin(); it != facs.crend(); ++it) {
+			**oit *= *it;
+			if(++oit == open.cend())
+				oit = open.cbegin();
+		}
+	}
+
+}
+
 template<int ndim>
 void Domain<ndim>::adjustProcs(int nprocs, pcoords& np) {
-	MPI_Dims_create(nprocs, ndim, np.data());
+	assign_dims(nprocs, ndim, np.data());
 }
 
 template<int ndim>
@@ -87,7 +127,7 @@ namespace {
 template<int ndim>
 vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
 	array<int,ndim> nt = {{}};
-	MPI_Dims_create(nthrds, ndim, nt.data());
+	assign_dims(nthrds, ndim, nt.data());
 	
 	vector<coords_range<ndim>> tdist;
 	coords_range<ndim> t;
