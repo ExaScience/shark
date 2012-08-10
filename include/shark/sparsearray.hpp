@@ -4,6 +4,7 @@
 
 #include <array>                       // std::array
 #include <cassert>                     // assert
+#include <cstddef>                     // std::size_t
 #include <vector>                      // std::vector
 #include "common.hpp"
 #include "coords.hpp"
@@ -34,7 +35,7 @@ namespace shark {
 			static unsigned short full_cw(const Domain<ndim>& dom);
 			static coords<ndim+1> stride(const Domain<ndim>& dom);
 			static coords<ndim+1> coarse_stride(const Domain<ndim>& dom, unsigned short cw);
-			INLINE std::array<size_t,ndim-1> eld() const;
+			INLINE std::array<std::size_t,ndim-1> eld() const;
 
 			void init();
 
@@ -118,8 +119,8 @@ namespace shark {
 		}
 
 		template<int ndim,typename T>
-		inline std::array<size_t,ndim-1> SparseArray<ndim,T>::eld() const {
-			std::array<size_t,ndim-1> eld;
+		inline std::array<std::size_t,ndim-1> SparseArray<ndim,T>::eld() const {
+			std::array<std::size_t,ndim-1> eld;
 			seq<0,ndim-1>::for_each([this,&eld](int d) { eld[d] = ld[d+1]; });
 			return eld;
 		}

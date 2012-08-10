@@ -66,22 +66,51 @@ namespace shark {
 	}
 }
 
-#define SHARK_MPI_INT_INST \
+#define SHARK_COMM_INT_INST \
 	SYMB(int) \
 	SYMB(long)
-#define SHARK_MPI_FP_INST \
+#define SHARK_COMM_FP_INST \
 	SYMB(float) \
 	SYMB(double) \
 	SYMB(long double) 
 
 #if (MPI_VERSION > 2 || MPI_VERSION == 2 && MPI_SUBVERSION >= 2)
-#define SHARK_MPI_COMP_INST \
+#define SHARK_COMM_CPLX_INST \
 	SYMB(std::complex<float>) \
 	SYMB(std::complex<double>) \
 	SYMB(std::complex<long double>)
 #else
-#define SHARK_MPI_COMP_INST
+#define SHARK_COMM_CPLX_INST
 #endif
+
+#elif defined(SHARK_NO_COMM)
+
+#include <cstddef>   // std::size_t
+
+namespace shark {
+	void* mem_alloc(std::size_t size);
+	void mem_free(void* p);
+
+	class GroupImpl { };
+
+	namespace ndim {
+		template<int ndim>
+		class GAImpl { };
+	}
+}
+
+#define SHARK_COMM_INT_INST \
+	SYMB(int) \
+	SYMB(long)
+#define SHARK_COMM_FP_INST \
+	SYMB(float) \
+	SYMB(double) \
+	SYMB(long double) 
+
+#define SHARK_COMM_CPLX_INST \
+	SYMB(std::complex<float>) \
+	SYMB(std::complex<double>) \
+	SYMB(std::complex<long double>)
 
 #else
 

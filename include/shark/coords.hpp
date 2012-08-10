@@ -1,6 +1,8 @@
 #ifndef __SHARK_COORDS_HPP
 #define __SHARK_COORDS_HPP
 
+#include <array>                       // std::array
+#include <cstddef>                     // std::size_t
 #include <ostream>                     // std::ostream
 #include "common.hpp"
 
@@ -38,6 +40,7 @@ namespace shark {
 			INLINE coords<ndim> operator>>(unsigned short w) const;
 
 			INLINE coord offset(const coords<ndim+1>& ld) const;
+			INLINE coord offset(const std::array<std::size_t,ndim-1>& ld) const;
 		};
 
 		template<int ndim>
@@ -133,6 +136,11 @@ namespace shark {
 		template<int ndim>
 		inline coord coords<ndim>::offset(const coords<ndim+1>& ld) const {
 			return seq<0,ndim>::sum([this,&ld](int d) { return val[d] * ld[d+1]; }, coord(0));
+		}
+
+		template<int ndim>
+		inline coord coords<ndim>::offset(const std::array<std::size_t,ndim-1>& ld) const {
+			return seq<0,ndim-1>::sum([this,&ld](int d) { return val[d] * static_cast<coord>(ld[d]); }, val[ndim-1]);
 		}
 
 	}

@@ -68,11 +68,12 @@ coords<ndim+1> GlobalArray<ndim,T>::stride(coords<ndim> count, coords<ndim> ghos
 }
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T **ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld) {
+void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T** ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld) {
 	coords<ndim> count = domain.count();
 
 	ld = stride(count, ghost_width);
 
+#if defined(SHARK_MPI_COMM)
 	// Create ghost types
 	MPI_Aint lb, extent;
 	MPI_Type_get_extent(mpi_type<T>::t, &lb, &extent);
@@ -98,6 +99,12 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 
 	// Create window
 	MPI_Win_create(*ptr, size, static_cast<int>(sizeof(T)), MPI_INFO_NULL, domain.group.impl->comm, &impl.win);
+#elif defined(SHARK_NO_COMM)
+	unused(ghost_corners, impl);
+	*ptr = static_cast<T*>(mem_alloc(ld[0] * sizeof(T)));
+#else
+#error "No comm allocate"
+#endif
 }
 
 // Constructors
@@ -120,11 +127,17 @@ GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::deallocate() {
+#if defined(SHARK_MPI_COMM)
 	for(int di = 0; di < ndim; di++)
 		MPI_Type_free(&impl->ghost[di]);
 
 	MPI_Win_free(&impl->win);
 	MPI_Free_mem(ptr);
+#elif defined(SHARK_NO_COMM)
+	mem_free(ptr);
+#else
+#error "No comm deallocate"
+#endif
 }
 
 template<int ndim,typename T>
@@ -157,6 +170,7 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
+#if defined(SHARK_MPI_COMM)
 	bool any = false;
 	const coords<ndim> gw = ghost_width();
 	const bool gc = ghost_corners();
@@ -196,7 +210,14 @@ void GlobalArray<ndim,T>::update() const {
 		}
 		MPI_Allgatherv(MPI_IN_PLACE, 0, mpi_type<T>(), ptr, recvcounts, displs, mpi_type<T>(), MPI_COMM_WORLD);
 	*/
+#elif defined(SHARK_NO_COMM)
+	// No action needed
+#else
+#error "No comm update"
+#endif
 }
+
+#if defined(SHARK_MPI_COMM)
 
 template<int ndim,typename T>
 class GlobalArray<ndim,T>::RMAOp {
@@ -294,8 +315,11 @@ void GlobalArray<ndim,T>::RMAOp::op(Op op) {
 	opd<0>(op, ip, i);
 }
 
+#endif
+
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
+#if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
@@ -303,10 +327,18 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld,
 			MPI_Win_unlock(id, impl->win);
 		}
 	);
+#elif defined(SHARK_NO_COMM)
+	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
+		buf[(i - range.lower).offset(ld)] = this->da(i);
+	});
+#else
+#error "No comm get"
+#endif
 }
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, id, 0, impl->win);
@@ -314,10 +346,18 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld,
 			MPI_Win_unlock(id, impl->win);
 		}
 	);
+#elif defined(SHARK_NO_COMM)
+	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
+		this->da(i) = buf[(i - range.lower).offset(ld)];
+	});
+#else
+#error "No comm put"
+#endif
 }
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
@@ -325,6 +365,13 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 			MPI_Win_unlock(id, impl->win);
 		}
 	);
+#elif defined(SHARK_NO_COMM)
+	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
+		this->da(i) += buf[(i - range.lower).offset(ld)];
+	});
+#else
+#error "No comm accumulate"
+#endif
 }
 
 template<int ndim,typename T>

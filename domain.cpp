@@ -236,7 +236,13 @@ int Domain<ndim>::shiftd(int d, int disp, int id) const {
 	} else {
 		ip[d] += disp;
 		if(ip[d] < 0 || ip[d] >= np[d])
+#if defined(SHARK_MPI_COMM)
 			return MPI_PROC_NULL;
+#elif defined(SHARK_NO_COMM)
+			return -1;
+#else
+#error "No null process"
+#endif
 		else
 			return pindex(ip);
 	}

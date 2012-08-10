@@ -1,6 +1,7 @@
 
 #include "comm_impl.hpp"
 
+using namespace std;
 using namespace shark;
 using namespace shark::ndim;
 
@@ -38,6 +39,20 @@ void mpi_type<vec<ndim,T>>::destroy() {
 #include "inst_dimtype"
 #undef SYMB
 
+#elif defined(SHARK_NO_COMM)
+
+#include <cstdlib>
+
+void* shark::mem_alloc(size_t size) {
+	return valloc(size);
+}
+
+void shark::mem_free(void* p) {
+	free(p);
+}
+
 #else
+
 #error "No comm defined"
+
 #endif

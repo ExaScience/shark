@@ -2,6 +2,11 @@
 #include <cassert>                     // assert
 #include <utility>                     // std::move
 
+#if defined(SHARK_NO_COMM)
+#include <cstdlib>                     // std::exit
+#include <chrono>                      // std::chrono
+#endif
+
 #include <shark/globals.hpp>
 #include "comm_impl.hpp"
 #include "sched_impl.hpp"
@@ -38,6 +43,7 @@ int shark::nthrds(8);
 #include "types"
 
 void shark::Init(int* argc, char*** argv) {
+#if defined(SHARK_MPI_COMM)
 	MPI_Init(argc, argv);
 	{
 		unique_ptr<GroupImpl> impl(new GroupImpl());
@@ -47,6 +53,10 @@ void shark::Init(int* argc, char*** argv) {
 #define SYMB(d,T) mpi_type<vec<d,T>>::init(); 
 #include "inst_dimtype"
 #undef SYMB
+#elif defined(SHARK_NO_COMM)
+	unused(argc, argv);
+	Group::w.reset(new Group(unique_ptr<GroupImpl>(new GroupImpl())));
+#endif
 }
 
 void shark::Finalize() {
@@ -61,11 +71,16 @@ void shark::Finalize() {
 #elif defined(SHARK_COBRA_SCHED)
 	delete sch;
 #endif
+
+#if defined(SHARK_MPI_COMM)
 #define SYMB(d,T) mpi_type<vec<d,T>>::destroy();
 #include "inst_dimtype"
 #undef SYMB
 	Group::w.reset();
 	MPI_Finalize();
+#elif defined(SHARK_NO_COMM)
+	Group::w.reset();
+#endif
 }
 
 void shark::SetupThreads() {
@@ -91,11 +106,23 @@ void shark::SetupThreads() {
 }
 
 void shark::Abort(int errorcode) {
+#if defined(SHARK_MPI_COMM)
 	MPI_Abort(MPI_COMM_WORLD, errorcode);
+#elif defined(SHARK_NO_COMM)
+	exit(errorcode);
+#else
+#error "No comm abort"
+#endif
 }
 
 double shark::Wtime() {
+#if defined(SHARK_MPI_COMM)
 	return MPI_Wtime();
+#elif defined(SHARK_NO_COMM)
+	return chrono::duration_cast<chrono::duration<double>>(chrono::high_resolution_clock::now().time_since_epoch()).count();
+#else
+#error "No comm wtime"
+#endif
 }
 
 #if defined(SHARK_PTHREAD_SCHED)

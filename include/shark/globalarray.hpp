@@ -2,6 +2,7 @@
 #define __SHARK_GLOBALARRAY_HPP
 
 #include <array>                       // std::array
+#include <cstddef>                     // std::size_t
 #include <memory>                      // std::unique_ptr
 #include <cassert>                     // assert
 #include "common.hpp"

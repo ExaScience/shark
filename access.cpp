@@ -39,23 +39,29 @@ Access<ndim,T>::~Access() {
 template<int ndim,typename T>
 Access<ndim,T>::Access(const GlobalArray<ndim,T>& ga): ga(&ga) {
 	assert(ga);
+#if defined(SHARK_MPI_COMM)
 	if(ga.lc++ == 0)
 		MPI_Win_lock(MPI_LOCK_SHARED, ga.domain().group.procid, 0, ga.impl->win);
+#endif
 }
 
 template<int ndim,typename T>
 Access<ndim,T>::Access(GlobalArray<ndim,T>& ga): ga(&ga) {
 	assert(ga);
+#if defined(SHARK_MPI_COMM)
 	if(ga.lc++ == 0)
 		MPI_Win_lock(MPI_LOCK_EXCLUSIVE, ga.domain().group.procid, 0, ga.impl->win);
 	else
 		throw logic_error("Trying to create non-first mutable Access object");
+#endif
 }
 
 template<int ndim,typename T>
 void Access<ndim,T>::release() {
+#if defined(SHARK_MPI_COMM)
 	if(--ga->lc == 0)
 		MPI_Win_unlock(ga->domain().group.procid, ga->impl->win);
+#endif
 }
 
 // Set-up instantiations

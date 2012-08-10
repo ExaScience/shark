@@ -15,6 +15,13 @@ namespace shark {
 	// (Available only to shark)
 	namespace {
 
+		// Empty function to signify unused named parameters
+		template<typename... Ts>
+		INLINE void unused(const Ts&...);
+
+		template<typename... Ts>
+		inline void unused(const Ts&...) { }
+
 		/**
 		 * Compile-time sequence consisting of [start, start+1, ..., start+count)
 		 */
@@ -26,9 +33,9 @@ namespace shark {
 			template<typename Func>
 			INLINE static bool all_of(const Func& f);
 			template<typename Func, typename T>
-			INLINE static T product(const Func& f, const T& identity);
+			INLINE static T product(const Func& f, const T& base);
 			template<typename Func, typename T>
-			INLINE static T sum(const Func& f, const T& zero);
+			INLINE static T sum(const Func& f, const T& base);
 		};
 		template<int start>
 		class seq<start,0> {
@@ -38,9 +45,9 @@ namespace shark {
 			template<typename Func>
 			INLINE static bool all_of(const Func& f);
 			template<typename Func, typename T>
-			INLINE static T product(const Func& f, const T& identity);
+			INLINE static T product(const Func& f, const T& base);
 			template<typename Func, typename T>
-			INLINE static T sum(const Func& f, const T& zero);
+			INLINE static T sum(const Func& f, const T& base);
 		};
 
 
@@ -69,25 +76,25 @@ namespace shark {
 		}
 
 		template<int start, int count> template<typename Func, typename T>
-		inline T seq<start,count>::product(const Func& f, const T& identity) {
-			return f(start) * seq<start+1,count-1>::product(f, identity);
+		inline T seq<start,count>::product(const Func& f, const T& base) {
+			return f(start) * seq<start+1,count-1>::product(f, base);
 		}
 
 		template<int start> template<typename Func, typename T>
-		inline T seq<start,0>::product(const Func&, const T& identity) {
+		inline T seq<start,0>::product(const Func&, const T& base) {
 			// Base case
-			return identity;
+			return base;
 		}
 
 		template<int start, int count> template<typename Func, typename T>
-		inline T seq<start,count>::sum(const Func& f, const T& zero) {
-			return f(start) + seq<start+1,count-1>::sum(f, zero);
+		inline T seq<start,count>::sum(const Func& f, const T& base) {
+			return f(start) + seq<start+1,count-1>::sum(f, base);
 		}
 
 		template<int start> template<typename Func, typename T>
-		inline T seq<start,0>::sum(const Func&, const T& zero) {
+		inline T seq<start,0>::sum(const Func&, const T& base) {
 			// Base case
-			return zero;
+			return base;
 		}
 	}
 
