@@ -17,6 +17,7 @@ namespace shark {
 		typedef shark::ndim::Access<2,long> AccessL;
 		typedef shark::ndim::Access<2,float> AccessF;
 		typedef shark::ndim::Access<2,double> AccessD;
+		typedef shark::ndim::vec<2,double> vecD;
 	}
 
 	namespace types3d {
@@ -31,6 +32,7 @@ namespace shark {
 		typedef shark::ndim::Access<3,long> AccessL;
 		typedef shark::ndim::Access<3,float> AccessF;
 		typedef shark::ndim::Access<3,double> AccessD;
+		typedef shark::ndim::vec<3,double> vecD;
 	}
 
 }

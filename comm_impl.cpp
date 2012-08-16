@@ -1,6 +1,8 @@
 
 #include "comm_impl.hpp"
 
+#include <complex>
+
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;

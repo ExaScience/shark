@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <type_traits>
+#include "abs.hpp"
 #include "common.hpp"
 #include "coords.hpp"
 #include "vec.hpp"
@@ -296,13 +297,8 @@ namespace shark {
 		 * Absolute value
 		 */
 
-		// Make sure to prefer std::abs (overloaded C++ version) over ::abs (C version, integrals only)
-		// (but still follow unqualified lookup)
-		using std::abs;
-
 		template<typename S>
 		class Abs {
-
 		public:
 			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(abs(a(ii))) {
 				return abs(a(ii));
@@ -315,34 +311,60 @@ namespace shark {
 		}
 
 		/**
-		 * Scalar multiplication
+		 * Minimal/maximal element
 		 */
-
-		template<typename S, typename T>
-		class Scale {
-		private:
-			const T val;
+		template<typename S>
+		class MinElement {
 		public:
-			Scale(const T& val): val(val) { }
-			~Scale() { }
-			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)*val) {
-				return a(ii) * val;
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii).min()) {
+				return a(ii).min();
 			}
 		};
 
-		template<typename S, typename T>
-		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,Scale<S,T>>>::type operator*(const S& src, const T& val) {
-			return UnaryExp<S,Scale<S,T>>(src, Scale<S,T>(val));
+		template<typename S>
+		class MaxElement {
+		public:
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii).max()) {
+				return a(ii).max();
+			}
+		};
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,MinElement<S>>>::type min_element(const S& src) {
+			return UnaryExp<S,MinElement<S>>(src, MinElement<S>());
 		}
 
-		template<typename S, typename T>
-		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,Scale<S,T>>>::type operator*(const T& val, const S& src) {
-			return UnaryExp<S,Scale<S,T>>(src, Scale<S,T>(val));
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,MaxElement<S>>>::type max_element(const S& src) {
+			return UnaryExp<S,MaxElement<S>>(src, MaxElement<S>());
 		}
 
 		/**
 		 * Addition
 		 */
+
+		template<typename S, typename T>
+		class AddC {
+		private:
+			const T val;
+		public:
+			AddC(const T& val): val(val) { }
+			~AddC() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)+val) {
+				return a(ii) + val;
+			}
+		};
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,AddC<S,T>>>::type operator+(const S& src, const T& val) {
+			return UnaryExp<S,AddC<S,T>>(src, AddC<S,T>(val));
+		}
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,AddC<S,T>>>::type operator+(const T& val, const S& src) {
+			return UnaryExp<S,AddC<S,T>>(src, AddC<S,T>(val));
+		}
+
 		template<typename S1, typename S2>
 		class Add {
 		public:
@@ -359,6 +381,41 @@ namespace shark {
 		/**
 		 * Subtraction
 		 */
+
+		template<typename S, typename T>
+		class SubCL {
+		private:
+			const T val;
+		public:
+			SubCL(const T& val): val(val) { }
+			~SubCL() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(val-a(ii)) {
+				return val - a(ii);
+			}
+		};
+
+		template<typename S, typename T>
+		class SubCR {
+		private:
+			const T val;
+		public:
+			SubCR(const T& val): val(val) { }
+			~SubCR() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)-val) {
+				return a(ii) - val;
+			}
+		};
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,SubCL<S,T>>>::type operator-(const T& val, const S& src) {
+			return UnaryExp<S,SubCL<S,T>>(src, SubCL<S,T>(val));
+		}
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,SubCR<S,T>>>::type operator-(const S& src, const T& val) {
+			return UnaryExp<S,SubCR<S,T>>(src, SubCR<S,T>(val));
+		}
+
 		template<typename S1, typename S2>
 		class Sub {
 		public:
@@ -375,6 +432,28 @@ namespace shark {
 		/**
 		 * Multiplication
 		 */
+		template<typename S, typename T>
+		class MulC {
+		private:
+			const T val;
+		public:
+			MulC(const T& val): val(val) { }
+			~MulC() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)*val) {
+				return a(ii) * val;
+			}
+		};
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,MulC<S,T>>>::type operator*(const S& src, const T& val) {
+			return UnaryExp<S,MulC<S,T>>(src, MulC<S,T>(val));
+		}
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,MulC<S,T>>>::type operator*(const T& val, const S& src) {
+			return UnaryExp<S,MulC<S,T>>(src, MulC<S,T>(val));
+		}
+
 		template<typename S1, typename S2>
 		class Mul {
 		public:
@@ -386,6 +465,57 @@ namespace shark {
 		template<typename S1, typename S2>
 		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,Mul<S1,S2>>>::type operator*(const S1& src1, const S2& src2) {
 			return BinaryExp<S1,S2,Mul<S1,S2>>(src1, src2, Mul<S1,S2>());
+		}
+
+		/**
+		 * Division
+		 */
+
+		template<typename S, typename T>
+		class DivCL {
+		private:
+			const T val;
+		public:
+			DivCL(const T& val): val(val) { }
+			~DivCL() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(val/a(ii)) {
+				return val / a(ii);
+			}
+		};
+
+		template<typename S, typename T>
+		class DivCR {
+		private:
+			const T val;
+		public:
+			DivCR(const T& val): val(val) { }
+			~DivCR() { }
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)/val) {
+				return a(ii) / val;
+			}
+		};
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,DivCL<S,T>>>::type operator/(const T& val, const S& src) {
+			return UnaryExp<S,DivCL<S,T>>(src, DivCL<S,T>(val));
+		}
+
+		template<typename S, typename T>
+		typename std::enable_if<is_source<S>::value && !is_source<T>::value, UnaryExp<S,DivCR<S,T>>>::type operator/(const S& src, const T& val) {
+			return UnaryExp<S,DivCR<S,T>>(src, DivCR<S,T>(val));
+		}
+
+		template<typename S1, typename S2>
+		class Div {
+		public:
+			auto operator()(const typename S1::accessor& a1, const typename S2::accessor& a2, coords<S1::number_of_dimensions> ii) const -> decltype(a1(ii) / a2(ii)) {
+				return a1(ii) / a2(ii);
+			}
+		};
+
+		template<typename S1, typename S2>
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,Div<S1,S2>>>::type operator/(const S1& src1, const S2& src2) {
+			return BinaryExp<S1,S2,Div<S1,S2>>(src1, src2, Div<S1,S2>());
 		}
 
 		/**

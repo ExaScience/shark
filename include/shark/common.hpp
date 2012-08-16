@@ -116,6 +116,7 @@ namespace shark {
 		class GlobalArray;
 		template<int,typename>
 		class Access;
+
 	}
 
 }

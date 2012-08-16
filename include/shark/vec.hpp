@@ -2,6 +2,7 @@
 #define __SHARK_VEC_HPP
 
 #include <utility>        // std::declval
+#include "abs.hpp"
 #include "common.hpp"
 
 namespace shark {
@@ -28,6 +29,9 @@ namespace shark {
 			INLINE vec<ndim,T>& operator*=(const vec<ndim,S>& other);
 			template<typename S>
 			INLINE vec<ndim,T>& operator/=(const vec<ndim,S>& other);
+
+			INLINE T min() const;
+			INLINE T max() const;
 		};
 
 		template<int ndim, typename T>
@@ -50,6 +54,11 @@ namespace shark {
 
 		template<int ndim, typename T, typename S>
 		INLINE vec<ndim,decltype(std::declval<T>() / std::declval<S>())> operator/(const vec<ndim,T>& v1, const vec<ndim,S>& v2);
+
+		//Declaring abs triggers ambiguous overlad 
+		//http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43054
+		//template<int ndim, typename T>
+		//INLINE vec<ndim,decltype(abs(std::declval<T>()))> abs(const vec<ndim,T>& v);
 
 		// Inline / generic members
 
@@ -93,6 +102,26 @@ namespace shark {
 		inline vec<ndim,T>& vec<ndim,T>::operator/=(const vec<ndim,S>& other) {
 			seq<0,ndim>::for_each([this,&other](int d) { (*this)[d] /= other[d]; });
 			return *this;
+		}
+
+		template<int ndim,typename T>
+		inline T vec<ndim,T>::min() const {
+			T cand((*this)[0]);
+			seq<1,ndim-1>::for_each([this,&cand](int d) {
+				if((*this)[d] < cand)
+					cand = (*this)[d];
+			});
+			return cand;
+		}
+
+		template<int ndim,typename T>
+		inline T vec<ndim,T>::max() const {
+			T cand((*this)[0]);
+			seq<1,ndim-1>::for_each([this,&cand](int d) {
+				if((*this)[d] > cand)
+					cand = (*this)[d];
+			});
+			return cand;
 		}
 
 		template<int ndim, typename T>
@@ -144,6 +173,12 @@ namespace shark {
 			return r;
 		}
 
+		template<int ndim, typename T>
+		inline vec<ndim,decltype(abs(std::declval<T>()))> abs(const vec<ndim,T>& v) {
+			vec<ndim,decltype(abs(std::declval<T>()))> r;
+			seq<0,ndim>::for_each([&r,&v](int d) { r[d] = abs(v[d]); });
+			return r;
+		}
 
 	}
 

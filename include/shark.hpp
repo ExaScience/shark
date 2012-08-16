@@ -9,5 +9,6 @@
 #include "shark/sparsearray.hpp"
 #include "shark/globals.hpp"
 #include "shark/types.hpp"
+#include "shark/vec.hpp"
 
 #endif

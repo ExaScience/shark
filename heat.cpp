@@ -1,5 +1,4 @@
 
-#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -14,12 +13,8 @@ void init_pyramid(int n, GlobalArrayD& ga) {
 	double step = 1.0 / n;
 	const coords_range inner = {{{1,1}},{{n,n}}};
 
-	ga.region(inner) = nullary(ga.domain(), [&step, &n](coords ii) {
-		double dx = fabs(step * ii[0] - 0.5);
-		double dy = fabs(step * ii[1] - 0.5);
-		double d = dx >= dy ? dx : dy;
-		return 1.0 - d / 0.5;
-	});
+	vecD mid = {{0.5, 0.5}};
+	ga.region(inner) = 1.0 - max_element(abs(step * coord_vec(ga.domain()) - mid)) / 0.5;
 }
 
 void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
