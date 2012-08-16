@@ -6,6 +6,7 @@
 #include <type_traits>
 #include "common.hpp"
 #include "coords.hpp"
+#include "vec.hpp"
 
 namespace shark {
 
@@ -252,6 +253,27 @@ namespace shark {
 
 		template<int ndim, typename T>
 		NullaryExp<ndim,Const<ndim,T>> constant(const Domain<ndim>& dom, coords_range<ndim> r, const T& val);
+
+		/**
+		 * Coordinate value over domain
+		 */
+		template<int ndim>
+		class Coord {
+		public:
+			Coord();
+			~Coord();
+			INLINE vec<ndim,coord> operator()(coords<ndim> ii) const;
+		};
+
+		template<int ndim>
+		inline vec<ndim,coord> Coord<ndim>::operator()(coords<ndim> ii) const {
+			vec<ndim,coord> r;
+			seq<0,ndim>::for_each([&r,&ii](int d) { r[d] = ii[d]; });
+			return r;
+		}
+
+		template<int ndim>
+		NullaryExp<ndim,Coord<ndim>> coord_vec(const Domain<ndim>& dom);
 
 		/**
 		 * Negation
