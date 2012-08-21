@@ -71,6 +71,12 @@ SHARK_COMM_FP_INST
 SHARK_COMM_CPLX_INST
 #undef SYMB
 
+#define SYMB(T) template valarray<T> Group::external_sum(valarray<T>&&) const;
+SHARK_COMM_INT_INST
+SHARK_COMM_FP_INST
+SHARK_COMM_CPLX_INST
+#undef SYMB
+
 #define SYMB(d,T) template ndim::vec<d,T> Group::external_sum(ndim::vec<d,T>&&) const; 
 #include "inst_dimtype"
 #undef SYMB

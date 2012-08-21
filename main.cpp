@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <valarray>
 #include <shark.hpp>
 
 using namespace std;
@@ -70,6 +71,25 @@ int main(int argc, char* argv[]) {
 			double end = Wtime();
 			if(world().procid == 0) {
 				cerr << "aa: " << sums[0] << " ab: " << sums[1] << " bb: " << sums[2] << " in " << (end - start) << endl;
+			}
+		}
+		{
+			double start = Wtime();
+			valarray<double> v(3);
+			{
+				const AccessD a(ga);
+				const AccessD b(gb);
+				v = sum(v, nullary(dom, [&a,&b](coords ii) {
+					valarray<double> v(3);
+					v[0] = a(ii) * a(ii);
+					v[1] = a(ii) * b(ii);
+					v[2] = b(ii) * b(ii);
+					return v;
+				}));
+			}
+			double end = Wtime();
+			if(world().procid == 0) {
+				cerr << "aa: " << v[0] << " ab: " << v[1] << " bb: " << v[2] << " in " << (end - start) << endl;
 			}
 		}
 	}

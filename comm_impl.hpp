@@ -4,6 +4,7 @@
 #if defined(SHARK_MPI_COMM)
 
 #include <shark/vec.hpp>
+#include <valarray>
 
 #define OMPI_SKIP_MPICXX              // OpenMPI: only C bindings
 #define MPICH_SKIP_MPICXX             // MPICH: only C bindings
@@ -79,6 +80,26 @@ namespace shark {
 	template<int ndim,typename T>
 	inline void* mpi_type<shark::ndim::vec<ndim,T>>::address(shark::ndim::vec<ndim,T>& object) {
 		return &object.val;
+	}
+
+	/*
+	 * mpi_type for valarray
+	 */
+	template<typename T>
+	struct mpi_type<std::valarray<T>> {
+		static const MPI_Datatype t;
+		INLINE static int count(const std::valarray<T>& proto);
+		INLINE static void* address(std::valarray<T>& object);
+	};
+
+	template<typename T>
+	inline int mpi_type<std::valarray<T>>::count(const std::valarray<T>& proto) {
+		return static_cast<int>(proto.size());
+	}
+
+	template<typename T>
+	inline void* mpi_type<std::valarray<T>>::address(std::valarray<T>& object) {
+		return &object[0];
 	}
 }
 

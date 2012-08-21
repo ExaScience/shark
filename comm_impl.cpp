@@ -24,10 +24,18 @@ template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LON
 
 template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
 
+template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::t;
+
 // Set-up instantiations
 
 #define SYMB(d,T) template struct mpi_type<vec<d,T>>; 
 #include "inst_dimtype"
+#undef SYMB
+
+#define SYMB(T) template struct mpi_type<valarray<T>>;
+SHARK_COMM_INT_INST
+SHARK_COMM_FP_INST
+SHARK_COMM_CPLX_INST
 #undef SYMB
 
 #elif defined(SHARK_NO_COMM)
