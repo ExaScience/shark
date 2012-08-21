@@ -74,23 +74,30 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 	ld = stride(count, ghost_width);
 
 #if defined(SHARK_MPI_COMM)
-	// Create ghost types
-	MPI_Aint lb, extent;
-	MPI_Type_get_extent(mpi_type<T>::t, &lb, &extent);
-	for(int di = 0; di < ndim; di++) {
-		MPI_Type_dup(mpi_type<T>::t, &impl.ghost[di]);
-		for(int d = ndim-1; d >= 0; d--) {
-			MPI_Datatype tmp = impl.ghost[di];
-			coord n =
-				d == di ?
-				ghost_width[d] :
-				(ghost_corners && d < di ?
-					count[d] + 2 * ghost_width[d] :
-					count[d]);
-			MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl.ghost[di]);
-			MPI_Type_free(&tmp);
+	{
+		// Create ghost types
+		MPI_Datatype base = mpi_type<T>::t;
+		if(mpi_type<T>::count() != 1)
+			MPI_Type_contiguous(mpi_type<T>::count(), base, &base);
+		MPI_Aint lb, extent;
+		MPI_Type_get_extent(base, &lb, &extent);
+		for(int di = 0; di < ndim; di++) {
+			MPI_Type_dup(base, &impl.ghost[di]);
+			for(int d = ndim-1; d >= 0; d--) {
+				MPI_Datatype tmp = impl.ghost[di];
+				coord n =
+					d == di ?
+					ghost_width[d] :
+					(ghost_corners && d < di ?
+						count[d] + 2 * ghost_width[d] :
+						count[d]);
+				MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl.ghost[di]);
+				MPI_Type_free(&tmp);
+			}
+			MPI_Type_commit(&impl.ghost[di]);
 		}
-		MPI_Type_commit(&impl.ghost[di]);
+		if(mpi_type<T>::count() != 1)
+			MPI_Type_free(&base);
 	}
 
 	// Allocate memory

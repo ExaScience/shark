@@ -22,18 +22,7 @@ template<> const MPI_Datatype mpi_type<std::complex<double>>::t = MPI_C_DOUBLE_C
 template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LONG_DOUBLE_COMPLEX;
 #endif
 
-template<int ndim,typename T> MPI_Datatype mpi_type<vec<ndim,T>>::t;
-
-template<int ndim,typename T>
-void mpi_type<vec<ndim,T>>::init() {
-	MPI_Type_contiguous(ndim, mpi_type<T>::t, &t);
-	MPI_Type_commit(&t);
-}
-
-template<int ndim,typename T>
-void mpi_type<vec<ndim,T>>::destroy() {
-	MPI_Type_free(&t);
-}
+template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
 
 // Set-up instantiations
 

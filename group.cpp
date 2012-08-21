@@ -71,6 +71,10 @@ SHARK_COMM_FP_INST
 SHARK_COMM_CPLX_INST
 #undef SYMB
 
+#define SYMB(d,T) template ndim::vec<d,T> Group::external_sum(ndim::vec<d,T>&&) const; 
+#include "inst_dimtype"
+#undef SYMB
+
 #ifdef ECL_ASYNC
 #define SYMB(T) template T Group::external_isum(T&&) const;
 SHARK_COMM_INT_INST

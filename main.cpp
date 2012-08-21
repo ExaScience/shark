@@ -53,6 +53,25 @@ int main(int argc, char* argv[]) {
 						cout << i << ": " << b(i) << endl;
 			});
 		}
+		{
+			double start = Wtime();
+			double aa = sum(0.0, ga * ga);
+			double ab = sum(0.0, ga * gb);
+			double bb = sum(0.0, gb * gb);
+			double end = Wtime();
+			if(world().procid == 0) {
+				cerr << "aa: " << aa << " ab: " << ab << " bb: " << bb << " in " << (end - start) << endl;
+			}
+		}
+		{
+			double start = Wtime();
+			const ndim::vec<3, double> zero = {{}};
+			const ndim::vec<3, double> sums = sum(zero, as_vec(ga * ga, ga * gb, gb * gb));
+			double end = Wtime();
+			if(world().procid == 0) {
+				cerr << "aa: " << sums[0] << " ab: " << sums[1] << " bb: " << sums[2] << " in " << (end - start) << endl;
+			}
+		}
 	}
 
 	Finalize();

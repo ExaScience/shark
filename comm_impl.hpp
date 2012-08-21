@@ -27,14 +27,23 @@ namespace shark {
 		};
 	}
 
+	/*
+	 * mpi_type for predefined MPI types
+	 */
 	template<typename T>
 	struct mpi_type {
 		static const MPI_Datatype t;
+		INLINE static int count();
 		INLINE static int count(const T& proto);
 		INLINE static void* address(T& object);
 	};
 
 	// Inline function implementations
+	
+	template<typename T>
+	inline int mpi_type<T>::count() {
+		return 1;
+	}
 
 	template<typename T>
 	inline int mpi_type<T>::count(const T&) {
@@ -46,18 +55,25 @@ namespace shark {
 		return &object;
 	}
 
+	/*
+	 * mpi_type for vec
+	 */
 	template<int ndim,typename T>
 	struct mpi_type<shark::ndim::vec<ndim,T>> {
-		static MPI_Datatype t;
-		static void init();
-		static void destroy();
+		static const MPI_Datatype t;
+		INLINE static int count();
 		INLINE static int count(const shark::ndim::vec<ndim,T>& proto);
 		INLINE static void* address(shark::ndim::vec<ndim,T>& object);
 	};
 
 	template<int ndim,typename T>
+	inline int mpi_type<shark::ndim::vec<ndim,T>>::count() {
+		return ndim;
+	}
+
+	template<int ndim,typename T>
 	inline int mpi_type<shark::ndim::vec<ndim,T>>::count(const shark::ndim::vec<ndim,T>&) {
-		return 1;
+		return ndim;
 	}
 
 	template<int ndim,typename T>

@@ -232,6 +232,142 @@ namespace shark {
 		}
 
 		/**
+		 * Group sources as a vector
+		 */
+		template<typename...>
+		class AsVecAcc;
+
+		template<typename...>
+		class AsVecExp;
+
+		template<typename S>
+		class AsVecExp<S> {
+			friend class AsVecAcc<S>;
+			const S& s;
+		public:
+			static const int number_of_dimensions = S::number_of_dimensions;
+			typedef AsVecAcc<S> accessor;
+			AsVecExp(const S& s);
+			~AsVecExp();
+			INLINE const Domain<number_of_dimensions>& domain() const;
+			INLINE coords_range<number_of_dimensions> region() const;
+		};
+
+		template<typename S>
+		AsVecExp<S>::AsVecExp(const S& s): s(s) { }
+
+		template<typename S>
+		AsVecExp<S>::~AsVecExp() { }
+
+		template<typename S>
+		inline const Domain<AsVecExp<S>::number_of_dimensions>& AsVecExp<S>::domain() const {
+			return s.domain();
+		}
+
+		template<typename S>
+		inline coords_range<AsVecExp<S>::number_of_dimensions> AsVecExp<S>::region() const {
+			return s.region();
+		}
+
+		template<typename S, typename... Ss>
+		class AsVecExp<S,Ss...> {
+			friend class AsVecAcc<S,Ss...>;
+			const S& s;
+			const AsVecExp<Ss...> ss;
+		public:
+			static_assert(S::number_of_dimensions == AsVecExp<Ss...>::number_of_dimensions, "source dimensionality");
+			static const int number_of_dimensions = S::number_of_dimensions;
+			typedef AsVecAcc<S,Ss...> accessor;
+			AsVecExp(const S& s, const Ss&... ss);
+			~AsVecExp();
+			INLINE const Domain<number_of_dimensions>& domain() const;
+			INLINE coords_range<number_of_dimensions> region() const;
+		};
+
+		template<typename S, typename... Ss>
+		AsVecExp<S,Ss...>::AsVecExp(const S& s, const Ss&... ss): s(s), ss(ss...) {
+			assert(s.domain() == this->ss.domain());
+		}
+
+		template<typename S, typename... Ss>
+		AsVecExp<S,Ss...>::~AsVecExp() { }
+
+		template<typename S, typename... Ss>
+		inline const Domain<AsVecExp<S,Ss...>::number_of_dimensions>& AsVecExp<S,Ss...>::domain() const {
+			return s.domain();
+		}
+
+		template<typename S, typename... Ss>
+		inline coords_range<AsVecExp<S,Ss...>::number_of_dimensions> AsVecExp<S,Ss...>::region() const {
+			return s.region().overlap(ss.region());
+		}
+
+		template<typename... Ss>
+		AsVecExp<Ss...> as_vec(const Ss&... ss) {
+			return AsVecExp<Ss...>(ss...);
+		}
+
+		template<typename S>
+		class AsVecAcc<S> {
+			const typename S::accessor a;
+		public:
+			typedef vec<1, typename source<S>::element_type> vec_type;
+			AsVecAcc(const AsVecExp<S>& exp);
+			~AsVecAcc();
+			template<int d, typename T> INLINE void fill(T& t, coords<S::number_of_dimensions> ii) const;
+			INLINE vec_type operator()(coords<S::number_of_dimensions> ii) const;
+		};
+
+		template<typename S>
+		AsVecAcc<S>::AsVecAcc(const AsVecExp<S>& exp): a(exp.s) { }
+
+		template<typename S>
+		AsVecAcc<S>::~AsVecAcc() { }
+
+		template<typename S> template<int d, typename T>
+		inline void AsVecAcc<S>::fill(T& t, coords<S::number_of_dimensions> ii) const {
+			t[d] = a(ii);
+		}
+
+		template<typename S>
+		inline typename AsVecAcc<S>::vec_type AsVecAcc<S>::operator()(coords<S::number_of_dimensions> ii) const {
+			vec_type v;
+			fill<0>(v, ii);
+			return v;
+		}
+
+		template<typename S, typename... Ss>
+		class AsVecAcc<S,Ss...> {
+			const typename S::accessor a;
+			const AsVecAcc<Ss...> aa;
+		public:
+			typedef vec<1+sizeof...(Ss), typename std::common_type<typename source<S>::element_type, typename source<Ss>::element_type...>::type> vec_type;
+			AsVecAcc(const AsVecExp<S,Ss...>& exp);
+			~AsVecAcc();
+			template<int d, typename T> INLINE void fill(T& t, coords<S::number_of_dimensions> ii) const;
+			INLINE vec_type operator()(coords<S::number_of_dimensions> ii) const;
+		};
+
+		template<typename S, typename... Ss>
+		AsVecAcc<S,Ss...>::AsVecAcc(const AsVecExp<S,Ss...>& exp): a(exp.s), aa(exp.ss) { }
+
+		template<typename S, typename... Ss>
+		AsVecAcc<S,Ss...>::~AsVecAcc() { }
+
+		template<typename S, typename... Ss> template<int d, typename T>
+		inline void AsVecAcc<S,Ss...>::fill(T& t, coords<S::number_of_dimensions> ii) const {
+			t[d] = a(ii);
+			aa.fill<d+1>(t, ii);
+		}
+		
+		template<typename S, typename... Ss>
+		inline typename AsVecAcc<S,Ss...>::vec_type AsVecAcc<S,Ss...>::operator()(coords<S::number_of_dimensions> ii) const {
+			vec_type v;
+			fill<0>(v, ii);
+			return v;
+		}
+
+		/**
 		 * Constant value over domain
 		 */
 
