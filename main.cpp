@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 					cout << i << ": " << a(i) << endl;
 			});
 		}
-		GlobalArrayD gb(dom);
+		GlobalArrayD gb(dom), gc(dom);
 		gb = 2 * ga + (-ga) + ga - ga;
 		gb = gb * gb;
 		{
@@ -54,38 +54,44 @@ int main(int argc, char* argv[]) {
 						cout << i << ": " << b(i) << endl;
 			});
 		}
+		gc = abs(ga - gb);
 		{
 			double start = Wtime();
 			double aa = sum(0.0, ga * ga);
 			double ab = sum(0.0, ga * gb);
-			double bb = sum(0.0, gb * gb);
+			double ac = sum(0.0, ga * gc);
 			double end = Wtime();
 			if(world().procid == 0) {
-				cerr << "aa: " << aa << " ab: " << ab << " bb: " << bb << " in " << (end - start) << endl;
+				cerr << "aa: " << aa << " ab: " << ab << " ac: " << ac << " in " << (end - start) << endl;
 			}
 		}
 		{
 			double start = Wtime();
 			const ndim::vec<3, double> zero = {{}};
-			const ndim::vec<3, double> sums = sum(zero, as_vec(ga * ga, ga * gb, gb * gb));
+			const ndim::vec<3, double> sums = sum(zero, as_vec(ga * ga, ga * gb, ga * gc));
 			double end = Wtime();
 			if(world().procid == 0) {
-				cerr << "aa: " << sums[0] << " ab: " << sums[1] << " bb: " << sums[2] << " in " << (end - start) << endl;
+				cerr << "aa: " << sums[0] << " ab: " << sums[1] << " ac: " << sums[2] << " in " << (end - start) << endl;
 			}
 		}
 		{
 			double start = Wtime();
-			valarray<double> v(3);
+			vector<GlobalArrayD> vg;
+			vg.push_back(std::move(ga));
+			vg.push_back(std::move(gb));
+			vg.push_back(std::move(gc));
+			GlobalArrayD& gar(vg[0]);
+			valarray<double> v(vg.size());
 			{
-				const AccessD a(ga);
-				const AccessD b(gb);
-				v = sum(v, nullary(dom, [&a,&b](coords ii) {
-					valarray<double> v(3);
-					v[0] = a(ii) * a(ii);
-					v[1] = a(ii) * b(ii);
-					v[2] = b(ii) * b(ii);
-					return v;
-				}));
+				const AccessD a(static_cast<const GlobalArrayD&>(gar));
+				vector<AccessD> va;
+				for(size_t k = 0; k < vg.size(); k++)
+					va.push_back(AccessD(static_cast<const GlobalArrayD&>(vg[k])));
+				v = dom.sum(dom.total(), v, [&a,&va](valarray<double>& acc, coords ii) {
+					for(size_t k = 0; k < va.size(); k++) {
+						acc[k] += a(ii) * va[k](ii);
+					}
+				});
 			}
 			double end = Wtime();
 			if(world().procid == 0) {
