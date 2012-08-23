@@ -38,10 +38,10 @@ ostream& shark::ndim::operator<<(ostream& out, const coords_range<ndim>& r) {
 
 // Set-up instantiations
 
-#define SYMB(d) template struct coords_range<d>;
+#define SYMBD(d) template struct coords_range<d>;
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD
 
-#define SYMB(d) template ostream& shark::ndim::operator<< <d>(ostream&, const coords_range<d>&);
+#define SYMBD(d) template ostream& shark::ndim::operator<< <d>(ostream&, const coords_range<d>&);
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD

@@ -1,7 +1,21 @@
+// vim: ft=cpp
 
-SYMB(1,int)
-SYMB(2,int)
-SYMB(3,int)
-SYMB(1,double)
-SYMB(2,double)
-SYMB(3,double)
+#define COMMA ,
+
+#define SYMBD(d) SYMBDT(d,int)
+#include "inst_dim"
+#undef SYMBD
+
+#define SYMBD(d) SYMBDT(d,double)
+#include "inst_dim"
+#undef SYMBD
+
+#define SYMBD(d) SYMBDT(d,shark::ndim::vec<d COMMA double>)
+#include "inst_dim"
+#undef SYMBD
+
+//#define SYMBD(d) SYMBDT(d,std::complex<double>)
+//#include "inst_dim"
+//#undef SYMBD
+
+#undef COMMA

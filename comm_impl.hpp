@@ -1,10 +1,11 @@
 #ifndef __SHARK_COMM_IMPL_HPP
 #define __SHARK_COMM_IMPL_HPP
 
-#if defined(SHARK_MPI_COMM)
-
 #include <shark/vec.hpp>
 #include <valarray>
+#include <complex>
+
+#if defined(SHARK_MPI_COMM)
 
 #define OMPI_SKIP_MPICXX              // OpenMPI: only C bindings
 #define MPICH_SKIP_MPICXX             // MPICH: only C bindings
@@ -103,23 +104,6 @@ namespace shark {
 	}
 }
 
-#define SHARK_COMM_INT_INST \
-	SYMB(int) \
-	SYMB(long)
-#define SHARK_COMM_FP_INST \
-	SYMB(float) \
-	SYMB(double) \
-	SYMB(long double) 
-
-#if (MPI_VERSION > 2 || MPI_VERSION == 2 && MPI_SUBVERSION >= 2)
-#define SHARK_COMM_CPLX_INST \
-	SYMB(std::complex<float>) \
-	SYMB(std::complex<double>) \
-	SYMB(std::complex<long double>)
-#else
-#define SHARK_COMM_CPLX_INST
-#endif
-
 #elif defined(SHARK_NO_COMM)
 
 #include <cstddef>   // std::size_t
@@ -135,19 +119,6 @@ namespace shark {
 		class GAImpl { };
 	}
 }
-
-#define SHARK_COMM_INT_INST \
-	SYMB(int) \
-	SYMB(long)
-#define SHARK_COMM_FP_INST \
-	SYMB(float) \
-	SYMB(double) \
-	SYMB(long double) 
-
-#define SHARK_COMM_CPLX_INST \
-	SYMB(std::complex<float>) \
-	SYMB(std::complex<double>) \
-	SYMB(std::complex<long double>)
 
 #else
 

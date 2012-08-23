@@ -37,22 +37,22 @@ NullaryExp<ndim,Coord<ndim>> shark::ndim::coord_vec(const Domain<ndim>& dom) {
 
 #include "types"
 
-#define SYMBH(d,T) template class Const<d,T>; 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template class Const<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 
-#define SYMBH(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, const T&); 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, const T&); 
+#include "inst_dimtype"
+#undef SYMBDT
 
-#define SYMBH(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, coords_range<d>, const T&); 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template NullaryExp<d,Const<d,T>> shark::ndim::constant(const Domain<d>&, coords_range<d>, const T&); 
+#include "inst_dimtype"
+#undef SYMBDT
 
-#define SYMB(d) template class Coord<d>; 
+#define SYMBD(d) template class Coord<d>; 
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD
 
-#define SYMB(d) template NullaryExp<d,Coord<d>> shark::ndim::coord_vec(const Domain<d>&);
+#define SYMBD(d) template NullaryExp<d,Coord<d>> shark::ndim::coord_vec(const Domain<d>&);
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD

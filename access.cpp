@@ -68,7 +68,7 @@ void Access<ndim,T>::release() {
 
 #include "types"
 
-#define SYMBH(d,T) template class Access<d,T>; 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template class Access<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 

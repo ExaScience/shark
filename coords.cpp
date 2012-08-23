@@ -14,7 +14,7 @@ ostream& shark::ndim::operator<<(ostream& out, const coords<ndim>& i) {
 
 // Set-up instantiations
 
-#define SYMB(d) template ostream& shark::ndim::operator<< <d>(ostream&, const coords<d>&);
+#define SYMBD(d) template ostream& shark::ndim::operator<< <d>(ostream&, const coords<d>&);
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD
 

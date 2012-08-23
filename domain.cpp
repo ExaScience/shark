@@ -250,7 +250,7 @@ int Domain<ndim>::shiftd(int d, int disp, int id) const {
 
 // Set-up instantiations
 
-#define SYMB(d) template class Domain<d>;
+#define SYMBD(d) template class Domain<d>;
 #include "inst_dim"
-#undef SYMB
+#undef SYMBD
 

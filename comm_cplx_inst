@@ -1,0 +1,39 @@
+// vim: ft=cpp
+
+#define COMMA ,
+
+#if defined(SHARK_MPI_COMM)
+
+#if (MPI_VERSION > 2 || MPI_VERSION == 2 && MPI_SUBVERSION >= 2)
+SYMBT(std::complex<float>)
+SYMBT(std::complex<double>) 
+SYMBT(std::valarray<std::complex<float>>) 
+SYMBT(std::valarray<std::complex<double>>) 
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA std::complex<float>>)
+#include "inst_dim"
+#undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA std::complex<double>>)
+#include "inst_dim"
+#undef SYMBD
+#endif
+
+#elif defined(SHARK_NO_COMM)
+
+SYMBT(std::complex<float>)
+SYMBT(std::complex<double>) 
+SYMBT(std::valarray<std::complex<float>>) 
+SYMBT(std::valarray<std::complex<double>>) 
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA std::complex<float>>)
+#include "inst_dim"
+#undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA std::complex<double>>)
+#include "inst_dim"
+#undef SYMBD
+
+#else
+#error "No comm defined"
+#endif
+
+#undef COMMA

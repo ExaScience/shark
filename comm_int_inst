@@ -1,0 +1,37 @@
+// vim: ft=cpp
+
+#define COMMA ,
+
+#if defined(SHARK_MPI_COMM)
+
+SYMBT(int)
+SYMBT(long) 
+SYMBT(std::valarray<int>) 
+SYMBT(std::valarray<long>) 
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA int>)
+#include "inst_dim"
+#undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA long>)
+#include "inst_dim"
+#undef SYMBD
+
+#elif defined(SHARK_NO_COMM)
+
+SYMBT(int)
+SYMBT(long) 
+SYMBT(std::valarray<int>) 
+SYMBT(std::valarray<long>) 
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA int>)
+#include "inst_dim"
+#undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA long>)
+#include "inst_dim"
+#undef SYMBD
+
+#else
+#error "No comm defined"
+#endif
+
+#undef COMMA

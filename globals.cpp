@@ -50,9 +50,6 @@ void shark::Init(int* argc, char*** argv) {
 		impl->comm = MPI_COMM_WORLD;
 		Group::w.reset(new Group(move(impl)));
 	}
-//#define SYMB(d,T) mpi_type<vec<d,T>>::init(); 
-//#include "inst_dimtype"
-//#undef SYMB
 #elif defined(SHARK_NO_COMM)
 	unused(argc, argv);
 	Group::w.reset(new Group(unique_ptr<GroupImpl>(new GroupImpl())));
@@ -73,9 +70,6 @@ void shark::Finalize() {
 #endif
 
 #if defined(SHARK_MPI_COMM)
-//#define SYMB(d,T) mpi_type<vec<d,T>>::destroy();
-//#include "inst_dimtype"
-//#undef SYMB
 	Group::w.reset();
 	MPI_Finalize();
 #elif defined(SHARK_NO_COMM)

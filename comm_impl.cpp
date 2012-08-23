@@ -1,15 +1,11 @@
 
 #include "comm_impl.hpp"
 
-#include <complex>
-
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;
 
 #if defined(SHARK_MPI_COMM)
-
-#include <complex>
 
 template<> const MPI_Datatype mpi_type<int>::t = MPI_INT;
 template<> const MPI_Datatype mpi_type<long>::t = MPI_LONG;
@@ -28,15 +24,11 @@ template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::
 
 // Set-up instantiations
 
-#define SYMB(d,T) template struct mpi_type<vec<d,T>>; 
-#include "inst_dimtype"
-#undef SYMB
-
-#define SYMB(T) template struct mpi_type<valarray<T>>;
-SHARK_COMM_INT_INST
-SHARK_COMM_FP_INST
-SHARK_COMM_CPLX_INST
-#undef SYMB
+#define SYMBT(T) template struct mpi_type<T>;
+#include "comm_int_inst"
+#include "comm_fp_inst"
+#include "comm_cplx_inst"
+#undef SYMBT
 
 #elif defined(SHARK_NO_COMM)
 

@@ -1,7 +1,6 @@
 
 #include <shark/domain.hpp>
 #include <shark/sparsearray.hpp>
-#include "comm_impl.hpp"
 
 using namespace std;
 using namespace shark;
@@ -114,7 +113,7 @@ void SparseArray<ndim,T>::operator+=(const SparseArray<ndim,T>& other) {
 
 #include "types"
 
-#define SYMBH(d,T) template class SparseArray<d,T>; 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template class SparseArray<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 

@@ -417,11 +417,11 @@ GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
 
 #include "types"
 
-#define SYMBH(d,T) template class GlobalArray<d,T>; 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template class GlobalArray<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 
-#define SYMBH(d,T) template class GADest<d,T>; 
-#include "inst_dimtype_ho"
-#undef SYMBH
+#define SYMBDT(d,T) template class GADest<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 

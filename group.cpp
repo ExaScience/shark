@@ -63,29 +63,17 @@ Future<T> Group::external_isum(T&& sum) const {
 
 // Explicit instantiations
 
-#include "types"
-
-#define SYMB(T) template T Group::external_sum(T&&) const;
-SHARK_COMM_INT_INST
-SHARK_COMM_FP_INST
-SHARK_COMM_CPLX_INST
-#undef SYMB
-
-#define SYMB(T) template valarray<T> Group::external_sum(valarray<T>&&) const;
-SHARK_COMM_INT_INST
-SHARK_COMM_FP_INST
-SHARK_COMM_CPLX_INST
-#undef SYMB
-
-#define SYMB(d,T) template ndim::vec<d,T> Group::external_sum(ndim::vec<d,T>&&) const; 
-#include "inst_dimtype"
-#undef SYMB
+#define SYMBT(T) template T Group::external_sum(T&&) const;
+#include "comm_int_inst"
+#include "comm_fp_inst"
+#include "comm_cplx_inst"
+#undef SYMBT
 
 #ifdef ECL_ASYNC
-#define SYMB(T) template T Group::external_isum(T&&) const;
-SHARK_COMM_INT_INST
-SHARK_COMM_FP_INST
-SHARK_COMM_CPLX_INST
-#undef SYMB
+#define SYMBT(T) template T Group::external_isum(T&&) const;
+#include "comm_int_inst"
+#include "comm_fp_inst"
+#include "comm_cplx_inst"
+#undef SYMBT
 #endif
 

@@ -1,8 +1,0 @@
-#define COMMA ,
-
-#define SYMB(d,T) SYMBH(d,T)
-#include "inst_dimtype"
-#undef SYMB
-#define SYMB(d,T) SYMBH(d,vec<d COMMA T>)
-#include "inst_dimtype"
-#undef SYMB
