@@ -2,6 +2,7 @@
 #ifndef __SHARK_SPARSEARRAY_HPP
 #define __SHARK_SPARSEARRAY_HPP
 
+#include <algorithm>                   // std::min
 #include <array>                       // std::array
 #include <cassert>                     // assert
 #include <cstddef>                     // std::size_t
@@ -158,7 +159,7 @@ namespace shark {
 					for(int d = 0; d < ndim; d++) {
 						coord fk = kk / cld[d+1];
 						r.lower[d] = fk << cw;
-						r.upper[d] = min((fk+1) << cw, dom.n[d]);
+						r.upper[d] = std::min((fk+1) << cw, dom.n[d]);
 						kk = kk % cld[d+1];
 					}
 					f(r);

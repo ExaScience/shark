@@ -53,6 +53,12 @@ GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other)
 	return *this;
 }
 
+template<int ndim, typename T>
+GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const GlobalArray<ndim,T>& other) {
+	region(domain().total()) = other;
+	return *this;
+}
+
 template <int ndim, typename T>
 void GlobalArray<ndim,T>::reset() {
 	ptr = 0;
@@ -328,7 +334,7 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
-		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
+		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
 			MPI_Get(buf+ognoff, 1, ognt, id, tgtoff, 1, tgtt, impl->win);
 			MPI_Win_unlock(id, impl->win);
@@ -347,7 +353,7 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
-		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
+		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, id, 0, impl->win);
 			MPI_Put(const_cast<T*>(buf+ognoff), 1, ognt, id, tgtoff, 1, tgtt, impl->win);
 			MPI_Win_unlock(id, impl->win);
@@ -366,7 +372,7 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
-		[&impl,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
+		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
 			MPI_Accumulate(const_cast<T*>(buf+ognoff), 1, ognt, id, tgtoff, 1, tgtt, MPI_SUM, impl->win);
 			MPI_Win_unlock(id, impl->win);

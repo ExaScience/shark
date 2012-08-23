@@ -201,10 +201,14 @@ void Domain<ndim>::findi(const vector<coord>& dist, coord i, int& id, coord& off
 
 template<int ndim>
 void Domain<ndim>::find(coords<ndim> i, pcoords& ip, coords<ndim>& off) const {
-	seq<0,ndim>::for_each([this,&i,&ip,&off](int d) {
-		const std::vector<coord>& dist(nd[d]);
-		Domain<ndim>::findi(dist, i[d], ip[d], off[d]);
-	});
+	for(int d = 0; d < ndim; d++) {
+		Domain<ndim>::findi(nd[d], i[d], ip[d], off[d]);
+	}
+	// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=51494
+	//seq<0,ndim>::for_each([this,&i,&ip,&off](int d) {
+	//	const std::vector<coord>& dist(nd[d]);
+	//	findi(dist, i[d], ip[d], off[d]);
+	//});
 }
 
 template<int ndim>

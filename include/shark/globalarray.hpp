@@ -105,10 +105,12 @@ namespace shark {
 			~GlobalArray();
 
 			// Move semantics
+			GlobalArray(const GlobalArray<ndim,T>& other) = delete;
 			GlobalArray(GlobalArray<ndim,T>&& other);
 			GlobalArray<ndim,T>& operator=(GlobalArray<ndim,T>&& other);
 
 			// Copy from source
+			GlobalArray<ndim,T>& operator=(const GlobalArray<ndim,T>& other);
 			template<typename S>
 			GlobalArray<ndim,T>& operator=(const S&);
 
