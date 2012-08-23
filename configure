@@ -90,7 +90,7 @@ done
 pub_pkgs=""
 pri_pkgs=""
 pub_cflags=""
-pub_libs="-lstdc++"
+pub_libs=""
 pri_ldflags="-O2 -fstrict-aliasing"
 pri_cflags="-O2 -fstrict-aliasing -Wall -Wextra -Wfatal-errors -Winline -I. -I$BASE/include"
 
@@ -185,7 +185,7 @@ include \$(ROOT)/Makefile.common
 END
 
 echo "Writing shark.pc..."
-cat > ecl.pc <<END
+cat > shark.pc <<END
 includedir=$(cd $BASE && pwd)/include
 libdir=$(pwd)
 
@@ -195,7 +195,7 @@ Version: 0.1.0
 Requires: $pub_pkgs
 Requires.private: $pri_pkgs
 Cflags: -I\${includedir} $pub_cflags
-Libs: $pub_libs -L\${libdir} -lecl
+Libs: $pub_libs -L\${libdir} -lshark
 Libs.private: $pri_libs
 END
 
