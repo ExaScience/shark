@@ -1,0 +1,205 @@
+#!/bin/bash
+
+set -e
+shopt -s extglob
+
+modes="debug|release"
+scheds="ser|pthread|omp|tbb|cobra"
+comms="off|mpi"
+asyncs="off|nbc|mpi"
+
+function usage {
+	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>]" 2>&1
+}
+
+function use_err {
+	echo $1 1>&2
+	usage
+	exit 1
+}
+
+# Early check
+
+BASE="$(dirname "$0")"
+pkgcfg="$(which pkg-config)" || true
+
+if ! [ -x "$pkgcfg" ]; then
+	echo "Could not find pkg-config" 1>&2
+	exit 1
+fi
+
+# Default options
+
+cc=gcc
+cxx=g++
+mode=debug
+sched=ser
+comm=mpi
+mpi=ompi-c
+async=off
+
+# Parse arguments
+
+while [ $# != 0 ]; do
+	case $1 in
+		--with-cc=*)
+			cc="${1#*=}"
+		;;
+		--with-cxx=*)
+			cxx="${1#*=}"
+		;;
+		--mode=*)
+			mode=${1#*=}
+			[[ $mode == @($modes) ]] || use_err "Invalid mode: $mode"
+		;;
+		--sched=*)
+			sched=${1#*=}
+			[[ $sched == @($scheds) ]] || use_err "Invalid scheduler: $sched"
+		;;
+		--comm=*)
+			comm=${1#*=}
+			[[ $comm == @($comms) ]] || use_err "Invalid scheduler: $sched"
+		;;
+		--mpi=*)
+			mpi=${1#*=}
+		;;
+		--async=*)
+			async=${1#*=}
+			[[ $async == @($asyncs) ]] || use_err "Invalid async: $async"
+		;;
+		--pkg-dir=*)
+			dir=${1#*=}
+			cp $dir/*.pc .
+		;;
+		-h|--help)
+			usage
+			exit 0
+		;;
+		-*)
+			use_err "Unrecognized option: $1"
+		;;
+		*)
+			use_err "This command takes no open arguments"
+		;;
+	esac
+	shift
+done
+
+# Interpret options
+
+pub_pkgs=""
+pri_pkgs=""
+pub_cflags=""
+pub_libs="-lstdc++"
+pri_ldflags="-O2 -fstrict-aliasing"
+pri_cflags="-O2 -fstrict-aliasing -Wall -Wextra -Wfatal-errors -Winline -I. -I$BASE/include"
+
+case $mode in
+	release)
+		pri_cflags="$pri_cflags -DNDEBUG"
+	;;
+	debug)
+		pri_cflags="$pri_cflags -g"
+	;;
+esac
+
+case $comm in
+	mpi)
+		pri_cflags="$pri_cflags -DSHARK_MPI_COMM"
+		pri_pkgs="$pri_pkgs $mpi"
+	;;
+	off)
+		pri_cflags="$pri_cflags -DSHARK_NO_COMM"
+	;;
+esac
+
+case $sched in
+	ser)
+		pub_cflags="$pub_cflags -DSHARK_SER_SCHED"
+	;;
+	pthread)
+		pub_cflags="$pub_cflags -pthread -DSHARK_PTHREAD_SCHED"
+		pub_libs="$pub_libs -lpthread"
+	;;
+	omp)
+		pub_cflags="$pub_cflags -fopenmp -DSHARK_OMP_SCHED"
+		pub_libs="$pub_libs -fopenmp"
+	;;
+	tbb)
+		pub_cflags="$pub_cflags -DSHARK_TBB_SCHED"
+		pub_libs="$pub_libs -ltbb"
+	;;
+	cobra)
+		pub_cflags="$pub_cflags -DSHARK_COBRA_SCHED"
+		pub_pkgs="$pub_pkgs cobra"
+	;;
+esac
+
+case $async in
+	mpi)
+		pub_cflags="$pub_cflags -DSHARK_MPI_ASYNC"
+	;;
+	nbc)
+		pub_cflags="$pub_cflags -DSHARK_NBC_ASYNC"
+		pri_pkgs="$pri_pkgs nbc"
+	;;
+esac
+
+# Verify options
+
+echo -n "Checking CC... "
+if v=$($cc --version 2>/dev/null); then
+	echo "${v%%$'\n'*}"
+else
+	echo "failed"
+	exit 1
+fi
+echo -n "Checking CXX... "
+if v=$($cxx --version 2>/dev/null); then
+	echo "${v%%$'\n'*}"
+else
+	echo "failed"
+	exit 1
+fi
+
+export PKG_CONFIG_PATH=".:$PKG_CONFIG_PATH"
+
+for pkg in $pri_pkgs $pub_pkgs; do
+	echo -n "Checking $pkg... "
+	if ! $pkgcfg --modversion $pkg 2>/dev/null; then
+		echo failed
+		exit 1
+	fi
+done
+
+echo "Writing Makefile..."
+cat > Makefile <<END
+CC=$cc
+CXX=$cxx
+LDFLAGS:=$pri_ldflags
+CFLAGS:=$pri_cflags $pub_cflags $($pkgcfg --cflags $pri_pkgs $pub_pkgs)
+LDLIBS:=$pri_libs $pub_libs $($pkgcfg --libs --static $pri_pkgs $pub_pkgs)
+
+ROOT=$BASE
+include \$(ROOT)/Makefile.common
+END
+
+echo "Writing shark.pc..."
+cat > ecl.pc <<END
+includedir=$(cd $BASE && pwd)/include
+libdir=$(pwd)
+
+Name: shark
+Description: Scalable Hybrid Array Kit
+Version: 0.1.0
+Requires: $pub_pkgs
+Requires.private: $pri_pkgs
+Cflags: -I\${includedir} $pub_cflags
+Libs: $pub_libs -L\${libdir} -lecl
+Libs.private: $pri_libs
+END
+
+for f in types inst_dim inst_dimtype; do
+	echo "Creating $f..."
+	cp "$BASE/$f.tmpl" "$f"
+done
