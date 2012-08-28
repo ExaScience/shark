@@ -3,7 +3,7 @@
 #define __SHARK_EXPR_HPP
 
 #include <cassert>
-#include <type_traits>
+#include <type_traits>     // std::true_type, std::enable_if, std::result_of
 #include "abs.hpp"
 #include "common.hpp"
 #include "coords.hpp"
@@ -81,7 +81,10 @@ namespace shark {
 		public:
 			NullaryAcc(const NullaryExp<ndim,Func>& exp);
 			~NullaryAcc();
-			INLINE auto operator()(coords<ndim> ii) const -> decltype(f(ii));
+			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
+			//INLINE auto operator()(coords<ndim> ii) const -> decltype(f(ii));
+			INLINE typename std::result_of<Func(coords<ndim>)>::type
+			operator()(coords<ndim> ii) const;
 		};
 
 		template<int ndim, typename Func>
@@ -91,7 +94,8 @@ namespace shark {
 		NullaryAcc<ndim,Func>::~NullaryAcc() { }
 
 		template<int ndim, typename Func>
-		inline auto NullaryAcc<ndim,Func>::operator()(coords<ndim> ii) const -> decltype(f(ii)) {
+		inline typename std::result_of<Func(coords<ndim>)>::type 
+		NullaryAcc<ndim,Func>::operator()(coords<ndim> ii) const {
 			return f(ii);
 		}
 
@@ -144,7 +148,10 @@ namespace shark {
 		public:
 			UnaryAcc(const UnaryExp<S,Func>& exp);
 			~UnaryAcc();
-			INLINE auto operator()(coords<S::number_of_dimensions> ii) const -> decltype(f(a, ii));
+			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
+			//INLINE auto operator()(coords<S::number_of_dimensions> ii) const -> decltype(f(a, ii));
+			INLINE typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+			operator()(coords<S::number_of_dimensions> ii) const;
 		};
 
 		template<typename S, typename Func>
@@ -154,7 +161,8 @@ namespace shark {
 		UnaryAcc<S,Func>::~UnaryAcc() { }
 
 		template<typename S, typename Func>
-		inline auto UnaryAcc<S,Func>::operator()(coords<S::number_of_dimensions> ii) const -> decltype(f(a, ii)) {
+		inline typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+		UnaryAcc<S,Func>::operator()(coords<S::number_of_dimensions> ii) const {
 			return f(a, ii);
 		}
 
@@ -212,7 +220,10 @@ namespace shark {
 		public:
 			BinaryAcc(const BinaryExp<S1,S2,Func>& exp);
 			~BinaryAcc();
-			INLINE auto operator()(coords<S1::number_of_dimensions> ii) const -> decltype(f(a1, a2, ii));
+			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
+			// INLINE auto operator()(coords<S1::number_of_dimensions> ii) const -> decltype(f(a1, a2, ii));
+			INLINE typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+			operator()(coords<S1::number_of_dimensions> ii) const;
 		};
 
 		template<typename S1, typename S2, typename Func>
@@ -222,7 +233,8 @@ namespace shark {
 		BinaryAcc<S1,S2,Func>::~BinaryAcc() { }
 
 		template<typename S1, typename S2, typename Func>
-		inline auto BinaryAcc<S1,S2,Func>::operator()(coords<S1::number_of_dimensions> ii) const -> decltype(f(a1, a2, ii)) {
+		inline typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+		BinaryAcc<S1,S2,Func>::operator()(coords<S1::number_of_dimensions> ii) const {
 			return f(a1, a2, ii);
 		}
 
