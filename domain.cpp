@@ -230,6 +230,17 @@ void Domain<ndim>::sync() const {
 }
 
 template<int ndim>
+coords_range<ndim> Domain<ndim>::local(int id) const {
+	pcoords ip = indexp(id);
+	coords_range<ndim> r;
+	seq<0,ndim>::for_each([this,&r,&ip](int d) {
+		r.lower[d] = nd[d][ip[d]];
+		r.upper[d] = nd[d][ip[d]+1];
+	});
+	return r;
+}
+
+template<int ndim>
 int Domain<ndim>::shiftd(int d, int disp, int id) const {
 	pcoords ip = indexp(id);
 	if(pd[d]) {

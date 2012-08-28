@@ -122,7 +122,7 @@ namespace shark {
 			 * Get coordinates of the array region owned by a process (local).
 			 * @param id the process identifier (default: group.procid)
 			 */
-			INLINE coords_range<ndim> local(int id) const;
+			coords_range<ndim> local(int id) const;
 			INLINE coords_range<ndim> local() const;
 
 			/**
@@ -229,17 +229,6 @@ namespace shark {
 		template<int ndim>
 		inline int Domain<ndim>::shiftd(int d, int disp) const {
 			return shiftd(d, disp, group.procid);
-		}
-
-		template<int ndim>
-		inline coords_range<ndim> Domain<ndim>::local(int id) const {
-			pcoords ip = indexp(id);
-			coords_range<ndim> r;
-			seq<0,ndim>::for_each([this,&r,&ip](int d) {
-				r.lower[d] = nd[d][ip[d]];
-				r.upper[d] = nd[d][ip[d]+1];
-			});
-			return r;
 		}
 
 		template<int ndim>
