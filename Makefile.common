@@ -8,7 +8,8 @@ VPATH=$(ROOT)
 
 all: libshark.a main heat cg
 
-CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
+SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
+CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
 
@@ -20,7 +21,7 @@ heat: libshark.a heat.o
 
 cg: libshark.a cg.o
 
-libshark.a: comm_impl.o sched_impl.o globals.o coords.o coords_range.o group.o domain.o globalarray.o access.o sparsearray.o expr.o
+libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
 
 clean:

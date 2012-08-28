@@ -40,6 +40,7 @@ async=off
 
 # Parse arguments
 
+CONFIG="$0 $@"
 while [ $# != 0 ]; do
 	case $1 in
 		--with-cc=*)
@@ -172,6 +173,9 @@ for pkg in $pri_pkgs $pub_pkgs; do
 	fi
 done
 
+echo "Creating subdirs..."
+mkdir -p src
+
 echo "Writing Makefile..."
 cat > Makefile <<END
 CC=$cc
@@ -203,3 +207,9 @@ for f in types inst_dim inst_dimtype; do
 	echo "Creating $f..."
 	cp "$BASE/$f.tmpl" "$f"
 done
+
+echo "Writing config.log..."
+cat > config.log <<END
+$CONFIG
+$(date)
+END
