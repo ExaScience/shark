@@ -32,6 +32,8 @@ namespace shark {
 
 			INLINE T min() const;
 			INLINE T max() const;
+
+			INLINE static vec<ndim,T> one();
 		};
 
 		template<int ndim, typename T>
@@ -122,6 +124,13 @@ namespace shark {
 					cand = (*this)[d];
 			});
 			return cand;
+		}
+
+		template<int ndim, typename T>
+		inline vec<ndim,T> vec<ndim,T>::one() {
+			vec<ndim,T> r;
+			seq<0,ndim>::for_each([&r](int d) { r[d] = T(1); });
+			return r;
 		}
 
 		template<int ndim, typename T>
