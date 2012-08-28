@@ -56,3 +56,4 @@ NullaryExp<ndim,Coord<ndim>> shark::ndim::coord_vec(const Domain<ndim>& dom) {
 #define SYMBD(d) template NullaryExp<d,Coord<d>> shark::ndim::coord_vec(const Domain<d>&);
 #include "inst_dim"
 #undef SYMBD
+

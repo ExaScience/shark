@@ -10,11 +10,11 @@ using namespace shark;
 using namespace shark::types2d;
 
 void init_pyramid(int n, GlobalArrayD& ga) {
-	double step = 1.0 / n;
 	const coords_range inner = {{{1,1}},{{n,n}}};
 
+	vecD one = {{1.0, 1.0}};
 	vecD mid = {{0.5, 0.5}};
-	ga.region(inner) = 1.0 - max_element(abs(step * coord_vec(ga.domain()) - mid)) / 0.5;
+	ga.region(inner) = 1.0 - max_element(abs(coord_vec(ga.domain(), one) - mid)) / 0.5;
 }
 
 void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {

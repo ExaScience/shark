@@ -416,13 +416,42 @@ namespace shark {
 
 		template<int ndim>
 		inline vec<ndim,coord> Coord<ndim>::operator()(coords<ndim> ii) const {
-			vec<ndim,coord> r;
-			seq<0,ndim>::for_each([&r,&ii](int d) { r[d] = ii[d]; });
-			return r;
+			return ii.to_vec();
 		}
 
 		template<int ndim>
 		NullaryExp<ndim,Coord<ndim>> coord_vec(const Domain<ndim>& dom);
+
+		template<int ndim, typename T>
+		class CoordVec {
+			coords<ndim> lower;
+			vec<ndim,T> step;
+		public:
+			CoordVec(coords<ndim> lower, vec<ndim,T> step);
+			~CoordVec();
+			INLINE vec<ndim,T> operator()(coords<ndim> ii) const;
+		};
+
+		template<int ndim, typename T>
+		inline vec<ndim,T> CoordVec<ndim,T>::operator()(coords<ndim> ii) const {
+			return (ii - lower).to_vec() * step;
+		}
+
+		template<int ndim, typename T>
+		CoordVec<ndim,T>::CoordVec(coords<ndim> lower, vec<ndim,T> step): lower(lower), step(step) { }
+
+		template<int ndim, typename T>
+		CoordVec<ndim,T>::~CoordVec() { }
+
+		template<int ndim, typename T>
+		NullaryExp<ndim,CoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, coords_range<ndim> r, vec<ndim,T> one) {
+			return NullaryExp<ndim,CoordVec<ndim,T>>(dom, CoordVec<ndim,T>(r.lower, one / (r.upper - r.lower - coords<ndim>::one()).to_vec()));
+		}
+
+		template<int ndim, typename T>
+		NullaryExp<ndim,CoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, vec<ndim,T> one) {
+			return coord_vec(dom, dom.total(), one);
+		}
 
 		/**
 		 * Negation

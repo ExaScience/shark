@@ -5,6 +5,7 @@
 #include <cstddef>                     // std::size_t
 #include <ostream>                     // std::ostream
 #include "common.hpp"
+#include "vec.hpp"
 
 namespace shark {
 
@@ -41,6 +42,10 @@ namespace shark {
 
 			INLINE coord offset(const coords<ndim+1>& ld) const;
 			INLINE coord offset(const std::array<std::size_t,ndim-1>& ld) const;
+
+			INLINE vec<ndim,coord> to_vec() const;
+
+			INLINE static coords<ndim> one();
 		};
 
 		template<int ndim>
@@ -141,6 +146,20 @@ namespace shark {
 		template<int ndim>
 		inline coord coords<ndim>::offset(const std::array<std::size_t,ndim-1>& ld) const {
 			return seq<0,ndim-1>::sum([this,&ld](int d) { return val[d] * static_cast<coord>(ld[d]); }, val[ndim-1]);
+		}
+
+		template<int ndim>
+		inline vec<ndim,coord> coords<ndim>::to_vec() const {
+			vec<ndim,coord> r;
+			seq<0,ndim>::for_each([this,&r](int d) { r[d] = (*this)[d]; });
+			return r;
+		}
+
+		template<int ndim>
+		inline coords<ndim> coords<ndim>::one() {
+			coords<ndim> r;
+			seq<0,ndim>::for_each([&r](int d) { r[d] = coord(1); });
+			return r;
 		}
 
 	}
