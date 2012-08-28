@@ -17,7 +17,7 @@ template<int ndim, typename T>
 Access<ndim,T>::Access(): ga(0) { }
 
 template<int ndim, typename T>
-Access<ndim,T>::Access(Access<ndim,T>&& other): ga(other.ga) {
+Access<ndim,T>::Access(Access<ndim,T>&& other): ga(other.ga), lower(other.lower) {
 	other.reset();
 }
 
@@ -26,6 +26,7 @@ Access<ndim,T>& Access<ndim,T>::operator=(Access<ndim,T>&& other) {
 	if(*this)
 		release();
 	ga = other.ga;
+	lower = other.lower;
 	other.reset();
 	return *this;
 }
@@ -37,7 +38,7 @@ Access<ndim,T>::~Access() {
 }
 
 template<int ndim,typename T>
-Access<ndim,T>::Access(const GlobalArray<ndim,T>& ga): ga(&ga) {
+Access<ndim,T>::Access(const GlobalArray<ndim,T>& ga): ga(&ga), lower(ga.domain().local().lower) {
 	assert(ga);
 #if defined(SHARK_MPI_COMM)
 	if(ga.lc++ == 0)
@@ -46,7 +47,7 @@ Access<ndim,T>::Access(const GlobalArray<ndim,T>& ga): ga(&ga) {
 }
 
 template<int ndim,typename T>
-Access<ndim,T>::Access(GlobalArray<ndim,T>& ga): ga(&ga) {
+Access<ndim,T>::Access(GlobalArray<ndim,T>& ga): ga(&ga), lower(ga.domain().local().lower) {
 	assert(ga);
 #if defined(SHARK_MPI_COMM)
 	if(ga.lc++ == 0)

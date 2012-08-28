@@ -18,6 +18,7 @@ namespace shark {
 		class Access {
 		private:
 			const GlobalArray<ndim,T>* ga;
+			coords<ndim> lower;
 			void release();
 			void reset();
 
@@ -77,12 +78,12 @@ namespace shark {
 
 		template<int ndim,typename T>
 		inline T& Access<ndim,T>::operator()(coords<ndim> i) {
-			return ga->da(i - ga->domain().local().lower);
+			return ga->da(i - lower);
 		}
 
 		template<int ndim,typename T>
 		inline const T& Access<ndim,T>::operator()(coords<ndim> i) const {
-			return ga->da(i - ga->domain().local().lower);
+			return ga->da(i - lower);
 		}
 
 		template<int ndim,typename T>
