@@ -45,14 +45,16 @@ namespace shark {
 		template<int ndim, typename T, typename S>
 		INLINE vec<ndim,decltype(std::declval<T>() - std::declval<S>())> operator-(const vec<ndim,T>& v1, const vec<ndim,S>& v2);
 
-		template<int ndim, typename T, typename S>
-		INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const vec<ndim,T>& v1, const vec<ndim,S>& v2);
+		// Declaring operator* triggers ambiguous overload
+		// http://llvm.org/bugs/show_bug.cgi?id=13730
+		//template<int ndim, typename T, typename S>
+		//INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const vec<ndim,T>& v1, const vec<ndim,S>& v2);
 
-		template<int ndim, typename T, typename S>
-		INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const vec<ndim,T>& v, const S& a);
+		//template<int ndim, typename T, typename S>
+		//INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const vec<ndim,T>& v, const S& a);
 
-		template<int ndim, typename T, typename S>
-		INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const T& a, const vec<ndim,S>& v);
+		//template<int ndim, typename T, typename S>
+		//INLINE vec<ndim,decltype(std::declval<T>() * std::declval<S>())> operator*(const T& a, const vec<ndim,S>& v);
 
 		template<int ndim, typename T, typename S>
 		INLINE vec<ndim,decltype(std::declval<T>() / std::declval<S>())> operator/(const vec<ndim,T>& v1, const vec<ndim,S>& v2);

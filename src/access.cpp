@@ -69,7 +69,7 @@ void Access<ndim,T>::release() {
 
 #include "types"
 
-#define SYMBDT(d,T) template class Access<d,T>; 
+#define SYMBDT(d,T) template class shark::ndim::Access<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
 

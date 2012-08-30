@@ -121,8 +121,11 @@ namespace shark {
 			typedef UnaryAcc<S,Func> accessor;
 			UnaryExp(const S& src, const Func& f);
 			~UnaryExp();
-			INLINE const Domain<number_of_dimensions>& domain() const;
-			INLINE coords_range<number_of_dimensions> region() const;
+			// http://llvm.org/bugs/show_bug.cgi?id=13729
+			//INLINE const Domain<number_of_dimensions>& domain() const;
+			//INLINE coords_range<number_of_dimensions> region() const;
+			INLINE const Domain<S::number_of_dimensions>& domain() const;
+			INLINE coords_range<S::number_of_dimensions> region() const;
 		};
 
 		template<typename S, typename Func>
@@ -132,12 +135,12 @@ namespace shark {
 		UnaryExp<S,Func>::~UnaryExp() { }
 
 		template<typename S, typename Func>
-		inline const Domain<UnaryExp<S,Func>::number_of_dimensions>& UnaryExp<S,Func>::domain() const {
+		inline const Domain<S::number_of_dimensions>& UnaryExp<S,Func>::domain() const {
 			return src.domain();
 		}
 
 		template<typename S, typename Func>
-		inline coords_range<UnaryExp<S,Func>::number_of_dimensions> UnaryExp<S,Func>::region() const {
+		inline coords_range<S::number_of_dimensions> UnaryExp<S,Func>::region() const {
 			return src.region();
 		}
 
@@ -190,8 +193,11 @@ namespace shark {
 			typedef BinaryAcc<S1,S2,Func> accessor;
 			BinaryExp(const S1& src1, const S2& src2, const Func& f);
 			~BinaryExp();
-			INLINE const Domain<number_of_dimensions>& domain() const;
-			INLINE coords_range<number_of_dimensions> region() const;
+			// http://llvm.org/bugs/show_bug.cgi?id=13729
+			//INLINE const Domain<number_of_dimensions>& domain() const;
+			//INLINE coords_range<number_of_dimensions> region() const;
+			INLINE const Domain<S1::number_of_dimensions>& domain() const;
+			INLINE coords_range<S1::number_of_dimensions> region() const;
 		};
 
 		template<typename S1, typename S2, typename Func>
@@ -203,12 +209,12 @@ namespace shark {
 		BinaryExp<S1,S2,Func>::~BinaryExp() { }
 
 		template<typename S1, typename S2, typename Func>
-		inline const Domain<BinaryExp<S1,S2,Func>::number_of_dimensions>& BinaryExp<S1,S2,Func>::domain() const {
+		inline const Domain<S1::number_of_dimensions>& BinaryExp<S1,S2,Func>::domain() const {
 			return src1.domain();
 		}
 
 		template<typename S1, typename S2, typename Func>
-		inline coords_range<BinaryExp<S1,S2,Func>::number_of_dimensions> BinaryExp<S1,S2,Func>::region() const {
+		inline coords_range<S1::number_of_dimensions> BinaryExp<S1,S2,Func>::region() const {
 			return src1.region().overlap(src2.region());
 		}
 
@@ -261,8 +267,11 @@ namespace shark {
 			typedef AsVecAcc<S> accessor;
 			AsVecExp(const S& s);
 			~AsVecExp();
-			INLINE const Domain<number_of_dimensions>& domain() const;
-			INLINE coords_range<number_of_dimensions> region() const;
+			// http://llvm.org/bugs/show_bug.cgi?id=13729
+			//INLINE const Domain<number_of_dimensions>& domain() const;
+			//INLINE coords_range<number_of_dimensions> region() const;
+			INLINE const Domain<S::number_of_dimensions>& domain() const;
+			INLINE coords_range<S::number_of_dimensions> region() const;
 		};
 
 		template<typename S>
@@ -272,12 +281,12 @@ namespace shark {
 		AsVecExp<S>::~AsVecExp() { }
 
 		template<typename S>
-		inline const Domain<AsVecExp<S>::number_of_dimensions>& AsVecExp<S>::domain() const {
+		inline const Domain<S::number_of_dimensions>& AsVecExp<S>::domain() const {
 			return s.domain();
 		}
 
 		template<typename S>
-		inline coords_range<AsVecExp<S>::number_of_dimensions> AsVecExp<S>::region() const {
+		inline coords_range<S::number_of_dimensions> AsVecExp<S>::region() const {
 			return s.region();
 		}
 
@@ -292,8 +301,11 @@ namespace shark {
 			typedef AsVecAcc<S,Ss...> accessor;
 			AsVecExp(const S& s, const Ss&... ss);
 			~AsVecExp();
-			INLINE const Domain<number_of_dimensions>& domain() const;
-			INLINE coords_range<number_of_dimensions> region() const;
+			// http://llvm.org/bugs/show_bug.cgi?id=13729
+			//INLINE const Domain<number_of_dimensions>& domain() const;
+			//INLINE coords_range<number_of_dimensions> region() const;
+			INLINE const Domain<S::number_of_dimensions>& domain() const;
+			INLINE coords_range<S::number_of_dimensions> region() const;
 		};
 
 		template<typename S, typename... Ss>
@@ -305,12 +317,12 @@ namespace shark {
 		AsVecExp<S,Ss...>::~AsVecExp() { }
 
 		template<typename S, typename... Ss>
-		inline const Domain<AsVecExp<S,Ss...>::number_of_dimensions>& AsVecExp<S,Ss...>::domain() const {
+		inline const Domain<S::number_of_dimensions>& AsVecExp<S,Ss...>::domain() const {
 			return s.domain();
 		}
 
 		template<typename S, typename... Ss>
-		inline coords_range<AsVecExp<S,Ss...>::number_of_dimensions> AsVecExp<S,Ss...>::region() const {
+		inline coords_range<S::number_of_dimensions> AsVecExp<S,Ss...>::region() const {
 			return s.region().overlap(ss.region());
 		}
 
@@ -369,7 +381,7 @@ namespace shark {
 		template<typename S, typename... Ss> template<int d, typename T>
 		inline void AsVecAcc<S,Ss...>::fill(T& t, coords<S::number_of_dimensions> ii) const {
 			t[d] = a(ii);
-			aa.fill<d+1>(t, ii);
+			aa.template fill<d+1>(t, ii);
 		}
 		
 		template<typename S, typename... Ss>

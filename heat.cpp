@@ -14,6 +14,7 @@ void init_pyramid(int n, GlobalArrayD& ga) {
 
 	vecD one = {{1.0, 1.0}};
 	vecD mid = {{0.5, 0.5}};
+	one * mid;
 	ga.region(inner) = 1.0 - max_element(abs(coord_vec(ga.domain(), one) - mid)) / 0.5;
 }
 
@@ -22,7 +23,7 @@ void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
 	ga.update();
 	const coords_range inner = {{{1,1}},{{n,n}}};
 
-	gb.region(inner) = unary(ga, [nu](const AccessD& u, coords ii) {
+	gb.region(inner) = unary(ga, [nu](const AccessD& u, coords ii) -> double {
 		coords left;   left[0] = ii[0]-1;  left[1] = ii[1];
 		coords right; right[0] = ii[0]+1; right[1] = ii[1];
 		coords above; above[0] = ii[0];   above[1] = ii[1]-1;

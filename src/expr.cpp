@@ -37,7 +37,7 @@ NullaryExp<ndim,Coord<ndim>> shark::ndim::coord_vec(const Domain<ndim>& dom) {
 
 #include "types"
 
-#define SYMBDT(d,T) template class Const<d,T>; 
+#define SYMBDT(d,T) template class shark::ndim::Const<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
 
@@ -49,7 +49,7 @@ NullaryExp<ndim,Coord<ndim>> shark::ndim::coord_vec(const Domain<ndim>& dom) {
 #include "inst_dimtype"
 #undef SYMBDT
 
-#define SYMBD(d) template class Coord<d>; 
+#define SYMBD(d) template class shark::ndim::Coord<d>; 
 #include "inst_dim"
 #undef SYMBD
 
