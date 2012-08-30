@@ -1,3 +1,5 @@
+#include <cstddef>   // std
+
 #ifndef __SHARK_SCHED_IMPL_HPP
 #define __SHARK_SCHED_IMPL_HPP
 

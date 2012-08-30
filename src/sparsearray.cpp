@@ -113,7 +113,7 @@ void SparseArray<ndim,T>::operator+=(const SparseArray<ndim,T>& other) {
 
 #include "types"
 
-#define SYMBDT(d,T) template class SparseArray<d,T>; 
+#define SYMBDT(d,T) template class shark::ndim::SparseArray<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
 

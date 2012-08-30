@@ -22,7 +22,7 @@ template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::
 
 // Set-up instantiations
 
-#define SYMBT(T) template struct mpi_type<T>;
+#define SYMBT(T) template struct shark::mpi_type<T>;
 #include "comm_int_inst"
 #include "comm_fp_inst"
 #include "comm_cplx_inst"

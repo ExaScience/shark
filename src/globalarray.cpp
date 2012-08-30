@@ -423,11 +423,11 @@ GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
 
 #include "types"
 
-#define SYMBDT(d,T) template class GlobalArray<d,T>; 
+#define SYMBDT(d,T) template class shark::ndim::GlobalArray<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
 
-#define SYMBDT(d,T) template class GADest<d,T>; 
+#define SYMBDT(d,T) template class shark::ndim::GADest<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
-
+	
