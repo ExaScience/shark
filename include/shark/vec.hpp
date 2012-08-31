@@ -2,6 +2,16 @@
 #define __SHARK_VEC_HPP
 
 #include <utility>        // std::declval
+
+// Temporary fix to enable declval for libstdc++ 4.4
+#if defined(__GLIBCXX__) && __GLIBCXX__ < 20100414
+#include <type_traits>
+namespace std {
+	template<typename T>
+	typename add_rvalue_reference<T>::type declval();
+}
+#endif
+
 #include "abs.hpp"
 #include "common.hpp"
 
