@@ -3,7 +3,16 @@
 #define __SHARK_EXPR_HPP
 
 #include <cassert>
-#include <type_traits>     // std::true_type, std::enable_if, std::result_of
+#include <utility>         // std::declval
+#include <type_traits>     // std::true_type, std::enable_if
+// Temporary fix to enable declval for libstdc++ 4.4
+#if defined(__GLIBCXX__) && __GLIBCXX__ < 20100414
+#include <type_traits>
+namespace std {
+	template<typename T>
+	typename add_rvalue_reference<T>::type declval();
+}
+#endif
 #include "abs.hpp"
 #include "common.hpp"
 #include "coords.hpp"
@@ -29,7 +38,8 @@ namespace shark {
 		template<typename S>
 		struct source {
 			typedef typename std::remove_reference<
-				typename std::result_of<typename S::accessor(coords<S::number_of_dimensions>)>::type
+				//typename std::result_of<typename S::accessor(coords<S::number_of_dimensions>)>::type
+				decltype(std::declval<typename S::accessor>()(std::declval<coords<S::number_of_dimensions>>()))
 			>::type element_type;
 		};
 
@@ -83,7 +93,8 @@ namespace shark {
 			~NullaryAcc();
 			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
 			//INLINE auto operator()(coords<ndim> ii) const -> decltype(f(ii));
-			INLINE typename std::result_of<Func(coords<ndim>)>::type
+			//INLINE typename std::result_of<Func(coords<ndim>)>::type
+			INLINE decltype(std::declval<Func>()(std::declval<coords<ndim>>()))
 			operator()(coords<ndim> ii) const;
 		};
 
@@ -94,7 +105,8 @@ namespace shark {
 		NullaryAcc<ndim,Func>::~NullaryAcc() { }
 
 		template<int ndim, typename Func>
-		inline typename std::result_of<Func(coords<ndim>)>::type 
+		//inline typename std::result_of<Func(coords<ndim>)>::type 
+		inline decltype(std::declval<Func>()(std::declval<coords<ndim>>()))
 		NullaryAcc<ndim,Func>::operator()(coords<ndim> ii) const {
 			return f(ii);
 		}
@@ -153,7 +165,8 @@ namespace shark {
 			~UnaryAcc();
 			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
 			//INLINE auto operator()(coords<S::number_of_dimensions> ii) const -> decltype(f(a, ii));
-			INLINE typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+			//INLINE typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+			INLINE decltype(std::declval<Func>()(std::declval<typename S::accessor>(), std::declval<coords<S::number_of_dimensions>>()))
 			operator()(coords<S::number_of_dimensions> ii) const;
 		};
 
@@ -164,7 +177,8 @@ namespace shark {
 		UnaryAcc<S,Func>::~UnaryAcc() { }
 
 		template<typename S, typename Func>
-		inline typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+		//inline typename std::result_of<Func(typename S::accessor, coords<S::number_of_dimensions>)>::type
+		inline decltype(std::declval<Func>()(std::declval<typename S::accessor>(), std::declval<coords<S::number_of_dimensions>>()))
 		UnaryAcc<S,Func>::operator()(coords<S::number_of_dimensions> ii) const {
 			return f(a, ii);
 		}
@@ -228,7 +242,8 @@ namespace shark {
 			~BinaryAcc();
 			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54359
 			// INLINE auto operator()(coords<S1::number_of_dimensions> ii) const -> decltype(f(a1, a2, ii));
-			INLINE typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+			// INLINE typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+			INLINE decltype(std::declval<Func>()(std::declval<typename S1::accessor>(), std::declval<typename S2::accessor>(), std::declval<coords<S1::number_of_dimensions>>()))
 			operator()(coords<S1::number_of_dimensions> ii) const;
 		};
 
@@ -239,7 +254,8 @@ namespace shark {
 		BinaryAcc<S1,S2,Func>::~BinaryAcc() { }
 
 		template<typename S1, typename S2, typename Func>
-		inline typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+		//inline typename std::result_of<Func(typename S1::accessor, typename S2::accessor, coords<S1::number_of_dimensions>)>::type
+		inline decltype(std::declval<Func>()(std::declval<typename S1::accessor>(), std::declval<typename S2::accessor>(), std::declval<coords<S1::number_of_dimensions>>()))
 		BinaryAcc<S1,S2,Func>::operator()(coords<S1::number_of_dimensions> ii) const {
 			return f(a1, a2, ii);
 		}
