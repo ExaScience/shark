@@ -419,6 +419,12 @@ GADest<ndim,T>::~GADest() { }
 template<int ndim,typename T>
 GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
 
+template<int ndim, typename T>
+GARef<ndim,T>::GARef(const GlobalArray<ndim,T>& ga): ga(ga) { }
+
+template<int ndim, typename T>
+GARef<ndim,T>::~GARef() { }
+
 // Set-up instantiations
 
 #include "types"
@@ -431,3 +437,6 @@ GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
 #include "inst_dimtype"
 #undef SYMBDT
 	
+#define SYMBDT(d,T) template class shark::ndim::GARef<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT

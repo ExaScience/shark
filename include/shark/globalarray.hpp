@@ -19,6 +19,9 @@ namespace shark {
 		template<int,typename>
 		class GADest;
 
+		template<int,typename>
+		class GARef;
+
 		/**
 		 * A global array that is partitioned across a process group according to a domain
 		 */
@@ -27,6 +30,7 @@ namespace shark {
 			friend class Access<ndim,T>;
 		
 		public:
+			typedef GARef<ndim,T> storage;
 			typedef Access<ndim,T> accessor;
 			static const /*constexpr*/ int number_of_dimensions = ndim;
 
@@ -185,6 +189,17 @@ namespace shark {
 			GADest<ndim,T>& operator=(const S& src);
 		};
 
+		template<int ndim, typename T>
+		class GARef {
+			const GlobalArray<ndim,T>& ga;
+		public:
+			GARef(const GlobalArray<ndim,T>& ga);
+			~GARef();
+			INLINE operator const GlobalArray<ndim,T>&() const;
+			INLINE const Domain<ndim>& domain() const;
+			INLINE coords_range<ndim> region() const;
+		};
+
 		// Inline function implementations
 
 		template<int ndim, typename T>
@@ -215,6 +230,21 @@ namespace shark {
 		template<int ndim, typename T>
 		inline T& GlobalArray<ndim,T>::da(coords<ndim> i) const {
 			return ptr[(i + gw).offset(ld)];
+		}
+
+		template<int ndim, typename T>
+		inline GARef<ndim,T>::operator const GlobalArray<ndim,T>&() const {
+			return ga;
+		}
+
+		template<int ndim, typename T>
+		inline const Domain<ndim>& GARef<ndim,T>::domain() const {
+			return ga.domain();
+		}
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GARef<ndim,T>::region() const {
+			return ga.region();
 		}
 
 		// Generic members

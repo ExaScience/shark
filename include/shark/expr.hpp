@@ -58,6 +58,7 @@ namespace shark {
 			const Func f;
 		public:
 			static const int number_of_dimensions = ndim;
+			typedef NullaryExp<ndim,Func> storage;
 			typedef NullaryAcc<ndim,Func> accessor;
 			NullaryExp(const Domain<ndim>& dom, const Func& f);
 			NullaryExp(const Domain<ndim>& dom, coords_range<ndim> r, const Func& f);
@@ -126,10 +127,11 @@ namespace shark {
 		template<typename S, typename Func>
 		class UnaryExp {
 			friend class UnaryAcc<S,Func>;
-			const S& src;
+			const typename S::storage src;
 			const Func f;
 		public:
 			static const int number_of_dimensions = S::number_of_dimensions;
+			typedef UnaryExp<S,Func> storage;
 			typedef UnaryAcc<S,Func> accessor;
 			UnaryExp(const S& src, const Func& f);
 			~UnaryExp();
@@ -198,12 +200,13 @@ namespace shark {
 		template<typename S1, typename S2, typename Func>
 		class BinaryExp {
 			friend class BinaryAcc<S1,S2,Func>;
-			const S1& src1;
-			const S2& src2;
+			const typename S1::storage src1;
+			const typename S2::storage src2;
 			const Func f;
 		public:
 			static_assert(S1::number_of_dimensions == S2::number_of_dimensions, "source dimensionality");
 			static const int number_of_dimensions = S1::number_of_dimensions;
+			typedef BinaryExp<S1,S2,Func> storage;
 			typedef BinaryAcc<S1,S2,Func> accessor;
 			BinaryExp(const S1& src1, const S2& src2, const Func& f);
 			~BinaryExp();
@@ -277,9 +280,10 @@ namespace shark {
 		template<typename S>
 		class AsVecExp<S> {
 			friend class AsVecAcc<S>;
-			const S& s;
+			const typename S::storage src;
 		public:
 			static const int number_of_dimensions = S::number_of_dimensions;
+			typedef AsVecExp<S> storage;
 			typedef AsVecAcc<S> accessor;
 			AsVecExp(const S& s);
 			~AsVecExp();
@@ -291,31 +295,32 @@ namespace shark {
 		};
 
 		template<typename S>
-		AsVecExp<S>::AsVecExp(const S& s): s(s) { }
+		AsVecExp<S>::AsVecExp(const S& src): src(src) { }
 
 		template<typename S>
 		AsVecExp<S>::~AsVecExp() { }
 
 		template<typename S>
 		inline const Domain<S::number_of_dimensions>& AsVecExp<S>::domain() const {
-			return s.domain();
+			return src.domain();
 		}
 
 		template<typename S>
 		inline coords_range<S::number_of_dimensions> AsVecExp<S>::region() const {
-			return s.region();
+			return src.region();
 		}
 
 		template<typename S, typename... Ss>
 		class AsVecExp<S,Ss...> {
 			friend class AsVecAcc<S,Ss...>;
-			const S& s;
-			const AsVecExp<Ss...> ss;
+			const typename S::storage src;
+			const AsVecExp<Ss...> srcs;
 		public:
 			static_assert(S::number_of_dimensions == AsVecExp<Ss...>::number_of_dimensions, "source dimensionality");
 			static const int number_of_dimensions = S::number_of_dimensions;
+			typedef AsVecExp<S,Ss...> storage;
 			typedef AsVecAcc<S,Ss...> accessor;
-			AsVecExp(const S& s, const Ss&... ss);
+			AsVecExp(const S& src, const Ss&... srcs);
 			~AsVecExp();
 			// http://llvm.org/bugs/show_bug.cgi?id=13729
 			//INLINE const Domain<number_of_dimensions>& domain() const;
@@ -325,8 +330,8 @@ namespace shark {
 		};
 
 		template<typename S, typename... Ss>
-		AsVecExp<S,Ss...>::AsVecExp(const S& s, const Ss&... ss): s(s), ss(ss...) {
-			assert(s.domain() == this->ss.domain());
+		AsVecExp<S,Ss...>::AsVecExp(const S& src, const Ss&... srcs): src(src), srcs(srcs...) {
+			assert(src.domain() == this->srcs.domain());
 		}
 
 		template<typename S, typename... Ss>
@@ -334,12 +339,12 @@ namespace shark {
 
 		template<typename S, typename... Ss>
 		inline const Domain<S::number_of_dimensions>& AsVecExp<S,Ss...>::domain() const {
-			return s.domain();
+			return src.domain();
 		}
 
 		template<typename S, typename... Ss>
 		inline coords_range<S::number_of_dimensions> AsVecExp<S,Ss...>::region() const {
-			return s.region().overlap(ss.region());
+			return src.region().overlap(srcs.region());
 		}
 
 		template<typename... Ss>
@@ -359,7 +364,7 @@ namespace shark {
 		};
 
 		template<typename S>
-		AsVecAcc<S>::AsVecAcc(const AsVecExp<S>& exp): a(exp.s) { }
+		AsVecAcc<S>::AsVecAcc(const AsVecExp<S>& exp): a(exp.src) { }
 
 		template<typename S>
 		AsVecAcc<S>::~AsVecAcc() { }
@@ -389,7 +394,7 @@ namespace shark {
 		};
 
 		template<typename S, typename... Ss>
-		AsVecAcc<S,Ss...>::AsVecAcc(const AsVecExp<S,Ss...>& exp): a(exp.s), aa(exp.ss) { }
+		AsVecAcc<S,Ss...>::AsVecAcc(const AsVecExp<S,Ss...>& exp): a(exp.src), aa(exp.srcs) { }
 
 		template<typename S, typename... Ss>
 		AsVecAcc<S,Ss...>::~AsVecAcc() { }

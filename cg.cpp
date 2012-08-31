@@ -18,6 +18,7 @@ class LaplaceExp {
 	const double h;
 	const GlobalArrayD& gx;
 public:
+	typedef LaplaceExp storage;
 	typedef LaplaceAcc accessor;
 	static const int number_of_dimensions = 2;
 	LaplaceExp(double h, const GlobalArrayD& gx);
