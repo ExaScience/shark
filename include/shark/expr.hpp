@@ -442,8 +442,6 @@ namespace shark {
 		template<int ndim>
 		class CoordVec {
 		public:
-			CoordVec();
-			~CoordVec();
 			INLINE vec<ndim,coord> operator()(coords<ndim> ii) const;
 		};
 
@@ -457,8 +455,8 @@ namespace shark {
 
 		template<int ndim, typename T>
 		class SCoordVec {
-			coords<ndim> lower;
-			vec<ndim,T> step;
+			const coords<ndim> lower;
+			const vec<ndim,T> step;
 		public:
 			SCoordVec(coords<ndim> lower, vec<ndim,T> step);
 			~SCoordVec();
@@ -484,6 +482,55 @@ namespace shark {
 		template<int ndim, typename T>
 		NullaryExp<ndim,SCoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, vec<ndim,T> one) {
 			return coord_vec(dom, dom.total(), one);
+		}
+
+		template<int d, int ndim>
+		class CoordVal {
+		public:
+			static_assert(d >= 0 && d < ndim, "0 <= d < ndim");
+			INLINE coord operator()(coords<ndim> ii) const;
+		};
+
+		template<int d, int ndim>
+		inline coord CoordVal<d,ndim>::operator()(coords<ndim> ii) const {
+			return ii[d];
+		}
+
+		template<int d, int ndim>
+		NullaryExp<ndim,CoordVal<d,ndim>> coord_val(const Domain<ndim>& dom) {
+			return NullaryExp<ndim,CoordVal<d,ndim>>(dom,CoordVal<d,ndim>());
+		}
+
+		template<int d, int ndim, typename T>
+		class SCoordVal {
+			const coord lower;
+			const T step;
+		public:
+			static_assert(d >= 0 && d < ndim, "0 <= d < ndim");
+			SCoordVal(coord lower, T step);
+			~SCoordVal();
+			INLINE T operator()(coords<ndim> ii) const;
+		};
+
+		template<int d, int ndim, typename T>
+		inline T SCoordVal<d,ndim,T>::operator()(coords<ndim> ii) const {
+			return (ii[d] - lower) * step;
+		}
+
+		template<int d, int ndim, typename T>
+		SCoordVal<d,ndim,T>::SCoordVal(coord lower, T step): lower(lower), step(step) { }
+
+		template<int d, int ndim, typename T>
+		SCoordVal<d,ndim,T>::~SCoordVal() { }
+
+		template<int d, int ndim, typename T>
+		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, coord lower, coord upper, T one) {
+			return NullaryExp<ndim,SCoordVal<d,ndim,T>>(dom, SCoordVal<d,ndim,T>(lower, one / (upper - lower - 1)));
+		}
+
+		template<int d, int ndim, typename T>
+		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, T one) {
+			return coord_val<d>(dom, coord(0), dom.n[d], one);
 		}
 
 		/**

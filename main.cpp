@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
 			});
 		}
 		gc = abs(ga - gb);
+		ga = coord_val<2>(dom, 1.0);
 		{
 			double start = Wtime();
 			double aa = sum(0.0, ga * ga);
