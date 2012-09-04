@@ -122,7 +122,15 @@ namespace shark {
 	struct test_result {
 		long fails;
 		long checks;
+
+		INLINE test_result& operator+=(const test_result&);
 	};
+
+	inline test_result& test_result::operator+=(const test_result& other) {
+		fails += other.fails;
+		checks += other.checks;
+		return *this;
+	}
 
 }
 

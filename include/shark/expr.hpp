@@ -551,7 +551,7 @@ namespace shark {
 		}
 
 		/**
-		 * Absolute value
+		 * Absolute value, sine, cosine
 		 */
 
 		template<typename S>
@@ -565,6 +565,32 @@ namespace shark {
 		template<typename S>
 		typename std::enable_if<is_source<S>::value, UnaryExp<S,Abs<S>>>::type abs(const S& src) {
 			return UnaryExp<S,Abs<S>>(src, Abs<S>());
+		}
+
+		template<typename S>
+		class Sin {
+		public:
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(sin(a(ii))) {
+				return sin(a(ii));
+			}
+		};
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,Sin<S>>>::type sin(const S& src) {
+			return UnaryExp<S,Sin<S>>(src, Sin<S>());
+		}
+
+		template<typename S>
+		class Cos {
+		public:
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(cos(a(ii))) {
+				return cos(a(ii));
+			}
+		};
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,Cos<S>>>::type cos(const S& src) {
+			return UnaryExp<S,Cos<S>>(src, Cos<S>());
 		}
 
 		/**
@@ -594,6 +620,27 @@ namespace shark {
 		template<typename S>
 		typename std::enable_if<is_source<S>::value, UnaryExp<S,MaxElement<S>>>::type max_element(const S& src) {
 			return UnaryExp<S,MaxElement<S>>(src, MaxElement<S>());
+		}
+
+		/**
+		 * Shift
+		 */
+		template<typename S>
+		class Shift {
+			coords<S::number_of_dimensions> sw;
+		public:
+			Shift(coords<S::number_of_dimensions> sw);
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(a(ii)) {
+				return a(ii+sw);
+			}
+		};
+
+		template<typename S>
+		Shift<S>::Shift(coords<S::number_of_dimensions> sw): sw(sw) { }
+
+		template<typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,Shift<S>>>::type shift(const S& src, coords<S::number_of_dimensions> sw) {
+			return UnaryExp<S,Shift<S>>(src, Shift<S>(sw));
 		}
 
 		/**
@@ -789,6 +836,18 @@ namespace shark {
 		template<typename S1, typename S2>
 		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,Eq<S1,S2>>>::type operator==(const S1& src1, const S2& src2) {
 			return BinaryExp<S1,S2,Eq<S1,S2>>(src1, src2, Eq<S1,S2>());
+		}
+
+		template<typename S>
+		test_result check(const S& src) {
+			test_result r = { 0, 0 };
+			const typename S::accessor s(src);
+			r = src.domain().sum(src.region(), r, [&s](test_result& acc, coords<S::number_of_dimensions> i){
+				if(!s(i))
+					acc.fails++;
+				acc.checks++;
+			});
+			return r;
 		}
 
 		/**
