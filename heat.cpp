@@ -23,6 +23,7 @@ void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
 	ga.update();
 	const coords_range inner = {{{1,1}},{{n,n}}};
 
+#if 1
 	gb.region(inner) = unary(ga, [nu](const AccessD& u, coords ii) -> double {
 		coords left;   left[0] = ii[0]-1;  left[1] = ii[1];
 		coords right; right[0] = ii[0]+1; right[1] = ii[1];
@@ -31,6 +32,14 @@ void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
 
 		return u(ii) + nu * (u(left) + u(right) + u(above) + u(below) - 4 * u(ii));
 	});
+#else
+	coords west;   west[0] = -1; west[1] = 0;
+	coords east;   east[0] = 1;  east[1] = 0;
+	coords north; north[0] = 0; north[1] = -1;
+	coords south; south[0] = 0; south[1] = 1;
+
+	gb.region(inner) = ga + nu * (shift(ga,west) + shift(ga,east) + shift(ga,north) + shift(ga,south) - 4 * ga);
+#endif
 }
 
 void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
