@@ -31,4 +31,4 @@ clean:
 include $(DFILES)
 
 %.d: %.cpp
-	$(CXX) $(CXXFLAGS) -MM $< > $@
+	$(CXX) $(CXXFLAGS) -MM $< -MT $*.o -o $@
