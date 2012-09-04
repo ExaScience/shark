@@ -119,6 +119,11 @@ namespace shark {
 
 	}
 
+	struct test_result {
+		long fails;
+		long checks;
+	};
+
 }
 
 #endif

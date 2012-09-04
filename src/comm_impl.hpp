@@ -102,6 +102,26 @@ namespace shark {
 	inline void* mpi_type<std::valarray<T>>::address(std::valarray<T>& object) {
 		return &object[0];
 	}
+
+	template<>
+	struct mpi_type<test_result> {
+		static const MPI_Datatype t;
+		INLINE static int count();
+		INLINE static int count(const test_result& proto);
+		INLINE static void* address(test_result& object);
+	};
+
+	inline int mpi_type<test_result>::count() {
+		return 2;
+	}
+
+	inline int mpi_type<test_result>::count(const test_result&) {
+		return 2;
+	}
+
+	inline void* mpi_type<test_result>::address(test_result& object) {
+		return &object;
+	}
 }
 
 #elif defined(SHARK_NO_COMM)

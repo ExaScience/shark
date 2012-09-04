@@ -776,6 +776,22 @@ namespace shark {
 		}
 
 		/**
+		 * Comparisons
+		 */
+		template<typename S1, typename S2>
+		class Eq {
+		public:
+			auto operator()(const typename S1::accessor& a1, const typename S2::accessor& a2, coords<S1::number_of_dimensions> ii) const -> decltype(a1(ii) == a2(ii)) {
+				return a1(ii) == a2(ii);
+			}
+		};
+
+		template<typename S1, typename S2>
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,Eq<S1,S2>>>::type operator==(const S1& src1, const S2& src2) {
+			return BinaryExp<S1,S2,Eq<S1,S2>>(src1, src2, Eq<S1,S2>());
+		}
+
+		/**
 		 * Sum reduction
 		 */
 		template<typename R, typename S>

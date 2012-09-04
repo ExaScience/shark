@@ -8,6 +8,7 @@ SYMBT(int)
 SYMBT(long) 
 SYMBT(std::valarray<int>) 
 SYMBT(std::valarray<long>) 
+SYMBT(test_result)
 
 #define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA int>)
 #include "inst_dim"
@@ -22,6 +23,7 @@ SYMBT(int)
 SYMBT(long) 
 SYMBT(std::valarray<int>) 
 SYMBT(std::valarray<long>) 
+SYMBT(test_result)
 
 #define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA int>)
 #include "inst_dim"

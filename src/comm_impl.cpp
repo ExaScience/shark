@@ -20,6 +20,8 @@ template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_
 
 template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::t;
 
+const MPI_Datatype mpi_type<test_result>::t = MPI_LONG;
+
 // Set-up instantiations
 
 #define SYMBT(T) template struct shark::mpi_type<T>;
