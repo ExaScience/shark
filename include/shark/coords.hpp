@@ -32,6 +32,7 @@ namespace shark {
 
 			INLINE coords<ndim>& operator+=(const coords<ndim>& other);
 			INLINE coords<ndim>& operator-=(const coords<ndim>& other);
+			INLINE coords<ndim> operator-() const;
 			INLINE coords<ndim> operator+(const coords<ndim>& other) const;
 			INLINE coords<ndim> operator-(const coords<ndim>& other) const;
 
@@ -98,6 +99,13 @@ namespace shark {
 		inline coords<ndim>& coords<ndim>::operator+=(const coords<ndim>& other) {
 			seq<0,ndim>::for_each([this,&other](int d) { val[d] += other.val[d]; });
 			return *this;
+		}
+
+		template<int ndim>
+		inline coords<ndim> coords<ndim>::operator-() const {
+			coords<ndim> r;
+			seq<0,ndim>::for_each([this,&r](int d) { r.val[d] = -val[d]; });
+			return r;
 		}
 
 		template<int ndim>

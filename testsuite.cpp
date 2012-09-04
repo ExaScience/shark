@@ -62,42 +62,86 @@ class suite1 {
 public:
 	suite1(const Domain<ndim>& dom, const S& src): dom(dom), src(src) { }
 	~suite1() { }
-
-	void test_basic(tester& t) {
-		t.begin_test("test_basic");
-		{
-			GlobalArray<ndim,double> ga(dom);
-			ga = src;
-			t.add_result(check(ga == src));
-		}
-		t.end_test();
-	}
-
-	void test_ghost(tester& t) {
-		t.begin_test("test_ghost");
-		{
-			coords<ndim> gw;
-			for(int d = 0; d < ndim; d++)
-				gw[d] = 2;
-			GlobalArray<ndim,double> ga(dom, gw);
-			ga = src;
-			ga.update();
-			t.add_result(check(ga == src));
-			/*for(int d = 0; d < ndim; d++) {
-				
-			}*/
-
-		}
-		t.end_test();
+	void test_basic(tester& t);
+	void test_ghost(tester& t);
+	void test_ghost_corner(tester& t);
+	void run(tester& t) {
+		test_basic(t);
+		test_ghost(t);
+		test_ghost_corner(t);
 	}
 };
 
 template<int ndim, typename S>
-void run_suite1(tester& t, const Domain<ndim>& dom, const S& src) {
-	suite1<ndim,S> s(dom, src);
-	s.test_basic(t);
-	s.test_ghost(t);
+suite1<ndim,S> make_suite1(const Domain<ndim>& dom, const S& src) {
+	return suite1<ndim,S>(dom, src);
 }
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_basic(tester& t) {
+	t.begin_test("test_basic");
+	{
+		GlobalArray<ndim,double> ga(dom);
+		ga = src;
+		t.add_result(check(ga == src));
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_ghost(tester& t) {
+	t.begin_test("test_ghost");
+	coords<ndim> gw;
+	for(int d = 0; d < ndim; d++)
+		gw[d] = 2;
+	coords_range<ndim> inner = dom.total();
+	for(int d = 0; d < ndim; d++)
+		if(!dom.pd[d]) {
+			inner.lower[d] += gw[d];
+			inner.upper[d] -= gw[d];
+		}
+	{
+		GlobalArray<ndim,double> ga(dom, gw);
+		ga = src;
+		ga.update();
+		t.add_result(check(inner, ga == src));
+		for(int d = 0; d < ndim; d++) {
+			coords<ndim> sd = {{}};
+			coords<ndim> su = {{}};
+			sd[d] = -1;
+			su[d] = 1;
+			t.add_result(check(inner,
+				shift(ga,sd) == shift(src,sd) &&
+				shift(ga,su) == shift(src,su) &&
+				shift(ga,sd+sd) == shift(src,sd+sd) &&
+				shift(ga,su+su) == shift(src,su+su)));
+		}
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_ghost_corner(tester& t) {
+	t.begin_test("test_ghost_corner");
+	coords<ndim> gw;
+	for(int d = 0; d < ndim; d++)
+		gw[d] = 2;
+	coords_range<ndim> inner = dom.total();
+	for(int d = 0; d < ndim; d++)
+		if(!dom.pd[d]) {
+			inner.lower[d] += gw[d];
+			inner.upper[d] -= gw[d];
+		}
+	{
+		GlobalArray<ndim,double> ga(dom, gw, true);
+		ga = src;
+		ga.update();
+		t.add_result(check(inner, ga == src));
+		t.add_result(check(inner, shift(ga,gw) == shift(src,gw) && shift(ga,-gw) == shift(src,-gw)));
+	}
+	t.end_test();
+}
+
 
 int main(int argc, char* argv[]) {
 	Init(&argc, &argv);
@@ -107,7 +151,7 @@ int main(int argc, char* argv[]) {
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
 		auto f = sin(coord_val<0>(dom)) * cos(coord_val<1>(dom));
-		run_suite1(t, dom, f);
+		make_suite1(dom, f).run(t);
 	}
 	Finalize();
 }

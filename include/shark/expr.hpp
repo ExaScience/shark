@@ -823,6 +823,22 @@ namespace shark {
 		}
 
 		/**
+		 * Boolean operators
+		 */
+		template<typename S1, typename S2>
+		class And {
+		public:
+			auto operator()(const typename S1::accessor& a1, const typename S2::accessor& a2, coords<S1::number_of_dimensions> ii) const -> decltype(a1(ii) && a2(ii)) {
+				return a1(ii) && a2(ii);
+			}
+		};
+
+		template<typename S1, typename S2>
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, BinaryExp<S1,S2,And<S1,S2>>>::type operator&&(const S1& src1, const S2& src2) {
+			return BinaryExp<S1,S2,And<S1,S2>>(src1, src2, And<S1,S2>());
+		}
+
+		/**
 		 * Comparisons
 		 */
 		template<typename S1, typename S2>
@@ -839,15 +855,21 @@ namespace shark {
 		}
 
 		template<typename S>
-		test_result check(const S& src) {
-			test_result r = { 0, 0 };
+		test_result check(coords_range<S::number_of_dimensions> r, const S& src) {
+			assert(src.region().contains(r));
+			test_result tr = { 0, 0 };
 			const typename S::accessor s(src);
-			r = src.domain().sum(src.region(), r, [&s](test_result& acc, coords<S::number_of_dimensions> i){
+			tr = src.domain().sum(r, tr, [&s](test_result& acc, coords<S::number_of_dimensions> i){
 				if(!s(i))
 					acc.fails++;
 				acc.checks++;
 			});
-			return r;
+			return tr;
+		}
+
+		template<typename S>
+		test_result check(const S& src) {
+			return check(src.region(), src);
 		}
 
 		/**
