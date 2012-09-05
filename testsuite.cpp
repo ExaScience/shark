@@ -106,8 +106,7 @@ void suite1<ndim,S>::test_ghost(tester& t) {
 		ga.update();
 		t.add_result(check(inner, ga == src));
 		for(int d = 0; d < ndim; d++) {
-			coords<ndim> sd = {{}};
-			coords<ndim> su = {{}};
+			coords<ndim> sd = {{}}, su = {{}};
 			sd[d] = -1;
 			su[d] = 1;
 			t.add_result(check(inner,

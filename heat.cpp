@@ -14,7 +14,6 @@ void init_pyramid(int n, GlobalArrayD& ga) {
 
 	vecD one = {{1.0, 1.0}};
 	vecD mid = {{0.5, 0.5}};
-	one * mid;
 	ga.region(inner) = 1.0 - max_element(abs(coord_vec(ga.domain(), one) - mid)) / 0.5;
 }
 
