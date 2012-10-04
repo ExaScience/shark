@@ -5,9 +5,22 @@
 #include <shark/sparsearray.hpp>
 #include "comm_impl.hpp"
 
+// Complete types
+namespace shark {
+	namespace ndim {
+		template<int ndim, typename T>
+		class Boundary<ndim,T>::type {
+			virtual ~type() = 0;
+		};
+	}
+}
+
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;
+
+template<int ndim, typename T>
+Boundary<ndim,T>::Boundary(type* t): t(t) { }
 
 template<int ndim, typename T>
 const int GlobalArray<ndim,T>::number_of_dimensions;

@@ -4,6 +4,7 @@
 #include <array>                       // std::array
 #include <cstddef>                     // std::size_t
 #include <memory>                      // std::unique_ptr
+#include <functional>                  // std::function
 #include <cassert>                     // assert
 #include "common.hpp"
 #include "coords.hpp"
@@ -12,6 +13,48 @@
 namespace shark {
 
 	namespace ndim {
+
+		/**
+		 * A boundary configuration for a global array
+		 */
+		template<int ndim, typename T>
+		class Boundary {
+			class type;
+			std::unique_ptr<type> t;
+
+			Boundary(type* t);
+
+		public:
+			Boundary(const Boundary& other);
+			~Boundary();
+
+			bool is_fixed();
+
+			/**
+			 * Create an unmanaged boundary
+			 */
+			Boundary();
+
+			/**
+			 * Create a periodic boundary
+			 */
+			static Boundary periodic();
+
+			/**
+			 * Create a boundary with a constant value over space and time
+			 */
+			static Boundary constant(const T& val);
+
+			/**
+			 * Create a boundary with values fixed over time
+			 */
+			static Boundary fixed(std::function<void(coords_range<ndim>, T*)>);
+
+			/**
+			 * Create a general boundary
+			 */
+			static Boundary general(std::function<void(coords_range<ndim>, T*)>);
+		};
 
 		template<int>
 		class GAImpl;
