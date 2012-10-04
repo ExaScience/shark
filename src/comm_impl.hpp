@@ -2,6 +2,7 @@
 #define __SHARK_COMM_IMPL_HPP
 
 #include <shark/vec.hpp>
+#include <shark/part.hpp>
 #include <valarray>
 #include <complex>
 
@@ -81,6 +82,20 @@ namespace shark {
 	template<int ndim,typename T>
 	inline void* mpi_type<shark::ndim::vec<ndim,T>>::address(shark::ndim::vec<ndim,T>& object) {
 		return &object.val;
+	}
+
+	/*
+	 * mpi_type for part
+	 */
+	template<int ndim,typename T>
+	struct mpi_type<shark::ndim::part<ndim,T>> {
+		static const MPI_Datatype t;
+		INLINE static int count();
+	};
+
+	template<int ndim,typename T>
+	inline int mpi_type<shark::ndim::part<ndim,T>>::count() {
+		return ndim*2;
 	}
 
 	/*

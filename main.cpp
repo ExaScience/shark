@@ -99,6 +99,24 @@ int main(int argc, char* argv[]) {
 				cerr << "aa: " << v[0] << " ab: " << v[1] << " bb: " << v[2] << " in " << (end - start) << endl;
 			}
 		}
+		{
+			GlobalArrayP gap(dom);
+			gap = nullary(dom, [](coords ii) {
+				vecD v = {{1.25,1.25,1.25}};
+				partD p = {{{0,0,0}}, ii.to_vec() * v};
+				return p;
+			});
+			double start = Wtime();
+			{
+				AccessP ap(gap);
+				dom.for_each(dom.total(), [&ap](coords ii) {
+					ap(ii).x += ap(ii).v * 1.23;
+				});
+			}
+			double end = Wtime();
+			if(world().procid == 0)
+				cerr << (end - start) << endl;
+		}
 	}
 
 	Finalize();

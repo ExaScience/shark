@@ -17,6 +17,7 @@ template<> const MPI_Datatype mpi_type<std::complex<double>>::t = MPI_C_DOUBLE_C
 template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LONG_DOUBLE_COMPLEX;
 
 template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
+template<int ndim,typename T> const MPI_Datatype mpi_type<part<ndim,T>>::t = mpi_type<T>::t;
 
 template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::t;
 
@@ -28,6 +29,7 @@ const MPI_Datatype mpi_type<test_result>::t = MPI_LONG;
 #include "comm_int_inst"
 #include "comm_fp_inst"
 #include "comm_cplx_inst"
+#include "comm_other_inst"
 #undef SYMBT
 
 #elif defined(SHARK_NO_COMM)

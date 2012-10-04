@@ -8,7 +8,8 @@
 #include "shark/expr.hpp"
 #include "shark/sparsearray.hpp"
 #include "shark/globals.hpp"
-#include "shark/types.hpp"
 #include "shark/vec.hpp"
+#include "shark/part.hpp"
+#include "shark/types.hpp"
 
 #endif

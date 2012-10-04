@@ -18,4 +18,12 @@
 #include "inst_dim"
 #undef SYMBD
 
+#ifndef SYMB_ARITH
+
+#define SYMBD(d) SYMBDT(d,shark::ndim::part<d COMMA double>)
+#include "inst_dim"
+#undef SYMBD
+
+#endif
+
 #undef COMMA

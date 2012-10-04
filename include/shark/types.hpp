@@ -18,6 +18,9 @@ namespace shark {
 		typedef shark::ndim::Access<2,float> AccessF;
 		typedef shark::ndim::Access<2,double> AccessD;
 		typedef shark::ndim::vec<2,double> vecD;
+		typedef shark::ndim::part<2,double> partD;
+		typedef shark::ndim::GlobalArray<2,partD> GlobalArrayP;
+		typedef shark::ndim::Access<2,partD> AccessP;
 
 		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
 		template<typename T> void coord_val();
@@ -36,6 +39,9 @@ namespace shark {
 		typedef shark::ndim::Access<3,float> AccessF;
 		typedef shark::ndim::Access<3,double> AccessD;
 		typedef shark::ndim::vec<3,double> vecD;
+		typedef shark::ndim::part<3,double> partD;
+		typedef shark::ndim::GlobalArray<3,partD> GlobalArrayP;
+		typedef shark::ndim::Access<3,partD> AccessP;
 
 		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
 		template<typename T> void coord_val();
