@@ -93,10 +93,12 @@ namespace shark {
 
 			std::unique_ptr<GAImpl<ndim>> impl;
 			coords<ndim+1> ld;
+			coords_range<ndim> ghost_back[ndim];
+			coords_range<ndim> ghost_front[ndim];
 
 			mutable int lc;
 
-			static void allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T **ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld);
+			static void allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T **ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld, coords_range<ndim>* ghost_back, coords_range<ndim>* ghost_front);
 			void deallocate();
 			void reset();
 

@@ -138,10 +138,29 @@ coords<ndim+1> GlobalArray<ndim,T>::stride(coords<ndim> count, coords<ndim> ghos
 }
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T** ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld) {
+void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T** ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld, coords_range<ndim>* ghost_back, coords_range<ndim>* ghost_front) {
 	coords<ndim> count = domain.count();
 
 	ld = stride(count, ghost_width);
+
+	for(int di = 0; di < ndim; di++)
+		for(int d = 0; d < ndim; d++)
+			if(d == di) {
+				ghost_back [di].lower[d] = -ghost_width[d];
+				ghost_back [di].upper[d] = 0;
+				ghost_front[di].lower[d] = count[d];
+				ghost_front[di].upper[d] = count[d] + ghost_width[d];
+			} else if(ghost_corners && d < di) {
+				ghost_back [di].lower[d] = -ghost_width[d];
+				ghost_back [di].upper[d] = count[d] + ghost_width[d];
+				ghost_front[di].lower[d] = -ghost_width[d];
+				ghost_front[di].upper[d] = count[d] + ghost_width[d];
+			} else {
+				ghost_back [di].lower[d] = 0;
+				ghost_back [di].upper[d] = count[d];
+				ghost_front[di].lower[d] = 0;
+				ghost_front[di].upper[d] = count[d];
+			}
 
 #if defined(SHARK_MPI_COMM)
 	{
@@ -155,12 +174,7 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 			MPI_Type_dup(base, &impl.ghost[di]);
 			for(int d = ndim-1; d >= 0; d--) {
 				MPI_Datatype tmp = impl.ghost[di];
-				coord n =
-					d == di ?
-					ghost_width[d] :
-					(ghost_corners && d < di ?
-						count[d] + 2 * ghost_width[d] :
-						count[d]);
+				coord n = ghost_back[di].upper[d] - ghost_back[di].lower[d];
 				MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl.ghost[di]);
 				MPI_Type_free(&tmp);
 			}
@@ -188,13 +202,13 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, bounds bd):
   dom(&domain), gw(ghost_width), gc(ghost_corners), bd(bd), impl(new GAImpl<ndim>()), lc(0) {
-	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld);
+	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld, ghost_back, ghost_front);
 }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
   dom(other.dom), gw(other.gw), gc(other.gc), bd(other.bd), impl(new GAImpl<ndim>()), lc(0) {
-	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld);
+	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld, ghost_back, ghost_front);
 
 	if(copy)
 		*this = other;
@@ -224,8 +238,10 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 	T* ptr;
 	unique_ptr<GAImpl<ndim>> impl(new GAImpl<ndim>());
 	coords<ndim+1> ld;
+	coords_range<ndim> ghost_back[ndim];
+	coords_range<ndim> ghost_front[ndim];
 
-	allocate(domain, ghost_width(), ghost_corners(), &ptr, *impl, ld);
+	allocate(domain, ghost_width(), ghost_corners(), &ptr, *impl, ld, ghost_back, ghost_front);
 	if(domain.hasData()) {
 		array<size_t,ndim-1> eld;
 		size_t off = gw[ndim-1];
@@ -247,10 +263,8 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
-#if defined(SHARK_MPI_COMM)
 	const coords<ndim> gw = ghost_width();
-	const bool gc = ghost_corners();
-	const coords<ndim> count = domain().count();
+#if defined(SHARK_MPI_COMM)
 	MPI_Comm comm = domain().group.impl->comm;
 	MPI_Request req[4*ndim];
 
@@ -259,19 +273,12 @@ void GlobalArray<ndim,T>::update() const {
 			bool pd = dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr;
 			int prev = domain().shiftd(di, -1, pd);
 			int next = domain().shiftd(di,  1, pd);
-			coords<ndim> fronti, backi;
 			// backward
-			for(int d = 0; d < ndim; d++) {
-				fronti[d] = gc && d < di ? -gw[d] : 0;
-				backi[d] = d == di ? count[d] : fronti[d];
-			}
-			MPI_Isend(&da(fronti), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
-			MPI_Irecv(&da(backi), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
+			MPI_Isend(&da(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
+			MPI_Irecv(&da(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
 			// forward
-			fronti[di] -= gw[di];
-			backi[di] -= gw[di];
-			MPI_Isend(&da(backi), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
-			MPI_Irecv(&da(fronti), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
+			MPI_Isend(&da(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
+			MPI_Irecv(&da(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
 		} else {
 			req[4*di] = MPI_REQUEST_NULL;
 			req[4*di+1] = MPI_REQUEST_NULL;
@@ -284,17 +291,27 @@ void GlobalArray<ndim,T>::update() const {
 	if(!gc)
 		MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
 
-	/* 
-		int recvcounts[nprocs];
-		int displs[nprocs];
-		for(int k = 0; k < nprocs; k++) {
-			recvcounts[k] = row_domain().count(k) * cols();
-			displs[k] = row_domain().lower(k) * cols();
-		}
-		MPI_Allgatherv(MPI_IN_PLACE, 0, mpi_type<T>(), ptr, recvcounts, displs, mpi_type<T>(), MPI_COMM_WORLD);
-	*/
 #elif defined(SHARK_NO_COMM)
-	// No action needed
+	const coords<ndim> count = domain().count();
+
+	for(int di = 0; di < ndim; di++) {
+		if(gw[di] > 0 && dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr) {
+			coords<ndim> off;
+			for(int d = 0; d < ndim; d++) {
+				off[d] = d == di ? count[di] : 0;
+			}
+			ghost_back[di].for_each([this,&off](coords<ndim> ii) {
+				this->da(ii) = this->da(ii+off);
+			});
+			for(int d = 0; d < ndim; d++) {
+				off[d] = d == di ? -count[di] : 0;
+			}
+			ghost_front[di].for_each([this,&off](coords<ndim> ii) {
+				this->da(ii) = this->da(ii+off);
+			});
+		}
+}
+
 #else
 #error "No comm update"
 #endif
