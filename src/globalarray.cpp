@@ -5,26 +5,6 @@
 #include <shark/sparsearray.hpp>
 #include "comm_impl.hpp"
 
-// Complete types
-namespace shark {
-	namespace ndim {
-		template<int ndim, typename T>
-		class Boundary<ndim,T>::type {
-		public:
-			virtual ~type();
-			virtual type* clone() const;
-		};
-
-		template<int ndim, typename T>
-		class Boundary<ndim,T>::periodic_type: public type {
-		public:
-			periodic_type();
-			virtual ~periodic_type();
-			virtual periodic_type* clone() const;
-		};
-	}
-}
-
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;
@@ -69,6 +49,13 @@ Boundary<ndim,T>& Boundary<ndim,T>::operator=(const Boundary<ndim,T>& other) {
 template<int ndim, typename T>
 Boundary<ndim,T> Boundary<ndim,T>::periodic() {
 	return Boundary<ndim,T>(new periodic_type());
+}
+
+template<int ndim, typename T>
+Boundary<ndim,T> Boundary<ndim,T>::constant(const T& val) {
+	return fixed([val](coords<ndim>) {
+		return val;
+	});
 }
 
 template<int ndim, typename T>
@@ -202,6 +189,21 @@ void GlobalArray<ndim,T>::allocate() {
 #else
 #error "No comm allocate"
 #endif
+
+	{
+		Access<ndim,T> acc(*this);
+		typename Domain<ndim>::pcoords np = domain().np;
+		typename Domain<ndim>::pcoords ip = domain().indexp();
+		for(int di = 0; di < ndim; di++) {
+			typename Boundary<ndim,T>::fixed_type* b = dynamic_cast<typename Boundary<ndim,T>::fixed_type*>(bd[di].t.get());
+			if(b != nullptr) {
+				if(ip[di] == 0)
+					b->set(acc, ghost_back[di]);
+				if(ip[di] == np[di]-1)
+					b->set(acc, ghost_front[di]);
+			}
+		}
+	}
 }
 
 // Constructors

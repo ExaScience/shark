@@ -17,6 +17,10 @@ namespace shark {
 		typedef shark::ndim::Access<2,long> AccessL;
 		typedef shark::ndim::Access<2,float> AccessF;
 		typedef shark::ndim::Access<2,double> AccessD;
+		typedef shark::ndim::Boundary<2,int> BoundaryI;
+		typedef shark::ndim::Boundary<2,long> BoundaryL;
+		typedef shark::ndim::Boundary<2,float> BoundaryF;
+		typedef shark::ndim::Boundary<2,double> BoundaryD;
 		typedef shark::ndim::vec<2,double> vecD;
 		typedef shark::ndim::part<2,double> partD;
 		typedef shark::ndim::GlobalArray<2,partD> GlobalArrayP;
@@ -38,6 +42,10 @@ namespace shark {
 		typedef shark::ndim::Access<3,long> AccessL;
 		typedef shark::ndim::Access<3,float> AccessF;
 		typedef shark::ndim::Access<3,double> AccessD;
+		typedef shark::ndim::Boundary<3,int> BoundaryI;
+		typedef shark::ndim::Boundary<3,long> BoundaryL;
+		typedef shark::ndim::Boundary<3,float> BoundaryF;
+		typedef shark::ndim::Boundary<3,double> BoundaryD;
 		typedef shark::ndim::vec<3,double> vecD;
 		typedef shark::ndim::part<3,double> partD;
 		typedef shark::ndim::GlobalArray<3,partD> GlobalArrayP;

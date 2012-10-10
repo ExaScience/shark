@@ -4,7 +4,6 @@
 #include <array>                       // std::array
 #include <cstddef>                     // std::size_t
 #include <memory>                      // std::unique_ptr
-#include <functional>                  // std::function
 #include <cassert>                     // assert
 #include "common.hpp"
 #include "coords.hpp"
@@ -21,8 +20,39 @@ namespace shark {
 		class Boundary {
 			friend class GlobalArray<ndim,T>;
 
-			class type;
-			class periodic_type;
+			class type {
+			public:
+				virtual ~type();
+				virtual type* clone() const;
+			};
+
+			class periodic_type: public type {
+			public:
+				periodic_type();
+				virtual ~periodic_type();
+				virtual periodic_type* clone() const;
+			};
+
+			class fixed_type: public type {
+			public:
+				virtual void set(Access<ndim,T>& a, coords_range<ndim> r) const = 0;
+			};
+
+			class general_type: public type {
+			public:
+				virtual void set(Access<ndim,T>& a, coords_range<ndim> r, long k) const = 0;
+			};
+
+			template<typename Func>
+			class fun_fixed_type: public fixed_type {
+				Func f;
+			public:
+				fun_fixed_type(const Func& f);
+				virtual ~fun_fixed_type();
+				virtual fun_fixed_type<Func>* clone() const;
+				virtual void set(Access<ndim,T>& a, coords_range<ndim> r) const;
+			};
+
 			std::unique_ptr<type> t;
 
 			Boundary(type* t);
@@ -54,13 +84,40 @@ namespace shark {
 			/**
 			 * Create a boundary with values fixed over time
 			 */
-			static Boundary<ndim,T> fixed(std::function<void(coords_range<ndim>, T*)>);
+			template<typename Func>
+			static Boundary<ndim,T> fixed(const Func& f);
 
 			/**
 			 * Create a general boundary
 			 */
-			static Boundary<ndim,T> general(std::function<void(coords_range<ndim>, T*)>);
+			template<typename Func>
+			static Boundary<ndim,T> general(const Func& f);
 		};
+
+		// Generic members
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_fixed_type<Func>::fun_fixed_type(const Func& f): f(f) { }
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_fixed_type<Func>::~fun_fixed_type() { }
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_fixed_type<Func>* Boundary<ndim,T>::fun_fixed_type<Func>::clone() const {
+			return new fun_fixed_type<Func>(f);
+		}
+
+		template<int ndim, typename T> template<typename Func>
+		void Boundary<ndim,T>::fun_fixed_type<Func>::set(Access<ndim,T>& a, coords_range<ndim> r) const {
+			r.for_each([&a,this](coords<ndim> ii) {
+				a.getLocal(ii) = f(ii);
+			});
+		}
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T> Boundary<ndim,T>::fixed(const Func& f) {
+			return Boundary<ndim,T>(new fun_fixed_type<Func>(f));
+		}
 
 		template<int>
 		class GAImpl;
