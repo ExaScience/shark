@@ -94,6 +94,8 @@ GlobalArray<ndim,T>::GlobalArray(GlobalArray<ndim,T>&& other):
 	ptr(other.ptr),
 	impl(std::move(other.impl)),
 	ld(std::move(other.ld)),
+	ghost_back(std::move(other.ghost_back)),
+	ghost_front(std::move(other.ghost_front)),
 	lc(0)
 {
 	assert(!other || other.lc == 0);
@@ -112,6 +114,8 @@ GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other)
 	ptr = other.ptr;
 	impl = std::move(other.impl);
 	ld = std::move(other.ld);
+	ghost_back = std::move(other.ghost_back);
+	ghost_front = std::move(other.ghost_front);
 	lc = 0;
 	other.reset();
 	return *this;
@@ -138,23 +142,25 @@ coords<ndim+1> GlobalArray<ndim,T>::stride(coords<ndim> count, coords<ndim> ghos
 }
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T** ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld, coords_range<ndim>* ghost_back, coords_range<ndim>* ghost_front) {
-	coords<ndim> count = domain.count();
+void GlobalArray<ndim,T>::allocate() {
+	const coords<ndim> count = domain().count();
+	const coords<ndim> gw = ghost_width();
+	const bool gc = ghost_corners(); 
 
-	ld = stride(count, ghost_width);
+	ld = stride(count, gw);
 
 	for(int di = 0; di < ndim; di++)
 		for(int d = 0; d < ndim; d++)
 			if(d == di) {
-				ghost_back [di].lower[d] = -ghost_width[d];
+				ghost_back [di].lower[d] = -gw[d];
 				ghost_back [di].upper[d] = 0;
 				ghost_front[di].lower[d] = count[d];
-				ghost_front[di].upper[d] = count[d] + ghost_width[d];
-			} else if(ghost_corners && d < di) {
-				ghost_back [di].lower[d] = -ghost_width[d];
-				ghost_back [di].upper[d] = count[d] + ghost_width[d];
-				ghost_front[di].lower[d] = -ghost_width[d];
-				ghost_front[di].upper[d] = count[d] + ghost_width[d];
+				ghost_front[di].upper[d] = count[d] + gw[d];
+			} else if(gc && d < di) {
+				ghost_back [di].lower[d] = -gw[d];
+				ghost_back [di].upper[d] = count[d] + gw[d];
+				ghost_front[di].lower[d] = -gw[d];
+				ghost_front[di].upper[d] = count[d] + gw[d];
 			} else {
 				ghost_back [di].lower[d] = 0;
 				ghost_back [di].upper[d] = count[d];
@@ -171,14 +177,14 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 		MPI_Aint lb, extent;
 		MPI_Type_get_extent(base, &lb, &extent);
 		for(int di = 0; di < ndim; di++) {
-			MPI_Type_dup(base, &impl.ghost[di]);
+			MPI_Type_dup(base, &impl->ghost[di]);
 			for(int d = ndim-1; d >= 0; d--) {
-				MPI_Datatype tmp = impl.ghost[di];
+				MPI_Datatype tmp = impl->ghost[di];
 				coord n = ghost_back[di].upper[d] - ghost_back[di].lower[d];
-				MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl.ghost[di]);
+				MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl->ghost[di]);
 				MPI_Type_free(&tmp);
 			}
-			MPI_Type_commit(&impl.ghost[di]);
+			MPI_Type_commit(&impl->ghost[di]);
 		}
 		if(mpi_type<T>::count() != 1)
 			MPI_Type_free(&base);
@@ -186,13 +192,13 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 
 	// Allocate memory
 	MPI_Aint size = ld[0] * sizeof(T);
-	MPI_Alloc_mem(size, MPI_INFO_NULL, ptr);
+	MPI_Alloc_mem(size, MPI_INFO_NULL, &ptr);
 
 	// Create window
-	MPI_Win_create(*ptr, size, static_cast<int>(sizeof(T)), MPI_INFO_NULL, domain.group.impl->comm, &impl.win);
+	MPI_Win_create(ptr, size, static_cast<int>(sizeof(T)), MPI_INFO_NULL, domain().group.impl->comm, &impl->win);
 #elif defined(SHARK_NO_COMM)
-	unused(ghost_corners, impl);
-	*ptr = static_cast<T*>(mem_alloc(ld[0] * sizeof(T)));
+	unused(impl);
+	ptr = static_cast<T*>(mem_alloc(ld[0] * sizeof(T)));
 #else
 #error "No comm allocate"
 #endif
@@ -202,13 +208,13 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, bounds bd):
   dom(&domain), gw(ghost_width), gc(ghost_corners), bd(bd), impl(new GAImpl<ndim>()), lc(0) {
-	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld, ghost_back, ghost_front);
+	allocate();
 }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
   dom(other.dom), gw(other.gw), gc(other.gc), bd(other.bd), impl(new GAImpl<ndim>()), lc(0) {
-	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld, ghost_back, ghost_front);
+	allocate();
 
 	if(copy)
 		*this = other;
@@ -235,28 +241,19 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 	assert(this->domain().equiv(domain));
 
-	T* ptr;
-	unique_ptr<GAImpl<ndim>> impl(new GAImpl<ndim>());
-	coords<ndim+1> ld;
-	coords_range<ndim> ghost_back[ndim];
-	coords_range<ndim> ghost_front[ndim];
+	GlobalArray<ndim,T> tmp(domain, gw, gc, bd);
 
-	allocate(domain, ghost_width(), ghost_corners(), &ptr, *impl, ld, ghost_back, ghost_front);
 	if(domain.hasData()) {
 		array<size_t,ndim-1> eld;
 		size_t off = gw[ndim-1];
 		for(int d = ndim-2; d >= 0; d--) {
-			eld[d] = ld[d+1];
+			eld[d] = tmp.ld[d+1];
 			off += gw[d] * eld[d];
 		}
-		this->get(domain.local(), eld, ptr+off);
+		this->get(domain.local(), eld, tmp.ptr+off);
 	}
 
-	deallocate();
-	this->dom = &domain;
-	this->ptr = ptr;
-	this->impl = move(impl);
-	this->ld = move(ld);
+	*this = move(tmp);
 }
 
 // Inspectors

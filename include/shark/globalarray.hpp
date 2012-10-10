@@ -85,20 +85,23 @@ namespace shark {
 			typedef std::array<Boundary<ndim,T>,ndim> bounds;
 
 		private:
+			// before allocate
 			const Domain<ndim>* dom;
 			coords<ndim> gw;
 			bool gc;
 			bounds bd;
-			T* ptr;
 
+			// after allocate
+			T* ptr;
 			std::unique_ptr<GAImpl<ndim>> impl;
 			coords<ndim+1> ld;
-			coords_range<ndim> ghost_back[ndim];
-			coords_range<ndim> ghost_front[ndim];
+			std::array<coords_range<ndim>,ndim> ghost_back;
+			std::array<coords_range<ndim>,ndim> ghost_front;
 
+			// extra
 			mutable int lc;
 
-			static void allocate(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, T **ptr, GAImpl<ndim>& impl, coords<ndim+1>& ld, coords_range<ndim>* ghost_back, coords_range<ndim>* ghost_front);
+			void allocate();
 			void deallocate();
 			void reset();
 
