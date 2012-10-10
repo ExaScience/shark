@@ -113,6 +113,8 @@ namespace shark {
 		template<int,typename>
 		class SparseArray;
 		template<int,typename>
+		class Boundary;
+		template<int,typename>
 		class GlobalArray;
 		template<int,typename>
 		class Access;
