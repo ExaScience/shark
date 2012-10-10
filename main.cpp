@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
 		}
 		{
 			GlobalArrayP gap(dom);
-			gap = nullary(dom, [](coords ii) {
+			gap = nullary(dom, [](coords ii) -> partD {
 				vecD v = {{1.25,1.25,1.25}};
 				partD p = {{{0,0,0}}, ii.to_vec() * v};
 				return p;
