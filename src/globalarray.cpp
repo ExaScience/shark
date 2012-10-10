@@ -265,6 +265,7 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
 	const coords<ndim> gw = ghost_width();
 #if defined(SHARK_MPI_COMM)
+	const bool gc = ghost_corners();
 	MPI_Comm comm = domain().group.impl->comm;
 	MPI_Request req[4*ndim];
 
