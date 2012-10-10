@@ -26,7 +26,7 @@ template<int ndim, typename T>
 const int GlobalArray<ndim,T>::number_of_dimensions;
 
 template<int ndim, typename T>
-GlobalArray<ndim,T>::GlobalArray(): ptr(0) { }
+GlobalArray<ndim,T>::GlobalArray(): dom(0) { }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::~GlobalArray() {
@@ -74,7 +74,7 @@ GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const GlobalArray<ndim,T>& o
 
 template <int ndim, typename T>
 void GlobalArray<ndim,T>::reset() {
-	ptr = 0;
+	dom = 0;
 }
 
 template<int ndim,typename T>

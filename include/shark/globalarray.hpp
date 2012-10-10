@@ -262,7 +262,7 @@ namespace shark {
 
 		template<int ndim, typename T>
 		inline GlobalArray<ndim,T>::operator bool() const {
-			return ptr != 0;
+			return dom != 0;
 		}
 
 		template<int ndim, typename T>
