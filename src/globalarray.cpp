@@ -226,8 +226,11 @@ void GlobalArray<ndim,T>::update() const {
 			req[4*di+2] = MPI_REQUEST_NULL;
 			req[4*di+3] = MPI_REQUEST_NULL;
 		}
+		if(gc)
+			MPI_Waitall(4, &req[4*di], MPI_STATUSES_IGNORE);
 	}
-	MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
+	if(!gc)
+		MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
 
 	/* 
 		int recvcounts[nprocs];
