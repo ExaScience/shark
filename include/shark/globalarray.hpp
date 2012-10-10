@@ -53,6 +53,16 @@ namespace shark {
 				virtual void set(Access<ndim,T>& a, coords_range<ndim> r) const;
 			};
 
+			template<typename Func>
+			class fun_general_type: public general_type {
+				Func f;
+			public:
+				fun_general_type(const Func& f);
+				virtual ~fun_general_type();
+				virtual fun_general_type<Func>* clone() const;
+				virtual void set(Access<ndim,T>& a, coords_range<ndim> r, long k) const;
+			};
+
 			std::unique_ptr<type> t;
 
 			Boundary(type* t);
@@ -109,14 +119,37 @@ namespace shark {
 
 		template<int ndim, typename T> template<typename Func>
 		void Boundary<ndim,T>::fun_fixed_type<Func>::set(Access<ndim,T>& a, coords_range<ndim> r) const {
-			r.for_each([&a,this](coords<ndim> ii) {
+			r.for_each([this,&a](coords<ndim> ii) {
 				a(ii) = f(ii);
+			});
+		}
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_general_type<Func>::fun_general_type(const Func& f): f(f) { }
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_general_type<Func>::~fun_general_type() { }
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T>::fun_general_type<Func>* Boundary<ndim,T>::fun_general_type<Func>::clone() const {
+			return new fun_general_type<Func>(f);
+		}
+
+		template<int ndim, typename T> template<typename Func>
+		void Boundary<ndim,T>::fun_general_type<Func>::set(Access<ndim,T>& a, coords_range<ndim> r, long k) const {
+			r.for_each([this,&a,k](coords<ndim> ii) {
+				a(ii) = f(k, ii);
 			});
 		}
 
 		template<int ndim, typename T> template<typename Func>
 		Boundary<ndim,T> Boundary<ndim,T>::fixed(const Func& f) {
 			return Boundary<ndim,T>(new fun_fixed_type<Func>(f));
+		}
+
+		template<int ndim, typename T> template<typename Func>
+		Boundary<ndim,T> Boundary<ndim,T>::general(const Func& f) {
+			return Boundary<ndim,T>(new fun_general_type<Func>(f));
 		}
 
 		template<int>
@@ -240,8 +273,9 @@ namespace shark {
 			/**
 			 * Update the ghost cells with data from their original locations (collective).
 			 * RMA operations cannot overlap with local access.
+			 * @param k update phase (only used for general boundaries)
 			 */
-			void update() const;
+			void update(long k=0) const;
 
 			/**
 			 * Get remote range (one-sided).

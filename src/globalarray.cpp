@@ -191,9 +191,9 @@ void GlobalArray<ndim,T>::allocate() {
 #endif
 
 	{
-		Access<ndim,T> acc(*this);
 		typename Domain<ndim>::pcoords np = domain().np;
 		typename Domain<ndim>::pcoords ip = domain().indexp();
+		Access<ndim,T> acc(*this);
 		for(int di = 0; di < ndim; di++) {
 			typename Boundary<ndim,T>::fixed_type* b = dynamic_cast<typename Boundary<ndim,T>::fixed_type*>(bd[di].t.get());
 			if(b != nullptr) {
@@ -258,21 +258,39 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 	*this = move(tmp);
 }
 
-// Inspectors
-
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::update() const {
+void GlobalArray<ndim,T>::update(long k) const {
 	const coords<ndim> gw = ghost_width();
+	typename Domain<ndim>::pcoords np = domain().np;
+	typename Domain<ndim>::pcoords ip = domain().indexp();
 	Access<ndim,T> acc(*this);
 	
 #if defined(SHARK_MPI_COMM)
 	const bool gc = ghost_corners();
 	MPI_Comm comm = domain().group.impl->comm;
 	MPI_Request req[4*ndim];
+	for(int di = 0; di < ndim; di++) {
+		req[4*di] = MPI_REQUEST_NULL;
+		req[4*di+1] = MPI_REQUEST_NULL;
+		req[4*di+2] = MPI_REQUEST_NULL;
+		req[4*di+3] = MPI_REQUEST_NULL;
+	}
+#endif
 
 	for(int di = 0; di < ndim; di++) {
 		if(gw[di] > 0) {
+			// 1) Consider updating ghosts based on boundary
+			typename Boundary<ndim,T>::general_type* b = dynamic_cast<typename Boundary<ndim,T>::general_type*>(bd[di].t.get());
+			if(b != nullptr) {
+				if(ip[di] == 0)
+					b->set(acc, ghost_back[di], k);
+				if(ip[di] == np[di]-1)
+					b->set(acc, ghost_front[di], k);
+			}
+
+			// 2) Consider updating ghosts based on communication with neighbors (or periodic equivalents)
 			bool pd = dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr;
+#if defined(SHARK_MPI_COMM)
 			int prev = domain().shiftd(di, -1, pd);
 			int next = domain().shiftd(di,  1, pd);
 			// backward
@@ -281,41 +299,33 @@ void GlobalArray<ndim,T>::update() const {
 			// forward
 			MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
 			MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
-		} else {
-			req[4*di] = MPI_REQUEST_NULL;
-			req[4*di+1] = MPI_REQUEST_NULL;
-			req[4*di+2] = MPI_REQUEST_NULL;
-			req[4*di+3] = MPI_REQUEST_NULL;
-		}
-		if(gc)
-			MPI_Waitall(4, &req[4*di], MPI_STATUSES_IGNORE);
-	}
-	if(!gc)
-		MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
-
+			if(gc)
+				MPI_Waitall(4, &req[4*di], MPI_STATUSES_IGNORE);
 #elif defined(SHARK_NO_COMM)
-	const coords<ndim> count = domain().count();
-
-	for(int di = 0; di < ndim; di++) {
-		if(gw[di] > 0 && dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr) {
-			coords<ndim> off;
-			for(int d = 0; d < ndim; d++) {
-				off[d] = d == di ? count[di] : 0;
+			if(pd) {
+				{
+					coords<ndim> off = ghost_back[di].adj(di, 1) - ghost_front[di].lower;
+					ghost_front[di].for_each([&acc,&off](coords<ndim> ii) {
+						acc(ii) = acc(ii+off);
+					});
+				}
+				{
+					coords<ndim> off = ghost_front[di].adj(di, -1) - ghost_back[di].lower;
+					ghost_back[di].for_each([&acc,&off](coords<ndim> ii) {
+						acc(ii) = acc(ii+off);
+					});
+				}
 			}
-			ghost_back[di].for_each([&acc,&off](coords<ndim> ii) {
-				acc(ii) = acc(ii+off);
-			});
-			for(int d = 0; d < ndim; d++) {
-				off[d] = d == di ? -count[di] : 0;
-			}
-			ghost_front[di].for_each([&acc,&off](coords<ndim> ii) {
-				acc(ii) = acc(ii+off);
-			});
-		}
-}
-
 #else
 #error "No comm update"
+#endif
+
+		}
+	}
+
+#if defined(SHARK_MPI_COMM)
+	if(!gc)
+		MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
 #endif
 }
 
