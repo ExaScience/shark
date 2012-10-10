@@ -211,6 +211,7 @@ namespace shark {
 			 * @param ld the strides to use for buf
 			 * @param buf the source buffer
 			 */
+			template<typename = void>
 			void accumulate(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
 
 			/**
@@ -228,6 +229,7 @@ namespace shark {
 			 * RMA operations cannot overlap with local access.
 			 * @param sa the sparse array whose values to send out
 			 */
+			template<typename = void>
 			void scatterAcc(const SparseArray<ndim,T>& sa);
 		};
 

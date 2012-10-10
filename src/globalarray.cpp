@@ -453,7 +453,7 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld,
 #endif
 }
 
-template<int ndim,typename T>
+template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
@@ -481,7 +481,7 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	});
 }
 
-template<int ndim,typename T>
+template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 	assert(domain() == sa.dom);
 	auto eld = sa.eld();
@@ -521,6 +521,18 @@ GARef<ndim,T>::~GARef() { }
 #define SYMBDT(d,T) template class shark::ndim::GlobalArray<d,T>; 
 #include "inst_dimtype"
 #undef SYMBDT
+
+#define SYMB_ARITH
+
+#define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::accumulate(coords_range<d>, std::array<std::size_t,d-1>, const T*);
+#include "inst_dimtype"
+#undef SYMBDT
+
+#define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::scatterAcc(const SparseArray<d,T>&);
+#include "inst_dimtype"
+#undef SYMBDT
+
+#undef SYMB_ARITH
 
 #define SYMBDT(d,T) template class shark::ndim::GADest<d,T>; 
 #include "inst_dimtype"
