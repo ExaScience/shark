@@ -130,29 +130,29 @@ coords<ndim+1> GlobalArray<ndim,T>::stride(coords<ndim> count, coords<ndim> ghos
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::allocate() {
-	const coords<ndim> count = domain().count();
+	const coords_range<ndim> local = domain().local();
 	const coords<ndim> gw = ghost_width();
 	const bool gc = ghost_corners(); 
 
-	ld = stride(count, gw);
+	ld = stride(local.upper - local.lower, gw);
 
 	for(int di = 0; di < ndim; di++)
 		for(int d = 0; d < ndim; d++)
 			if(d == di) {
-				ghost_back [di].lower[d] = -gw[d];
-				ghost_back [di].upper[d] = 0;
-				ghost_front[di].lower[d] = count[d];
-				ghost_front[di].upper[d] = count[d] + gw[d];
+				ghost_back [di].lower[d] = local.lower[d] - gw[d];
+				ghost_back [di].upper[d] = local.lower[d];
+				ghost_front[di].lower[d] = local.upper[d];
+				ghost_front[di].upper[d] = local.upper[d] + gw[d];
 			} else if(gc && d < di) {
-				ghost_back [di].lower[d] = -gw[d];
-				ghost_back [di].upper[d] = count[d] + gw[d];
-				ghost_front[di].lower[d] = -gw[d];
-				ghost_front[di].upper[d] = count[d] + gw[d];
+				ghost_back [di].lower[d] = local.lower[d] - gw[d];
+				ghost_back [di].upper[d] = local.upper[d] + gw[d];
+				ghost_front[di].lower[d] = local.lower[d] - gw[d];
+				ghost_front[di].upper[d] = local.upper[d] + gw[d];
 			} else {
-				ghost_back [di].lower[d] = 0;
-				ghost_back [di].upper[d] = count[d];
-				ghost_front[di].lower[d] = 0;
-				ghost_front[di].upper[d] = count[d];
+				ghost_back [di].lower[d] = local.lower[d];
+				ghost_back [di].upper[d] = local.upper[d];
+				ghost_front[di].lower[d] = local.lower[d];
+				ghost_front[di].upper[d] = local.upper[d];
 			}
 
 #if defined(SHARK_MPI_COMM)
@@ -263,6 +263,8 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
 	const coords<ndim> gw = ghost_width();
+	Access<ndim,T> acc(*this);
+	
 #if defined(SHARK_MPI_COMM)
 	const bool gc = ghost_corners();
 	MPI_Comm comm = domain().group.impl->comm;
@@ -274,11 +276,11 @@ void GlobalArray<ndim,T>::update() const {
 			int prev = domain().shiftd(di, -1, pd);
 			int next = domain().shiftd(di,  1, pd);
 			// backward
-			MPI_Isend(&da(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
-			MPI_Irecv(&da(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
+			MPI_Isend(&acc(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
+			MPI_Irecv(&acc(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
 			// forward
-			MPI_Isend(&da(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
-			MPI_Irecv(&da(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
+			MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
+			MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
 		} else {
 			req[4*di] = MPI_REQUEST_NULL;
 			req[4*di+1] = MPI_REQUEST_NULL;
@@ -300,14 +302,14 @@ void GlobalArray<ndim,T>::update() const {
 			for(int d = 0; d < ndim; d++) {
 				off[d] = d == di ? count[di] : 0;
 			}
-			ghost_back[di].for_each([this,&off](coords<ndim> ii) {
-				this->da(ii) = this->da(ii+off);
+			ghost_back[di].for_each([&acc,&off](coords<ndim> ii) {
+				acc(ii) = acc(ii+off);
 			});
 			for(int d = 0; d < ndim; d++) {
 				off[d] = d == di ? -count[di] : 0;
 			}
-			ghost_front[di].for_each([this,&off](coords<ndim> ii) {
-				this->da(ii) = this->da(ii+off);
+			ghost_front[di].for_each([&acc,&off](coords<ndim> ii) {
+				acc(ii) = acc(ii+off);
 			});
 		}
 }
@@ -428,8 +430,9 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld,
 		}
 	);
 #elif defined(SHARK_NO_COMM)
-	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
-		buf[(i - range.lower).offset(ld)] = this->da(i);
+	const Access<ndim,T> acc(*this);
+	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
+		buf[(i - range.lower).offset(ld)] = acc(i);
 	});
 #else
 #error "No comm get"
@@ -447,8 +450,9 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld,
 		}
 	);
 #elif defined(SHARK_NO_COMM)
-	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
-		this->da(i) = buf[(i - range.lower).offset(ld)];
+	Access<ndim,T> acc(*this);
+	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
+		acc(i) = buf[(i - range.lower).offset(ld)];
 	});
 #else
 #error "No comm put"
@@ -466,8 +470,9 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 		}
 	);
 #elif defined(SHARK_NO_COMM)
-	range.for_each([this,&buf,&range,&ld](coords<ndim> i) {
-		this->da(i) += buf[(i - range.lower).offset(ld)];
+	Access<ndim,T> acc(*this);
+	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
+		acc(i) += buf[(i - range.lower).offset(ld)];
 	});
 #else
 #error "No comm accumulate"

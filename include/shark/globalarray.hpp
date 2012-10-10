@@ -110,7 +110,7 @@ namespace shark {
 		template<int ndim, typename T> template<typename Func>
 		void Boundary<ndim,T>::fun_fixed_type<Func>::set(Access<ndim,T>& a, coords_range<ndim> r) const {
 			r.for_each([&a,this](coords<ndim> ii) {
-				a.getLocal(ii) = f(ii);
+				a(ii) = f(ii);
 			});
 		}
 
