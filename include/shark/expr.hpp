@@ -525,7 +525,7 @@ namespace shark {
 
 		template<int d, int ndim, typename T>
 		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, coord lower, coord upper, T one) {
-			return NullaryExp<ndim,SCoordVal<d,ndim,T>>(dom, SCoordVal<d,ndim,T>(lower, one / (upper - lower - 1)));
+			return NullaryExp<ndim,SCoordVal<d,ndim,T>>(dom, SCoordVal<d,ndim,T>(lower, one / (upper - lower)));
 		}
 
 		template<int d, int ndim, typename T>
@@ -641,6 +641,25 @@ namespace shark {
 		template<typename S>
 		typename std::enable_if<is_source<S>::value, UnaryExp<S,Shift<S>>>::type shift(const S& src, coords<S::number_of_dimensions> sw) {
 			return UnaryExp<S,Shift<S>>(src, Shift<S>(sw));
+		}
+
+		template<int ndim, typename S>
+		class PeriodicShift {
+			coords_range<ndim> r;
+			coords<ndim> sw;
+		public:
+			PeriodicShift(coords_range<ndim> r, coords<ndim> sw);
+			auto operator()(const typename S::accessor& a, coords<ndim> ii) const -> decltype(a(ii)) {
+				return a(r.periodic_equiv(ii+sw));
+			}
+		};
+
+		template<int ndim, typename S>
+		PeriodicShift<ndim,S>::PeriodicShift(coords_range<ndim> r, coords<ndim> sw): r(r), sw(sw) { }
+
+		template<int ndim, typename S>
+		typename std::enable_if<is_source<S>::value, UnaryExp<S,PeriodicShift<ndim,S>>>::type shift(const S& src, coords<ndim> sw, coords_range<ndim> r) {
+			return UnaryExp<S,PeriodicShift<ndim,S>>(src, PeriodicShift<ndim,S>(r,sw));
 		}
 
 		/**

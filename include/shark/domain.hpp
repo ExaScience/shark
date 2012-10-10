@@ -23,7 +23,6 @@ namespace shark {
 		public:
 			typedef std::array<int,ndim> pcoords;
 			typedef std::array<std::vector<coord>,ndim> dists;
-			typedef std::bitset<ndim> periods;
 
 			/**
 			 * The group of processes that are hosting this domain.
@@ -34,11 +33,6 @@ namespace shark {
 			 * The total number of elements for every dimension.
 			 */
 			const coords<ndim> n;
-
-			/**
-			 * The periodicity of the domain for every dimension.
-			 */
-			const periods pd;
 
 			/**
 			 * The number of processes for every dimension.
@@ -54,11 +48,10 @@ namespace shark {
 			 * Construct a new domain (local).
 			 * The data will be evenly distributed across all processes.
 			 * @param n the number of elements for every dimension
-			 * @param pd the periodicity of the domain for every dimension
 			 * @param np the number of processes for every dimension (0 = auto)
 			 * \verbatim nprocs = prod{d=0..ndim-1} np[d] \endverbatim
 			 */
-			Domain(const Group& group, coords<ndim> n, periods pd = periods(), pcoords np = pcoords());
+			Domain(const Group& group, coords<ndim> n, pcoords np = pcoords());
 
 			/**
 			 * Construct a new domain (local).
@@ -69,7 +62,7 @@ namespace shark {
 			 * @param dist specifyies the distribution for each dimension
 			 * \verbatim for each d=0..ndim-1, dist[d][0] = 0, dist[d][np[d]] = n[d], dist[d][i] <= dist[d][j] when i < j \endverbatim
 			 */
-			Domain(const Group& group, coords<ndim> n, periods pd, pcoords np, dists nd);
+			Domain(const Group& group, coords<ndim> n, pcoords np, dists nd);
 
 			/**
 			 * Destruct a domain (local).
@@ -109,14 +102,14 @@ namespace shark {
 			INLINE int pindex(pcoords ip) const; 
 
 			/**
-			 * Get process identifier after a process shift (local). This will wrap
-			 * around in the period case or return MPI_PROC_NULL in the non-period case.
+			 * Get process identifier after a process shift (local).
 			 * @param d the dimension to shift
 			 * @param disp the amount to shift with
+			 * @param pd wrap around periodically (else returns MPI_PROC_NULL or -1)
 			 * @param id the process identifier to start from (default: group.procid)
 			 */
-			int shiftd(int d, int disp, int id) const;
-			INLINE int shiftd(int d, int disp) const;
+			int shiftd(int d, int disp, bool pd, int id) const;
+			INLINE int shiftd(int d, int disp, bool pd) const;
 
 			/**
 			 * Get coordinates of the array region owned by a process (local).
@@ -227,8 +220,8 @@ namespace shark {
 		}
 		
 		template<int ndim>
-		inline int Domain<ndim>::shiftd(int d, int disp) const {
-			return shiftd(d, disp, group.procid);
+		inline int Domain<ndim>::shiftd(int d, int disp, bool pd) const {
+			return shiftd(d, disp, pd, group.procid);
 		}
 
 		template<int ndim>

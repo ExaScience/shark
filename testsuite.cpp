@@ -65,10 +65,12 @@ public:
 	void test_basic(tester& t);
 	void test_ghost(tester& t);
 	void test_ghost_corner(tester& t);
+	void test_ghost_periodic(tester& t);
 	void run(tester& t) {
 		test_basic(t);
 		test_ghost(t);
 		test_ghost_corner(t);
+		test_ghost_periodic(t);
 	}
 };
 
@@ -95,11 +97,10 @@ void suite1<ndim,S>::test_ghost(tester& t) {
 	for(int d = 0; d < ndim; d++)
 		gw[d] = 2;
 	coords_range<ndim> inner = dom.total();
-	for(int d = 0; d < ndim; d++)
-		if(!dom.pd[d]) {
-			inner.lower[d] += gw[d];
-			inner.upper[d] -= gw[d];
-		}
+	for(int d = 0; d < ndim; d++) {
+		inner.lower[d] += gw[d];
+		inner.upper[d] -= gw[d];
+	}
 	{
 		GlobalArray<ndim,double> ga(dom, gw);
 		ga = src;
@@ -126,11 +127,10 @@ void suite1<ndim,S>::test_ghost_corner(tester& t) {
 	for(int d = 0; d < ndim; d++)
 		gw[d] = 2;
 	coords_range<ndim> inner = dom.total();
-	for(int d = 0; d < ndim; d++)
-		if(!dom.pd[d]) {
-			inner.lower[d] += gw[d];
-			inner.upper[d] -= gw[d];
-		}
+	for(int d = 0; d < ndim; d++) {
+		inner.lower[d] += gw[d];
+		inner.upper[d] -= gw[d];
+	}
 	{
 		GlobalArray<ndim,double> ga(dom, gw, true);
 		ga = src;
@@ -141,6 +141,33 @@ void suite1<ndim,S>::test_ghost_corner(tester& t) {
 	t.end_test();
 }
 
+template<int ndim, typename S>
+void suite1<ndim,S>::test_ghost_periodic(tester& t) {
+	t.begin_test("test_ghost_periodic");
+	coords<ndim> gw;
+	for(int d = 0; d < ndim; d++)
+		gw[d] = 2;
+	typename GlobalArray<ndim,double>::bounds bd;
+	for(int d = 0; d < ndim; d++)
+		bd[d] = Boundary<ndim,double>::periodic();
+	{
+		GlobalArray<ndim,double> ga(dom, gw, false, bd);
+		ga = src;
+		ga.update();
+		t.add_result(check(dom.total(), ga == src));
+		for(int d = 0; d < ndim; d++) {
+			coords<ndim> sd = {{}}, su = {{}};
+			sd[d] = -1;
+			su[d] = 1;
+			t.add_result(check(dom.total(),
+				shift(ga,sd) == shift(src,sd,dom.total()) &&
+				shift(ga,su) == shift(src,su,dom.total()) && 
+				shift(ga,sd+sd) == shift(src,sd+sd,dom.total()) &&
+				shift(ga,su+su) == shift(src,su+su,dom.total())));
+		}
+	}
+	t.end_test();
+}
 
 int main(int argc, char* argv[]) {
 	Init(&argc, &argv);
@@ -149,7 +176,7 @@ int main(int argc, char* argv[]) {
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
-		auto f = sin(coord_val<0>(dom)) * cos(coord_val<1>(dom));
+		auto f = sin(coord_val<0>(dom, 2*M_PI)) * cos(coord_val<1>(dom, 2*M_PI));
 		make_suite1(dom, f).run(t);
 	}
 	Finalize();

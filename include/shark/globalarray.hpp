@@ -19,41 +19,47 @@ namespace shark {
 		 */
 		template<int ndim, typename T>
 		class Boundary {
+			friend class GlobalArray<ndim,T>;
+
 			class type;
+			class periodic_type;
 			std::unique_ptr<type> t;
 
 			Boundary(type* t);
 
 		public:
-			Boundary(const Boundary& other);
-			~Boundary();
-
-			bool is_fixed();
-
 			/**
 			 * Create an unmanaged boundary
 			 */
 			Boundary();
 
+			~Boundary();
+
+			/**
+			 * Copy semantics
+			 */
+			Boundary(const Boundary<ndim,T>& other);
+			Boundary<ndim,T>& operator=(const Boundary<ndim,T>& other);
+
 			/**
 			 * Create a periodic boundary
 			 */
-			static Boundary periodic();
+			static Boundary<ndim,T> periodic();
 
 			/**
 			 * Create a boundary with a constant value over space and time
 			 */
-			static Boundary constant(const T& val);
+			static Boundary<ndim,T> constant(const T& val);
 
 			/**
 			 * Create a boundary with values fixed over time
 			 */
-			static Boundary fixed(std::function<void(coords_range<ndim>, T*)>);
+			static Boundary<ndim,T> fixed(std::function<void(coords_range<ndim>, T*)>);
 
 			/**
 			 * Create a general boundary
 			 */
-			static Boundary general(std::function<void(coords_range<ndim>, T*)>);
+			static Boundary<ndim,T> general(std::function<void(coords_range<ndim>, T*)>);
 		};
 
 		template<int>
@@ -76,11 +82,13 @@ namespace shark {
 			typedef GARef<ndim,T> storage;
 			typedef Access<ndim,T> accessor;
 			static const /*constexpr*/ int number_of_dimensions = ndim;
+			typedef std::array<Boundary<ndim,T>,ndim> bounds;
 
 		private:
 			const Domain<ndim>* dom;
 			coords<ndim> gw;
 			bool gc;
+			bounds bd;
 			T* ptr;
 
 			std::unique_ptr<GAImpl<ndim>> impl;
@@ -141,7 +149,7 @@ namespace shark {
 			 * @param ghost_width number of ghost cells for each dimension
 			 * @param ghost_corners whether to maintain the corner ghost cells
 			 */
-			GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width = coords<ndim>(), bool ghost_corners = false);
+			GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width = coords<ndim>(), bool ghost_corners = false, bounds bd = bounds());
 
 			GlobalArray(const GlobalArray<ndim,T>& other, bool copy);
 

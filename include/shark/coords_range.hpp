@@ -34,6 +34,7 @@ namespace shark {
 			bool contains(coords<ndim> i) const;
 			bool contains(coords_range<ndim> other) const;
 			INLINE coord size() const;
+			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
 		};
 
 		template<int ndim>
@@ -61,6 +62,23 @@ namespace shark {
 		template<int ndim>
 		inline coord coords_range<ndim>::size() const {
 			return seq<0,ndim>::product([this](int d) { return upper[d] - lower[d]; }, coord(1));
+		}
+
+		template<int ndim>
+		inline coords<ndim> coords_range<ndim>::periodic_equiv(coords<ndim> ii) const {
+			seq<0,ndim>::for_each([this,&ii](int d) {
+				coord nd = upper[d] - lower[d];
+				if(ii[d] < lower[d]) {
+					do {
+						ii[d] += nd;
+					} while(ii[d] < lower[d]);
+				} else if(ii[d] >= upper[d]) {
+					do {
+						ii[d] -= nd;
+					} while(ii[d] >= upper[d]);
+				}
+			});
+			return ii;
 		}
 
 	}

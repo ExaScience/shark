@@ -138,10 +138,9 @@ vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
 #endif
 
 template<int ndim>
-Domain<ndim>::Domain(const Group& group, coords<ndim> n, periods pd, pcoords np)
+Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np)
 	: group(group)
 	, n(n)
-	, pd(pd)
 	// Using comma operator to invoke adjustProcs
 	, np((adjustProcs(group.nprocs,np), np))
 	, nd(distribution(n, np))
@@ -156,10 +155,9 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, periods pd, pcoords np)
 }
 
 template<int ndim>
-Domain<ndim>::Domain(const Group& group, coords<ndim> n, periods pd, pcoords np, dists nd)
+Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np, dists nd)
 	: group(group)
 	, n(n)
-	, pd(pd)
 	, np(np)
 	, nd(nd)
 	, b(base(np))
@@ -221,7 +219,7 @@ bool Domain<ndim>::operator==(const Domain<ndim>& other) const {
 
 template<int ndim>
 bool Domain<ndim>::equiv(const Domain<ndim>& other) const {
-	return n == other.n && pd == other.pd && group == other.group;
+	return n == other.n && group == other.group;
 }
 
 template<int ndim>
@@ -241,26 +239,29 @@ coords_range<ndim> Domain<ndim>::local(int id) const {
 }
 
 template<int ndim>
-int Domain<ndim>::shiftd(int d, int disp, int id) const {
+int Domain<ndim>::shiftd(int d, int disp, bool pd, int id) const {
 	pcoords ip = indexp(id);
-	if(pd[d]) {
-		ip[d] = (ip[d] + disp) % np[d];
-		if(ip[d] < 0)
-			ip[d] += np[d];
-		return pindex(ip);
-	} else {
-		ip[d] += disp;
-		if(ip[d] < 0 || ip[d] >= np[d])
+	ip[d] += disp;
 #if defined(SHARK_MPI_COMM)
-			return MPI_PROC_NULL;
-#elif defined(SHARK_NO_COMM)
-			return -1;
-#else
-#error "No null process"
-#endif
+	if(ip[d] >= np[d]) {
+		if(pd)
+			do {
+				ip[d] -= np[d];
+			} while(ip[d] >= np[d]);
 		else
-			return pindex(ip);
+			return MPI_PROC_NULL;
+	} else if(ip[d] < 0) {
+		if(pd)
+			do {
+				ip[d] += np[d];
+			} while(ip[d] < 0);
+		else
+			return MPI_PROC_NULL;
 	}
+	return pindex(ip);
+#elif defined(SHARK_NO_COMM)
+	return pd || ip[d] == 0 ? 0 : -1;
+#endif
 }
 
 // Set-up instantiations

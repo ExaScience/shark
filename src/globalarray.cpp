@@ -10,7 +10,17 @@ namespace shark {
 	namespace ndim {
 		template<int ndim, typename T>
 		class Boundary<ndim,T>::type {
-			virtual ~type() = 0;
+		public:
+			virtual ~type();
+			virtual type* clone() const;
+		};
+
+		template<int ndim, typename T>
+		class Boundary<ndim,T>::periodic_type: public type {
+		public:
+			periodic_type();
+			virtual ~periodic_type();
+			virtual periodic_type* clone() const;
 		};
 	}
 }
@@ -20,7 +30,46 @@ using namespace shark;
 using namespace shark::ndim;
 
 template<int ndim, typename T>
+Boundary<ndim,T>::type::~type() { }
+
+template<int ndim, typename T>
+typename Boundary<ndim,T>::type* Boundary<ndim,T>::type::clone() const {
+	return new type();
+}
+
+template<int ndim, typename T>
+Boundary<ndim,T>::periodic_type::periodic_type() { }
+
+template<int ndim, typename T>
+Boundary<ndim,T>::periodic_type::~periodic_type() { }
+
+template<int ndim, typename T>
+typename Boundary<ndim,T>::periodic_type* Boundary<ndim,T>::periodic_type::clone() const {
+	return new periodic_type();
+}
+
+template<int ndim, typename T>
 Boundary<ndim,T>::Boundary(type* t): t(t) { }
+
+template<int ndim, typename T>
+Boundary<ndim,T>::Boundary(): t(new type()) { }
+
+template<int ndim, typename T>
+Boundary<ndim,T>::~Boundary() { }
+
+template<int ndim, typename T>
+Boundary<ndim,T>::Boundary(const Boundary<ndim,T>& other): t(other.t->clone()) { }
+
+template<int ndim, typename T>
+Boundary<ndim,T>& Boundary<ndim,T>::operator=(const Boundary<ndim,T>& other) {
+	t.reset(other.t->clone());
+	return *this;
+}
+
+template<int ndim, typename T>
+Boundary<ndim,T> Boundary<ndim,T>::periodic() {
+	return Boundary<ndim,T>(new periodic_type());
+}
 
 template<int ndim, typename T>
 const int GlobalArray<ndim,T>::number_of_dimensions;
@@ -41,6 +90,7 @@ GlobalArray<ndim,T>::GlobalArray(GlobalArray<ndim,T>&& other):
 	dom(other.dom),
 	gw(other.gw),
 	gc(other.gc),
+	bd(std::move(other.bd)),
 	ptr(other.ptr),
 	impl(std::move(other.impl)),
 	ld(std::move(other.ld)),
@@ -58,6 +108,7 @@ GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other)
 	dom = other.dom;
 	gw = other.gw;
 	gc = other.gc;
+	bd = std::move(other.bd);
 	ptr = other.ptr;
 	impl = std::move(other.impl);
 	ld = std::move(other.ld);
@@ -135,14 +186,14 @@ void GlobalArray<ndim,T>::allocate(const Domain<ndim>& domain, coords<ndim> ghos
 
 // Constructors
 template<int ndim, typename T>
-GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners):
-  dom(&domain), gw(ghost_width), gc(ghost_corners), impl(new GAImpl<ndim>()), lc(0) {
+GlobalArray<ndim,T>::GlobalArray(const Domain<ndim>& domain, coords<ndim> ghost_width, bool ghost_corners, bounds bd):
+  dom(&domain), gw(ghost_width), gc(ghost_corners), bd(bd), impl(new GAImpl<ndim>()), lc(0) {
 	allocate(domain, ghost_width, ghost_corners, &ptr, *impl, ld);
 }
 
 template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
-  dom(other.dom), gw(other.gw), gc(other.gc), impl(new GAImpl<ndim>()), lc(0) {
+  dom(other.dom), gw(other.gw), gc(other.gc), bd(other.bd), impl(new GAImpl<ndim>()), lc(0) {
 	allocate(domain(), ghost_width(), ghost_corners(), &ptr, *impl, ld);
 
 	if(copy)
@@ -205,8 +256,9 @@ void GlobalArray<ndim,T>::update() const {
 
 	for(int di = 0; di < ndim; di++) {
 		if(gw[di] > 0) {
-			const int prev = domain().shiftd(di, -1);
-			const int next = domain().shiftd(di,  1);
+			bool pd = dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr;
+			int prev = domain().shiftd(di, -1, pd);
+			int next = domain().shiftd(di,  1, pd);
 			coords<ndim> fronti, backi;
 			// backward
 			for(int d = 0; d < ndim; d++) {
@@ -446,6 +498,10 @@ GARef<ndim,T>::~GARef() { }
 // Set-up instantiations
 
 #include "types"
+
+#define SYMBDT(d,T) template class shark::ndim::Boundary<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 
 #define SYMBDT(d,T) template class shark::ndim::GlobalArray<d,T>; 
 #include "inst_dimtype"
