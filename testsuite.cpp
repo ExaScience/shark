@@ -63,11 +63,13 @@ public:
 	suite1(const Domain<ndim>& dom, const S& src): dom(dom), src(src) { }
 	~suite1() { }
 	void test_basic(tester& t);
+	void test_move(tester& t);
 	void test_ghost(tester& t);
 	void test_ghost_corner(tester& t);
 	void test_ghost_periodic(tester& t);
 	void run(tester& t) {
 		test_basic(t);
+		test_move(t);
 		test_ghost(t);
 		test_ghost_corner(t);
 		test_ghost_periodic(t);
@@ -85,6 +87,22 @@ void suite1<ndim,S>::test_basic(tester& t) {
 	{
 		GlobalArray<ndim,double> ga(dom);
 		ga = src;
+		t.add_result(check(ga == src));
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_move(tester& t) {
+	t.begin_test("test_move");
+	{
+		GlobalArray<ndim,double> ga(dom);
+		ga = constant(dom, 0.0);
+		{
+			GlobalArray<ndim,double> tmp(dom);
+			tmp = src;
+			ga = std::move(tmp);
+		}
 		t.add_result(check(ga == src));
 	}
 	t.end_test();
