@@ -197,14 +197,14 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update() const {
 #if defined(SHARK_MPI_COMM)
-	bool any = false;
 	const coords<ndim> gw = ghost_width();
 	const bool gc = ghost_corners();
 	const coords<ndim> count = domain().count();
+	MPI_Comm comm = domain().group.impl->comm;
+	MPI_Request req[4*ndim];
 
 	for(int di = 0; di < ndim; di++) {
 		if(gw[di] > 0) {
-			any = true;
 			const int prev = domain().shiftd(di, -1);
 			const int next = domain().shiftd(di,  1);
 			coords<ndim> fronti, backi;
@@ -213,20 +213,22 @@ void GlobalArray<ndim,T>::update() const {
 				fronti[d] = gc && d < di ? -gw[d] : 0;
 				backi[d] = d == di ? count[d] : fronti[d];
 			}
-			MPI_Sendrecv(&da(fronti), 1, impl->ghost[di], prev, 2*di,
-					&da(backi), 1, impl->ghost[di], next, 2*di,
-					domain().group.impl->comm, MPI_STATUS_IGNORE);
+			MPI_Isend(&da(fronti), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
+			MPI_Irecv(&da(backi), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
 			// forward
 			fronti[di] -= gw[di];
 			backi[di] -= gw[di];
-			MPI_Sendrecv(&da(backi), 1, impl->ghost[di], next, 2*di+1,
-					&da(fronti), 1, impl->ghost[di], prev, 2*di+1,
-					domain().group.impl->comm, MPI_STATUS_IGNORE);
+			MPI_Isend(&da(backi), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
+			MPI_Irecv(&da(fronti), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
+		} else {
+			req[4*di] = MPI_REQUEST_NULL;
+			req[4*di+1] = MPI_REQUEST_NULL;
+			req[4*di+2] = MPI_REQUEST_NULL;
+			req[4*di+3] = MPI_REQUEST_NULL;
 		}
 	}
+	MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
 
-	if(!any)
-		domain().sync();
 	/* 
 		int recvcounts[nprocs];
 		int displs[nprocs];
