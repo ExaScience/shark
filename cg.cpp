@@ -7,6 +7,8 @@
 #include <shark.hpp>
 #include "cg.hpp"
 
+#define USE_BOUNDS
+
 using namespace std;
 using namespace shark;
 using namespace shark::types2d;
@@ -50,7 +52,9 @@ public:
 		coords right; right[0] = ii[0]+1; right[1] = ii[1];
 		coords below; below[0] = ii[0];   below[1] = ii[1]-1;
 		coords above; above[0] = ii[0];   above[1] = ii[1]+1;
-		//return (4.0 * x(ii) - x(left) - x(below) - x(above) - x(right)) / h / h;
+#ifdef USE_BOUNDS
+		return (4.0 * x(ii) - x(left) - x(below) - x(above) - x(right)) / h / h;
+#else
 		double r = 4.0 * x(ii);
 		if(ii[0] > 0) r -= x(left);
 		if(ii[1] > 0) r -= x(below);
@@ -58,6 +62,7 @@ public:
 		if(ii[0] < nx-1) r -= x(right);
 		r /= h*h;
 		return r;
+#endif
 	}
 };
 
@@ -131,17 +136,22 @@ int main(int argc, char **argv) {
 
 		coords size = {{n,n}};
 		coords gw = {{1,1}};
+#ifdef USE_BOUNDS
+		typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
+#else
+		typename GlobalArrayD::bounds bd = {{ }};
+#endif
 		Domain d(world(), size);
 		if(world().procid == 0)
 			d.outputDistribution(cerr);
 
-		GlobalArrayD x_exact(d, gw);
+		GlobalArrayD x_exact(d, gw, false, bd);
 		x_exact = constant(d, 1.0);
 
 		GlobalArrayD b(d);
 		b = Amult(x_exact);
 
-		GlobalArrayD sol(d, gw);
+		GlobalArrayD sol(d, gw, false, bd);
 		sol = constant(d, 0.0);
 
 		int k = 0;
