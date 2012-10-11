@@ -467,13 +467,13 @@ namespace shark {
 		SCoordVec<ndim,T>::~SCoordVec() { }
 
 		template<int ndim, typename T>
-		NullaryExp<ndim,SCoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, coords_range<ndim> r, vec<ndim,T> one) {
-			return NullaryExp<ndim,SCoordVec<ndim,T>>(dom, SCoordVec<ndim,T>(r.lower, one / (r.upper - r.lower - coords<ndim>::one()).to_vec()));
+		NullaryExp<ndim,SCoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, coords_range<ndim> r, vec<ndim,T> one, bool inclusive=true) {
+			return NullaryExp<ndim,SCoordVec<ndim,T>>(dom, SCoordVec<ndim,T>(r.lower, one / (inclusive ? r.upper - r.lower - coords<ndim>::one() : r.upper - r.lower).to_vec()));
 		}
 
 		template<int ndim, typename T>
-		NullaryExp<ndim,SCoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, vec<ndim,T> one) {
-			return coord_vec(dom, dom.total(), one);
+		NullaryExp<ndim,SCoordVec<ndim,T>> coord_vec(const Domain<ndim>& dom, vec<ndim,T> one, bool inclusive=true) {
+			return coord_vec(dom, dom.total(), one, inclusive);
 		}
 
 		template<int d, int ndim>
@@ -516,13 +516,13 @@ namespace shark {
 		SCoordVal<d,ndim,T>::~SCoordVal() { }
 
 		template<int d, int ndim, typename T>
-		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, coord lower, coord upper, T one) {
-			return NullaryExp<ndim,SCoordVal<d,ndim,T>>(dom, SCoordVal<d,ndim,T>(lower, one / (upper - lower)));
+		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, coord lower, coord upper, T one, bool inclusive=true) {
+			return NullaryExp<ndim,SCoordVal<d,ndim,T>>(dom, SCoordVal<d,ndim,T>(lower, one / (inclusive ? upper - lower - coord(1) : upper - lower)));
 		}
 
 		template<int d, int ndim, typename T>
-		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, T one) {
-			return coord_val<d>(dom, coord(0), dom.n[d], one);
+		NullaryExp<ndim,SCoordVal<d,ndim,T>> coord_val(const Domain<ndim>& dom, T one, bool inclusive=true) {
+			return coord_val<d>(dom, coord(0), dom.n[d], one, inclusive);
 		}
 
 		/**

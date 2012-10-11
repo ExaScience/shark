@@ -9,21 +9,20 @@ using namespace std;
 using namespace shark;
 using namespace shark::types2d;
 
-void init_pyramid(int n, GlobalArrayD& ga) {
-	const coords_range inner = {{{1,1}},{{n,n}}};
+void init_pyramid(GlobalArrayD& ga) {
+	const coords_range outer = { ga.domain().total().lower - ga.ghost_width(), ga.domain().total().upper + ga.ghost_width() };
+	const vecD one = {{1.0, 1.0}};
+	const vecD mid = {{0.5, 0.5}};
 
-	vecD one = {{1.0, 1.0}};
-	vecD mid = {{0.5, 0.5}};
-	ga.region(inner) = 1.0 - max_element(abs(coord_vec(ga.domain(), one) - mid)) / 0.5;
+	ga = 1.0 - max_element(abs(coord_vec(ga.domain(), outer, one) - mid)) / 0.5;
 }
 
-void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
+void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
 	// Sync and make sure ga is complete
 	ga.update();
-	const coords_range inner = {{{1,1}},{{n,n}}};
 
 #if 1
-	gb.region(inner) = unary(ga, [nu](const AccessD& u, coords ii) -> double {
+	gb = unary(ga, [nu](const AccessD& u, coords ii) -> double {
 		coords left;   left[0] = ii[0]-1;  left[1] = ii[1];
 		coords right; right[0] = ii[0]+1; right[1] = ii[1];
 		coords above; above[0] = ii[0];   above[1] = ii[1]-1;
@@ -37,7 +36,7 @@ void heat(int n, const GlobalArrayD& ga, GlobalArrayD& gb, double nu) {
 	coords north; north[0] = 0; north[1] = -1;
 	coords south; south[0] = 0; south[1] = 1;
 
-	gb.region(inner) = ga + nu * (shift(ga,west) + shift(ga,east) + shift(ga,north) + shift(ga,south) - 4 * ga);
+	gb = ga + nu * (shift(ga,west) + shift(ga,east) + shift(ga,north) + shift(ga,south) - 4 * ga);
 #endif
 }
 
@@ -46,9 +45,9 @@ void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
 
 	for(int k = 0; k < nr; k++) {
 		if (k % 2 == 0)
-			heat(n, ga, gb, nu);
+			heat(ga, gb, nu);
 		else
-			heat(n, gb, ga, nu);
+			heat(gb, ga, nu);
 	}
 }
 
@@ -102,17 +101,16 @@ int main(int argc, char **argv) {
 	SetupThreads();
 
 	{
-		const coords size  = {{n+1,n+1}};
+		const coords size  = {{n-1,n-1}};
 		const coords ghost = {{1,1}};
 		Domain d(world(), size);
 		if(world().procid == 0)
 			d.outputDistribution(cerr);
-		GlobalArrayD ga(d, ghost);
-		GlobalArrayD gb(d, ghost);
+		typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
+		GlobalArrayD ga(d, ghost, false, bd);
+		GlobalArrayD gb(d, ghost, false, bd);
 		world().sync();
-		ga = constant(d, 0.0);
-		gb = constant(d, 0.0);
-		init_pyramid(n, ga);
+		init_pyramid(ga);
 		double e0 = norm1(ga) / n / n;
 		double f0 = norm2(ga) / n / n;
 		if(world().procid == 0) {

@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
-		auto f = sin(coord_val<0>(dom, 2*M_PI)) * cos(coord_val<1>(dom, 2*M_PI));
+		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false));
 		make_suite1(dom, f).run(t);
 	}
 	Finalize();
