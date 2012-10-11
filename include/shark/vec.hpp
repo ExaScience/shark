@@ -1,19 +1,9 @@
 #ifndef __SHARK_VEC_HPP
 #define __SHARK_VEC_HPP
 
-#include <utility>        // std::declval
-
-// Temporary fix to enable declval for libstdc++ 4.4
-#if defined(__GLIBCXX__) && __GLIBCXX__ < 20100414
-#include <type_traits>
-namespace std {
-	template<typename T>
-	typename add_rvalue_reference<T>::type declval();
-}
-#endif
-
-#include "abs.hpp"
+#include "declval.hpp"   // std::declval
 #include "common.hpp"
+#include "adl.hpp"
 
 namespace shark {
 
@@ -195,9 +185,9 @@ namespace shark {
 		}
 
 		template<int ndim, typename T>
-		inline vec<ndim,decltype(abs(std::declval<T>()))> abs(const vec<ndim,T>& v) {
-			vec<ndim,decltype(abs(std::declval<T>()))> r;
-			seq<0,ndim>::for_each([&r,&v](int d) { r[d] = abs(v[d]); });
+		inline vec<ndim,decltype(adl_abs(std::declval<T>()))> abs(const vec<ndim,T>& v) {
+			vec<ndim,decltype(adl_abs(std::declval<T>()))> r;
+			seq<0,ndim>::for_each([&r,&v](int d) { r[d] = adl_abs(v[d]); });
 			return r;
 		}
 

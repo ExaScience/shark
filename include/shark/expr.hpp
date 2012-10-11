@@ -3,18 +3,10 @@
 #define __SHARK_EXPR_HPP
 
 #include <cassert>
-#include <utility>         // std::declval
 #include <type_traits>     // std::true_type, std::enable_if
-// Temporary fix to enable declval for libstdc++ 4.4
-#if defined(__GLIBCXX__) && __GLIBCXX__ < 20100414
-#include <type_traits>
-namespace std {
-	template<typename T>
-	typename add_rvalue_reference<T>::type declval();
-}
-#endif
-#include "abs.hpp"
+#include "declval.hpp"     // std::declval
 #include "common.hpp"
+#include "adl.hpp"
 #include "coords.hpp"
 #include "vec.hpp"
 
@@ -557,8 +549,8 @@ namespace shark {
 		template<typename S>
 		class Abs {
 		public:
-			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(abs(a(ii))) {
-				return abs(a(ii));
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(adl_abs(a(ii))) {
+				return adl_abs(a(ii));
 			}
 		};
 
@@ -570,8 +562,8 @@ namespace shark {
 		template<typename S>
 		class Sin {
 		public:
-			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(sin(a(ii))) {
-				return sin(a(ii));
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(adl_sin(a(ii))) {
+				return adl_sin(a(ii));
 			}
 		};
 
@@ -583,8 +575,8 @@ namespace shark {
 		template<typename S>
 		class Cos {
 		public:
-			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(cos(a(ii))) {
-				return cos(a(ii));
+			auto operator()(const typename S::accessor& a, coords<S::number_of_dimensions> ii) const -> decltype(adl_cos(a(ii))) {
+				return adl_cos(a(ii));
 			}
 		};
 
