@@ -18,13 +18,13 @@ class tester {
 public:
 	tester(ostream& out): out(out), fails(0), tests(0) { }
 	~tester() { }
-	void begin_test(std::string&& name);
+	void begin_test(const std::string& name);
 	void end_test();
 	void add_result(test_result r);
 };
 
-void tester::begin_test(std::string&& name) {
-	current = move(name);
+void tester::begin_test(const std::string& name) {
+	current = name;
 	curfails = 0;
 	curchecks = 0;
 	if(world().procid == 0)
