@@ -1,6 +1,7 @@
 
 CXXFLAGS=$(CFLAGS) -std=c++0x
 LINK.o=$(CXX) $(LDFLAGS) $(TARGET_ARCH)
+OUTPUT_OPTION=-MMD -MP -o $@
 
 VPATH=$(ROOT)
 
@@ -31,7 +32,5 @@ clean:
 	rm -f $(DFILES) $(OFILES)
 	rm -f libshark.a main heat cg
  
-include $(DFILES)
+-include $(DFILES)
 
-%.d: %.cpp
-	$(CXX) $(CXXFLAGS) -MM $< -MT $*.o -o $@
