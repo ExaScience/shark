@@ -11,6 +11,7 @@ namespace shark {
 		struct part {
 			vec<ndim,T> x;
 			vec<ndim,T> v;
+			T w;
 		};
 
 	}

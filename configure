@@ -9,7 +9,7 @@ comms="off|mpi"
 asyncs="off|nbc|mpi"
 
 function usage {
-	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>]" 2>&1
+	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>] [--no-inst]" 2>&1
 }
 
 function use_err {
@@ -37,6 +37,7 @@ sched=ser
 comm=mpi
 mpi=ompi-c
 async=off
+inst=1
 
 # Parse arguments
 
@@ -71,6 +72,9 @@ while [ $# != 0 ]; do
 		--pkg-dir=*)
 			dir=${1#*=}
 			cp $dir/*.pc .
+		;;
+		--no-inst)
+			inst=
 		;;
 		-h|--help)
 			usage
@@ -203,10 +207,12 @@ Libs: $pub_libs -L\${libdir} -lshark
 Libs.private: $pri_libs
 END
 
-for f in types inst_dim inst_dimtype; do
-	echo "Creating $f..."
-	cp "$BASE/$f.tmpl" "$f"
-done
+if [ -n "$inst" ]; then
+	for f in types inst_dim inst_dimtype; do
+		echo "Creating $f..."
+		cp "$BASE/$f.tmpl" "$f"
+	done
+fi
 
 echo "Writing config.log..."
 cat > config.log <<END

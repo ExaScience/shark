@@ -178,7 +178,11 @@ namespace shark {
 
 			/**
 			 * Apply elemental function onto the elements of range
+			 * @param r the range where function is applied (default: total())
+			 * @param f the function to apply
 			 */
+			template<typename Func>
+			INLINE void for_each(const Func& f) const;
 			template<typename Func>
 			void for_each(coords_range<ndim> r, const Func& f) const;
 			
@@ -186,8 +190,12 @@ namespace shark {
 			 * Sum elemental function over the elements of range
 			 */
 			template<typename T, typename Func>
+			INLINE T sum(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
 			T sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
+			template<typename T, typename Func>
+			INLINE T internal_sum(const T& zero, const Func& f) const;
 			template<typename T, typename Func>
 			T internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
@@ -268,6 +276,11 @@ namespace shark {
 		// Generic Domain members
 		
 		template<int ndim> template<typename Func>
+		inline void Domain<ndim>::for_each(const Func& f) const {
+			for_each(total(), f);
+		}
+		
+		template<int ndim> template<typename Func>
 		void Domain<ndim>::for_each(coords_range<ndim> r, const Func& f) const {
 #if defined(SHARK_SER_SCHED)
 			local().overlap(r).for_each(f);
@@ -278,6 +291,11 @@ namespace shark {
 #else
 #error "No scheduler for_each"
 #endif
+		}
+
+		template<int ndim> template<typename T, typename Func>
+		inline T Domain<ndim>::internal_sum(const T& zero, const Func& f) const {
+			return internal_sum(total(), zero, f);
 		}
 		
 		template<int ndim> template<typename T, typename Func>
@@ -301,6 +319,11 @@ namespace shark {
 #else
 #error "No scheduler internal_sum"
 #endif
+		}
+
+		template<int ndim> template<typename T, typename Func>
+		inline T Domain<ndim>::sum(const T& zero, const Func& f) const {
+			return sum(total(), zero, f);
 		}
 
 		template<int ndim> template<typename T, typename Func>

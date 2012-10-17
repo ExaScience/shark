@@ -95,7 +95,7 @@ namespace shark {
 
 	template<int ndim,typename T>
 	inline int mpi_type<shark::ndim::part<ndim,T>>::count() {
-		return ndim*2;
+		return ndim*2 + 1;
 	}
 
 	/*
