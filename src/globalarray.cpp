@@ -324,11 +324,14 @@ inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const
 	// Types
 	MPI_Datatype ognt, tgtt;
 	{
+		MPI_Datatype base = mpi_type<T>::t;
+		if(mpi_type<T>::count() != 1)
+			MPI_Type_contiguous(mpi_type<T>::count(), base, &base);
 		MPI_Aint lb, extent;
-		MPI_Type_get_extent(mpi_type<T>::t, &lb, &extent);
+		MPI_Type_get_extent(base, &lb, &extent);
 
-		MPI_Type_dup(mpi_type<T>::t, &ognt);
-		MPI_Type_dup(mpi_type<T>::t, &tgtt);
+		MPI_Type_dup(base, &ognt);
+		MPI_Type_dup(base, &tgtt);
 		for(int di = ndim-1; di >= 0; di--) {
 			MPI_Datatype tmp;
 			coord n = i.upper[di] - i.lower[di];
@@ -341,6 +344,8 @@ inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const
 		}
 		MPI_Type_commit(&ognt);
 		MPI_Type_commit(&tgtt);
+		if(mpi_type<T>::count() != 1)
+			MPI_Type_free(&base);
 	}
 	op(id, ognoff, ognt, tgtoff, tgtt);
 
