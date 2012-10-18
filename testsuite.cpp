@@ -213,7 +213,16 @@ void suite1<ndim,S>::test_get(tester& t) {
 		GlobalArray<ndim,double> ga(dom);
 		ga = src;
 		ga.get(r, ptr);
-		t.add_result(check(r, buffer(dom, r, ld, ptr) == src));
+		{
+			test_result tr = test_result();
+			const typename S::accessor s(src);
+			r.for_each([&tr,&s,r,ld,ptr](coords<ndim> ii) {
+				if(s(ii) != ptr[(ii - r.lower).offset(ld)])
+					tr.fails++;
+				tr.checks++;
+			});
+			t.add_result(dom.group.external_sum(move(tr)));
+		}
 	}
 	delete ptr;
 	t.end_test();
