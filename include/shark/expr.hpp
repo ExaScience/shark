@@ -526,6 +526,29 @@ namespace shark {
 		}
 
 		/**
+		 * Buffer as a source
+		 */
+
+		template<int ndim, typename T>
+		class Buffer {
+			const coords_range<ndim> r;
+			const coords<ndim+1> ld;
+			const T* ptr;
+		public:
+			Buffer(coords_range<ndim> r, coords<ndim+1> ld, const T* ptr);
+			~Buffer();
+			INLINE const T& operator()(coords<ndim> ii) const;
+		};
+
+		template<int ndim, typename T>
+		inline const T& Buffer<ndim,T>::operator()(coords<ndim> ii) const {
+			return ptr[(ii - r.lower).offset(ld)];
+		}
+
+		template<int ndim, typename T>
+		NullaryExp<ndim,Buffer<ndim,T>> buffer(const Domain<ndim>& dom, coords_range<ndim> r, coords<ndim+1> ld, const T* ptr);
+
+		/**
 		 * Negation
 		 */
 

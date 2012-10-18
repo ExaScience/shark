@@ -36,6 +36,7 @@ namespace shark {
 			INLINE coord size() const;
 			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
 			INLINE coords<ndim> adj(int d, int shift) const;
+			coords<ndim+1> stride(coords<ndim> bw = coords<ndim>()) const;
 		};
 
 		template<int ndim>

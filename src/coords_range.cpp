@@ -30,6 +30,16 @@ bool coords_range<ndim>::contains(coords_range<ndim> other) const {
 }
 
 template<int ndim>
+coords<ndim+1> coords_range<ndim>::stride(coords<ndim> bw) const {
+	coords<ndim+1> ld;
+	ld[ndim] = 1;
+	for(int d = ndim-1; d >= 0; d--)
+		ld[d] = ld[d+1] * (upper[d] - lower[d] + 2 * bw[d]);
+	return ld;
+}
+
+
+template<int ndim>
 ostream& shark::ndim::operator<<(ostream& out, const coords_range<ndim>& r) {
 	out << "[" << r.lower[0] << ":" << r.upper[0] << ")";
 	seq<1,ndim-1>::for_each([&out,&r](int d) { out << " x " << "[" << r.lower[d] << ":" << r.upper[d] << ")"; });

@@ -57,8 +57,6 @@ namespace shark {
 			void deallocate();
 			void reset();
 
-			static coords<ndim+1> stride(coords<ndim> count, coords<ndim> ghost_width = coords<ndim>());
-
 			INLINE T& da(coords<ndim> i) const;
 
 			class RMAOp;
@@ -143,9 +141,10 @@ namespace shark {
 			 * Get remote range (one-sided).
 			 * RMA operations cannot overlap with local access.
 			 * @param range the area of the global array to retrieve
-			 * @param ld the strides to use for buf
+			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the target buffer
 			 */
+			void get(coords_range<ndim> range, T* buf) const;
 			void get(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, T* buf) const;
 
 			/**

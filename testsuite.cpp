@@ -59,6 +59,8 @@ class suite1 {
 	const Domain<ndim>& dom;
 	const S src;
 
+	coords_range<ndim> subrange();
+
 public:
 	suite1(const Domain<ndim>& dom, const S& src): dom(dom), src(src) { }
 	~suite1() { }
@@ -67,18 +69,32 @@ public:
 	void test_ghost(tester& t);
 	void test_ghost_corner(tester& t);
 	void test_ghost_periodic(tester& t);
+	void test_get(tester& t);
 	void run(tester& t) {
 		test_basic(t);
 		test_move(t);
 		test_ghost(t);
 		test_ghost_corner(t);
 		test_ghost_periodic(t);
+		test_get(t);
 	}
 };
 
 template<int ndim, typename S>
 suite1<ndim,S> make_suite1(const Domain<ndim>& dom, const S& src) {
 	return suite1<ndim,S>(dom, src);
+}
+
+template<int ndim, typename S>
+coords_range<ndim> suite1<ndim,S>::subrange() {
+	coords_range<ndim> total = dom.total();
+	coords_range<ndim> r;
+	for(int d = 0; d < ndim; d++) {
+		coord q = (total.upper[d] - total.lower[d])/4;
+		r.lower[d] = total.lower[d] + q;
+		r.upper[d] = total.lower[d] + q * 3;
+	}
+	return r;
 }
 
 template<int ndim, typename S>
@@ -172,18 +188,34 @@ void suite1<ndim,S>::test_ghost_periodic(tester& t) {
 		GlobalArray<ndim,double> ga(dom, gw, false, bd);
 		ga = src;
 		ga.update();
-		t.add_result(check(dom.total(), ga == src));
+		t.add_result(check(ga == src));
 		for(int d = 0; d < ndim; d++) {
 			coords<ndim> sd = {{}}, su = {{}};
 			sd[d] = -1;
 			su[d] = 1;
-			t.add_result(check(dom.total(),
+			t.add_result(check(
 				shift(ga,sd) == shift(src,sd,dom.total()) &&
 				shift(ga,su) == shift(src,su,dom.total()) && 
 				shift(ga,sd+sd) == shift(src,sd+sd,dom.total()) &&
 				shift(ga,su+su) == shift(src,su+su,dom.total())));
 		}
 	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_get(tester& t) {
+	t.begin_test("test_get");
+	coords_range<ndim> r = subrange();
+	coords<ndim+1> ld = r.stride();
+	double* ptr = new double[r.size()];
+	{
+		GlobalArray<ndim,double> ga(dom);
+		ga = src;
+		ga.get(r, ptr);
+		t.add_result(check(r, buffer(dom, r, ld, ptr) == src));
+	}
+	delete ptr;
 	t.end_test();
 }
 

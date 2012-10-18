@@ -72,21 +72,12 @@ void GlobalArray<ndim,T>::reset() {
 }
 
 template<int ndim,typename T>
-coords<ndim+1> GlobalArray<ndim,T>::stride(coords<ndim> count, coords<ndim> ghost_width) {
-	coords<ndim+1> ld;
-	ld[ndim] = 1;
-	for(int d = ndim-1; d >= 0; d--)
-		ld[d] = ld[d+1] * (count[d] + 2 * ghost_width[d]);
-	return ld;
-}
-
-template<int ndim,typename T>
 void GlobalArray<ndim,T>::allocate() {
 	const coords_range<ndim> local = domain().local();
 	const coords<ndim> gw = ghost_width();
 	const bool gc = ghost_corners(); 
 
-	ld = stride(local.upper - local.lower, gw);
+	ld = local.stride(gw);
 
 	for(int di = 0; di < ndim; di++)
 		for(int d = 0; d < ndim; d++)
@@ -320,7 +311,7 @@ template<int ndim,typename T> template<int d,typename Op>
 inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
 	// Target
 	int id = dom.pindex(ip);
-	coords<ndim+1> tgtld = stride(dom.count(id), gw);
+	coords<ndim+1> tgtld = dom.local().stride(gw);
 
 	// Offsets
 	size_t ognoff = 0;
@@ -380,6 +371,15 @@ void GlobalArray<ndim,T>::RMAOp::op(Op op) {
 }
 
 #endif
+
+template<int ndim,typename T>
+void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {
+	coords<ndim+1> ld = range.stride();
+	array<size_t,ndim-1> old;
+	for(int d = 1; d < ndim; d++)
+		old[d-1] = ld[d];
+	get(range, old, buf);
+}
 
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
