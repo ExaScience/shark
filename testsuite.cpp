@@ -2,6 +2,7 @@
 #include <utility>    // std::move
 #include <string>     // std::string
 #include <iostream>   // std::ostream
+#include <memory>     // std::unique_ptr
 #include <shark.hpp>
 
 using namespace std;
@@ -55,9 +56,11 @@ using namespace shark::ndim;
 
 template<int ndim, typename S>
 class suite1 {
+	static_assert(S::number_of_dimensions == ndim, "Source dimensionality");
 
 	const Domain<ndim>& dom;
 	const S src;
+	typedef typename source<S>::element_type T;
 
 	coords_range<ndim> subrange();
 
@@ -101,7 +104,7 @@ template<int ndim, typename S>
 void suite1<ndim,S>::test_basic(tester& t) {
 	t.begin_test("test_basic");
 	{
-		GlobalArray<ndim,double> ga(dom);
+		GlobalArray<ndim,T> ga(dom);
 		ga = src;
 		t.add_result(check(ga == src));
 	}
@@ -112,10 +115,10 @@ template<int ndim, typename S>
 void suite1<ndim,S>::test_move(tester& t) {
 	t.begin_test("test_move");
 	{
-		GlobalArray<ndim,double> ga(dom);
-		ga = constant(dom, 0.0);
+		GlobalArray<ndim,T> ga(dom);
+		ga = constant(dom, T());
 		{
-			GlobalArray<ndim,double> tmp(dom);
+			GlobalArray<ndim,T> tmp(dom);
 			tmp = src;
 			ga = std::move(tmp);
 		}
@@ -136,7 +139,7 @@ void suite1<ndim,S>::test_ghost(tester& t) {
 		inner.upper[d] -= gw[d];
 	}
 	{
-		GlobalArray<ndim,double> ga(dom, gw);
+		GlobalArray<ndim,T> ga(dom, gw);
 		ga = src;
 		ga.update();
 		t.add_result(check(inner, ga == src));
@@ -166,7 +169,7 @@ void suite1<ndim,S>::test_ghost_corner(tester& t) {
 		inner.upper[d] -= gw[d];
 	}
 	{
-		GlobalArray<ndim,double> ga(dom, gw, true);
+		GlobalArray<ndim,T> ga(dom, gw, true);
 		ga = src;
 		ga.update();
 		t.add_result(check(inner, ga == src));
@@ -181,11 +184,11 @@ void suite1<ndim,S>::test_ghost_periodic(tester& t) {
 	coords<ndim> gw;
 	for(int d = 0; d < ndim; d++)
 		gw[d] = 2;
-	typename GlobalArray<ndim,double>::bounds bd;
+	typename GlobalArray<ndim,T>::bounds bd;
 	for(int d = 0; d < ndim; d++)
-		bd[d] = Boundary<ndim,double>::periodic();
+		bd[d] = Boundary<ndim,T>::periodic();
 	{
-		GlobalArray<ndim,double> ga(dom, gw, false, bd);
+		GlobalArray<ndim,T> ga(dom, gw, false, bd);
 		ga = src;
 		ga.update();
 		t.add_result(check(ga == src));
@@ -208,15 +211,15 @@ void suite1<ndim,S>::test_get(tester& t) {
 	t.begin_test("test_get");
 	coords_range<ndim> r = subrange();
 	coords<ndim+1> ld = r.stride();
-	double* ptr = new double[r.size()];
 	{
-		GlobalArray<ndim,double> ga(dom);
+		unique_ptr<T[]> ptr(new T[r.size()]);
+		GlobalArray<ndim,T> ga(dom);
 		ga = src;
-		ga.get(r, ptr);
+		ga.get(r, ptr.get());
 		{
 			test_result tr = test_result();
 			const typename S::accessor s(src);
-			r.for_each([&tr,&s,r,ld,ptr](coords<ndim> ii) {
+			r.for_each([&tr,&s,r,ld,&ptr](coords<ndim> ii) {
 				if(s(ii) != ptr[(ii - r.lower).offset(ld)])
 					tr.fails++;
 				tr.checks++;
@@ -224,7 +227,6 @@ void suite1<ndim,S>::test_get(tester& t) {
 			t.add_result(dom.group.external_sum(move(tr)));
 		}
 	}
-	delete ptr;
 	t.end_test();
 }
 
@@ -232,10 +234,30 @@ int main(int argc, char* argv[]) {
 	Init(&argc, &argv);
 	SetupThreads();
 	tester t(cerr);
+	if(world().procid == 0)
+		cerr << "Testing <1,int>" << endl;
+	{
+		coords<1> n = {{1000}};
+		Domain<1> dom(world(), n);
+		auto f = coord_val<0>(dom, 1000);
+		make_suite1(dom, f).run(t);
+	}
+	if(world().procid == 0)
+		cerr << endl << "Testing <3,double>" << endl;
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
-		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false));
+		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false)) * coord_val<2>(dom, 1);
+		make_suite1(dom, f).run(t);
+	}
+	if(world().procid == 0)
+		cerr << endl << "Testing <3,vec<3,double>>" << endl;
+	{
+		coords<3> n = {{100,100,100}};
+		Domain<3> dom(world(), n);
+		const vec<3,double> one = {{1.0, 1.0, 1.0}};
+		const vec<3,double> mid = {{0.5, 0.5, 0.5}};
+		auto f = abs(coord_vec(dom, one) - mid);
 		make_suite1(dom, f).run(t);
 	}
 	Finalize();

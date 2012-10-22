@@ -15,7 +15,7 @@ OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
 
 main.o: CFLAGS+=--param max-inline-insns-single=800
-testsuite.o: CFLAGS+=--param max-inline-insns-single=800
+testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
 
 main: libshark.a main.o
 
