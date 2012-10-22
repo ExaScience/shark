@@ -65,6 +65,8 @@ class suite1 {
 	coords_range<ndim> subrange();
 	unique_ptr<T[]> src_buf(coords_range<ndim> r);
 
+	void test_reshape_domain(tester& t, const Domain<ndim>& alt_dom);
+
 public:
 	suite1(const Domain<ndim>& dom, const S& src): dom(dom), src(src) { }
 	~suite1() { }
@@ -289,27 +291,33 @@ void suite1<ndim,S>::test_accumulate(tester& t) {
 }
 
 template<int ndim, typename S>
+void suite1<ndim,S>::test_reshape_domain(tester& t, const Domain<ndim>& alt_dom) {
+	GlobalArray<ndim,T> ga(dom);
+	ga = src;
+	ga.reshape(alt_dom);
+	const typename GlobalArray<ndim,T>::accessor a(ga);
+	const typename S::accessor s(src);
+	t.add_result(alt_dom.sum(test_result(), [&a,&s](test_result& tr, coords<ndim> ii) {
+		if(s(ii) != a(ii))
+			tr.fails++;
+		tr.checks++;
+	}));
+}
+
+template<int ndim, typename S>
 void suite1<ndim,S>::test_reshape(tester& t) {
 	t.begin_test("test_reshape");
 	{
-		GlobalArray<ndim,T> ga(dom);
-		ga = src;
-		// Construct distribution where everything is assigned to first one
-		typename Domain<ndim>::dists alt_nd(dom.nd);
-		for(int d = 0; d < ndim; d++) {
-			alt_nd[d][0] = 0;
-			for(int p = 1; p <= dom.np[d]; p++)
-				alt_nd[d][p] = dom.n[d];
-		}
-		Domain<ndim> alt_dom(dom.group, dom.n, dom.np, alt_nd);
-		ga.reshape(alt_dom);
-		const typename GlobalArray<ndim,T>::accessor a(ga);
-		const typename S::accessor s(src);
-		t.add_result(alt_dom.sum(test_result(), [&a,&s](test_result& tr, coords<ndim> ii) {
-			if(s(ii) != a(ii))
-				tr.fails++;
-			tr.checks++;
-		}));
+		typename Domain<ndim>::pcoords row_np;
+		row_np[0] = dom.group.nprocs;
+		for(int d = 1; d < ndim; d++)
+			row_np[d] = 1;
+		test_reshape_domain(t, Domain<ndim>(dom.group, dom.n, row_np));
+		typename Domain<ndim>::pcoords col_np;
+		for(int d = 0; d < ndim-1; d++)
+			col_np[d] = 1;
+		col_np[ndim-1] = dom.group.nprocs;
+		test_reshape_domain(t, Domain<ndim>(dom.group, dom.n, col_np));
 	}
 	t.end_test();
 }
