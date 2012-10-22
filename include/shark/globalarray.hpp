@@ -161,9 +161,11 @@ namespace shark {
 			 * Increase remote range with local values (one-sided).
 			 * RMA operations cannot overlap with local access.
 			 * @param range the area of the global array to update
-			 * @param ld the strides to use for buf
+			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the source buffer
 			 */
+			template<typename = void>
+			void accumulate(coords_range<ndim> range, const T* buf);
 			template<typename = void>
 			void accumulate(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
 

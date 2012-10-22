@@ -420,6 +420,11 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld,
 #endif
 }
 
+template<int ndim, typename T> template<typename>
+void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, const T* buf) {
+	accumulate(range, essential_lead<ndim>(range.stride()), buf);
+}
+
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
@@ -487,6 +492,10 @@ GARef<ndim,T>::~GARef() { }
 #undef SYMBDT
 
 #define SYMB_ARITH
+
+#define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::accumulate(coords_range<d>, const T*);
+#include "inst_dimtype"
+#undef SYMBDT
 
 #define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::accumulate(coords_range<d>, std::array<std::size_t,d-1>, const T*);
 #include "inst_dimtype"

@@ -63,6 +63,7 @@ class suite1 {
 	typedef typename source<S>::element_type T;
 
 	coords_range<ndim> subrange();
+	unique_ptr<T[]> src_buf(coords_range<ndim> r);
 
 public:
 	suite1(const Domain<ndim>& dom, const S& src): dom(dom), src(src) { }
@@ -74,6 +75,7 @@ public:
 	void test_ghost_periodic(tester& t);
 	void test_get(tester& t);
 	void test_put(tester& t);
+	void test_accumulate(tester& t);
 	void test_reshape(tester& t);
 	void run(tester& t) {
 		test_basic(t);
@@ -83,6 +85,7 @@ public:
 		test_ghost_periodic(t);
 		test_get(t);
 		test_put(t);
+		test_accumulate(t);
 		test_reshape(t);
 	}
 };
@@ -102,6 +105,17 @@ coords_range<ndim> suite1<ndim,S>::subrange() {
 		r.upper[d] = total.lower[d] + q * 3;
 	}
 	return r;
+}
+
+template<int ndim, typename S>
+unique_ptr<typename suite1<ndim,S>::T[]> suite1<ndim,S>::src_buf(coords_range<ndim> r) {
+	const typename S::accessor s(src);
+	coords<ndim+1> ld = r.stride();
+	unique_ptr<T[]> ptr(new T[ld[0]]);
+	r.for_each([&s,r,ld,&ptr](coords<ndim> ii) {
+		ptr[(ii - r.lower).offset(ld)] = s(ii);
+	});
+	return ptr;
 }
 
 template<int ndim, typename S>
@@ -245,18 +259,31 @@ void suite1<ndim,S>::test_put(tester& t) {
 		ga = constant(dom, T());
 		// First one does a put
 		dom.group.sync();
-		if (dom.group.procid == 0) {
-			const typename S::accessor s(src);
-			coords<ndim+1> ld = r.stride();
-			unique_ptr<T[]> ptr(new T[ld[0]]);
-			r.for_each([&s,r,ld,&ptr](coords<ndim> ii) {
-				ptr[(ii - r.lower).offset(ld)] = s(ii);
-			});
-			ga.put(r, ptr.get());
-		}
+		if (dom.group.procid == 0)
+			ga.put(r, src_buf(r).get());
 		dom.group.sync();
 		// Everyone helps check
 		t.add_result(check(r, ga == src));
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_accumulate(tester& t) {
+	t.begin_test("test_accumulate");
+	coords_range<ndim> r = subrange();
+	{
+		GlobalArray<ndim,T> ga(dom);
+		ga = constant(dom, T());
+		// First and last one contribute
+		dom.group.sync();
+		if (dom.group.procid == 0)
+			ga.accumulate(r, src_buf(r).get());
+		if (dom.group.procid == dom.group.nprocs-1)
+			ga.accumulate(r, src_buf(r).get());
+		dom.group.sync();
+		// Everyone helps check
+		t.add_result(check(r, ga == src+src));
 	}
 	t.end_test();
 }
