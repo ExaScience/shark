@@ -73,6 +73,8 @@ public:
 	void test_ghost_corner(tester& t);
 	void test_ghost_periodic(tester& t);
 	void test_get(tester& t);
+	void test_put(tester& t);
+	void test_reshape(tester& t);
 	void run(tester& t) {
 		test_basic(t);
 		test_move(t);
@@ -80,6 +82,8 @@ public:
 		test_ghost_corner(t);
 		test_ghost_periodic(t);
 		test_get(t);
+		test_put(t);
+		test_reshape(t);
 	}
 };
 
@@ -212,9 +216,10 @@ void suite1<ndim,S>::test_get(tester& t) {
 	coords_range<ndim> r = subrange();
 	coords<ndim+1> ld = r.stride();
 	{
-		unique_ptr<T[]> ptr(new T[r.size()]);
 		GlobalArray<ndim,T> ga(dom);
 		ga = src;
+		// Everyone does a "get" and checks the result
+		unique_ptr<T[]> ptr(new T[ld[0]]);
 		ga.get(r, ptr.get());
 		{
 			test_result tr = test_result();
@@ -224,8 +229,60 @@ void suite1<ndim,S>::test_get(tester& t) {
 					tr.fails++;
 				tr.checks++;
 			});
+			// Add everything together
 			t.add_result(dom.group.external_sum(move(tr)));
 		}
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_put(tester& t) {
+	t.begin_test("test_put");
+	coords_range<ndim> r = subrange();
+	{
+		GlobalArray<ndim,T> ga(dom);
+		ga = constant(dom, T());
+		// First one does a put
+		dom.group.sync();
+		if (dom.group.procid == 0) {
+			const typename S::accessor s(src);
+			coords<ndim+1> ld = r.stride();
+			unique_ptr<T[]> ptr(new T[ld[0]]);
+			r.for_each([&s,r,ld,&ptr](coords<ndim> ii) {
+				ptr[(ii - r.lower).offset(ld)] = s(ii);
+			});
+			ga.put(r, ptr.get());
+		}
+		dom.group.sync();
+		// Everyone helps check
+		t.add_result(check(r, ga == src));
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_reshape(tester& t) {
+	t.begin_test("test_reshape");
+	{
+		GlobalArray<ndim,T> ga(dom);
+		ga = src;
+		// Construct distribution where everything is assigned to first one
+		typename Domain<ndim>::dists alt_nd(dom.nd);
+		for(int d = 0; d < ndim; d++) {
+			alt_nd[d][0] = 0;
+			for(int p = 1; p <= dom.np[d]; p++)
+				alt_nd[d][p] = dom.n[d];
+		}
+		Domain<ndim> alt_dom(dom.group, dom.n, dom.np, alt_nd);
+		ga.reshape(alt_dom);
+		const typename GlobalArray<ndim,T>::accessor a(ga);
+		const typename S::accessor s(src);
+		t.add_result(alt_dom.sum(test_result(), [&a,&s](test_result& tr, coords<ndim> ii) {
+			if(s(ii) != a(ii))
+				tr.fails++;
+			tr.checks++;
+		}));
 	}
 	t.end_test();
 }
@@ -247,7 +304,7 @@ int main(int argc, char* argv[]) {
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
-		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false)) * coord_val<2>(dom, 1);
+		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false)) * coord_val<2>(dom, 1.0, false);
 		make_suite1(dom, f).run(t);
 	}
 	if(world().procid == 0)

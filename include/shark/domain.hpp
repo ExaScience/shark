@@ -166,7 +166,7 @@ namespace shark {
 			/**
 			 * Check whether this domain is equivalent to another one (local).
 			 * Equivalent means that it distributes the same number of elements
-			 * with the same periodicity over the same group of processes.
+			 * over the same group of processes.
 			 * @param other the domain to compare to
 			 */
 			bool equiv(const Domain<ndim>& other) const;

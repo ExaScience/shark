@@ -188,15 +188,8 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 
 	GlobalArray<ndim,T> tmp(domain, gw, gc, bd);
 
-	if(domain.hasData()) {
-		array<size_t,ndim-1> eld;
-		size_t off = gw[ndim-1];
-		for(int d = ndim-2; d >= 0; d--) {
-			eld[d] = tmp.ld[d+1];
-			off += gw[d] * eld[d];
-		}
-		this->get(domain.local(), eld, tmp.ptr+off);
-	}
+	if(domain.hasData())
+		this->get(domain.local(), essential_lead<ndim>(tmp.ld), tmp.ptr + gw.offset(tmp.ld));
 
 	*this = move(tmp);
 }
@@ -377,16 +370,12 @@ void GlobalArray<ndim,T>::RMAOp::op(Op op) {
 
 #endif
 
-template<int ndim,typename T>
+template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {
-	coords<ndim+1> ld = range.stride();
-	array<size_t,ndim-1> old;
-	for(int d = 1; d < ndim; d++)
-		old[d-1] = ld[d];
-	get(range, old, buf);
+	get(range, essential_lead<ndim>(range.stride()), buf);
 }
 
-template<int ndim,typename T>
+template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
@@ -406,7 +395,12 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld,
 #endif
 }
 
-template<int ndim,typename T>
+template<int ndim, typename T>
+void GlobalArray<ndim,T>::put(coords_range<ndim> range, const T* buf) {
+	put(range, essential_lead<ndim>(range.stride()), buf);
+}
+
+template<int ndim, typename T>
 void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
@@ -449,7 +443,7 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	assert(domain() == sa.dom);
-	auto eld = sa.eld();
+	auto eld = essential_lead<ndim>(sa.ld);
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
@@ -458,7 +452,7 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 	assert(domain() == sa.dom);
-	auto eld = sa.eld();
+	auto eld = essential_lead<ndim>(sa.ld);
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});

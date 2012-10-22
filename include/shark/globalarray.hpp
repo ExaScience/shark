@@ -151,9 +151,10 @@ namespace shark {
 			 * Put remote range (one-sided).
 			 * RMA operations cannot overlap with local access.
 			 * @param range the area of the global array to retrieve
-			 * @param ld the strides to use for buf
+			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the target buffer
 			 */
+			void put(coords_range<ndim> range, const T* buf);
 			void put(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
 
 			/**

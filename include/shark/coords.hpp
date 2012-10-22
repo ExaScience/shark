@@ -52,6 +52,8 @@ namespace shark {
 		template<int ndim>
 		std::ostream& operator<<(std::ostream& out, const coords<ndim>& i);
 
+		template<int ndim>
+		std::array<std::size_t,ndim-1> essential_lead(coords<ndim+1> ld);
 
 		// Inline function implementations
 
