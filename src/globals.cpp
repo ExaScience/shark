@@ -8,12 +8,18 @@
 #endif
 
 #include <shark/globals.hpp>
+#include <shark/version.hpp>
 #include "comm_impl.hpp"
 #include "sched_impl.hpp"
 
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;
+
+#define xstr(a) str(a)
+#define str(a) #a
+
+const string shark::version(xstr(SHARK_VERSION));
 
 #if defined(SHARK_SER_SCHED)
 const string shark::sched("ser");

@@ -11,6 +11,11 @@
 namespace shark {
 
 	/**
+	 * Shark version.
+	 */
+	extern const std::string version;
+
+	/**
 	 * The number of threads per process.
 	 */
 	extern int nthrds;

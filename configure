@@ -150,6 +150,11 @@ case $async in
 	;;
 esac
 
+# Determine version
+
+VER=$(awk '$1 == "#define" && $2 == "SHARK_VERSION" { print $3 }' "$BASE/include/shark/version.hpp")
+echo "Configuring Shark version $VER..."
+
 # Verify options
 
 echo -n "Checking CC... "
@@ -199,7 +204,7 @@ libdir=$(pwd)
 
 Name: shark
 Description: Scalable Hybrid Array Kit
-Version: 0.1.0
+Version: $VER
 Requires: $pub_pkgs
 Requires.private: $pri_pkgs
 Cflags: -I\${includedir} $pub_cflags

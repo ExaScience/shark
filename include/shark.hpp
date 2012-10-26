@@ -12,5 +12,6 @@
 #include "shark/vec.hpp"
 #include "shark/part.hpp"
 #include "shark/types.hpp"
+#include "shark/version.hpp"
 
 #endif
