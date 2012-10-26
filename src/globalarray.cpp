@@ -188,8 +188,10 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 
 	GlobalArray<ndim,T> tmp(domain, gw, gc, bd);
 
+	domain.group.sync();
 	if(domain.hasData())
 		this->get(domain.local(), essential_lead<ndim>(tmp.ld), tmp.ptr + gw.offset(tmp.ld));
+	domain.group.sync();
 
 	*this = move(tmp);
 }
