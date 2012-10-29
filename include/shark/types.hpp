@@ -5,6 +5,40 @@
 
 namespace shark {
 
+	namespace types1d {
+		typedef shark::ndim::coords<1> coords;
+		typedef shark::ndim::coords_range<1> coords_range;
+		typedef shark::ndim::Domain<1> Domain;
+		typedef shark::ndim::vec<1,double> vecD;
+		typedef shark::ndim::part<1,double> partD;
+		typedef shark::ndim::GlobalArray<1,int> GlobalArrayI;
+		typedef shark::ndim::GlobalArray<1,long> GlobalArrayL;
+		typedef shark::ndim::GlobalArray<1,float> GlobalArrayF;
+		typedef shark::ndim::GlobalArray<1,double> GlobalArrayD;
+		typedef shark::ndim::GlobalArray<1,vecD> GlobalArrayV;
+		typedef shark::ndim::GlobalArray<1,partD> GlobalArrayP;
+		typedef shark::ndim::Access<1,int> AccessI;
+		typedef shark::ndim::Access<1,long> AccessL;
+		typedef shark::ndim::Access<1,float> AccessF;
+		typedef shark::ndim::Access<1,double> AccessD;
+		typedef shark::ndim::Access<1,vecD> AccessV;
+		typedef shark::ndim::Access<1,partD> AccessP;
+		typedef shark::ndim::Boundary<1,int> BoundaryI;
+		typedef shark::ndim::Boundary<1,long> BoundaryL;
+		typedef shark::ndim::Boundary<1,float> BoundaryF;
+		typedef shark::ndim::Boundary<1,double> BoundaryD;
+		typedef shark::ndim::Boundary<1,vecD> BoundaryV;
+		typedef shark::ndim::Boundary<1,partD> BoundaryP;
+		typedef shark::ndim::SparseArray<1,int> SparseArrayI;
+		typedef shark::ndim::SparseArray<1,long> SparseArrayL;
+		typedef shark::ndim::SparseArray<1,float> SparseArrayF;
+		typedef shark::ndim::SparseArray<1,double> SparseArrayD;
+		typedef shark::ndim::SparseArray<1,vecD> SparseArrayV;
+
+		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
+		template<typename T> void coord_val();
+	}
+
 	namespace types2d {
 		typedef shark::ndim::coords<2> coords;
 		typedef shark::ndim::coords_range<2> coords_range;
