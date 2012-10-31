@@ -304,13 +304,13 @@ namespace shark {
 			});
 			return sum;
 #elif defined(SHARK_PTHREAD_SCHED)
-			std::vector<T> tsum(nthrds, zero);
+			std::vector<T> tsum(tdist.size(), zero);
 			ThreadWork([this,&f,&tsum,r](int k) {
 				tdist[k].overlap(r).for_each([&f,&tsum,k](coords<ndim> i) {
 					f(tsum[k], i);
 				});
 			});
-			for(int k=1; k < nthrds; k++)
+			for(typename std::vector<T>::size_type k=1; k < tsum.size(); k++)
 				tsum[0] += tsum[k];
 			return tsum[0];
 #else
