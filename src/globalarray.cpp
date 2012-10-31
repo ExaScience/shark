@@ -14,6 +14,11 @@ template<int ndim, typename T>
 const int GlobalArray<ndim,T>::number_of_dimensions;
 
 template<int ndim, typename T>
+ostream& GlobalArray<ndim,T>::log_out() const {
+	return *shark::log_out << domain().group.procid << ": " << this << ": ";
+}
+
+template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(): dom(0) { }
 
 template<int ndim, typename T>
@@ -98,6 +103,10 @@ void GlobalArray<ndim,T>::allocate() {
 				ghost_front[di].upper[d] = local.upper[d];
 			}
 
+#ifndef NDEBUG
+	if(log_mask[verbose_alloc])
+		log_out() << "allocate " << local << endl;
+#endif
 #if defined(SHARK_MPI_COMM)
 	{
 		// Create ghost types
@@ -217,6 +226,12 @@ void GlobalArray<ndim,T>::update(long k) const {
 
 	for(int di = 0; di < ndim; di++) {
 		if(gw[di] > 0) {
+#ifndef NDEBUG
+			if(log_mask[verbose_update]) {
+				log_out() << "update back: " << ghost_back[di] << endl;
+				log_out() << "update front: " << ghost_front[di] << endl;
+			}
+#endif
 			// 1) Consider updating ghosts based on boundary
 			typename Boundary<ndim,T>::general_type* b = dynamic_cast<typename Boundary<ndim,T>::general_type*>(bd[di].t.get());
 			if(b != nullptr) {
@@ -379,6 +394,10 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {
 
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
+#ifndef NDEBUG
+	if(log_mask[verbose_rma])
+		log_out() << "get " << range << endl;
+#endif
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
@@ -404,6 +423,10 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, const T* buf) {
 
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#ifndef NDEBUG
+	if(log_mask[verbose_rma])
+		log_out() << "put " << range << endl;
+#endif
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
@@ -429,6 +452,10 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, const T* buf) {
 
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#ifndef NDEBUG
+	if(log_mask[verbose_rma])
+		log_out() << "accumulate " << range << endl;
+#endif
 #if defined(SHARK_MPI_COMM)
 	RMAOp(domain(), range, ghost_width(), ld).op(
 		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {

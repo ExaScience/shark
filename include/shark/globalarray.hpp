@@ -61,6 +61,8 @@ namespace shark {
 
 			class RMAOp;
 
+			std::ostream& log_out() const;
+
 		public:
 			/**
 			 * The domain

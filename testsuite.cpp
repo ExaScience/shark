@@ -324,6 +324,10 @@ void suite1<ndim,S>::test_reshape(tester& t) {
 
 int main(int argc, char* argv[]) {
 	Init(&argc, &argv);
+	if(world().procid == 0) {
+		log_out = &cerr;
+		log_mask.set();
+	}
 	SetupThreads();
 	tester t(cerr);
 	if(world().procid == 0)

@@ -46,6 +46,9 @@ int shark::nthrds(8);
 
 #endif
 
+verbosity_mask shark::log_mask = verbosity_mask();
+std::ostream* shark::log_out(nullptr);
+
 #include "types"
 
 void shark::Init(int* argc, char*** argv) {

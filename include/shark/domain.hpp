@@ -10,9 +10,6 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "group.hpp"
-#if defined(SHARK_PTHREAD_SCHED)
-#include "globals.hpp"
-#endif
 
 namespace shark {
 

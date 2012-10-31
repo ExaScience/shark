@@ -2,6 +2,11 @@
 #define __SHARK_COMMON_HPP
 
 #include <type_traits>                 // std::enable_if
+#include <bitset>                      // std::bitset
+#include <ostream>                     // std::ostream
+#if defined(SHARK_PTHREAD_SCHED)
+#include <functional>                  // std::function
+#endif
 
 #define INLINE inline __attribute((__no_instrument_function__))
 
@@ -11,6 +16,27 @@ namespace shark {
 	 * Type of a single coordinate
 	 */
 	typedef long coord;
+
+	static const int verbose_alloc = 0;
+	static const int verbose_update = 1;
+	static const int verbose_rma = 2;
+	static const int verbose_end = 3;
+	typedef std::bitset<verbose_end> verbosity_mask;
+
+	/**
+	 * Log mask to configure verbosity of logging of operations.
+	 */
+	extern verbosity_mask log_mask;
+
+	/**
+	 * Pointer to the stream used for log output.
+	 * Should be non-NULL when the log_mask indicates output.
+	 */
+	extern std::ostream* log_out;
+
+#if defined(SHARK_PTHREAD_SCHED)
+	void ThreadWork(std::function<void(int)> w);
+#endif
 
 	// (Available only to shark)
 	namespace {
