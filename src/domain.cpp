@@ -97,6 +97,50 @@ bool Domain<ndim>::consistentDistribution() const {
 
 #if defined(SHARK_PTHREAD_SCHED)
 
+#ifdef SHARK_THREAD_BLOCK_DIST
+
+namespace {
+	// Auxiliary functions for tdistribution
+	template<int d,int ndim>
+	INLINE typename enable_if<d < ndim>::type tdistd(const array<int,ndim>& nt, const coords_range<ndim>& l, coords_range<ndim>& t, vector<coords_range<ndim>>& tdist);
+	template<int d,int ndim>
+	INLINE typename enable_if<d == ndim>::type tdistd(const array<int,ndim>&, const coords_range<ndim>&, coords_range<ndim>& t, vector<coords_range<ndim>>& tdist);
+
+	template<int d,int ndim>
+	inline typename enable_if<d < ndim>::type tdistd(const array<int,ndim>& nt, const coords_range<ndim>& l, coords_range<ndim>& t, vector<coords_range<ndim>>& tdist) {
+		coord count = l.upper[d] - l.lower[d];
+		coord div = count / nt[d];
+		coord rem = count % nt[d];
+
+		for(int k = 0; k < nt[d]; k++) {
+			t.lower[d] = l.lower[d] + k * div + (k <= rem ? k : rem);
+			t.upper[d] = l.lower[d] + (k+1) * div + ((k+1) <= rem ? k+1 : rem);
+			tdistd<d+1,ndim>(nt, l, t, tdist);
+		}
+	}
+
+	template<int d,int ndim>
+	inline typename enable_if<d == ndim>::type tdistd(const array<int,ndim>&, const coords_range<ndim>&, coords_range<ndim>& t, vector<coords_range<ndim>>& tdist) {
+		tdist.push_back(t);
+	}
+}
+
+template<int ndim>
+vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
+	array<int,ndim> nt = {{}};
+	assign_dims(nthrds, ndim, nt.data());
+	
+	vector<coords_range<ndim>> tdist;
+	coords_range<ndim> t;
+	tdistd<0,ndim>(nt, local(), t, tdist);
+
+	assert(tdist.size() == static_cast<size_t>(nthrds));
+
+	return tdist;
+}
+
+#else
+
 template<int ndim>
 vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
 	const coords_range<ndim> l = local();
@@ -110,6 +154,8 @@ vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
 	}
 	return tdist;
 }
+
+#endif
 
 #endif
 
