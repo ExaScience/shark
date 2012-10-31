@@ -322,12 +322,37 @@ void suite1<ndim,S>::test_reshape(tester& t) {
 	t.end_test();
 }
 
+string usagestr("Usage: ");
+
+int usage(string msg=string()) {
+        if(!msg.empty())
+                cerr << msg << endl;
+        cerr << usagestr << endl;
+        return msg.empty() ? 0 : 1;
+}
+
+
 int main(int argc, char* argv[]) {
 	Init(&argc, &argv);
-	if(world().procid == 0) {
-		log_out = &cerr;
-		log_mask.set();
+
+	usagestr += argv[0];
+	usagestr += " [-v]";
+
+	for(int k = 1; k < argc; k++) {
+		string arg(argv[k]);
+		if(arg == "-v") {
+			if(world().procid == 0) {
+				log_out = &cerr;
+				log_mask.set();
+			}
+		} else if(arg == "-h" || arg == "--help")
+			return usage();
+		else if(arg[0] == '-')
+			return usage("Unknown option: " + arg);
+		else
+			return usage("Unexpected argument: " + arg);
 	}
+
 	SetupThreads();
 	tester t(cerr);
 	if(world().procid == 0)
