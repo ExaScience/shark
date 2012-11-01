@@ -150,7 +150,7 @@ namespace shark {
 
 		template<int ndim>
 		inline coord coords<ndim>::offset(const coords<ndim+1>& ld) const {
-			return seq<0,ndim>::sum([this,&ld](int d) { return val[d] * ld[d+1]; }, coord(0));
+			return seq<0,ndim-1>::sum([this,&ld](int d) { return val[d] * ld[d+1]; }, val[ndim-1]);
 		}
 
 		template<int ndim>

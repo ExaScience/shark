@@ -22,9 +22,9 @@ namespace shark {
 			
 		private:
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d < ndim>::type for_eachd(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d == ndim>::type for_eachd(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 
 		public:
 			template<typename Func>
@@ -45,14 +45,18 @@ namespace shark {
 		// Inline function implementations
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d < ndim>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
 			for(i[d] = lower[d]; i[d] < upper[d]; i[d]++)
 				for_eachd<d+1>(f, i);
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d == ndim>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
-			f(i);
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+#pragma ivdep
+			for(coord j = lower[d]; j < upper[d]; j++) {
+				i[d] = j;
+				f(i);
+			}
 		}
 
 		template<int ndim> template<typename Func>
