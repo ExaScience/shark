@@ -6,6 +6,10 @@
 #include "common.hpp"
 #include "coords.hpp"
 
+#ifdef __INTEL_COMPILER
+#define SHARK_VECTOR_PRAGMA
+#endif
+
 namespace shark {
 	
 	namespace ndim {
@@ -52,7 +56,9 @@ namespace shark {
 
 		template<int ndim> template<int d, typename Func>
 		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+#ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
+#endif
 			for(coord j = lower[d]; j < upper[d]; j++) {
 				i[d] = j;
 				f(i);
