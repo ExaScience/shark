@@ -102,6 +102,228 @@ namespace shark {
 			return adj;
 		}
 
+#if defined(SHARK_OMP_SCHED)
+		template<int>
+		struct omp_coords_range;
+
+		template<>
+		struct omp_coords_range<1> {
+			coords_range<1> r;
+
+			template<typename Func>
+			INLINE void for_each(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+		};
+
+		template<typename Func>
+		inline void omp_coords_range<1>::for_each(const Func& f) const {
+#pragma omp parallel for schedule(static)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+			for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+				coords<1> i;
+				i[0] = j;
+				f(i);
+			}
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+		omp_coords_range<1>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel for schedule(static) reduction(+: sum)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+			for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+				coords<1> i;
+				i[0] = j;
+				f(sum, i);
+			}
+			return sum;
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+		omp_coords_range<1>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel shared(sum)
+			{
+				T local_sum(zero);
+#pragma omp for schedule(static)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+				for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+					coords<1> i;
+					i[0] = j;
+					f(local_sum, i);
+				}
+#pragma omp critical
+				sum += local_sum;
+			}
+			return sum;
+		}
+
+		template<>
+		struct omp_coords_range<2> {
+			coords_range<2> r;
+
+			template<typename Func>
+			INLINE void for_each(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+		};
+
+		template<typename Func>
+		inline void omp_coords_range<2>::for_each(const Func& f) const {
+#pragma omp parallel for schedule(static) collapse(2)
+			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+				for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+					coords<2> i;
+					i[0] = j;
+					i[1] = k;
+					f(i);
+				}
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+		omp_coords_range<2>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel for schedule(static) collapse(2) reduction(+: sum)
+			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+				for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+					coords<2> i;
+					i[0] = j;
+					i[1] = k;
+					f(sum, i);
+				}
+			return sum;
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+		omp_coords_range<2>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel shared(sum)
+			{
+				T local_sum(zero);
+#pragma omp for schedule(static) collapse(2)
+				for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+					for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+						coords<2> i;
+						i[0] = j;
+						i[1] = k;
+						f(local_sum, i);
+					}
+#pragma omp critical
+				sum += local_sum;
+			}
+			return sum;
+		}
+
+		template<>
+		struct omp_coords_range<3> {
+			coords_range<3> r;
+
+			template<typename Func>
+			INLINE void for_each(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum(const T& zero, const Func& f) const;
+		};
+
+		template<typename Func>
+		inline void omp_coords_range<3>::for_each(const Func& f) const {
+#pragma omp parallel for schedule(static) collapse(3)
+			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+				for(coord k = r.lower[1]; k < r.upper[1]; k++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+					for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+						coords<3> i;
+						i[0] = j;
+						i[1] = k;
+						i[2] = l;
+						f(i);
+					}
+
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+		omp_coords_range<3>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel for schedule(static) collapse(3) reduction(+: sum)
+			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+				for(coord k = r.lower[1]; k < r.upper[1]; k++) 
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+					for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+						coords<3> i;
+						i[0] = j;
+						i[1] = k;
+						i[2] = l;
+						f(sum, i);
+					}
+			return sum;
+		}
+
+		template<typename T, typename Func>
+		inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+		omp_coords_range<3>::internal_sum(const T& zero, const Func& f) const {
+			T sum(zero);
+#pragma omp parallel shared(sum)
+			{
+				T local_sum(zero);
+#pragma omp for schedule(static) collapse(3)
+				for(coord j = r.lower[0]; j < r.upper[0]; j++)
+					for(coord k = r.lower[1]; k < r.upper[1]; k++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+						for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+							coords<3> i;
+							i[0] = j;
+							i[1] = k;
+							i[2] = l;
+							f(local_sum, i);
+						}
+#pragma omp critical
+				sum += local_sum;
+			}
+			return sum;
+		}
+#endif
+
 	}
 
 }

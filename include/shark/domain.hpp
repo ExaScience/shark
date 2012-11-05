@@ -286,13 +286,9 @@ namespace shark {
 				tdist[k].overlap(r).for_each(f);
 			});
 #elif defined(SHARK_OMP_SCHED)
-			r = local().overlap(r);
-#pragma omp parallel for schedule(static)
-			for(coord i = r.lower[0]; i < r.upper[0]; i++) {
-				coords<ndim> ii;
-				ii[0] = i;
-				r.template for_eachd<1>(f, ii);
-			}
+			omp_coords_range<ndim> omp;
+			omp.r = local().overlap(r);
+			omp.for_each(f);
 #else
 #error "No scheduler for_each"
 #endif
@@ -322,17 +318,9 @@ namespace shark {
 				tsum[0] += tsum[k];
 			return tsum[0];
 #elif defined(SHARK_OMP_SCHED)
-			r = local().overlap(r);
-			T sum(zero);
-#pragma omp parallel for schedule(static) reduction(+: sum)
-			for(coord i = r.lower[0]; i < r.upper[0]; i++) {
-				coords<ndim> ii;
-				ii[0] = i;
-				r.template for_eachd<1>([&f,&sum](coords<ndim> ii) {
-					f(sum, ii);
-				}, ii);
-			}
-			return sum;
+			omp_coords_range<ndim> omp;
+			omp.r = local().overlap(r);
+			return omp.internal_sum(zero, f);
 #else
 #error "No scheduler internal_sum"
 #endif
