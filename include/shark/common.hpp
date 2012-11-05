@@ -8,6 +8,12 @@
 #include <functional>                  // std::function
 #endif
 
+/*
+ * Experimental configuration options not managed by configure
+ */
+//#define SHARK_RANGE
+#define SHARK_THREAD_BLOCK_DIST
+
 #define INLINE inline __attribute((__no_instrument_function__))
 
 namespace shark {
