@@ -309,7 +309,7 @@ namespace shark {
 			return sum;
 #elif defined(SHARK_PTHREAD_SCHED)
 			std::vector<std::unique_ptr<T>> tsum(tdist.size());
-			ThreadWork([this,&f,&tsum,r](int k) {
+			ThreadWork([this,&f,&tsum,&zero,r](int k) {
 				tsum[k].reset(new T(zero));
 				tdist[k].overlap(r).for_each([&f,&tsum,k](coords<ndim> i) {
 					f(*tsum[k], i);
