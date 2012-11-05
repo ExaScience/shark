@@ -308,15 +308,16 @@ namespace shark {
 			});
 			return sum;
 #elif defined(SHARK_PTHREAD_SCHED)
-			std::vector<T> tsum(tdist.size(), zero);
+			std::vector<std::unique_ptr<T>> tsum(tdist.size());
 			ThreadWork([this,&f,&tsum,r](int k) {
+				tsum[k].reset(new T(zero));
 				tdist[k].overlap(r).for_each([&f,&tsum,k](coords<ndim> i) {
-					f(tsum[k], i);
+					f(*tsum[k], i);
 				});
 			});
-			for(typename std::vector<T>::size_type k=1; k < tsum.size(); k++)
-				tsum[0] += tsum[k];
-			return tsum[0];
+			for(typename std::vector<std::unique_ptr<T>>::size_type k=1; k < tsum.size(); k++)
+				*tsum[0] += *tsum[k];
+			return *tsum[0];
 #elif defined(SHARK_OMP_SCHED)
 			omp_coords_range<ndim> omp;
 			omp.r = local().overlap(r);
