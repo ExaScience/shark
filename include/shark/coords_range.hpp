@@ -19,6 +19,8 @@ namespace shark {
 		 */
 		template<int ndim>
 		struct coords_range {
+			friend class Domain<ndim>;
+
 			coords<ndim> lower;
 			coords<ndim> upper;
 

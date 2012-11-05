@@ -9,6 +9,7 @@
 #include <functional>     // std::function
 #include <shark/globals.hpp>
 #elif defined(SHARK_OMP_SCHED)
+#include <omp.h>
 #elif defined(SHARK_TBB_SCHED)
 #elif defined(SHARK_COBRA_SCHED)
 #endif

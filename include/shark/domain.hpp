@@ -285,6 +285,14 @@ namespace shark {
 			ThreadWork([this,&f,r](int k) {
 				tdist[k].overlap(r).for_each(f);
 			});
+#elif defined(SHARK_OMP_SCHED)
+			r = local().overlap(r);
+#pragma omp parallel for schedule(static)
+			for(coord i = r.lower[0]; i < r.upper[0]; i++) {
+				coords<ndim> ii;
+				ii[0] = i;
+				r.template for_eachd<1>(f, ii);
+			}
 #else
 #error "No scheduler for_each"
 #endif
@@ -313,6 +321,18 @@ namespace shark {
 			for(typename std::vector<T>::size_type k=1; k < tsum.size(); k++)
 				tsum[0] += tsum[k];
 			return tsum[0];
+#elif defined(SHARK_OMP_SCHED)
+			r = local().overlap(r);
+			T sum(zero);
+#pragma omp parallel for schedule(static) reduction(+: sum)
+			for(coord i = r.lower[0]; i < r.upper[0]; i++) {
+				coords<ndim> ii;
+				ii[0] = i;
+				r.template for_eachd<1>([&f,&sum](coords<ndim> ii) {
+					f(sum, ii);
+				}, ii);
+			}
+			return sum;
 #else
 #error "No scheduler internal_sum"
 #endif
