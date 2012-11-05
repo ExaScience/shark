@@ -68,19 +68,17 @@ void shark::Init(int* argc, char*** argv) {
 void shark::Finalize() {
 #if defined(SHARK_PTHREAD_SCHED)
 	// Set expected
-	rdy_count = nthrds;
+	rdy_count = nthrds-1;
 	// Release threads
-	pthread_cond_broadcast(&cond_go);
-	// Wait for expected
-	pthread_mutex_lock(&mutex);
-	rdy_count--;
+	epoch++;
+	// Busy-wait for expected
 	while(rdy_count > 0)
-		pthread_cond_wait(&cond_rdy, &mutex);
-	pthread_mutex_unlock(&mutex);
+		;
 	// Cleanup
 	for(int k = 0; k < nthrds-1; k++)
 		pthread_join(children[k], nullptr);
 	delete[] children;
+	pthread_spin_destroy(&rdy_count_lock);
 #elif defined(SHARK_TBB_SCHED)
 	delete tbb_init;
 #elif defined(SHARK_COBRA_SCHED)
@@ -100,9 +98,11 @@ void shark::SetupThreads() {
 	assert(nthrds == 1);
 #elif defined(SHARK_PTHREAD_SCHED)
 	work = 0;
+	pthread_spin_init(&rdy_count_lock, PTHREAD_PROCESS_PRIVATE);
 	children = new pthread_t[nthrds-1];
 	// Set expected
-	rdy_count = nthrds;
+	rdy_count = nthrds-1;
+	epoch = 0;
 	// Release threads
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -110,12 +110,9 @@ void shark::SetupThreads() {
 	for(int k = 0; k < nthrds-1; k++)
 		pthread_create(&children[k], &attr, ThreadMain, reinterpret_cast<void*>(static_cast<size_t>(k+1)));
 	pthread_attr_destroy(&attr);
-	// Wait for expected
-	pthread_mutex_lock(&mutex);
-	rdy_count--;
+	// Busy wait for expected
 	while(rdy_count > 0)
-		pthread_cond_wait(&cond_rdy, &mutex);
-	pthread_mutex_unlock(&mutex);
+		;
 #elif defined(SHARK_OMP_SCHED)
 	omp_set_num_threads(nthrds);
 #elif defined(SHARK_TBB_SCHED)
@@ -149,16 +146,13 @@ double shark::Wtime() {
 void shark::ThreadWork(function<void(int)> w) {
 	work = w;
 	// Set expected
-	rdy_count = nthrds;
+	rdy_count = nthrds-1;
 	// Release threads
-	pthread_cond_broadcast(&cond_go);
+	epoch++;
 	work(0);
-	// Wait for expected
-	pthread_mutex_lock(&mutex);
-	rdy_count--;
+	// Busy wait for expected
 	while(rdy_count > 0)
-		pthread_cond_wait(&cond_rdy, &mutex);
-	pthread_mutex_unlock(&mutex);
+		;
 	work = 0;
 }
 #endif

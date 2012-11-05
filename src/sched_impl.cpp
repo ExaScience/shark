@@ -8,28 +8,29 @@ using namespace shark;
 #elif defined(SHARK_PTHREAD_SCHED)
 
 volatile int shark::rdy_count;
-pthread_mutex_t shark::mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t shark::cond_go = PTHREAD_COND_INITIALIZER;
-pthread_cond_t shark::cond_rdy = PTHREAD_COND_INITIALIZER;
+volatile int shark::epoch;
+pthread_spinlock_t shark::rdy_count_lock;
 function<void(int)> shark::work;
 pthread_t* shark::children;
 
 void* shark::ThreadMain(void* arg) {
 	int threadid = reinterpret_cast<size_t>(arg);
+	int next_epoch = 0;
 	while(true) {
-		pthread_mutex_lock(&mutex);
+		pthread_spin_lock(&rdy_count_lock);
 		rdy_count--;
-		pthread_cond_signal(&cond_rdy);
-		pthread_cond_wait(&cond_go, &mutex);
-		if(!work) {
-			rdy_count--;
-			pthread_cond_signal(&cond_rdy);
-			pthread_mutex_unlock(&mutex);
+		pthread_spin_unlock(&rdy_count_lock);
+		// busy wait
+		next_epoch++;
+		while(epoch != next_epoch)
+			;
+		if(!work)
 			break;
-		}
-		pthread_mutex_unlock(&mutex);
 		work(threadid);
 	}
+	pthread_spin_lock(&rdy_count_lock);
+	rdy_count--;
+	pthread_spin_unlock(&rdy_count_lock);
 	return NULL;
 }
 
