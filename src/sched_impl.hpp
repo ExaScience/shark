@@ -17,7 +17,10 @@
 namespace shark {
 #if defined(SHARK_SER_SCHED)
 #elif defined(SHARK_PTHREAD_SCHED)
-	extern pthread_barrier_t barrier;
+	extern volatile int rdy_count;
+	extern pthread_mutex_t mutex;
+	extern pthread_cond_t cond_go;
+	extern pthread_cond_t cond_rdy;
 	extern std::function<void(int)> work;
 	extern pthread_t* children;
 
