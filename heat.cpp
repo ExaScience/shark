@@ -57,10 +57,11 @@ int main(int argc, char **argv) {
 	//Default values that might be overridden by options
 	int nr = 2000;
 	int n = 511;	//incremented by one internally
+	bool block = false;
 
 	//Process arguments
 	int ch;
-	while((ch = getopt(argc, argv, "n:i:t:h")) != -1) {
+	while((ch = getopt(argc, argv, "n:i:t:bh")) != -1) {
 		switch(ch) {
 			case 'n':
 				{
@@ -80,6 +81,9 @@ int main(int argc, char **argv) {
 					iss >> nthrds;
 				}
 				break;
+			case 'b':
+				block = true;
+				break;
 			case 'h':
 			case '?':
 			default:
@@ -92,6 +96,7 @@ int main(int argc, char **argv) {
 		cerr << "sched: " << sched << endl;
 		cerr << "n: " << n << endl;
 		cerr << "nr: " << nr << endl;
+		cerr << "block: " << boolalpha << block << noboolalpha << endl;
 		cerr << "nprocs: " << world().nprocs << endl;
 		cerr << "nthrds: " << nthrds << endl;
 	}
@@ -103,7 +108,8 @@ int main(int argc, char **argv) {
 	{
 		const coords size  = {{n-1,n-1}};
 		const coords ghost = {{1,1}};
-		Domain d(world(), size);
+		const array<int,2> pcoords = {{ 0, block ? 0 : 1 }};
+		Domain d(world(), size, pcoords);
 		if(world().procid == 0)
 			d.outputDistribution(cerr);
 		typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
