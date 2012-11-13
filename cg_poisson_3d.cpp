@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <cassert>
 #include <string>
@@ -71,6 +72,11 @@ int main(int argc, char **argv) {
 	if(argc != 5) {
 		cerr << "Usage: " << argv[0] << " <nx> <ny> <nz> <tol>" << endl;
 		return 1;
+	}
+	{
+		char* val = getenv("SHARK_NTHRDS");
+		if(val != NULL)
+			nthrds = stoi(val);
 	}
 	int nx = stoi(argv[1]);
 	int ny = stoi(argv[2]);
