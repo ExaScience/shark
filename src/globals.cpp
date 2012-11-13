@@ -1,5 +1,6 @@
 
 #include <cassert>                     // assert
+#include <cstdlib>                     // std::getenv
 #include <utility>                     // std::move
 
 #if defined(SHARK_NO_COMM)
@@ -63,6 +64,9 @@ void shark::Init(int* argc, char*** argv) {
 	unused(argc, argv);
 	Group::w.reset(new Group(unique_ptr<GroupImpl>(new GroupImpl())));
 #endif
+	char* nthrds_str = getenv("SHARK_NTHRDS");
+	if(nthrds_str != nullptr)
+		nthrds = stoi(nthrds_str);
 }
 
 void shark::Finalize() {

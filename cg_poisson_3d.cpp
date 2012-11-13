@@ -73,11 +73,6 @@ int main(int argc, char **argv) {
 		cerr << "Usage: " << argv[0] << " <nx> <ny> <nz> <tol>" << endl;
 		return 1;
 	}
-	{
-		char* val = getenv("SHARK_NTHRDS");
-		if(val != NULL)
-			nthrds = stoi(val);
-	}
 	int nx = stoi(argv[1]);
 	int ny = stoi(argv[2]);
 	int nz = stoi(argv[3]);
