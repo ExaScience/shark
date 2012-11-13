@@ -7,7 +7,7 @@
 #include <shark.hpp>
 #include "cg.hpp"
 
-#undef USE_BOUNDS
+#define USE_BOUNDS
 
 using namespace std;
 using namespace shark;
