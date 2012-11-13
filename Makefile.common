@@ -23,6 +23,8 @@ heat: libshark.a heat.o
 
 cg: libshark.a cg.o
 
+cg_poisson_3d: libshark.a cg_poisson_3d.o
+
 testsuite: libshark.a testsuite.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
