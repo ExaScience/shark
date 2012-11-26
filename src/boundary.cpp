@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2010-2012, Vrije Universiteit Brussel.
+ * All rights reserved.
+ */
+
 #include <shark/boundary.hpp>
 
 using namespace std;

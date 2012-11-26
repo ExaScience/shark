@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2010-2012, Vrije Universiteit Brussel.
+ * All rights reserved.
+ */
+
 #ifndef __SHARK_GROUP_HPP
 #define __SHARK_GROUP_HPP
 

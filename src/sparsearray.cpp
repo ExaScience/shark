@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010-2012, Vrije Universiteit Brussel.
+ * All rights reserved.
+ */
 
 #include <shark/domain.hpp>
 #include <shark/sparsearray.hpp>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2010-2012, Vrije Universiteit Brussel.
+ * All rights reserved.
+ */
 
 #include <shark/access.hpp>
 #include <shark/boundary.hpp>
