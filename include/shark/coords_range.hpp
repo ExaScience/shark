@@ -52,17 +52,21 @@ namespace shark {
 
 		template<int ndim> template<int d, typename Func>
 		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
-			for(i[d] = lower[d]; i[d] < upper[d]; i[d]++)
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
 				for_eachd<d+1>(f, i);
+			}
 		}
 
 		template<int ndim> template<int d, typename Func>
 		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-			for(coord j = lower[d]; j < upper[d]; j++) {
-				i[d] = j;
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
 				f(i);
 			}
 		}
@@ -123,11 +127,12 @@ namespace shark {
 
 		template<typename Func>
 		inline void omp_coords_range<1>::for_each(const Func& f) const {
+			coord lj = r.lower[0], uj = r.upper[0];
 #pragma omp parallel for schedule(static)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+			for(coord j = lj; j < uj; j++) {
 				coords<1> i;
 				i[0] = j;
 				f(i);
@@ -138,11 +143,12 @@ namespace shark {
 		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
 		omp_coords_range<1>::internal_sum(const T& zero, const Func& f) const {
 			T sum(zero);
+			coord lj = r.lower[0], uj = r.upper[0];
 #pragma omp parallel for schedule(static) reduction(+: sum)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+			for(coord j = lj; j < uj; j++) {
 				coords<1> i;
 				i[0] = j;
 				f(sum, i);
@@ -157,11 +163,12 @@ namespace shark {
 #pragma omp parallel shared(sum)
 			{
 				T local_sum(zero);
+				coord lj = r.lower[0], uj = r.upper[0];
 #pragma omp for schedule(static)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-				for(coord j = r.lower[0]; j < r.upper[0]; j++) {
+				for(coord j = lj; j < uj; j++) {
 					coords<1> i;
 					i[0] = j;
 					f(local_sum, i);
@@ -189,16 +196,17 @@ namespace shark {
 
 		template<typename Func>
 		inline void omp_coords_range<2>::for_each(const Func& f) const {
+			coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp parallel for schedule(static) collapse(2)
 #else
 #pragma omp parallel for schedule(static)
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+			for(coord j = lj; j < uj; j++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-				for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+				for(coord k = lk; k < uk; k++) {
 					coords<2> i;
 					i[0] = j;
 					i[1] = k;
@@ -210,16 +218,17 @@ namespace shark {
 		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
 		omp_coords_range<2>::internal_sum(const T& zero, const Func& f) const {
 			T sum(zero);
+			coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp parallel for schedule(static) collapse(2) reduction(+: sum)
 #else
 #pragma omp parallel for schedule(static) reduction(+: sum)
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++)
+			for(coord j = lj; j < uj; j++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-				for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+				for(coord k = lk; k < uk; k++) {
 					coords<2> i;
 					i[0] = j;
 					i[1] = k;
@@ -235,16 +244,17 @@ namespace shark {
 #pragma omp parallel shared(sum)
 			{
 				T local_sum(zero);
+				coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp for schedule(static) collapse(2)
 #else
 #pragma omp for schedule(static)
 #endif
-				for(coord j = r.lower[0]; j < r.upper[0]; j++)
+				for(coord j = lj; j < uj; j++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-					for(coord k = r.lower[1]; k < r.upper[1]; k++) {
+					for(coord k = lk; k < uk; k++) {
 						coords<2> i;
 						i[0] = j;
 						i[1] = k;
@@ -273,17 +283,18 @@ namespace shark {
 
 		template<typename Func>
 		inline void omp_coords_range<3>::for_each(const Func& f) const {
+			coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1], ll = r.lower[2], ul = r.upper[2];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp parallel for schedule(static) collapse(3)
 #else
 #pragma omp parallel for schedule(static)
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++)
-				for(coord k = r.lower[1]; k < r.upper[1]; k++)
+			for(coord j = lj; j < uj; j++)
+				for(coord k = lk; k < uk; k++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-					for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+					for(coord l = ll; l < ul; l++) {
 						coords<3> i;
 						i[0] = j;
 						i[1] = k;
@@ -297,17 +308,18 @@ namespace shark {
 		inline typename std::enable_if<std::is_scalar<T>::value,T>::type
 		omp_coords_range<3>::internal_sum(const T& zero, const Func& f) const {
 			T sum(zero);
+			coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1], ll = r.lower[2], ul = r.upper[2];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp parallel for schedule(static) collapse(3) reduction(+: sum)
 #else
 #pragma omp parallel for schedule(static) reduction(+: sum)
 #endif
-			for(coord j = r.lower[0]; j < r.upper[0]; j++)
-				for(coord k = r.lower[1]; k < r.upper[1]; k++) 
+			for(coord j = lj; j < uj; j++)
+				for(coord k = lk; k < uk; k++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-					for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+					for(coord l = ll; l < ul; l++) {
 						coords<3> i;
 						i[0] = j;
 						i[1] = k;
@@ -324,17 +336,18 @@ namespace shark {
 #pragma omp parallel shared(sum)
 			{
 				T local_sum(zero);
+				coord lj = r.lower[0], uj = r.upper[0], lk = r.lower[1], uk = r.upper[1], ll = r.lower[2], ul = r.upper[2];
 #ifdef SHARK_THREAD_BLOCK_DIST
 #pragma omp for schedule(static) collapse(3)
 #else
 #pragma omp for schedule(static) 
 #endif
-				for(coord j = r.lower[0]; j < r.upper[0]; j++)
-					for(coord k = r.lower[1]; k < r.upper[1]; k++)
+				for(coord j = lj; j < uj; j++)
+					for(coord k = lk; k < uk; k++)
 #ifdef SHARK_VECTOR_PRAGMA
 #pragma ivdep
 #endif
-						for(coord l = r.lower[2]; l < r.upper[2]; l++) {
+						for(coord l = ll; l < ul; l++) {
 							coords<3> i;
 							i[0] = j;
 							i[1] = k;
