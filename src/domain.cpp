@@ -99,7 +99,7 @@ bool Domain<ndim>::consistentDistribution() const {
 	});
 }
 
-#if defined(SHARK_PTHREAD_SCHED)
+#if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
 
 #ifdef SHARK_THREAD_BLOCK_DIST
 
@@ -171,7 +171,7 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np)
 	, np((adjustProcs(group.nprocs,np), np))
 	, nd(distribution(n, np))
 	, b(base(np))
-#if defined(SHARK_PTHREAD_SCHED)
+#if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
 	, tdist(tdistribution())
 #elif defined(SHARK_TBB_SCHED)
 	, ap(new tbb::affinity_partitioner())
@@ -187,7 +187,7 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np, dists nd)
 	, np(np)
 	, nd(nd)
 	, b(base(np))
-#if defined(SHARK_PTHREAD_SCHED)
+#if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
 	, tdist(tdistribution())
 #elif defined(SHARK_TBB_SCHED)
 	, ap(new tbb::affinity_partitioner())

@@ -76,7 +76,7 @@ namespace shark {
 
 		private:
 			const std::array<int,ndim+1> b;
-#if defined(SHARK_PTHREAD_SCHED)
+#if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
 			const std::vector<coords_range<ndim>> tdist;
 			std::vector<coords_range<ndim>> tdistribution() const;
 #elif defined(SHARK_TBB_SCHED)
@@ -291,9 +291,15 @@ namespace shark {
 				tdist[k].overlap(r).for_each(f);
 			});
 #elif defined(SHARK_OMP_SCHED)
+#if defined(SHARK_OMP_TDIST)
+#pragma omp parallel for schedule(static)
+			for(std::size_t k = 0; k < tdist.size(); k++)
+				tdist[k].overlap(r).for_each(f);
+#else
 			omp_coords_range<ndim> omp;
 			omp.r = local().overlap(r);
 			omp.for_each(f);
+#endif
 #else
 #error "No scheduler for_each"
 #endif
@@ -321,14 +327,30 @@ namespace shark {
 				});
 			});
 			std::unique_ptr<T> sum(std::move(tsum[0]));
-			for(typename std::size_t k=1; k < tdist.size(); k++)
+			for(std::size_t k=1; k < tdist.size(); k++)
 				*sum += *tsum[k];
 			delete[] tsum;
 			return *sum;
 #elif defined(SHARK_OMP_SCHED)
+#if defined(SHARK_OMP_TDIST)
+			std::unique_ptr<T>* tsum = new std::unique_ptr<T>[tdist.size()];
+#pragma omp parallel for schedule(static)
+			for(std::size_t k = 0; k < tdist.size(); k++) {
+				tsum[k].reset(new T(zero));
+				tdist[k].overlap(r).for_each([&f,&tsum,k](coords<ndim> i) {
+					f(*tsum[k], i);
+				});
+			}
+			std::unique_ptr<T> sum(std::move(tsum[0]));
+			for(std::size_t k=1; k < tdist.size(); k++)
+				*sum += *tsum[k];
+			delete[] tsum;
+			return *sum;
+#else
 			omp_coords_range<ndim> omp;
 			omp.r = local().overlap(r);
 			return omp.internal_sum(zero, f);
+#endif
 #else
 #error "No scheduler internal_sum"
 #endif

@@ -18,6 +18,7 @@
  */
 //#define SHARK_RANGE
 //#define SHARK_THREAD_BLOCK_DIST
+//#define SHARK_OMP_TDIST
 
 #define INLINE inline __attribute((__no_instrument_function__))
 

@@ -15,6 +15,9 @@
 #include <shark/globals.hpp>
 #elif defined(SHARK_OMP_SCHED)
 #include <omp.h>
+#if defined(SHARK_OMP_TDIST)
+#include <shark/globals.hpp>
+#endif
 #elif defined(SHARK_TBB_SCHED)
 #elif defined(SHARK_COBRA_SCHED)
 #endif

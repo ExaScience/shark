@@ -110,7 +110,7 @@ namespace shark {
 			return adj;
 		}
 
-#if defined(SHARK_OMP_SCHED)
+#if defined(SHARK_OMP_SCHED) && !defined(SHARK_OMP_TDIST)
 		template<int>
 		struct omp_coords_range;
 
