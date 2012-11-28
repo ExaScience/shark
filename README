@@ -1,0 +1,30 @@
+
+=========================================
+Scalable Hybrid Array Kit (Shark): README
+=========================================
+
+This is a pre-release version of Shark. Please see the LICENSE file for
+licensing terms.
+
+REQUIREMENTS
+
+- A C++ compiler and standard library with support for C++11 features such as
+  lambdas, move semantics and varargs templates. Shark is developed using:
+    * gcc 4.6 and 4.7
+    * icc 12.1 and 13 with libstdc++ from gcc 4.4
+- An MPI2 implementation (recommended)
+- POSIX threads with spin locks (optional)
+- OpenMP 2.5 support (optional)
+- Intel Threading Building Blocks 2.2 or newer (optional)
+
+BUILDING
+
+    mkdir build
+    cd build
+    ../configure
+    make
+
+FEEDBACK
+
+Please send feedback to Bruno De Fraine <brunodf@lab.exascience.com>.
+
