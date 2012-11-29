@@ -7,17 +7,14 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a main heat cg testsuite
+all: libshark.a heat cg testsuite
 
 SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
 
-main.o: CFLAGS+=--param max-inline-insns-single=800
 testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
-
-main: libshark.a main.o
 
 heat: libshark.a heat.o
 
@@ -32,7 +29,7 @@ libshark.a: $(SHARKSRC:.cpp=.o)
 
 clean:
 	rm -f $(DFILES) $(OFILES)
-	rm -f libshark.a main heat cg
+	rm -f libshark.a heat cg
  
 -include $(DFILES)
 
