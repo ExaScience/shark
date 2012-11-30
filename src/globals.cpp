@@ -12,10 +12,29 @@
 #include <chrono>                      // std::chrono
 #endif
 
+#if defined(SHARK_SER_SCHED)
+#elif defined(SHARK_PTHREAD_SCHED)
+#include <pthread.h>
+#include <functional>                  // std::function
+
+namespace shark {
+	extern volatile int rdy_count;
+	extern volatile int epoch;
+	extern pthread_spinlock_t rdy_count_lock;
+	extern std::function<void(int)> work;
+	extern pthread_t* children;
+
+	void* ThreadMain(void* arg);
+}
+#elif defined(SHARK_OMP_SCHED)
+#include <omp.h>
+#elif defined(SHARK_TBB_SCHED)
+#elif defined(SHARK_COBRA_SCHED)
+#endif
+
 #include <shark/globals.hpp>
 #include <shark/version.hpp>
 #include "comm_impl.hpp"
-#include "sched_impl.hpp"
 
 using namespace std;
 using namespace shark;
@@ -151,6 +170,35 @@ double shark::Wtime() {
 }
 
 #if defined(SHARK_PTHREAD_SCHED)
+
+volatile int shark::rdy_count;
+volatile int shark::epoch;
+pthread_spinlock_t shark::rdy_count_lock;
+function<void(int)> shark::work;
+pthread_t* shark::children;
+
+void* shark::ThreadMain(void* arg) {
+	int threadid = reinterpret_cast<size_t>(arg);
+	int next_epoch = 0;
+	while(true) {
+		pthread_spin_lock(&rdy_count_lock);
+		rdy_count--;
+		pthread_spin_unlock(&rdy_count_lock);
+		// busy wait
+		next_epoch++;
+		while(epoch != next_epoch)
+			;
+		if(!work)
+			break;
+		work(threadid);
+	}
+	pthread_spin_lock(&rdy_count_lock);
+	rdy_count--;
+	pthread_spin_unlock(&rdy_count_lock);
+	return NULL;
+}
+
+// from shark/common.hpp
 void shark::ThreadWork(function<void(int)> w) {
 	work = w;
 	// Set expected
@@ -163,5 +211,6 @@ void shark::ThreadWork(function<void(int)> w) {
 		;
 	work = 0;
 }
+
 #endif
 

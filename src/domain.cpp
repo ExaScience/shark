@@ -5,9 +5,9 @@
 
 #include <cassert>                     // assert
 
+#include <shark/globals.hpp>
 #include <shark/domain.hpp>
 #include "comm_impl.hpp"
-#include "sched_impl.hpp"
 
 using namespace std;
 using namespace shark;
