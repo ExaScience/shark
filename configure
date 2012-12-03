@@ -132,7 +132,7 @@ case $sched in
 	;;
 	tbb)
 		pub_cflags="$pub_cflags -DSHARK_TBB_SCHED"
-		pub_libs="$pub_libs -ltbb"
+		pub_pkgs="$pub_pkgs tbb"
 	;;
 	cobra)
 		pub_cflags="$pub_cflags -DSHARK_COBRA_SCHED"
