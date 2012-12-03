@@ -175,6 +175,7 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np)
 	, tdist(tdistribution())
 #elif defined(SHARK_TBB_SCHED)
 	, ap(new tbb::affinity_partitioner())
+	, nwork(nthrds)
 #endif
 {
 	assert(b[0] == group.nprocs);
@@ -191,6 +192,7 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np, dists nd)
 	, tdist(tdistribution())
 #elif defined(SHARK_TBB_SCHED)
 	, ap(new tbb::affinity_partitioner())
+	, nwork(nthrds)
 #endif
 {
 	assert(b[0] == group.nprocs);

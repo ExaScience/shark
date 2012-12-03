@@ -29,6 +29,11 @@ namespace shark {
 #elif defined(SHARK_OMP_SCHED)
 #include <omp.h>
 #elif defined(SHARK_TBB_SCHED)
+#include <tbb/task_scheduler_init.h>
+
+namespace shark {
+	extern tbb::task_scheduler_init* tbb_init;
+}
 #elif defined(SHARK_COBRA_SCHED)
 #endif
 
@@ -211,6 +216,10 @@ void shark::ThreadWork(function<void(int)> w) {
 		;
 	work = 0;
 }
+
+#elif defined(SHARK_TBB_SCHED)
+
+tbb::task_scheduler_init* shark::tbb_init;
 
 #endif
 

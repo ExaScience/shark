@@ -4,6 +4,7 @@
  */
 
 #include <shark/coords_range.hpp>
+#include <cassert>                    // assert
 
 using namespace std;
 using namespace shark;
@@ -50,6 +51,50 @@ ostream& shark::ndim::operator<<(ostream& out, const coords_range<ndim>& r) {
 	return out;
 }
 
+#if defined(SHARK_TBB_SCHED) && defined(SHARK_THREAD_BLOCK_DIST)
+
+template<int ndim>
+split_range<ndim>::split_range(coords_range<ndim> r, coord grainsize): r(r), grainsize(grainsize) {
+}
+
+template<int ndim>
+bool split_range<ndim>::empty() const {
+	return !seq<0,ndim>::all_of([this](int d) { return r.lower[d] < r.upper[d]; });
+}
+
+template<int ndim>
+bool split_range<ndim>::is_divisible() const {
+	return r.size() > grainsize;
+}
+
+template<int ndim>
+void split_range<ndim>::split(split_range<ndim>& left, split_range<ndim>& right) const {
+	assert(is_divisible());
+	// Determine which dim to split
+	coord size = coord();
+	int ds = ndim;
+	for(int d = ndim-1; d>=0; d--) {
+		coord cand = r.upper[d] - r.lower[d];
+		if(cand > size) {
+			size = cand;
+			ds = d;
+		}
+	}
+	left.grainsize = grainsize;
+	right.grainsize = grainsize;
+	left.r = r;
+	right.r = r;
+	left.r.upper[ds] = r.lower[ds] + (r.upper[ds] - r.lower[ds]) / 2u;
+	right.r.lower[ds] = left.r.upper[ds];
+}
+
+template<int ndim>
+split_range<ndim>::split_range(split_range<ndim>& other, tbb::split): r(other.r), grainsize(other.grainsize) {
+	split(*this, other);
+}
+
+#endif
+
 // Set-up instantiations
 
 #define SYMBD(d) template struct shark::ndim::coords_range<d>;
@@ -59,3 +104,9 @@ ostream& shark::ndim::operator<<(ostream& out, const coords_range<ndim>& r) {
 #define SYMBD(d) template ostream& shark::ndim::operator<< <d>(ostream&, const coords_range<d>&);
 #include "inst_dim"
 #undef SYMBD
+
+#if defined(SHARK_TBB_SCHED) && defined(SHARK_THREAD_BLOCK_DIST)
+#define SYMBD(d) template struct shark::ndim::split_range<d>;
+#include "inst_dim"
+#undef SYMBD
+#endif

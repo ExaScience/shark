@@ -11,6 +11,16 @@
 #include <memory>                      // std::unique_ptr
 #include <vector>                      // std::vector
 #include <ostream>                     // std::ostream
+#if defined(SHARK_TBB_SCHED)
+#include <tbb/tbb_stddef.h>            // tbb::split
+#include <tbb/partitioner.h>           // tbb::affinity_partitioner
+#include <tbb/parallel_for.h>          // tbb::parallel_for
+#include <tbb/parallel_reduce.h>       // tbb::parallel_reduce
+#if !defined(SHARK_THREAD_BLOCK_DIST)
+#include <tbb/blocked_range.h>         // tbb::blocked_range
+#endif
+#endif
+
 #include "common.hpp"
 #include "coords.hpp"
 #include "coords_range.hpp"
@@ -81,6 +91,7 @@ namespace shark {
 			std::vector<coords_range<ndim>> tdistribution() const;
 #elif defined(SHARK_TBB_SCHED)
 			const std::unique_ptr<tbb::affinity_partitioner> ap;
+			const int nwork;
 #endif
 			static void adjustProcs(int nprocs, pcoords& np);
 			static std::array<int,ndim+1> base(pcoords np);
@@ -300,6 +311,23 @@ namespace shark {
 			omp.r = local().overlap(r);
 			omp.for_each(f);
 #endif
+#elif defined(SHARK_TBB_SCHED)
+#if defined(SHARK_THREAD_BLOCK_DIST)
+			split_range<ndim> sr(local(), r.size()/nwork);
+			tbb::parallel_for(sr, [&r,&f](const split_range<ndim>& sr) {
+				sr.range().overlap(r).for_each(f);
+			}, *ap);
+#else
+			tbb::blocked_range<coord> br(local().lower[0], local().upper[0]);
+			tbb::parallel_for(br, [&r,&f](const tbb::blocked_range<coord>& br) {
+				coords_range<ndim> lr = r;
+				if(lr.lower[0] < br.begin())
+					lr.lower[0] = br.begin();
+				if(lr.upper[0] > br.end())
+					lr.upper[0] = br.end();
+				lr.for_each(f);
+			}, *ap);
+#endif
 #else
 #error "No scheduler for_each"
 #endif
@@ -350,6 +378,49 @@ namespace shark {
 			omp_coords_range<ndim> omp;
 			omp.r = local().overlap(r);
 			return omp.internal_sum(zero, f);
+#endif
+#elif defined(SHARK_TBB_SCHED)
+#if defined(SHARK_THREAD_BLOCK_DIST)
+			struct Adder {
+				const Func& f;
+				const T& zero;
+				const coords_range<ndim>& r;
+				T sum;
+				Adder(const Func& f, const T& zero, const coords_range<ndim>& r) : f(f), zero(zero), r(r), sum(zero) {}
+				Adder(Adder& adder, tbb::split) : f(adder.f), zero(adder.zero), r(adder.r), sum(zero) {}
+				void operator()(const split_range<ndim>& sr) {
+					sr.range().overlap(r).for_each([this](coords<ndim> i) {
+						f(sum, i);
+					});
+				}
+				void join(Adder& rhs) { sum += rhs.sum; }
+			} adder(f, zero, r);
+			split_range<ndim> sr(local(), r.size()/nwork);
+			tbb::parallel_reduce(sr, adder, *ap);
+			return adder.sum;
+#else
+			struct Adder {
+				const Func& f;
+				const T& zero;
+				const coords_range<ndim>& r;
+				T sum;
+				Adder(const Func& f, const T& zero, const coords_range<ndim>& r) : f(f), zero(zero), r(r), sum(zero) {}
+				Adder(Adder& adder, tbb::split) : f(adder.f), zero(adder.zero), r(adder.r), sum(zero) {}
+				void operator()(const tbb::blocked_range<coord>& br) {
+					coords_range<ndim> lr = r;
+					if(lr.lower[0] < br.begin())
+						lr.lower[0] = br.begin();
+					if(lr.upper[0] > br.end())
+						lr.upper[0] = br.end();
+					lr.for_each([this](coords<ndim> i) {
+						f(sum, i);
+					});
+				}
+				void join(Adder& rhs) { sum += rhs.sum; }
+			} adder(f, zero, r);
+			tbb::blocked_range<coord> br(local().lower[0], local().upper[0]);
+			tbb::parallel_reduce(br, adder, *ap);
+			return adder.sum;
 #endif
 #else
 #error "No scheduler internal_sum"

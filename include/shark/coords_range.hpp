@@ -7,6 +7,10 @@
 #define __SHARK_COORDS_RANGE_HPP
 
 #include <ostream>                     // std::ostream
+#if defined(SHARK_TBB_SCHED)
+#include <tbb/tbb_stddef.h>            // tbb::split
+#endif
+
 #include "common.hpp"
 #include "coords.hpp"
 
@@ -111,6 +115,7 @@ namespace shark {
 		}
 
 #if defined(SHARK_OMP_SCHED) && !defined(SHARK_OMP_TDIST)
+
 		template<int>
 		struct omp_coords_range;
 
@@ -363,6 +368,30 @@ namespace shark {
 			}
 			return sum;
 		}
+		
+#elif defined(SHARK_TBB_SCHED) && defined(SHARK_THREAD_BLOCK_DIST)
+
+		template<int ndim>
+		class split_range {
+		private:
+			coords_range<ndim> r;
+			coord grainsize;
+		public:
+			split_range(coords_range<ndim> r, coord grainsize);
+			split_range(const split_range<ndim>& other) = default;
+			split_range(split_range<ndim>& other, tbb::split);
+			~split_range() = default;
+			void split(split_range<ndim>& left, split_range<ndim>& right) const;
+			bool is_divisible() const;
+			bool empty() const;
+			INLINE const coords_range<ndim>& range() const;
+		};
+
+		template<int ndim>
+		inline const coords_range<ndim>& split_range<ndim>::range() const {
+			return r;
+		}
+
 #endif
 
 	}
