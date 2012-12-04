@@ -23,17 +23,33 @@ REQUIREMENTS
    lambdas, move semantics and varargs templates. Shark is developed using:
      * gcc 4.6 and 4.7
      * icc 12.1 and 13 with libstdc++ from gcc 4.4
+ - pkg-config
  - An MPI2 implementation (recommended)
  - POSIX threads with spin locks (optional)
  - OpenMP 2.5 support (optional)
- - Intel Threading Building Blocks 2.2 or newer (optional)
+ - Intel Threading Building Blocks (TBB) 2.2 or newer (optional)
 
 BUILDING
 
     mkdir build
     cd build
     ../configure
-    make
+    make -j4
+
+Try "configure --help" for configuration options. Please note that the
+configuration script will use pkg-config to determine how to build with
+dependencies such as a particular MPI implementation, TBB,... You may have to
+add a simple pkg-config file for a particular dependency if none is available.
+
+For example, tbb.pc could contain:
+
+    tbbdir=/path/to/tbb
+
+    Name: tbb
+    Description: Intel Threading Building Blocks
+    Version: 4.0
+    Cflags: -I${tbbdir}/include
+    Libs: -L${tbbdir}/lib -ltbb
 
 FEEDBACK
 
