@@ -8,8 +8,8 @@
 
 #include <utility>        // std::declval
 
-// Temporary fix to enable declval for libstdc++ 4.4
-#if defined(__GLIBCXX__) && __GLIBCXX__ < 20100414
+#ifdef SHARK_GLIBCXX_TR1IMPL
+// Workaround for std::declval
 #include <type_traits>
 namespace std {
 	template<typename T>

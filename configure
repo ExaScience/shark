@@ -171,6 +171,21 @@ else
 	echo "failed"
 	exit 1
 fi
+echo -n "Checking basic C++0x support... "
+if echo 'auto f = [](){};' | $cxx -c -std=c++0x -o cpp0x.o -x c++ - && rm cpp0x.o; then
+	echo "ok"
+else
+	echo "failed"
+	exit 1
+fi
+echo -n "Checking standard library... "
+if echo '#include <type_traits>' | $cxx -E -std=c++0x -x c++ - | grep '^#.*tr1_impl/type_traits' >/dev/null; then
+	echo "libstdc++ tr1_impl workaround"
+	pub_cflags="$pub_cflags -DSHARK_GLIBCXX_TR1IMPL"
+else
+	echo "ok"
+fi
+
 
 export PKG_CONFIG_PATH=".:$PKG_CONFIG_PATH"
 
