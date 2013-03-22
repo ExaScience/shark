@@ -82,6 +82,7 @@ public:
 	void test_get(tester& t);
 	void test_put(tester& t);
 	void test_accumulate(tester& t);
+	void test_gather(tester& t);
 	void test_reshape(tester& t);
 	void run(tester& t) {
 		test_basic(t);
@@ -92,6 +93,7 @@ public:
 		test_get(t);
 		test_put(t);
 		test_accumulate(t);
+		test_gather(t);
 		test_reshape(t);
 	}
 };
@@ -292,6 +294,37 @@ void suite1<ndim,S>::test_accumulate(tester& t) {
 		dom.group.sync();
 		// Everyone helps check
 		t.add_result(check(r, ga == src+src));
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_gather(tester& t) {
+	t.begin_test("test_gather");
+	coords_range<ndim> r = subrange();
+	{
+		// Data
+		GlobalArray<ndim,T> ga(dom);
+		ga = src;
+		// Mark local region of interest
+		SparseArray<ndim,T> sa(dom, 6);
+		r.for_each([&sa](coords<ndim> i) {
+			sa.set(i);
+		});
+		// Retrieve
+		ga.gather(sa);
+		// Check
+		{
+			test_result tr = test_result();
+			const typename S::accessor s(src);
+			r.for_each([&sa,&s,&tr](coords<ndim> ii) {
+				if(s(ii) != sa.get(ii))
+					tr.fails++;
+				tr.checks++;
+			});
+			// Add everything together
+			t.add_result(dom.group.external_sum(move(tr)));
+		}
 	}
 	t.end_test();
 }

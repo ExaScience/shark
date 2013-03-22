@@ -482,18 +482,22 @@ template<int ndim,typename T>
 void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	assert(domain() == sa.dom);
 	auto eld = essential_lead<ndim>(sa.ld);
+	domain().sync();
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
+	domain().sync();
 }
 
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 	assert(domain() == sa.dom);
 	auto eld = essential_lead<ndim>(sa.ld);
+	domain().sync();
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
+	domain().sync();
 }
 
 template<int ndim,typename T>
