@@ -240,7 +240,9 @@ void suite1<ndim,S>::test_get(tester& t) {
 		ga = src;
 		// Everyone does a "get" and checks the result
 		unique_ptr<T[]> ptr(new T[ld[0]]);
+		dom.group.sync();
 		ga.get(r, ptr.get());
+		dom.group.sync();
 		{
 			test_result tr = test_result();
 			const typename S::accessor s(src);
@@ -364,6 +366,8 @@ int main(int argc, char* argv[]) {
 	{
 		coords<1> n = {{1000}};
 		Domain<1> dom(world(), n);
+		if(world().procid == 0)
+			dom.outputDistribution(cerr);
 		auto f = coord_val<0>(dom, 1000);
 		make_suite1(dom, f).run(t);
 	}
@@ -372,6 +376,8 @@ int main(int argc, char* argv[]) {
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
+		if(world().procid == 0)
+			dom.outputDistribution(cerr);
 		auto f = sin(coord_val<0>(dom, 2*M_PI, false)) * cos(coord_val<1>(dom, 2*M_PI, false)) * coord_val<2>(dom, 1.0, false);
 		make_suite1(dom, f).run(t);
 	}
@@ -380,6 +386,8 @@ int main(int argc, char* argv[]) {
 	{
 		coords<3> n = {{100,100,100}};
 		Domain<3> dom(world(), n);
+		if(world().procid == 0)
+			dom.outputDistribution(cerr);
 		const vec<3,double> one = {{1.0, 1.0, 1.0}};
 		const vec<3,double> mid = {{0.5, 0.5, 0.5}};
 		auto f = abs(coord_vec(dom, one) - mid);

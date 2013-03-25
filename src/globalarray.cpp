@@ -325,8 +325,8 @@ template<int ndim,typename T> template<int d,typename Op>
 inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
 	// Target
 	int id = dom.pindex(ip);
-	coords<ndim+1> tgtld = dom.local().stride(gw);
-
+	coords<ndim+1> tgtld = dom.local(id).stride(gw);
+	
 	// Offsets
 	size_t ognoff = 0;
 	MPI_Aint tgtoff = 0;
