@@ -20,6 +20,8 @@ template<> const MPI_Datatype mpi_type<std::complex<float>>::t = MPI_C_COMPLEX;
 template<> const MPI_Datatype mpi_type<std::complex<double>>::t = MPI_C_DOUBLE_COMPLEX;
 template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LONG_DOUBLE_COMPLEX;
 
+template<int ndim> const MPI_Datatype mpi_type<coords_range<ndim>>::t = mpi_type<coord>::t;
+
 template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
 template<int ndim,typename T> const MPI_Datatype mpi_type<part<ndim,T>>::t = mpi_type<T>::t;
 

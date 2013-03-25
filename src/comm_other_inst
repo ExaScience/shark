@@ -10,6 +10,10 @@
 #define SYMBD(d) SYMBT(shark::ndim::part<d COMMA double>)
 #include "inst_dim"
 #undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::coords_range<d>)
+#include "inst_dim"
+#undef SYMBD
+
 
 #elif defined(SHARK_NO_COMM)
 
@@ -17,6 +21,9 @@
 #include "inst_dim"
 #undef SYMBD
 #define SYMBD(d) SYMBT(shark::ndim::part<d COMMA double>)
+#include "inst_dim"
+#undef SYMBD
+#define SYMBD(d) SYMBT(shark::ndim::coords_range<d>)
 #include "inst_dim"
 #undef SYMBD
 

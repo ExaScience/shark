@@ -481,12 +481,99 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	assert(domain() == sa.dom);
+#if defined(SHARK_NO_COMM)
 	auto eld = essential_lead<ndim>(sa.ld);
 	domain().sync();
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
+#elif defined(SHARK_MPI_COMM)
+	const Domain<ndim>& dom(domain());
+	int nprocs = dom.group.impl->size();
+	MPI_Comm comm = dom.group.impl->comm;
+	// Local ranges
+	vector<coords_range<ndim>> local_ranges[nprocs];
+	sa.iter([&dom,&local_ranges](const coords_range<ndim>& r) {
+		typename Domain<ndim>::ProcessOverlap(dom, r).visit([&dom,&local_ranges](int id, coords_range<ndim> i) {
+			local_ranges[id].push_back(i);
+		});
+	});
+#ifndef NDEBUG
+	if(log_mask[verbose_collective])
+		for(int k = 0; k < nprocs; k++)
+			log_out() << "gather from " << k << ": " << local_ranges[k].size() << " ranges" << endl;
+#endif
+	// Exchange counts
+	int local_count[nprocs], global_count[nprocs];
+	for(int k = 0; k < nprocs; k++)
+		local_count[k] = static_cast<int>(local_ranges[k].size());
+	MPI_Alltoall(local_count, 1, MPI_INT, global_count, 1, MPI_INT, comm);
+	// Exchange ranges
+	vector<MPI_Request> reqs;
+	reqs.reserve(2*nprocs);
+	vector<coords_range<ndim>> global_ranges[nprocs];
+	for(int k = 0; k < nprocs; k++) {
+		global_ranges[k].resize(global_count[k]);
+		reqs.emplace_back();
+		MPI_Irecv(global_ranges[k].data(), global_count[k] * mpi_type<coords_range<ndim>>::count(), mpi_type<coords_range<ndim>>::t, k, 0, comm, &reqs.back());
+	}
+	for(int k = 0; k < nprocs; k++) {
+		reqs.emplace_back();
+		MPI_Isend(local_ranges[k].data(), local_count[k] * mpi_type<coords_range<ndim>>::count(), mpi_type<coords_range<ndim>>::t, k, 0, comm, &reqs.back());
+	}
+	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+	reqs.resize(0);
+	// Exchange data
+	{
+		for(int k = 0; k < nprocs; k++)
+			for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
+				MPI_Datatype t;
+				MPI_Aint lb, extent;
+				if(mpi_type<T>::count() != 1)
+					MPI_Type_contiguous(mpi_type<T>::count(), mpi_type<T>::t, &t);
+				else
+					MPI_Type_dup(mpi_type<T>::t, &t);
+				MPI_Type_get_extent(t, &lb, &extent);
+				for(int di = ndim-1; di >= 0; di--) {
+					MPI_Datatype tmp;
+					coord n = it->upper[di] - it->lower[di];
+					tmp = t;
+					MPI_Type_create_hvector(n, 1, sa.ld[di+1]*extent, tmp, &t);
+					MPI_Type_free(&tmp);
+				}
+				MPI_Type_commit(&t);
+				reqs.emplace_back();
+				MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, t, k, 0, comm, &reqs.back());
+				MPI_Type_free(&t);
+			}
+		const Access<ndim,T> acc(*this);
+		for(int k = 0; k < nprocs; k++)
+			for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
+				MPI_Datatype t;
+				MPI_Aint lb, extent;
+				if(mpi_type<T>::count() != 1)
+					MPI_Type_contiguous(mpi_type<T>::count(), mpi_type<T>::t, &t);
+				else
+					MPI_Type_dup(mpi_type<T>::t, &t);
+				MPI_Type_get_extent(t, &lb, &extent);
+				for(int di = ndim-1; di >= 0; di--) {
+					MPI_Datatype tmp;
+					coord n = it->upper[di] - it->lower[di];
+					tmp = t;
+					MPI_Type_create_hvector(n, 1, ld[di+1]*extent, tmp, &t);
+					MPI_Type_free(&tmp);
+				}
+				MPI_Type_commit(&t);
+				reqs.emplace_back();
+				MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, t, k, 0, comm, &reqs.back());
+				MPI_Type_free(&t);
+			}
+		MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+	}
+#else
+#error "No comm gather"
+#endif
 }
 
 template<int ndim,typename T> template<typename>

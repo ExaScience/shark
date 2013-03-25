@@ -6,6 +6,7 @@
 #ifndef __SHARK_COMM_IMPL_HPP
 #define __SHARK_COMM_IMPL_HPP
 
+#include <shark/coords_range.hpp>
 #include <shark/vec.hpp>
 #include <shark/part.hpp>
 #include <valarray>
@@ -61,6 +62,20 @@ namespace shark {
 	template<typename T>
 	inline void* mpi_type<T>::address(T& object) {
 		return &object;
+	}
+
+	/*
+	 * mpi_type for coord_range
+	 */
+	template<int ndim>
+	struct mpi_type<shark::ndim::coords_range<ndim>> {
+		static const MPI_Datatype t;
+		INLINE static int count();
+	};
+
+	template<int ndim>
+	inline int mpi_type<shark::ndim::coords_range<ndim>>::count() {
+		return ndim*2;
 	}
 
 	/*

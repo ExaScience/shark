@@ -292,8 +292,23 @@ int Domain<ndim>::shiftd(int d, int disp, bool pd, int id) const {
 #endif
 }
 
+template<int ndim>
+Domain<ndim>::ProcessOverlap::ProcessOverlap(const Domain<ndim>& dom, coords_range<ndim> range): dom(dom), range(range) {
+	assert(range.lower >= coords<ndim>() && range.lower < dom.n);
+	assert(range.upper >= coords<ndim>() && range.upper <= dom.n);
+	assert(range.lower <= range.upper);
+	dom.find(range.lower, lip, loff);
+	dom.find(range.upper, uip, uoff);
+	for(int d = 0; d < ndim; d++)
+		if(uoff[d] == 0) {
+			uip[d]--;
+			uoff[d] = dom.nd[d][uip[d]+1] - dom.nd[d][uip[d]];
+		}
+}
+
 // Set-up instantiations
 
 #define SYMBD(d) template class shark::ndim::Domain<d>;
 #include "inst_dim"
 #undef SYMBD
+

@@ -32,7 +32,8 @@ namespace shark {
 	static const int verbose_alloc = 0;
 	static const int verbose_update = 1;
 	static const int verbose_rma = 2;
-	static const int verbose_end = 3;
+	static const int verbose_collective = 3;
+	static const int verbose_end = 4;
 	typedef std::bitset<verbose_end> verbosity_mask;
 
 	/**

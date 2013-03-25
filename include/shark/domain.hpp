@@ -212,6 +212,26 @@ namespace shark {
 			template<typename T, typename Func>
 			T internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
+			class ProcessOverlap {
+				const Domain<ndim>& dom;
+				const coords_range<ndim> range;
+
+				pcoords lip, uip;
+				coords<ndim> loff, uoff;
+
+				template<int d,typename Op>
+				INLINE typename std::enable_if<d < ndim>::type visitd(const Op& op, pcoords& ip, coords_range<ndim>& i);
+
+				template<int d,typename Op>
+				INLINE typename std::enable_if<d == ndim>::type visitd(const Op& op, pcoords& ip, coords_range<ndim>& i);
+
+			public:
+				ProcessOverlap(const Domain<ndim>& dom, coords_range<ndim> range);
+
+				template<typename Op>
+				void visit(const Op& op);
+			};
+
 		};
 
 		// Inline function implementations
@@ -437,6 +457,28 @@ namespace shark {
 			return group.external_sum(internal_sum(r, zero, f));
 		}
 
+		template<int ndim> template<typename Op>
+		void Domain<ndim>::ProcessOverlap::visit(const Op& op) {
+			pcoords ip;
+			coords_range<ndim> i;
+			visitd<0>(op, ip, i);
+		}
+
+		template<int ndim> template<int d,typename Op>
+		inline typename std::enable_if<d < ndim>::type Domain<ndim>::ProcessOverlap::visitd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
+			for(ip[d] = lip[d]; ip[d] <= uip[d]; ip[d]++) {
+				i.lower[d] = ip[d] == lip[d] ? range.lower[d] : dom.nd[d][ip[d]];
+				i.upper[d] = ip[d] == uip[d] ? range.upper[d] : dom.nd[d][ip[d]+1];
+				visitd<d+1>(op, ip, i);
+			}
+		}
+
+		template<int ndim> template<int d,typename Op>
+		inline typename std::enable_if<d == ndim>::type Domain<ndim>::ProcessOverlap::visitd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
+			// Target
+			int id = dom.pindex(ip);
+			op(id, i);
+		}
 	}
 }
 
