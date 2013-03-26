@@ -19,6 +19,7 @@ namespace shark {
 	class Group {
 		template<int> friend class shark::ndim::Domain;
 		template<int,typename> friend class shark::ndim::GlobalArray;
+		template<int,typename> friend class shark::ndim::SparseArray;
 		friend const Group& world();
 		friend void Init(int*, char***);
 		friend void Finalize();

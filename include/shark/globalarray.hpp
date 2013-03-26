@@ -180,6 +180,7 @@ namespace shark {
 			 * RMA operations cannot overlap with local access.
 			 * @param sa the sparse array to fill
 			 */
+			template<typename = void>
 			void gather(SparseArray<ndim,T>& sa) const;
 
 			/**

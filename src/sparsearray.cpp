@@ -5,6 +5,7 @@
 
 #include <shark/domain.hpp>
 #include <shark/sparsearray.hpp>
+#include "comm_impl.hpp"
 
 using namespace std;
 using namespace shark;
@@ -112,6 +113,42 @@ void SparseArray<ndim,T>::operator+=(const SparseArray<ndim,T>& other) {
 		}
 }
 
+#ifdef SHARK_MPI_COMM
+
+template<int ndim,typename T>
+void SparseArray<ndim,T>::proc_ranges(vector<coords_range<ndim>> local[], vector<coords_range<ndim>> global[]) const {
+	int nprocs = dom.group.impl->size();
+	MPI_Comm comm = dom.group.impl->comm;
+
+	// Local ranges
+	iter([this,&local](const coords_range<ndim>& r) {
+		typename Domain<ndim>::ProcessOverlap(dom, r).visit([&local](int id, coords_range<ndim> i) {
+			local[id].push_back(i);
+		});
+	});
+
+	// Exchange counts
+	int local_count[nprocs], global_count[nprocs];
+	for(int k = 0; k < nprocs; k++)
+		local_count[k] = static_cast<int>(local[k].size());
+	MPI_Alltoall(local_count, 1, MPI_INT, global_count, 1, MPI_INT, comm);
+
+	// Exchange ranges
+	vector<MPI_Request> reqs;
+	reqs.reserve(2*nprocs);
+	for(int k = 0; k < nprocs; k++) {
+		global[k].resize(global_count[k]);
+		reqs.emplace_back();
+		MPI_Irecv(global[k].data(), global_count[k] * mpi_type<coords_range<ndim>>::count(), mpi_type<coords_range<ndim>>::t, k, 0, comm, &reqs.back());
+	}
+	for(int k = 0; k < nprocs; k++) {
+		reqs.emplace_back();
+		MPI_Isend(local[k].data(), local_count[k] * mpi_type<coords_range<ndim>>::count(), mpi_type<coords_range<ndim>>::t, k, 0, comm, &reqs.back());
+	}
+	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+}
+
+#endif
 
 // Set-up instantiations
 

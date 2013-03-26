@@ -46,6 +46,10 @@ namespace shark {
 			template<typename Func>
 			void iter(const Func& f) const;
 
+#ifdef SHARK_MPI_COMM
+			void proc_ranges(std::vector<coords_range<ndim>> local[], std::vector<coords_range<ndim>> global[]) const;
+#endif
+
 		public:
 			/**
 			 * The domain of the sparse array
