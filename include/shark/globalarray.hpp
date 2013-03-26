@@ -64,8 +64,6 @@ namespace shark {
 
 			INLINE T& da(coords<ndim> i) const;
 
-			class RMAOp;
-
 			std::ostream& log_out() const;
 
 		public:

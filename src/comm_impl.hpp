@@ -162,10 +162,11 @@ namespace shark {
 
 		template<int ndim, typename T>
 		class mpi_type_block {
-			static MPI_Datatype type(coords<ndim> n, coords<ndim+1> ld);
+			static MPI_Datatype type(coords<ndim> n, std::array<std::size_t,ndim-1> eld);
 		public:
 			const MPI_Datatype t;
 			mpi_type_block(coords<ndim> n, coords<ndim+1> ld);
+			mpi_type_block(coords<ndim> n, std::array<std::size_t,ndim-1> eld);
 			~mpi_type_block();
 		};
 

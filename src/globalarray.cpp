@@ -286,111 +286,6 @@ void GlobalArray<ndim,T>::update(long k) const {
 #endif
 }
 
-#if defined(SHARK_MPI_COMM)
-
-template<int ndim,typename T>
-class GlobalArray<ndim,T>::RMAOp {
-	typedef array<int,ndim> pcoords;
-
-	const Domain<ndim>& dom;
-	const coords_range<ndim> range;
-	const coords<ndim> gw;
-	const array<size_t,ndim-1> ognld;
-	pcoords lip, uip;
-	coords<ndim> loff, uoff;
-
-	template<int d,typename Op>
-	INLINE typename enable_if<d < ndim>::type opd(const Op& op, pcoords& ip, coords_range<ndim>& i);
-
-	template<int d,typename Op>
-	INLINE typename enable_if<d == ndim>::type opd(const Op& op, pcoords& ip, coords_range<ndim>& i);
-
-public:
-	RMAOp(const Domain<ndim>& dom, coords_range<ndim> range, coords<ndim> gw, array<size_t,ndim-1> ognld);
-
-	template<typename Op>
-	void op(Op op);
-};
-
-template<int ndim,typename T> template<int d,typename Op>
-inline typename enable_if<d < ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
-	for(ip[d] = lip[d]; ip[d] <= uip[d]; ip[d]++) {
-		i.lower[d] = ip[d] == lip[d] ? loff[d] : 0;
-		i.upper[d] = ip[d] == uip[d] ? uoff[d] : dom.nd[d][ip[d]+1] - dom.nd[d][ip[d]];
-		opd<d+1>(op, ip, i);
-	}
-}
-
-template<int ndim,typename T> template<int d,typename Op>
-inline typename enable_if<d == ndim>::type GlobalArray<ndim,T>::RMAOp::opd(const Op& op, pcoords& ip, coords_range<ndim>& i) {
-	// Target
-	int id = dom.pindex(ip);
-	coords<ndim+1> tgtld = dom.local(id).stride(gw);
-	
-	// Offsets
-	size_t ognoff = 0;
-	MPI_Aint tgtoff = 0;
-	for(int di = 0; di < ndim; di++) {
-		ognoff += (di == ndim-1 ? 1 : ognld[di]) * (dom.nd[di][ip[di]] + i.lower[di] - range.lower[di]);
-		tgtoff += tgtld[di+1] * (gw[di] + i.lower[di]);
-	}
-
-	// Types
-	MPI_Datatype ognt, tgtt;
-	{
-		MPI_Datatype base = mpi_type<T>::t;
-		if(mpi_type<T>::count() != 1)
-			MPI_Type_contiguous(mpi_type<T>::count(), base, &base);
-		MPI_Aint lb, extent;
-		MPI_Type_get_extent(base, &lb, &extent);
-
-		MPI_Type_dup(base, &ognt);
-		MPI_Type_dup(base, &tgtt);
-		for(int di = ndim-1; di >= 0; di--) {
-			MPI_Datatype tmp;
-			coord n = i.upper[di] - i.lower[di];
-			tmp = ognt;
-			MPI_Type_create_hvector(n, 1, di == ndim-1 ? extent : ognld[di]*extent, tmp, &ognt);
-			MPI_Type_free(&tmp);
-			tmp = tgtt;
-			MPI_Type_create_hvector(n, 1, tgtld[di+1]*extent, tmp, &tgtt);
-			MPI_Type_free(&tmp);
-		}
-		MPI_Type_commit(&ognt);
-		MPI_Type_commit(&tgtt);
-		if(mpi_type<T>::count() != 1)
-			MPI_Type_free(&base);
-	}
-	op(id, ognoff, ognt, tgtoff, tgtt);
-
-	MPI_Type_free(&tgtt);
-	MPI_Type_free(&ognt);
-}
-
-template<int ndim,typename T>
-GlobalArray<ndim,T>::RMAOp::RMAOp(const Domain<ndim>& dom, coords_range<ndim> range, coords<ndim> gw, array<size_t,ndim-1> ognld)
-: dom(dom), range(range), gw(gw), ognld(ognld) {
-	assert(range.lower >= coords<ndim>() && range.lower < dom.n);
-	assert(range.upper >= coords<ndim>() && range.upper <= dom.n);
-	assert(range.lower <= range.upper);
-	dom.find(range.lower, lip, loff);
-	dom.find(range.upper, uip, uoff);
-	for(int d = 0; d < ndim; d++)
-		if(uoff[d] == 0) {
-			uip[d]--;
-			uoff[d] = dom.nd[d][uip[d]+1] - dom.nd[d][uip[d]];
-		}
-}
-
-template<int ndim,typename T> template<typename Op>
-void GlobalArray<ndim,T>::RMAOp::op(Op op) {
-	pcoords ip;
-	coords_range<ndim> i;
-	opd<0>(op, ip, i);
-}
-
-#endif
-
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {
 	get(range, essential_lead<ndim>(range.stride()), buf);
@@ -398,19 +293,30 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {
 
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld, T* buf) const {
+#if defined(SHARK_MPI_COMM)
+	typename Domain<ndim>::ProcessOverlap(domain(), range).visit([this,range,ld,buf](int id, coords_range<ndim> i) {
+#ifndef NDEBUG
+			if(log_mask[verbose_rma])
+				this->log_out() << "get " << id << ": " << i << endl;
+#endif
+			// Target
+			coords_range<ndim> tgt = this->domain().local(id);
+			coords<ndim+1> tgtld = tgt.stride(gw);
+			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
+			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			// Origin
+			coord ognoff = (i.lower - range.lower).offset(ld);
+			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			// RMA
+			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
+			MPI_Get(buf+ognoff, 1, ognt.t, id, tgtoff, 1, tgtt.t, impl->win);
+			MPI_Win_unlock(id, impl->win);
+	});
+#elif defined(SHARK_NO_COMM)
 #ifndef NDEBUG
 	if(log_mask[verbose_rma])
 		log_out() << "get " << range << endl;
 #endif
-#if defined(SHARK_MPI_COMM)
-	RMAOp(domain(), range, ghost_width(), ld).op(
-		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
-			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
-			MPI_Get(buf+ognoff, 1, ognt, id, tgtoff, 1, tgtt, impl->win);
-			MPI_Win_unlock(id, impl->win);
-		}
-	);
-#elif defined(SHARK_NO_COMM)
 	const Access<ndim,T> acc(*this);
 	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
 		buf[(i - range.lower).offset(ld)] = acc(i);
@@ -427,19 +333,30 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, const T* buf) {
 
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#if defined(SHARK_MPI_COMM)
+	typename Domain<ndim>::ProcessOverlap(domain(), range).visit([this,range,ld,buf](int id, coords_range<ndim> i) {
+#ifndef NDEBUG
+			if(log_mask[verbose_rma])
+				this->log_out() << "put " << id << ": " << i << endl;
+#endif
+			// Target
+			coords_range<ndim> tgt = this->domain().local(id);
+			coords<ndim+1> tgtld = tgt.stride(gw);
+			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
+			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			// Origin
+			coord ognoff = (i.lower - range.lower).offset(ld);
+			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			// RMA
+			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, id, 0, impl->win);
+			MPI_Put(const_cast<T*>(buf+ognoff), 1, ognt.t, id, tgtoff, 1, tgtt.t, impl->win);
+			MPI_Win_unlock(id, impl->win);
+	});
+#elif defined(SHARK_NO_COMM)
 #ifndef NDEBUG
 	if(log_mask[verbose_rma])
 		log_out() << "put " << range << endl;
 #endif
-#if defined(SHARK_MPI_COMM)
-	RMAOp(domain(), range, ghost_width(), ld).op(
-		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
-			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, id, 0, impl->win);
-			MPI_Put(const_cast<T*>(buf+ognoff), 1, ognt, id, tgtoff, 1, tgtt, impl->win);
-			MPI_Win_unlock(id, impl->win);
-		}
-	);
-#elif defined(SHARK_NO_COMM)
 	Access<ndim,T> acc(*this);
 	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
 		acc(i) = buf[(i - range.lower).offset(ld)];
@@ -456,19 +373,30 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, const T* buf) {
 
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
+#if defined(SHARK_MPI_COMM)
+	typename Domain<ndim>::ProcessOverlap(domain(), range).visit([this,range,ld,buf](int id, coords_range<ndim> i) {
+#ifndef NDEBUG
+			if(log_mask[verbose_rma])
+				this->log_out() << "accumulate " << id << ": " << i << endl;
+#endif
+			// Target
+			coords_range<ndim> tgt = this->domain().local(id);
+			coords<ndim+1> tgtld = tgt.stride(gw);
+			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
+			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			// Origin
+			coord ognoff = (i.lower - range.lower).offset(ld);
+			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			// RMA
+			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
+			MPI_Accumulate(const_cast<T*>(buf+ognoff), 1, ognt.t, id, tgtoff, 1, tgtt.t, MPI_SUM, impl->win);
+			MPI_Win_unlock(id, impl->win);
+	});
+#elif defined(SHARK_NO_COMM)
 #ifndef NDEBUG
 	if(log_mask[verbose_rma])
 		log_out() << "accumulate " << range << endl;
 #endif
-#if defined(SHARK_MPI_COMM)
-	RMAOp(domain(), range, ghost_width(), ld).op(
-		[this,buf](int id, size_t ognoff, MPI_Datatype ognt, MPI_Aint tgtoff, MPI_Datatype tgtt) {
-			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
-			MPI_Accumulate(const_cast<T*>(buf+ognoff), 1, ognt, id, tgtoff, 1, tgtt, MPI_SUM, impl->win);
-			MPI_Win_unlock(id, impl->win);
-		}
-	);
-#elif defined(SHARK_NO_COMM)
 	Access<ndim,T> acc(*this);
 	range.for_each([&acc,&buf,&range,&ld](coords<ndim> i) {
 		acc(i) += buf[(i - range.lower).offset(ld)];
