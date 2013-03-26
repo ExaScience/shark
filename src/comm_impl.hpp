@@ -157,6 +157,19 @@ namespace shark {
 	inline void* mpi_type<test_result>::address(test_result& object) {
 		return &object;
 	}
+
+	namespace ndim {
+
+		template<int ndim, typename T>
+		class mpi_type_block {
+			static MPI_Datatype type(coords<ndim> n, coords<ndim+1> ld);
+		public:
+			const MPI_Datatype t;
+			mpi_type_block(coords<ndim> n, coords<ndim+1> ld);
+			~mpi_type_block();
+		};
+
+	}
 }
 
 #elif defined(SHARK_NO_COMM)

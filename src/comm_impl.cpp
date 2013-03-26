@@ -29,6 +29,35 @@ template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::
 
 const MPI_Datatype mpi_type<test_result>::t = MPI_LONG;
 
+template<int ndim, typename T>
+MPI_Datatype mpi_type_block<ndim,T>::type(coords<ndim> n, coords<ndim+1> ld) {
+	MPI_Datatype t;
+	MPI_Aint lb, extent;
+	if(mpi_type<T>::count() != 1)
+		MPI_Type_contiguous(mpi_type<T>::count(), mpi_type<T>::t, &t);
+	else
+		MPI_Type_dup(mpi_type<T>::t, &t);
+	MPI_Type_get_extent(t, &lb, &extent);
+	for(int di = ndim-1; di >= 0; di--) {
+		MPI_Datatype tmp;
+		tmp = t;
+		MPI_Type_create_hvector(n[di], 1, ld[di+1]*extent, tmp, &t);
+		MPI_Type_free(&tmp);
+	}
+	MPI_Type_commit(&t);
+	return t;
+}
+
+template<int ndim, typename T>
+mpi_type_block<ndim,T>::mpi_type_block(coords<ndim> n, coords<ndim+1> ld): t(type(n,ld)) {
+}
+
+template<int ndim, typename T>
+mpi_type_block<ndim,T>::~mpi_type_block() {
+	MPI_Datatype tmp = t;
+	MPI_Type_free(&tmp);
+}
+
 // Set-up instantiations
 
 #define SYMBT(T) template struct shark::mpi_type<T>;
@@ -37,6 +66,10 @@ const MPI_Datatype mpi_type<test_result>::t = MPI_LONG;
 #include "comm_cplx_inst"
 #include "comm_other_inst"
 #undef SYMBT
+
+#define SYMBDT(d,T) template class shark::ndim::mpi_type_block<d,T>; 
+#include "inst_dimtype"
+#undef SYMBDT
 
 #elif defined(SHARK_NO_COMM)
 

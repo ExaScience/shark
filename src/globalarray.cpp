@@ -528,46 +528,14 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	{
 		for(int k = 0; k < nprocs; k++)
 			for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
-				MPI_Datatype t;
-				MPI_Aint lb, extent;
-				if(mpi_type<T>::count() != 1)
-					MPI_Type_contiguous(mpi_type<T>::count(), mpi_type<T>::t, &t);
-				else
-					MPI_Type_dup(mpi_type<T>::t, &t);
-				MPI_Type_get_extent(t, &lb, &extent);
-				for(int di = ndim-1; di >= 0; di--) {
-					MPI_Datatype tmp;
-					coord n = it->upper[di] - it->lower[di];
-					tmp = t;
-					MPI_Type_create_hvector(n, 1, sa.ld[di+1]*extent, tmp, &t);
-					MPI_Type_free(&tmp);
-				}
-				MPI_Type_commit(&t);
 				reqs.emplace_back();
-				MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, t, k, 0, comm, &reqs.back());
-				MPI_Type_free(&t);
+				MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->n(), sa.ld).t, k, 0, comm, &reqs.back());
 			}
 		const Access<ndim,T> acc(*this);
 		for(int k = 0; k < nprocs; k++)
 			for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
-				MPI_Datatype t;
-				MPI_Aint lb, extent;
-				if(mpi_type<T>::count() != 1)
-					MPI_Type_contiguous(mpi_type<T>::count(), mpi_type<T>::t, &t);
-				else
-					MPI_Type_dup(mpi_type<T>::t, &t);
-				MPI_Type_get_extent(t, &lb, &extent);
-				for(int di = ndim-1; di >= 0; di--) {
-					MPI_Datatype tmp;
-					coord n = it->upper[di] - it->lower[di];
-					tmp = t;
-					MPI_Type_create_hvector(n, 1, ld[di+1]*extent, tmp, &t);
-					MPI_Type_free(&tmp);
-				}
-				MPI_Type_commit(&t);
 				reqs.emplace_back();
-				MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, t, k, 0, comm, &reqs.back());
-				MPI_Type_free(&t);
+				MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, mpi_type_block<ndim,T>(it->n(), ld).t, k, 0, comm, &reqs.back());
 			}
 		MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
 	}

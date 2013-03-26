@@ -47,6 +47,7 @@ namespace shark {
 			coords_range<ndim> overlap(coords_range<ndim> other) const;
 			bool contains(coords<ndim> i) const;
 			bool contains(coords_range<ndim> other) const;
+			INLINE coords<ndim> n() const;
 			INLINE coord size() const;
 			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
 			INLINE coords<ndim> adj(int d, int shift) const;
@@ -83,6 +84,11 @@ namespace shark {
 		inline void coords_range<ndim>::for_each(const Func& f) const {
 			coords<ndim> i;
 			for_eachd<0>(f, i);
+		}
+
+		template<int ndim>
+		inline coords<ndim> coords_range<ndim>::n() const {
+			return upper - lower;
 		}
 
 		template<int ndim>
