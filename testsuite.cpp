@@ -83,6 +83,7 @@ public:
 	void test_put(tester& t);
 	void test_accumulate(tester& t);
 	void test_gather(tester& t);
+	void test_scatterAcc(tester& t);
 	void test_reshape(tester& t);
 	void run(tester& t) {
 		test_basic(t);
@@ -94,6 +95,7 @@ public:
 		test_put(t);
 		test_accumulate(t);
 		test_gather(t);
+		test_scatterAcc(t);
 		test_reshape(t);
 	}
 };
@@ -325,6 +327,33 @@ void suite1<ndim,S>::test_gather(tester& t) {
 			// Add everything together
 			t.add_result(dom.group.external_sum(move(tr)));
 		}
+	}
+	t.end_test();
+}
+
+template<int ndim, typename S>
+void suite1<ndim,S>::test_scatterAcc(tester& t) {
+	t.begin_test("test_scatterAcc");
+	coords_range<ndim> r = subrange();
+	{
+		GlobalArray<ndim,T> ga(dom);
+		ga = constant(dom, T());
+		// First and last one contribute
+		SparseArray<ndim,T> sa(dom, 6);
+		auto f = [this,&sa,r]() {
+			const typename S::accessor s(src);
+			r.for_each([&sa,&s](coords<ndim> ii) {
+				sa.increment(ii, s(ii));
+			});
+		};
+		if(dom.group.procid == 0)
+			f();
+		if(dom.group.procid == dom.group.nprocs-1)
+			f();
+		// Send out
+		ga.scatterAcc(sa);
+		// Everyone helps check
+		t.add_result(check(r, ga == src+src));
 	}
 	t.end_test();
 }
