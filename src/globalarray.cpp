@@ -10,6 +10,8 @@
 #include <shark/sparsearray.hpp>
 #include "comm_impl.hpp"
 
+#include <utility>                     // std::pair
+
 using namespace std;
 using namespace shark;
 using namespace shark::ndim;
@@ -449,12 +451,58 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 	assert(domain() == sa.dom);
+#if defined(SHARK_NO_COMM)
 	auto eld = essential_lead<ndim>(sa.ld);
 	domain().sync();
 	sa.iter([this,&sa,&eld](const coords_range<ndim>& r) {
 		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
+#elif defined(SHARK_MPI_COMM)
+	const Domain<ndim>& dom(domain());
+	int nprocs = dom.group.impl->size();
+	MPI_Comm comm = dom.group.impl->comm;
+	vector<coords_range<ndim>> local_ranges[nprocs], global_ranges[nprocs];
+	sa.proc_ranges(local_ranges, global_ranges);
+#ifndef NDEBUG
+	if(log_mask[verbose_collective])
+		for(int k = 0; k < nprocs; k++)
+			for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it)
+				log_out() << "scatterAcc to " << k << ": " << *it << endl;
+#endif
+	vector<MPI_Request> reqs_global;
+	vector<pair<coords_range<ndim>,unique_ptr<T[]>>> bufs;
+	for(int k = 0; k < nprocs; k++)
+		for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
+			bufs.emplace_back(*it, unique_ptr<T[]>(new T[it->count()]));
+			reqs_global.emplace_back();
+			MPI_Irecv(bufs.back().second.get(), it->count() * mpi_type<T>::count(), mpi_type<T>::t, k, 0, comm, &reqs_global.back());
+		}
+	vector<MPI_Request> reqs_local;
+	for(int k = 0; k < nprocs; k++)
+		for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
+			reqs_local.emplace_back();
+			MPI_Isend(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &reqs_local.back());
+		}
+	// Accumulate as global ranges come in
+	if(!reqs_global.empty())
+		while(true) {
+			int i;
+			MPI_Waitany(reqs_global.size(), reqs_global.data(), &i, MPI_STATUS_IGNORE);
+			if(i == MPI_UNDEFINED)
+				break;
+			Access<ndim,T> acc(*this);
+			const coords_range<ndim>& r(bufs[i].first);
+			const T* buf(bufs[i].second.get());
+			const coords<ndim+1> ld(r.stride());
+			r.for_each([&acc,&r,&buf,&ld](coords<ndim> ii) {
+				acc(ii) += buf[(ii - r.lower).offset(ld)];
+			});
+		}
+	MPI_Waitall(reqs_local.size(), reqs_local.data(), MPI_STATUSES_IGNORE);
+#else
+#error "No comm scatterAcc"
+#endif
 }
 
 template<int ndim,typename T>
