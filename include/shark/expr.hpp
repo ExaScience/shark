@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2012, Vrije Universiteit Brussel.
+ * Copyright (c) 2010-2013, Vrije Universiteit Brussel.
  * All rights reserved.
  */
 
