@@ -303,10 +303,10 @@ void GlobalArray<ndim,T>::get(coords_range<ndim> range, array<size_t,ndim-1> ld,
 			coords_range<ndim> tgt = this->domain().local(id);
 			coords<ndim+1> tgtld = tgt.stride(gw);
 			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
-			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			mpi_type_block<ndim,T> tgtt(i.counts(), tgtld);
 			// Origin
 			coord ognoff = (i.lower - range.lower).offset(ld);
-			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			mpi_type_block<ndim,T> ognt(i.counts(), ld);
 			// RMA
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
 			MPI_Get(buf+ognoff, 1, ognt.t, id, tgtoff, 1, tgtt.t, impl->win);
@@ -343,10 +343,10 @@ void GlobalArray<ndim,T>::put(coords_range<ndim> range, array<size_t,ndim-1> ld,
 			coords_range<ndim> tgt = this->domain().local(id);
 			coords<ndim+1> tgtld = tgt.stride(gw);
 			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
-			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			mpi_type_block<ndim,T> tgtt(i.counts(), tgtld);
 			// Origin
 			coord ognoff = (i.lower - range.lower).offset(ld);
-			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			mpi_type_block<ndim,T> ognt(i.counts(), ld);
 			// RMA
 			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, id, 0, impl->win);
 			MPI_Put(const_cast<T*>(buf+ognoff), 1, ognt.t, id, tgtoff, 1, tgtt.t, impl->win);
@@ -383,10 +383,10 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 			coords_range<ndim> tgt = this->domain().local(id);
 			coords<ndim+1> tgtld = tgt.stride(gw);
 			coord tgtoff = (i.lower - tgt.lower + gw).offset(tgtld);
-			mpi_type_block<ndim,T> tgtt(i.n(), tgtld);
+			mpi_type_block<ndim,T> tgtt(i.counts(), tgtld);
 			// Origin
 			coord ognoff = (i.lower - range.lower).offset(ld);
-			mpi_type_block<ndim,T> ognt(i.n(), ld);
+			mpi_type_block<ndim,T> ognt(i.counts(), ld);
 			// RMA
 			MPI_Win_lock(MPI_LOCK_SHARED, id, 0, impl->win);
 			MPI_Accumulate(const_cast<T*>(buf+ognoff), 1, ognt.t, id, tgtoff, 1, tgtt.t, MPI_SUM, impl->win);
@@ -432,13 +432,13 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
 			reqs.emplace_back();
-			MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->n(), sa.ld).t, k, 0, comm, &reqs.back());
+			MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &reqs.back());
 		}
 	const Access<ndim,T> acc(*this);
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
 			reqs.emplace_back();
-			MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, mpi_type_block<ndim,T>(it->n(), ld).t, k, 0, comm, &reqs.back());
+			MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, mpi_type_block<ndim,T>(it->counts(), ld).t, k, 0, comm, &reqs.back());
 		}
 	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
 #else

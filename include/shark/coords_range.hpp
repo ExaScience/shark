@@ -47,8 +47,8 @@ namespace shark {
 			coords_range<ndim> overlap(coords_range<ndim> other) const;
 			bool contains(coords<ndim> i) const;
 			bool contains(coords_range<ndim> other) const;
-			INLINE coords<ndim> n() const;
-			INLINE coord size() const;
+			INLINE coords<ndim> counts() const;
+			INLINE coord count() const;
 			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
 			INLINE coords<ndim> adj(int d, int shift) const;
 			coords<ndim+1> stride(coords<ndim> bw = coords<ndim>()) const;
@@ -87,12 +87,12 @@ namespace shark {
 		}
 
 		template<int ndim>
-		inline coords<ndim> coords_range<ndim>::n() const {
+		inline coords<ndim> coords_range<ndim>::counts() const {
 			return upper - lower;
 		}
 
 		template<int ndim>
-		inline coord coords_range<ndim>::size() const {
+		inline coord coords_range<ndim>::count() const {
 			return seq<0,ndim>::product([this](int d) { return upper[d] - lower[d]; }, coord(1));
 		}
 
