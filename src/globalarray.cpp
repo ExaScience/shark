@@ -328,11 +328,11 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const {
 
 #if defined(SHARK_MPI_COMM)
 	if(!gc)
-		return Future<void>(false, h.release());
+		return Future<void>(h.release());
 	else
-		return Future<void>(true, new DoneHandle());
+		return Future<void>(new DoneHandle());
 #elif defined(SHARK_NO_COMM)
-	return Future<void>(true, new DoneHandle());
+	return Future<void>(new DoneHandle());
 #endif
 }
 

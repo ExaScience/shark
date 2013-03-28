@@ -1,0 +1,7 @@
+// vim: ft=cpp
+
+#include <shark/coords_range.hpp>
+#include <shark/vec.hpp>
+#include <shark/part.hpp>
+#include <valarray>
+#include <complex>

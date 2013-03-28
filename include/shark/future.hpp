@@ -12,17 +12,33 @@
 
 namespace shark {
 
+	class Handle {
+	public:
+		virtual ~Handle();
+		virtual bool test() = 0;
+		virtual void wait() = 0;
+	};
+
+	class DoneHandle: public Handle {
+	public:
+		DoneHandle();
+		virtual ~DoneHandle();
+		virtual bool test();
+		virtual void wait();
+	};
+
 	/**
 	 * A future value of type T
 	 */
 	template<typename T>
 	class Future {
 		bool done;
+		std::unique_ptr<Handle> h;
 		std::unique_ptr<T> val;
 
-		Future(bool done);
-		Future(bool done, const T& val);
-		Future(bool done, T&& val);
+		Future(Handle* h);
+		Future(Handle* h, const T& val);
+		Future(Handle* h, T&& val);
 
 	public:
 		/**
@@ -57,32 +73,17 @@ namespace shark {
 		return wait();
 	}
 
-	class Handle {
-	public:
-		virtual ~Handle() = 0;
-		virtual bool test() = 0;
-		virtual void wait() = 0;
-	};
-
-	class DoneHandle: public Handle {
-	public:
-		DoneHandle();
-		virtual ~DoneHandle();
-		virtual bool test();
-		virtual void wait();
-	};
-
 	/**
 	 * A future with no value
 	 */
 	template<>
 	class Future<void> {
 		template<int,typename> friend class shark::ndim::GlobalArray;
-
+		
 		bool done;
 		std::unique_ptr<Handle> h;
 
-		Future(bool done, Handle* h);
+		Future(Handle* h);
 	
 	public:
 		/**
