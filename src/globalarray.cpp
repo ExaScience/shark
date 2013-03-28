@@ -211,8 +211,58 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 	*this = move(tmp);
 }
 
+#ifdef SHARK_MPI_COMM
+
+namespace shark {
+	namespace ndim {
+		template<int ndim>
+		class UpdateHandle: public Handle {
+			template<int,typename> friend class GlobalArray;
+			MPI_Request req[4*ndim];
+		public:
+			UpdateHandle();
+			virtual ~UpdateHandle();
+			virtual bool test();
+			virtual void wait();
+		};
+	}
+}
+
+template<int ndim>
+UpdateHandle<ndim>::UpdateHandle() {
+	for(int di = 0; di < ndim; di++) {
+		req[4*di] = MPI_REQUEST_NULL;
+		req[4*di+1] = MPI_REQUEST_NULL;
+		req[4*di+2] = MPI_REQUEST_NULL;
+		req[4*di+3] = MPI_REQUEST_NULL;
+	}
+}
+
+template<int ndim>
+UpdateHandle<ndim>::~UpdateHandle() {
+}
+
+template<int ndim>
+void UpdateHandle<ndim>::wait() {
+	MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
+}
+
+template<int ndim>
+bool UpdateHandle<ndim>::test() {
+	int flag;
+	MPI_Testall(4*ndim, req, &flag, MPI_STATUSES_IGNORE);
+	return flag;
+}
+
+#endif
+
 template<int ndim,typename T>
 void GlobalArray<ndim,T>::update(long k) const {
+	iupdate(k).wait();
+}
+
+template<int ndim,typename T>
+Future<void> GlobalArray<ndim,T>::iupdate(long k) const {
 	const coords<ndim> gw = ghost_width();
 	typename Domain<ndim>::pcoords np = domain().np;
 	typename Domain<ndim>::pcoords ip = domain().indexp();
@@ -221,13 +271,7 @@ void GlobalArray<ndim,T>::update(long k) const {
 #if defined(SHARK_MPI_COMM)
 	const bool gc = ghost_corners();
 	MPI_Comm comm = domain().group.impl->comm;
-	MPI_Request req[4*ndim];
-	for(int di = 0; di < ndim; di++) {
-		req[4*di] = MPI_REQUEST_NULL;
-		req[4*di+1] = MPI_REQUEST_NULL;
-		req[4*di+2] = MPI_REQUEST_NULL;
-		req[4*di+3] = MPI_REQUEST_NULL;
-	}
+	unique_ptr<UpdateHandle<ndim>> h(new UpdateHandle<ndim>());
 #endif
 
 	for(int di = 0; di < ndim; di++) {
@@ -253,13 +297,13 @@ void GlobalArray<ndim,T>::update(long k) const {
 			int prev = domain().shiftd(di, -1, pd);
 			int next = domain().shiftd(di,  1, pd);
 			// backward
-			MPI_Isend(&acc(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &req[4*di]);
-			MPI_Irecv(&acc(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &req[4*di+1]);
+			MPI_Isend(&acc(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &h->req[4*di]);
+			MPI_Irecv(&acc(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &h->req[4*di+1]);
 			// forward
-			MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &req[4*di+2]);
-			MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &req[4*di+3]);
+			MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &h->req[4*di+2]);
+			MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &h->req[4*di+3]);
 			if(gc)
-				MPI_Waitall(4, &req[4*di], MPI_STATUSES_IGNORE);
+				MPI_Waitall(4, &h->req[4*di], MPI_STATUSES_IGNORE);
 #elif defined(SHARK_NO_COMM)
 			if(pd) {
 				{
@@ -284,7 +328,11 @@ void GlobalArray<ndim,T>::update(long k) const {
 
 #if defined(SHARK_MPI_COMM)
 	if(!gc)
-		MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
+		return Future<void>(false, h.release());
+	else
+		return Future<void>(true, new DoneHandle());
+#elif defined(SHARK_NO_COMM)
+	return Future<void>(true, new DoneHandle());
 #endif
 }
 

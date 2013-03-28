@@ -9,6 +9,7 @@
 #include "shark/common.hpp"
 #include "shark/boundary.hpp"
 #include "shark/domain.hpp"
+#include "shark/future.hpp"
 #include "shark/globalarray.hpp"
 #include "shark/access.hpp"
 #include "shark/expr.hpp"

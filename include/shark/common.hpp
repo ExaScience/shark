@@ -137,8 +137,10 @@ namespace shark {
 		}
 	}
 
-	// Forward declaration
+	// Forward declarations
 	class Group;
+	template<typename>
+	class Future;
 
 	namespace ndim {
 

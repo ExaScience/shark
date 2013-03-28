@@ -14,6 +14,7 @@
 #include "boundary.hpp"
 #include "coords.hpp"
 #include "coords_range.hpp"
+#include "future.hpp"
 
 namespace shark {
 
@@ -141,6 +142,7 @@ namespace shark {
 			 * @param k update phase (only used for general boundaries)
 			 */
 			void update(long k=0) const;
+			Future<void> iupdate(long k=0) const;
 
 			/**
 			 * Get remote range (one-sided).
