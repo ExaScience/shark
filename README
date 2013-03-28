@@ -21,7 +21,7 @@ REQUIREMENTS
 
  - A C++ compiler and standard library with support for C++11 features such as
    lambdas, move semantics and varargs templates. Shark is developed using:
-     * gcc 4.6 and 4.7
+     * gcc 4.6, 4.7 and 4.8
      * icc 12.1 and 13 with libstdc++ from gcc 4.4
  - pkg-config
  - An MPI2 implementation (recommended)
