@@ -185,9 +185,14 @@ namespace shark {
 			 * local sparse array with their values from this global array.
 			 * RMA operations cannot overlap with local access.
 			 * @param sa the sparse array to fill
+			 *
+			 * igather is a non-blocking variant if circumstances permit this (aync communication
+			 * support)
 			 */
 			template<typename = void>
 			void gather(SparseArray<ndim,T>& sa) const;
+			template<typename = void>
+			Future<void> igather(SparseArray<ndim,T>& sa) const;
 
 			/**
 			 * Selective scatter to remote values (one-sided). This sends out all available values of a

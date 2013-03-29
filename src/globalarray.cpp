@@ -224,6 +224,18 @@ namespace {
 		virtual bool test();
 		virtual void wait();
 	};
+
+	template<int ndim, typename T>
+	class GatherHandle: public Handle {
+		friend class GlobalArray<ndim,T>;
+		vector<MPI_Request> reqs;
+		const Access<ndim,T> acc;
+	public:
+		GatherHandle(const GlobalArray<ndim,T>& ga);
+		virtual ~GatherHandle();
+		virtual bool test();
+		virtual void wait();
+	};
 }
 
 template<int ndim>
@@ -249,6 +261,26 @@ template<int ndim>
 bool UpdateHandle<ndim>::test() {
 	int flag;
 	MPI_Testall(4*ndim, req, &flag, MPI_STATUSES_IGNORE);
+	return flag;
+}
+
+template<int ndim,typename T>
+GatherHandle<ndim,T>::GatherHandle(const GlobalArray<ndim,T>& ga): acc(ga) {
+}
+
+template<int ndim,typename T>
+GatherHandle<ndim,T>::~GatherHandle() {
+}
+
+template<int ndim,typename T>
+void GatherHandle<ndim,T>::wait() {
+	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+}
+
+template<int ndim,typename T>
+bool GatherHandle<ndim,T>::test() {
+	int flag;
+	MPI_Testall(reqs.size(), reqs.data(), &flag, MPI_STATUSES_IGNORE);
 	return flag;
 }
 
@@ -455,7 +487,7 @@ void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim
 }
 
 template<int ndim,typename T> template<typename>
-void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
+Future<void> GlobalArray<ndim,T>::igather(SparseArray<ndim,T>& sa) const {
 	assert(domain() == sa.dom);
 #if defined(SHARK_NO_COMM)
 	auto eld = essential_lead<ndim>(sa.ld);
@@ -464,6 +496,7 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
+	return Future<void>(new DoneHandle());
 #elif defined(SHARK_MPI_COMM)
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
@@ -476,22 +509,26 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 			for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it)
 				log_out() << "gather from " << k << ": " << *it << endl;
 #endif
-	vector<MPI_Request> reqs;
+	unique_ptr<GatherHandle<ndim,T>> h(new GatherHandle<ndim,T>(*this));
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
-			reqs.emplace_back();
-			MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &reqs.back());
+			h->reqs.emplace_back();
+			MPI_Irecv(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &h->reqs.back());
 		}
-	const Access<ndim,T> acc(*this);
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
-			reqs.emplace_back();
-			MPI_Isend(const_cast<T*>(&acc(it->lower)), 1, mpi_type_block<ndim,T>(it->counts(), ld).t, k, 0, comm, &reqs.back());
+			h->reqs.emplace_back();
+			MPI_Isend(const_cast<T*>(&h->acc(it->lower)), 1, mpi_type_block<ndim,T>(it->counts(), ld).t, k, 0, comm, &h->reqs.back());
 		}
-	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+	return Future<void>(h.release());
 #else
 #error "No comm gather"
 #endif
+}
+
+template<int ndim,typename T> template<typename>
+void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
+	igather(sa).wait();
 }
 
 template<int ndim,typename T> template<typename>
@@ -590,6 +627,10 @@ GARef<ndim,T>::~GARef() { }
 #undef SYMBDT
 
 #define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::gather(SparseArray<d,T>&) const;
+#include "inst_dimtype"
+#undef SYMBDT
+
+#define SYMBDT(d,T) template Future<void> shark::ndim::GlobalArray<d,T>::igather(SparseArray<d,T>&) const;
 #include "inst_dimtype"
 #undef SYMBDT
 
