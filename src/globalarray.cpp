@@ -230,6 +230,7 @@ namespace {
 		friend class GlobalArray<ndim,T>;
 		vector<MPI_Request> reqs;
 		const Access<ndim,T> acc;
+		bool testReqs();
 	public:
 		GatherHandle(const GlobalArray<ndim,T>& ga);
 		virtual ~GatherHandle();
@@ -292,14 +293,20 @@ GatherHandle<ndim,T>::~GatherHandle() {
 
 template<int ndim,typename T>
 void GatherHandle<ndim,T>::wait() {
-	MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+	if(!reqs.empty())
+		MPI_Waitall(reqs.size(), reqs.data(), MPI_STATUSES_IGNORE);
+}
+
+template<int ndim,typename T>
+bool GatherHandle<ndim,T>::testReqs() {
+	int flag;
+	MPI_Testall(reqs.size(), reqs.data(), &flag, MPI_STATUSES_IGNORE);
+	return flag;
 }
 
 template<int ndim,typename T>
 bool GatherHandle<ndim,T>::test() {
-	int flag;
-	MPI_Testall(reqs.size(), reqs.data(), &flag, MPI_STATUSES_IGNORE);
-	return flag;
+	return reqs.empty() || testReqs();
 }
 
 template<int ndim,typename T>
@@ -323,14 +330,16 @@ void ScatterHandle<ndim,T>::accumulate(int i) {
 
 template<int ndim,typename T>
 void ScatterHandle<ndim,T>::wait() {
-	while(true) {
-		int i;
-		MPI_Waitany(reqs_global.size(), reqs_global.data(), &i, MPI_STATUS_IGNORE);
-		if(i == MPI_UNDEFINED)
-			break;
-		accumulate(i);
-	}
-	MPI_Waitall(reqs_local.size(), reqs_local.data(), MPI_STATUSES_IGNORE);
+	if(!reqs_global.empty())
+		while(true) {
+			int i;
+			MPI_Waitany(reqs_global.size(), reqs_global.data(), &i, MPI_STATUS_IGNORE);
+			if(i == MPI_UNDEFINED)
+				break;
+			accumulate(i);
+		}
+	if(!reqs_local.empty())
+		MPI_Waitall(reqs_local.size(), reqs_local.data(), MPI_STATUSES_IGNORE);
 }
 
 template<int ndim,typename T>
@@ -359,7 +368,7 @@ bool ScatterHandle<ndim,T>::testGlobal() {
 
 template<int ndim,typename T>
 bool ScatterHandle<ndim,T>::test() {
-	return testGlobal() && testLocal();
+	return (reqs_global.empty() || testGlobal()) && (reqs_local.empty() || testLocal());
 }
 
 #endif

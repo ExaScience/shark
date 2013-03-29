@@ -80,11 +80,11 @@ Future<void>::Future(Handle* h): done(false), h(h) {
 
 template<typename T>
 bool Future<T>::test() {
-	return done || done = h->test();
+	return done || (done = h->test());
 }
 
 bool Future<void>::test() {
-	return done || done = h->test();
+	return done || (done = h->test());
 }
 
 template<typename T>
