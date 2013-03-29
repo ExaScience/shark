@@ -213,19 +213,17 @@ void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
 
 #ifdef SHARK_MPI_COMM
 
-namespace shark {
-	namespace ndim {
-		template<int ndim>
-		class UpdateHandle: public Handle {
-			template<int,typename> friend class GlobalArray;
-			MPI_Request req[4*ndim];
-		public:
-			UpdateHandle();
-			virtual ~UpdateHandle();
-			virtual bool test();
-			virtual void wait();
-		};
-	}
+namespace {
+	template<int ndim>
+	class UpdateHandle: public Handle {
+		template<int,typename> friend class GlobalArray;
+		MPI_Request req[4*ndim];
+	public:
+		UpdateHandle();
+		virtual ~UpdateHandle();
+		virtual bool test();
+		virtual void wait();
+	};
 }
 
 template<int ndim>

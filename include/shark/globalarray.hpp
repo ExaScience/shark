@@ -139,6 +139,10 @@ namespace shark {
 			/**
 			 * Update the ghost cells with data from their original locations (collective).
 			 * RMA operations cannot overlap with local access.
+			 *
+			 * iupdate is a non-blocking variant if circumstances permit this (aync communication
+			 * support, no ghost corners)
+			 *
 			 * @param k update phase (only used for general boundaries)
 			 */
 			void update(long k=0) const;

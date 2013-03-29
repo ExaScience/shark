@@ -60,9 +60,15 @@ namespace shark {
 		Future(Future<T>&& f);
 		Future& operator=(Future<T>&& f);
 
+		/**
+		 * Test for completion. Returns immediately.
+		 */
 		bool test();
-		const T& wait();
 
+		/**
+		 * Wait for completion and return value.
+		 */
+		const T& wait();
 		INLINE operator const T&();
 	};
 
@@ -105,9 +111,15 @@ namespace shark {
 		Future(Future<void>&& f);
 		Future& operator=(Future<void>&& f);
 
+		/**
+		 * Test for completion. Returns immediately.
+		 */
 		bool test();
-		void wait();
 
+		/**
+		 * Wait for completion.
+		 */
+		void wait();
 	};
 
 }
