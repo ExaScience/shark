@@ -236,6 +236,24 @@ namespace {
 		virtual bool test();
 		virtual void wait();
 	};
+
+
+	template<int ndim, typename T>
+	class ScatterHandle: public Handle {
+		friend class GlobalArray<ndim,T>;
+		GlobalArray<ndim,T>& ga;
+		vector<MPI_Request> reqs_local;
+		vector<MPI_Request> reqs_global;
+		vector<pair<coords_range<ndim>,unique_ptr<T[]>>> bufs;
+		void accumulate(int i);
+		bool testLocal();
+		bool testGlobal();
+	public:
+		ScatterHandle(GlobalArray<ndim,T>& ga);
+		virtual ~ScatterHandle();
+		virtual bool test();
+		virtual void wait();
+	};
 }
 
 template<int ndim>
@@ -282,6 +300,66 @@ bool GatherHandle<ndim,T>::test() {
 	int flag;
 	MPI_Testall(reqs.size(), reqs.data(), &flag, MPI_STATUSES_IGNORE);
 	return flag;
+}
+
+template<int ndim,typename T>
+ScatterHandle<ndim,T>::ScatterHandle(GlobalArray<ndim,T>& ga): ga(ga) {
+}
+
+template<int ndim,typename T>
+ScatterHandle<ndim,T>::~ScatterHandle() {
+}
+
+template<int ndim,typename T>
+void ScatterHandle<ndim,T>::accumulate(int i) {
+	Access<ndim,T> acc(ga);
+	const coords_range<ndim>& r(bufs[i].first);
+	const T* buf(bufs[i].second.get());
+	const coords<ndim+1> ld(r.stride());
+	r.for_each([&acc,&r,&buf,&ld](coords<ndim> ii) {
+		acc(ii) += buf[(ii - r.lower).offset(ld)];
+	});
+}
+
+template<int ndim,typename T>
+void ScatterHandle<ndim,T>::wait() {
+	while(true) {
+		int i;
+		MPI_Waitany(reqs_global.size(), reqs_global.data(), &i, MPI_STATUS_IGNORE);
+		if(i == MPI_UNDEFINED)
+			break;
+		accumulate(i);
+	}
+	MPI_Waitall(reqs_local.size(), reqs_local.data(), MPI_STATUSES_IGNORE);
+}
+
+template<int ndim,typename T>
+bool ScatterHandle<ndim,T>::testLocal() {
+	int flag;
+	MPI_Testall(reqs_local.size(), reqs_local.data(), &flag, MPI_STATUSES_IGNORE);
+	return flag;
+}
+
+template<int ndim,typename T>
+bool ScatterHandle<ndim,T>::testGlobal() {
+	int flag;
+	// Try to make progress
+	while(true) {
+		int i;
+		MPI_Testany(reqs_global.size(), reqs_global.data(), &i, &flag, MPI_STATUS_IGNORE);
+		if(i == MPI_UNDEFINED)
+			break;
+		accumulate(i);
+	}
+	// No more progress
+	// flag = true: all requests inactive
+	// flag = false: still active, incomplete requests left
+	return flag;
+}
+
+template<int ndim,typename T>
+bool ScatterHandle<ndim,T>::test() {
+	return testGlobal() && testLocal();
 }
 
 #endif
@@ -532,7 +610,7 @@ void GlobalArray<ndim,T>::gather(SparseArray<ndim,T>& sa) const {
 }
 
 template<int ndim,typename T> template<typename>
-void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
+Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 	assert(domain() == sa.dom);
 #if defined(SHARK_NO_COMM)
 	auto eld = essential_lead<ndim>(sa.ld);
@@ -541,6 +619,7 @@ void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
+	return Future<void>(new DoneHandle());
 #elif defined(SHARK_MPI_COMM)
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
@@ -553,39 +632,27 @@ void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 			for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it)
 				log_out() << "scatterAcc to " << k << ": " << *it << endl;
 #endif
-	vector<MPI_Request> reqs_global;
-	vector<pair<coords_range<ndim>,unique_ptr<T[]>>> bufs;
+	unique_ptr<ScatterHandle<ndim,T>> h(new ScatterHandle<ndim,T>(*this));
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = global_ranges[k].cbegin(); it != global_ranges[k].cend(); ++it) {
-			bufs.emplace_back(*it, unique_ptr<T[]>(new T[it->count()]));
-			reqs_global.emplace_back();
-			MPI_Irecv(bufs.back().second.get(), it->count() * mpi_type<T>::count(), mpi_type<T>::t, k, 0, comm, &reqs_global.back());
+			h->bufs.emplace_back(*it, unique_ptr<T[]>(new T[it->count()]));
+			h->reqs_global.emplace_back();
+			MPI_Irecv(h->bufs.back().second.get(), it->count() * mpi_type<T>::count(), mpi_type<T>::t, k, 0, comm, &h->reqs_global.back());
 		}
-	vector<MPI_Request> reqs_local;
 	for(int k = 0; k < nprocs; k++)
 		for(auto it = local_ranges[k].cbegin(); it != local_ranges[k].cend(); ++it) {
-			reqs_local.emplace_back();
-			MPI_Isend(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &reqs_local.back());
+			h->reqs_local.emplace_back();
+			MPI_Isend(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &h->reqs_local.back());
 		}
-	// Accumulate as global ranges come in
-	if(!reqs_global.empty())
-		while(true) {
-			int i;
-			MPI_Waitany(reqs_global.size(), reqs_global.data(), &i, MPI_STATUS_IGNORE);
-			if(i == MPI_UNDEFINED)
-				break;
-			Access<ndim,T> acc(*this);
-			const coords_range<ndim>& r(bufs[i].first);
-			const T* buf(bufs[i].second.get());
-			const coords<ndim+1> ld(r.stride());
-			r.for_each([&acc,&r,&buf,&ld](coords<ndim> ii) {
-				acc(ii) += buf[(ii - r.lower).offset(ld)];
-			});
-		}
-	MPI_Waitall(reqs_local.size(), reqs_local.data(), MPI_STATUSES_IGNORE);
+	return Future<void>(h.release());
 #else
 #error "No comm scatterAcc"
 #endif
+}
+
+template<int ndim,typename T> template<typename>
+void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
+	iscatterAcc(sa).wait();
 }
 
 template<int ndim,typename T>
@@ -635,6 +702,10 @@ GARef<ndim,T>::~GARef() { }
 #undef SYMBDT
 
 #define SYMBDT(d,T) template void shark::ndim::GlobalArray<d,T>::scatterAcc(const SparseArray<d,T>&);
+#include "inst_dimtype"
+#undef SYMBDT
+
+#define SYMBDT(d,T) template Future<void> shark::ndim::GlobalArray<d,T>::iscatterAcc(const SparseArray<d,T>&);
 #include "inst_dimtype"
 #undef SYMBDT
 

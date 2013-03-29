@@ -181,7 +181,7 @@ namespace shark {
 			void accumulate(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
 
 			/**
-			 * Selective gather of remote values (one-sided). This fills all available positions in a
+			 * Selective gather of remote values (collective). This fills all available positions in a
 			 * local sparse array with their values from this global array.
 			 * RMA operations cannot overlap with local access.
 			 * @param sa the sparse array to fill
@@ -195,14 +195,19 @@ namespace shark {
 			Future<void> igather(SparseArray<ndim,T>& sa) const;
 
 			/**
-			 * Selective scatter to remote values (one-sided). This sends out all available values of a
+			 * Selective scatter to remote values (collective). This sends out all available values of a
 			 * local sparse array to the respective positions in this global array. The values are accumulated
 			 * with the original value at the destination.
 			 * RMA operations cannot overlap with local access.
 			 * @param sa the sparse array whose values to send out
+			 *
+			 * iscatterAcc is a non-blocking variant if circumstances permit this (aync communication
+			 * support)
 			 */
 			template<typename = void>
 			void scatterAcc(const SparseArray<ndim,T>& sa);
+			template<typename = void>
+			Future<void> iscatterAcc(const SparseArray<ndim,T>& sa);
 		};
 
 		template<int ndim, typename T>
