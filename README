@@ -3,8 +3,8 @@
 Scalable Hybrid Array Kit (Shark): README
 =========================================
 
-This is a pre-release version of Shark. Please see the LICENSE file for
-licensing terms.
+Shark is a library for high-level parallel programming using n-dimensional
+grids. Please see the LICENSE file for licensing terms.
 
 FEATURES
 
@@ -14,6 +14,7 @@ FEATURES
  - ghost regions (with or without diagonals)
  - boundary conditions
  - gather/scatter using sparse arrays
+ - asynchronous operations using futures
  - one-sided get/put/accumulate 
  - global array expressions in natural syntax (using expression templates)
 
