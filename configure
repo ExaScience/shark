@@ -6,7 +6,7 @@ shopt -s extglob
 modes="debug|release"
 scheds="ser|pthread|omp|tbb|cobra"
 comms="off|mpi"
-asyncs="off|nbc|mpi"
+asyncs="off|mpi3"
 
 function usage {
 	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>] [--no-inst]" 2>&1
@@ -141,12 +141,12 @@ case $sched in
 esac
 
 case $async in
-	mpi)
+	mpi3)
+		if [ $comm != mpi ]; then
+			echo "async=mpi3 requires comm=mpi" 1>&2
+			exit 1
+		fi
 		pub_cflags="$pub_cflags -DSHARK_MPI_ASYNC"
-	;;
-	nbc)
-		pub_cflags="$pub_cflags -DSHARK_NBC_ASYNC"
-		pri_pkgs="$pri_pkgs nbc"
 	;;
 esac
 

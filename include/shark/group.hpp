@@ -8,6 +8,7 @@
 
 #include <memory>                      // std::unique_ptr
 #include "common.hpp"
+#include "future.hpp"
 
 namespace shark {
 
@@ -59,10 +60,8 @@ namespace shark {
 		template<typename T>
 		T external_sum(T&& val) const;
 
-#ifdef SHARK_ASYNC
 		template<typename T>
 		Future<T> external_isum(T&& val) const;
-#endif
 
 	};
 

@@ -25,6 +25,7 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "group.hpp"
+#include "future.hpp"
 
 namespace shark {
 
@@ -206,6 +207,11 @@ namespace shark {
 			INLINE T sum(const T& zero, const Func& f) const;
 			template<typename T, typename Func>
 			T sum(coords_range<ndim> r, const T& zero, const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE Future<T> isum(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			Future<T> isum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
 			template<typename T, typename Func>
 			INLINE T internal_sum(const T& zero, const Func& f) const;
@@ -455,6 +461,16 @@ namespace shark {
 		template<int ndim> template<typename T, typename Func>
 		T Domain<ndim>::sum(coords_range<ndim> r, const T& zero, const Func& f) const {
 			return group.external_sum(internal_sum(r, zero, f));
+		}
+
+		template<int ndim> template<typename T, typename Func>
+		inline Future<T> Domain<ndim>::isum(const T& zero, const Func& f) const {
+			return isum(total(), zero, f);
+		}
+
+		template<int ndim> template<typename T, typename Func>
+		Future<T> Domain<ndim>::isum(coords_range<ndim> r, const T& zero, const Func& f) const {
+			return group.external_isum(internal_sum(r, zero, f));
 		}
 
 		template<int ndim> template<typename Op>

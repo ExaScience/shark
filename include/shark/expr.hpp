@@ -10,6 +10,8 @@
 #include <type_traits>     // std::true_type, std::enable_if
 #include "declval.hpp"     // std::declval
 #include "common.hpp"
+#include "domain.hpp"
+#include "future.hpp"
 #include "adl.hpp"
 #include "coords.hpp"
 #include "vec.hpp"
@@ -921,6 +923,14 @@ namespace shark {
 			});
 		}
 
+		template<typename R, typename S>
+		typename std::enable_if<is_source<S>::value, Future<R>>::type isum(const R& zero, const S& src) {
+			const typename S::accessor s(src);
+			return src.domain().isum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i) {
+				acc += s(i);
+			});
+		}
+
 		/**
 		 * Matrix norms
 		 */
@@ -940,6 +950,11 @@ namespace shark {
 		template<typename S1, typename S2>
 		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, typename source<S1>::element_type>::type dot(const S1& src1, const S2& src2) {
 			return sum(typename source<S1>::element_type(), src1 * src2);
+		}
+
+		template<typename S1, typename S2>
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, Future<typename source<S1>::element_type>>::type idot(const S1& src1, const S2& src2) {
+			return isum(typename source<S1>::element_type(), src1 * src2);
 		}
 
 	}
