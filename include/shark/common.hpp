@@ -9,6 +9,7 @@
 #include <type_traits>                 // std::enable_if
 #include <bitset>                      // std::bitset
 #include <ostream>                     // std::ostream
+#include <memory>                      // std::unique_ptr
 #if defined(SHARK_PTHREAD_SCHED)
 #include <functional>                  // std::function
 #endif
@@ -135,6 +136,12 @@ namespace shark {
 			// Base case
 			return base;
 		}
+
+		template<typename T, typename... Args>
+		std::unique_ptr<T> make_unique(Args&&... args) {
+			return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+		}
+
 	}
 
 	// Forward declarations

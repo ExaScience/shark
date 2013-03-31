@@ -6,7 +6,11 @@
 #ifndef __SHARK_COMM_IMPL_HPP
 #define __SHARK_COMM_IMPL_HPP
 
-#include "comm_types"
+#include <shark/coords_range.hpp>
+#include <shark/vec.hpp>
+#include <shark/part.hpp>
+#include <valarray>
+#include <complex>
 
 #if defined(SHARK_MPI_COMM)
 

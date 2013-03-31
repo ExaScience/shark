@@ -32,13 +32,14 @@ namespace shark {
 	 */
 	template<typename T>
 	class Future {
+		friend class shark::Group;
+
 		bool done;
 		std::unique_ptr<Handle> h;
 		std::unique_ptr<T> val;
 
-		Future(Handle* h);
-		Future(Handle* h, const T& val);
-		Future(Handle* h, T&& val);
+		Future(std::unique_ptr<Handle>&& h);
+		Future(std::unique_ptr<Handle>&& h, std::unique_ptr<T>&& val);
 
 	public:
 		/**
@@ -89,7 +90,7 @@ namespace shark {
 		bool done;
 		std::unique_ptr<Handle> h;
 
-		Future(Handle* h);
+		Future(std::unique_ptr<Handle>&& h);
 	
 	public:
 		/**

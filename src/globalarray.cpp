@@ -445,11 +445,11 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const {
 
 #if defined(SHARK_MPI_COMM)
 	if(!gc)
-		return Future<void>(h.release());
+		return Future<void>(std::move(h));
 	else
-		return Future<void>(new DoneHandle());
+		return Future<void>(make_unique<DoneHandle>());
 #elif defined(SHARK_NO_COMM)
-	return Future<void>(new DoneHandle());
+	return Future<void>(make_unique<DoneHandle>());
 #endif
 }
 
@@ -583,7 +583,7 @@ Future<void> GlobalArray<ndim,T>::igather(SparseArray<ndim,T>& sa) const {
 		this->get(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
-	return Future<void>(new DoneHandle());
+	return Future<void>(make_unique<DoneHandle>());
 #elif defined(SHARK_MPI_COMM)
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
@@ -607,7 +607,7 @@ Future<void> GlobalArray<ndim,T>::igather(SparseArray<ndim,T>& sa) const {
 			h->reqs.emplace_back();
 			MPI_Isend(const_cast<T*>(&h->acc(it->lower)), 1, mpi_type_block<ndim,T>(it->counts(), ld).t, k, 0, comm, &h->reqs.back());
 		}
-	return Future<void>(h.release());
+	return Future<void>(std::move(h));
 #else
 #error "No comm gather"
 #endif
@@ -628,7 +628,7 @@ Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 		this->accumulate(r, eld, sa.ptr + r.lower.offset(sa.ld));
 	});
 	domain().sync();
-	return Future<void>(new DoneHandle());
+	return Future<void>(make_unique<DoneHandle>());
 #elif defined(SHARK_MPI_COMM)
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
@@ -653,7 +653,7 @@ Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 			h->reqs_local.emplace_back();
 			MPI_Isend(&sa.ptr[it->lower.offset(sa.ld)], 1, mpi_type_block<ndim,T>(it->counts(), sa.ld).t, k, 0, comm, &h->reqs_local.back());
 		}
-	return Future<void>(h.release());
+	return Future<void>(std::move(h));
 #else
 #error "No comm scatterAcc"
 #endif

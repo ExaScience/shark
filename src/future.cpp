@@ -64,18 +64,14 @@ Future<void>& Future<void>::operator=(Future<void>&& f) {
 }
 
 template<typename T>
-Future<T>::Future(Handle* h): done(false), h(h), val(new T()) {
+Future<T>::Future(unique_ptr<Handle>&& h): done(false), h(std::move(h)), val(make_unique<T>()) {
 }
 
 template<typename T>
-Future<T>::Future(Handle* h, const T& val): done(false), h(h), val(new T(val)) {
+Future<T>::Future(unique_ptr<Handle>&& h, unique_ptr<T>&& val): done(false), h(std::move(h)), val(std::move(val)) {
 }
 
-template<typename T>
-Future<T>::Future(Handle* h, T&& val): done(false), h(h), val(new T(std::move(val))) {
-}
-
-Future<void>::Future(Handle* h): done(false), h(h) {
+Future<void>::Future(unique_ptr<Handle>&& h): done(false), h(std::move(h)) {
 }
 
 template<typename T>
@@ -105,7 +101,7 @@ void Future<void>::wait() {
 
 // Set-up instantiations
 
-#include "comm_types"
+#include "comm_impl.hpp"
 
 #define SYMBT(T) template struct shark::Future<T>;
 #include "comm_int_inst"
