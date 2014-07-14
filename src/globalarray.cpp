@@ -3,6 +3,7 @@
  * All rights reserved.
  */
 
+#include <iostream>
 #include <shark/access.hpp>
 #include <shark/boundary.hpp>
 #include <shark/domain.hpp>
@@ -422,17 +423,22 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const
 	unique_ptr<UpdateHandle<ndim>> h(new UpdateHandle<ndim>());
 #endif
 
-	for(int di = 0; di < ndim; di++) {
-		if(gw[di] > 0) {
+	for(int di = 0; di < ndim; di++)
+	{
+		if(gw[di] > 0)
+		{
 #ifndef NDEBUG
-			if(log_mask[verbose_update]) {
+			if(log_mask[verbose_update])
+			{
 				log_out() << "update back: " << ghost_back[di] << endl;
 				log_out() << "update front: " << ghost_front[di] << endl;
 			}
 #endif
 			// 1) Consider updating ghosts based on boundary
 			typename Boundary<ndim,T>::general_type* b = dynamic_cast<typename Boundary<ndim,T>::general_type*>(bd[di].t.get());
-			if(b != nullptr) {
+
+			if(b != nullptr)
+			{
 				if(ip[di] == 0)
 					b->set(acc, ghost_back[di], k);
 				if(ip[di] == np[di]-1)
@@ -451,7 +457,10 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const
 			MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &h->req[4*di+2]);
 			MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &h->req[4*di+3]);
 			if(gc)
+			{
+				std::cerr << " WAITING " <<std::endl;
 				MPI_Waitall(4, &h->req[4*di], MPI_STATUSES_IGNORE);
+			}
 #elif defined(SHARK_NO_COMM)
 			if(pd) {
 				{
@@ -483,6 +492,91 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const
 	return Future<void>(make_unique<DoneHandle>());
 #endif
 }
+
+//IMEN BEGIN
+
+template<int ndim,typename T>
+MPI_Request* GlobalArray<ndim,T>::updateBegin(long k) const
+{
+	const coords<ndim> gw = ghost_width();
+
+	typename Domain<ndim>::pcoords np = domain().np;
+	typename Domain<ndim>::pcoords ip = domain().indexp();
+
+	Access<ndim,T> acc(*this);
+
+	#if defined(SHARK_MPI_COMM)
+		MPI_Comm comm = domain().group.impl->comm;
+		unique_ptr<UpdateHandle<ndim>> h(new UpdateHandle<ndim>());
+	#endif
+
+		for(int di = 0; di < ndim; di++)
+		{
+			if(gw[di] > 0)
+			{
+	#ifndef NDEBUG
+				if(log_mask[verbose_update])
+				{
+					log_out() << "update back: " << ghost_back[di] << endl;
+					log_out() << "update front: " << ghost_front[di] << endl;
+				}
+	#endif
+				// 1) Consider updating ghosts based on boundary
+				typename Boundary<ndim,T>::general_type* b = dynamic_cast<typename Boundary<ndim,T>::general_type*>(bd[di].t.get());
+
+				if(b != nullptr)
+				{
+					if(ip[di] == 0)
+						b->set(acc, ghost_back[di], k);
+					if(ip[di] == np[di]-1)
+						b->set(acc, ghost_front[di], k);
+				}
+
+				// 2) Consider updating ghosts based on communication with neighbors (or periodic equivalents)
+				bool pd = dynamic_cast<typename Boundary<ndim,T>::periodic_type*>(bd[di].t.get()) != nullptr;
+	#if defined(SHARK_MPI_COMM)
+				int prev = domain().shiftd(di, -1, pd);
+				int next = domain().shiftd(di,  1, pd);
+				// backward
+				MPI_Isend(&acc(ghost_back[di].adj(di, 1)), 1, impl->ghost[di], prev, 2*di, comm, &h->req[4*di]);
+				MPI_Irecv(&acc(ghost_front[di].lower), 1, impl->ghost[di], next, 2*di, comm, &h->req[4*di+1]);
+				// forward
+				MPI_Isend(&acc(ghost_front[di].adj(di, -1)), 1, impl->ghost[di], next, 2*di+1, comm, &h->req[4*di+2]);
+				MPI_Irecv(&acc(ghost_back[di].lower), 1, impl->ghost[di], prev, 2*di+1, comm, &h->req[4*di+3]);
+
+	#elif defined(SHARK_NO_COMM)
+				if(pd)
+				{
+					{
+						coords<ndim> off = ghost_back[di].adj(di, 1) - ghost_front[di].lower;
+						ghost_front[di].for_each([&acc,&off](coords<ndim> ii) {
+							acc(ii) = acc(ii+off);
+						});
+					}
+					{
+						coords<ndim> off = ghost_front[di].adj(di, -1) - ghost_back[di].lower;
+						ghost_back[di].for_each([&acc,&off](coords<ndim> ii) {
+							acc(ii) = acc(ii+off);
+						});
+					}
+				}
+	#else
+	#error "No comm update"
+	#endif
+
+			}
+		}
+
+		return h->req;
+}
+
+template<int ndim,typename T>
+void GlobalArray<ndim,T>::updateWait(MPI_Request* req) const
+{
+	MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
+}
+
+//IMEN END
 
 template<int ndim, typename T>
 void GlobalArray<ndim,T>::get(coords_range<ndim> range, T* buf) const {

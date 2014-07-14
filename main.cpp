@@ -1,4 +1,3 @@
-// vim: sw=2 expandtab
 
 #include <cmath>
 #include <iostream>
@@ -26,7 +25,6 @@ int main(int argc, char **argv)
 	double tol = 1e-6;
 	int maxit = 1000;
 	string method = "cg";
-	//  GS GStype = CLASSICAL;
 	BASIS basis = MONOMIAL;
 	int restart = 30;
 	int reps = 1;
@@ -165,7 +163,6 @@ int main(int argc, char **argv)
 			else if (method.compare("pipe_cg") == 0)
 			{
 				pipe_cg<double, GlobalArrayD>(sol, b, tol, k, maxit, l, 0.0, 0.0, ostr);
-				//l, 2*M_PI*M_PI, 8*(n+1)*(n+1), ostr);
 			}
 			else if (method.compare("pipe_chronopoulos_cg") == 0)
 			{

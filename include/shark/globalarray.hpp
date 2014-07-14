@@ -15,6 +15,7 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "future.hpp"
+#include <mpi.h>
 
 namespace shark {
 
@@ -150,6 +151,13 @@ namespace shark {
 			void update(long k=0) const;
 			Future<void> iupdate(long k=0) const;
 
+			//IMEN BEGIN
+
+			MPI_Request* updateBegin(long k=0) const;
+			void updateWait(MPI_Request* req) const;
+
+			//IMEN END
+
 			/**
 			 * Get remote range (one-sided).
 			 * RMA operations cannot overlap with local access.
@@ -157,6 +165,7 @@ namespace shark {
 			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the target buffer
 			 */
+
 			void get(coords_range<ndim> range, T* buf) const;
 			void get(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, T* buf) const;
 
