@@ -219,6 +219,11 @@ namespace shark {
 			void scatterAcc(const SparseArray<ndim,T>& sa);
 			template<typename = void>
 			Future<void> iscatterAcc(const SparseArray<ndim,T>& sa);
+
+			/**
+			 * Dump values of global array to a file
+			 */			template<typename = void>
+			void dump(coords_range<ndim> range, std::string filename);
 		};
 
 		template<int ndim, typename T>

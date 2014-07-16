@@ -4,6 +4,7 @@
  */
 
 #include <utility>                     // std::move
+#include <iostream>
 
 #include <shark/group.hpp>
 #include "comm_impl.hpp"
@@ -96,6 +97,7 @@ Future<T> Group::external_isum(T&& sum) const
 {
 #if defined(SHARK_MPI_COMM)
 #if defined(SHARK_MPI_ASYNC)
+
 	auto val = make_unique<T>(std::move(sum));
 	auto h = make_unique<SumHandle>();
 	MPI_Iallreduce(MPI_IN_PLACE, mpi_type<T>::address(*val), mpi_type<T>::count(*val), mpi_type<T>::t, MPI_SUM, impl->comm, &h->req);

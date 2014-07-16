@@ -667,6 +667,11 @@ template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::accumulate(coords_range<ndim> range, array<size_t,ndim-1> ld, const T* buf) {
 #if defined(SHARK_MPI_COMM)
 	typename Domain<ndim>::ProcessOverlap(domain(), range).visit([this,range,ld,buf](int id, coords_range<ndim> i) {
+
+#if defined(OMPI_MAJOR_VERSION) && (OMPI_MAJOR_VERSION < 2) && (OMPI_MINOR_VERSION < 8)
+#error MPI_Accumulate does not seem to work with vector types on OpenMPI < 1.8
+#endif
+
 #ifndef NDEBUG
 			if(log_mask[verbose_rma])
 				this->log_out() << "accumulate " << id << ": " << i << endl;
@@ -713,7 +718,7 @@ Future<void> GlobalArray<ndim,T>::igather(SparseArray<ndim,T>& sa) const {
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
 	MPI_Comm comm = dom.group.impl->comm;
-	vector<coords_range<ndim>> local_ranges[nprocs], global_ranges[nprocs];
+	vector<vector<coords_range<ndim>>> local_ranges(nprocs), global_ranges(nprocs);
 	sa.proc_ranges(local_ranges, global_ranges);
 #ifndef NDEBUG
 	if(log_mask[verbose_collective])
@@ -758,7 +763,7 @@ Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 	const Domain<ndim>& dom(domain());
 	int nprocs = dom.group.impl->size();
 	MPI_Comm comm = dom.group.impl->comm;
-	vector<coords_range<ndim>> local_ranges[nprocs], global_ranges[nprocs];
+	vector<vector<coords_range<ndim>>> local_ranges(nprocs), global_ranges(nprocs);
 	sa.proc_ranges(local_ranges, global_ranges);
 #ifndef NDEBUG
 	if(log_mask[verbose_collective])
@@ -781,6 +786,37 @@ Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 	return Future<void>(std::move(h));
 #else
 #error "No comm scatterAcc"
+#endif
+}
+template<int ndim,typename T> template<typename>
+void GlobalArray<ndim,T>::dump(coords_range<ndim> range, std::string filename) {
+#if defined(SHARK_MPI_COMM)
+#ifndef NDEBUG
+        if(log_mask[verbose_rma])
+                this->log_out() << "dump to " << filename << endl;
+#endif
+        MPI_File fh;
+        MPI_File_open(MPI_COMM_WORLD, filename.c_str(), MPI_MODE_CREATE | MPI_MODE_RDWR, MPI_INFO_NULL, &fh);
+
+        // type for part to read from
+        coords_range<ndim> src = domain().local().overlap(range);
+        coords<ndim+1> srcld = src.stride(gw);
+        const T* buf = &da(src.lower);
+        mpi_type_block<ndim,T> srct(src.counts(), srcld);
+        
+        // where to write to
+        coords_range<ndim> dst = region().overlap(range);
+        coords<ndim+1> dstld = dst.stride(); // no ghost regions in file
+        coord dstoff = dst.lower.offset(dstld); // offset wrt to global array
+        
+        MPI_Status stat;
+        MPI_File_write_at(fh, dstoff, buf, 1, srct.t, &stat);
+
+        MPI_File_close(&fh);
+#elif defined(SHARK_NO_COMM)
+#warning "Dump not implemented for SHARK_NO_COMM
+#else
+#error "No comm dump"
 #endif
 }
 
@@ -840,6 +876,10 @@ GARef<ndim,T>::~GARef() { }
 #undef SYMBDT
 
 #define SYMBDT(d,T) template Future<void> shark::ndim::GlobalArray<d,T>::iscatterAcc(const SparseArray<d,T>&);
+#include "inst_dimtype"
+#undef SYMBDT
+
+#define SYMBDT(d,T) template void  shark::ndim::GlobalArray<d,T>::dump(coords_range<d> range, std::string);
 #include "inst_dimtype"
 #undef SYMBDT
 

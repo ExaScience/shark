@@ -47,7 +47,7 @@ namespace shark {
 			void iter(const Func& f) const;
 
 #ifdef SHARK_MPI_COMM
-			void proc_ranges(std::vector<coords_range<ndim>> local[], std::vector<coords_range<ndim>> global[]) const;
+			void proc_ranges(std::vector<std::vector<coords_range<ndim>>> local, std::vector<std::vector<coords_range<ndim>>> global) const;
 #endif
 
 		public:

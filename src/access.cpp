@@ -50,13 +50,7 @@ Access<ndim,T>::Access(const GlobalArray<ndim,T>& ga): ga(&ga), lower(ga.domain(
 
 	#if defined(SHARK_MPI_COMM)
 		if(ga.lc++ == 0)
-		{
-			/*int rang;
-			MPI_Comm_rank(MPI_COMM_WORLD, &rang);
-			std::cerr <<  "access_shared " << rang << " " << std::endl <<std::flush;
-			 */
 			MPI_Win_lock(MPI_LOCK_SHARED, ga.domain().group.procid, 0, ga.impl->win);
-		}
 	#endif
 
 }
@@ -68,17 +62,10 @@ Access<ndim,T>::Access(GlobalArray<ndim,T>& ga): ga(&ga), lower(ga.domain().loca
 
 	#if defined(SHARK_MPI_COMM)
 		if(ga.lc++ == 0)
-		{
-	/*		int rang;
-			MPI_Comm_rank(MPI_COMM_WORLD, &rang);
-			std::cerr <<  "access_exc " << rang << " " << std::endl <<std::flush;;
-    */
 			MPI_Win_lock(MPI_LOCK_EXCLUSIVE, ga.domain().group.procid, 0, ga.impl->win);
-		}
 		else
 			throw logic_error("Trying to create non-first mutable Access object");
 	#endif
-
 }
 
 template<int ndim,typename T>
@@ -86,14 +73,8 @@ void Access<ndim,T>::release()
 {
 	#if defined(SHARK_MPI_COMM)
 		if(--ga->lc == 0)
-		{
-			/*int rang;
-			MPI_Comm_rank(MPI_COMM_WORLD, &rang);
-			std::cerr <<  "release " << rang << std::endl <<std::flush;;*/
 			MPI_Win_unlock(ga->domain().group.procid, ga->impl->win);
-		}
 	#endif
-
 }
 
 // Set-up instantiations

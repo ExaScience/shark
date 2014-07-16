@@ -116,7 +116,7 @@ void SparseArray<ndim,T>::operator+=(const SparseArray<ndim,T>& other) {
 #ifdef SHARK_MPI_COMM
 
 template<int ndim,typename T>
-void SparseArray<ndim,T>::proc_ranges(vector<coords_range<ndim>> local[], vector<coords_range<ndim>> global[]) const {
+void SparseArray<ndim,T>::proc_ranges(vector<vector<coords_range<ndim>>> local, vector<vector<coords_range<ndim>>> global) const {
 	int nprocs = dom.group.impl->size();
 	MPI_Comm comm = dom.group.impl->comm;
 

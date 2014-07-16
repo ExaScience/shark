@@ -7,7 +7,7 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a heat cg cg_poisson_3d testsuite main
+all: libshark.a heat cg cg_poisson_3d testsuite dump_to_file
 
 SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
@@ -24,7 +24,7 @@ cg_poisson_3d: libshark.a cg_poisson_3d.o
 
 testsuite: libshark.a testsuite.o
 
-main: libshark.a main.o
+dump_to_file: libshark.a dump_to_file.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
