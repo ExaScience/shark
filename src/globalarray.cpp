@@ -814,7 +814,7 @@ void GlobalArray<ndim,T>::dump(coords_range<ndim> range, std::string filename) {
 
         MPI_File_close(&fh);
 #elif defined(SHARK_NO_COMM)
-#warning "Dump not implemented for SHARK_NO_COMM
+#warning "Dump not implemented for SHARK_NO_COMM"
 #else
 #error "No comm dump"
 #endif
