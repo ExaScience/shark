@@ -1,0 +1,16 @@
+*.d
+*.o
+*.swp
+Makefile
+cg
+cg_poisson_3d
+config.log
+dump_to_file
+ga.dump
+heat
+inst_dim
+inst_dimtype
+libshark.a
+shark.pc
+testsuite
+types
