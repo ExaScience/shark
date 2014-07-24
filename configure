@@ -30,8 +30,8 @@ fi
 
 # Default options
 
-cc=gcc
-cxx=g++
+cc=icc #gcc
+cxx=icc #g++
 mode=debug
 sched=ser
 comm=mpi

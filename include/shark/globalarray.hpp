@@ -15,7 +15,7 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "future.hpp"
-#include <mpi.h>
+//#include <mpi.h>
 
 namespace shark {
 
@@ -150,13 +150,6 @@ namespace shark {
 			 */
 			void update(long k=0) const;
 			Future<void> iupdate(long k=0) const;
-
-			//IMEN BEGIN
-
-			MPI_Request* updateBegin(long k=0) const;
-			void updateWait(MPI_Request* req) const;
-
-			//IMEN END
 
 			/**
 			 * Get remote range (one-sided).

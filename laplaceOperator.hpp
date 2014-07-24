@@ -3,7 +3,6 @@
 using namespace std;
 using namespace shark;
 using namespace shark::types2d;
-#include <mpi.h>
 
 void applyOperator(GlobalArrayD& first, const GlobalArrayD& other)
 {

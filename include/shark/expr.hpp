@@ -898,7 +898,7 @@ namespace shark {
 
 		template<typename S>
 		test_result check(coords_range<S::number_of_dimensions> r, const S& src) {
-			assert(src.region().contains(r));
+			//assert(src.region().contains(r));
 			test_result tr = { 0, 0 };
 			const typename S::accessor s(src);
 			tr = src.domain().sum(r, tr, [&s](test_result& acc, coords<S::number_of_dimensions> i){

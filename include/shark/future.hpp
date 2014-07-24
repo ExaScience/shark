@@ -86,7 +86,7 @@ namespace shark {
 	template<>
 	class Future<void> {
 		template<int,typename> friend class shark::ndim::GlobalArray;
-		
+
 		bool done;
 		std::unique_ptr<Handle> h;
 

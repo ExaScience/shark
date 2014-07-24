@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include<thread>
-#include <mpi.h>
 #include <stdio.h>
 
 
