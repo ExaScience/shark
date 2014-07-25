@@ -18,6 +18,8 @@ testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-gro
 
 heat: libshark.a heat.o
 
+main: libshark.a main.o
+
 cg: libshark.a cg.o
 
 cg_poisson_3d: libshark.a cg_poisson_3d.o
