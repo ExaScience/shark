@@ -17,6 +17,12 @@ namespace shark {
 			float off;
 		};
 
+	  inline bool operator<= (const part_position& p1, const part_position& p2) {
+	    if (p1.pos < p2.pos) return true;
+	    else if (p1.pos == p2.pos) return p1.off <= p2.off;
+	    else return false;
+	  }
+
 		template<int ndim>
 		struct part {
 			vec<ndim,part_position> x;
