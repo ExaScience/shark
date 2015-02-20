@@ -4,6 +4,12 @@
 
 #if defined(SHARK_MPI_COMM)
 
+SYMBT(shark::ndim::part_position)
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA shark::ndim::part_position>)
+#include "inst_dim"
+#undef SYMBD
+
 #define SYMBD(d) SYMBT(shark::ndim::part<d>)
 #include "inst_dim"
 #undef SYMBD
@@ -13,6 +19,13 @@
 
 
 #elif defined(SHARK_NO_COMM)
+
+SYMBT(shark::ndim::part_position)
+
+#define SYMBD(d) SYMBT(shark::ndim::vec<d COMMA shark::ndim::part_position>)
+#include "inst_dim"
+#undef SYMBD
+
 
 #define SYMBD(d) SYMBT(shark::ndim::part<d>)
 #include "inst_dim"

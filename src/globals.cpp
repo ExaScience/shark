@@ -80,6 +80,29 @@ std::ostream* shark::log_out(nullptr);
 
 #include "types"
 
+#if defined(SHARK_MPI_COMM)
+namespace {
+	inline MPI_Aint offset(void* addr) {
+		return static_cast<MPI_Aint>(static_cast<char*>(addr) - static_cast<char*>(nullptr));
+	}
+
+	template<int ndim>
+	void init_part_type() {
+		part<ndim>* p = nullptr;
+		int bl[] = { mpi_type<vec<ndim,part_position>>::count(), mpi_type<vec<ndim,double>>::count(), 1, 1 };
+		MPI_Aint disp[] = { offset(&p->x), offset(&p->v), offset(&p->w), offset(p+1) };
+		MPI_Datatype types[] = { mpi_type<vec<ndim,part_position>>::t, mpi_type<vec<ndim,double>>::t, MPI_DOUBLE, MPI_UB };
+		MPI_Type_create_struct(4, bl, disp, types, &mpi_type<part<ndim>>::t);
+		MPI_Type_commit(&mpi_type<part<ndim>>::t);
+	}
+
+	template<int ndim>
+	void free_part_type() {
+		MPI_Type_free(&mpi_type<part<ndim>>::t);
+	}
+}
+#endif
+
 void shark::Init(int* argc, char*** argv) {
 #if defined(SHARK_MPI_COMM)
 	MPI_Init(argc, argv);
@@ -88,6 +111,17 @@ void shark::Init(int* argc, char*** argv) {
 		impl->comm = MPI_COMM_WORLD;
 		Group::w.reset(new Group(move(impl)));
 	}
+	{
+		part_position* pp = nullptr;
+		int bl[] = { 1, 1, 1 };
+		MPI_Aint disp[] = { offset(&pp->pos), offset(&pp->off), offset(pp+1) };
+		MPI_Datatype types[] = { MPI_INT, MPI_FLOAT, MPI_UB };
+		MPI_Type_create_struct(3, bl, disp, types, &mpi_type<part_position>::t);
+		MPI_Type_commit(&mpi_type<part_position>::t);
+	}
+#define SYMBD(d) init_part_type<d>();
+#include "inst_dim"
+#undef SYMBD
 #elif defined(SHARK_NO_COMM)
 	unused(argc, argv);
 	Group::w.reset(new Group(unique_ptr<GroupImpl>(new GroupImpl())));
@@ -117,7 +151,11 @@ void shark::Finalize() {
 	delete sch;
 #endif
 
+#define SYMBD(d) free_part_type<d>();
+#include "inst_dim"
+#undef SYMBD
 #if defined(SHARK_MPI_COMM)
+	MPI_Type_free(&mpi_type<part_position>::t);
 	Group::w.reset();
 	MPI_Finalize();
 #elif defined(SHARK_NO_COMM)

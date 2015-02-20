@@ -83,7 +83,7 @@ namespace shark {
 	 */
 	template<int ndim,typename T>
 	struct mpi_type<shark::ndim::vec<ndim,T>> {
-		static const MPI_Datatype t;
+		static const MPI_Datatype& t;
 		INLINE static int count();
 		INLINE static int count(const shark::ndim::vec<ndim,T>& proto);
 		INLINE static void* address(shark::ndim::vec<ndim,T>& object);
@@ -105,17 +105,30 @@ namespace shark {
 	}
 
 	/*
+	 * mpi_type for part_position
+	 */
+	template<>
+	struct mpi_type<shark::ndim::part_position> {
+		static MPI_Datatype t;
+		INLINE static int count();
+	};
+
+	inline int mpi_type<shark::ndim::part_position>::count() {
+		return 1;
+	}
+
+	/*
 	 * mpi_type for part
 	 */
 	template<int ndim>
 	struct mpi_type<shark::ndim::part<ndim>> {
-		static const MPI_Datatype t;
+		static MPI_Datatype t;
 		INLINE static int count();
 	};
 
 	template<int ndim>
 	inline int mpi_type<shark::ndim::part<ndim>>::count() {
-		return sizeof(shark::ndim::part<ndim>);
+		return 1;
 	}
 
 	/*
@@ -123,7 +136,7 @@ namespace shark {
 	 */
 	template<typename T>
 	struct mpi_type<std::valarray<T>> {
-		static const MPI_Datatype t;
+		static const MPI_Datatype& t;
 		INLINE static int count(const std::valarray<T>& proto);
 		INLINE static void* address(std::valarray<T>& object);
 	};

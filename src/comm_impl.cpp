@@ -23,10 +23,11 @@ template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LON
 
 template<int ndim> const MPI_Datatype mpi_type<coords_range<ndim>>::t = mpi_type<coord>::t;
 
-template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
-template<int ndim> const MPI_Datatype mpi_type<part<ndim>>::t = mpi_type<char>::t;
+template<int ndim,typename T> const MPI_Datatype& mpi_type<vec<ndim,T>>::t(mpi_type<T>::t);
+MPI_Datatype mpi_type<part_position>::t;
+template<int ndim> MPI_Datatype mpi_type<part<ndim>>::t;
 
-template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::t;
+template<typename T> const MPI_Datatype& mpi_type<valarray<T>>::t(mpi_type<T>::t);
 
 const MPI_Datatype mpi_type<test_result>::t = MPI_LONG;
 
