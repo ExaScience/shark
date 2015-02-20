@@ -14,6 +14,14 @@
 #include "common.hpp"
 #include "coords.hpp"
 
+#ifdef SHARK_OMP_SCHED
+#ifdef SHARK_RANGE
+
+#define SHARK_RANGE_STEP 256
+
+#endif
+#endif
+
 #ifdef __INTEL_COMPILER
 #define SHARK_VECTOR_PRAGMA
 #endif
@@ -170,6 +178,18 @@ namespace shark {
 			template<typename T, typename Func>
 			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
 			internal_sum(const T& zero, const Func& f) const;
+
+#ifdef SHARK_RANGE
+			template<typename Func>
+			INLINE void for_each_range(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+#endif
 		};
 
 		template<typename Func>
@@ -226,6 +246,72 @@ namespace shark {
 			return sum;
 		}
 
+#ifdef SHARK_RANGE
+	  template<typename Func>
+	  inline void omp_coords_range<1>::for_each_range(const Func& f) const {
+
+	    auto start = r.lower[0];
+	    auto end = r.upper[0];
+
+#pragma omp parallel for schedule(static)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+	    for(coord j = start; j < end; j+=SHARK_RANGE_STEP) {
+	      coords<1> i;
+	      i[0] = j;
+	      f(i, std::min(j+SHARK_RANGE_STEP,end)-j);
+	    }
+	  }
+	    
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+	  omp_coords_range<1>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[0];
+	    auto end = r.upper[0];
+
+#pragma omp parallel for schedule(static) reduction(+: sum)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+	    for(coord j = start; j < end; j+=SHARK_RANGE_STEP) {
+	      coords<1> i;
+	      i[0] = j;
+	      f(sum, i, std::min(j+SHARK_RANGE_STEP,end)-j);
+	    }
+	    return sum;
+	  }
+	  
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+	  omp_coords_range<1>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[0];
+	    auto end = r.upper[0];
+	    
+#pragma omp parallel shared(sum)
+	    {
+	      T local_sum(zero);
+	      
+#pragma omp for schedule(static)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+	      for(coord j = start; j < end; j+=SHARK_RANGE_STEP) {
+		coords<1> i;
+		i[0] = j;
+		f(local_sum, i, std::min(j+SHARK_RANGE_STEP,end)-j);
+	      }
+#pragma omp critical
+	      sum += local_sum;
+	    }
+	    return sum;
+	  }
+#endif
+	  
 		template<>
 		struct omp_coords_range<2> {
 			coords_range<2> r;
@@ -239,6 +325,18 @@ namespace shark {
 			template<typename T, typename Func>
 			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
 			internal_sum(const T& zero, const Func& f) const;
+
+#ifdef SHARK_RANGE
+			template<typename Func>
+			INLINE void for_each_range(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+#endif
 		};
 
 		template<typename Func>
@@ -312,7 +410,90 @@ namespace shark {
 			}
 			return sum;
 		}
+		
+#ifdef SHARK_RANGE
+	  template<typename Func>
+	  inline void omp_coords_range<2>::for_each_range(const Func& f) const {
+	    
+	    auto start = r.lower[1];
+	    auto end = r.upper[1];
+	    
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp parallel for schedule(static) collapse(2)
+#else
+#pragma omp parallel for schedule(static)
+#endif
+	    for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+	      for(coord k = start; k < end; k+=SHARK_RANGE_STEP) {
+		coords<2> i;
+		i[0] = j;
+		i[1] = k;
+		f(i, std::min(k+SHARK_RANGE_STEP,end)-k);
+	      }
+	  }
 
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+	  omp_coords_range<2>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[1];
+	    auto end = r.upper[1];
+	    
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp parallel for schedule(static) collapse(2) reduction(+: sum)
+#else
+#pragma omp parallel for schedule(static) reduction(+: sum)
+#endif
+	    for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+	      for(coord k = start; k < end; k+=SHARK_RANGE_STEP) {
+		coords<2> i;
+		      i[0] = j;
+		      i[1] = k;
+		      f(sum, i, std::min(k+SHARK_RANGE_STEP,end)-k);
+	      }
+	    return sum;
+	  }
+	  
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+	  omp_coords_range<2>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[1];
+	    auto end = r.upper[1];
+	    
+#pragma omp parallel shared(sum)
+	    {
+	      T local_sum(zero);
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp for schedule(static) collapse(2)
+#else
+#pragma omp for schedule(static)
+#endif
+	      for(coord j = r.lower[0]; j < r.upper[0]; j++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+		for(coord k = start; k < end; k+=SHARK_RANGE_STEP) {
+		  coords<2> i;
+		  i[0] = j;
+		  i[1] = k;
+		  f(local_sum, i, std::min(k+SHARK_RANGE_STEP,end)-k);
+		}
+#pragma omp critical
+	      sum += local_sum;
+	    }
+	    return sum;
+	  }
+#endif
+	  
 		template<>
 		struct omp_coords_range<3> {
 			coords_range<3> r;
@@ -326,6 +507,18 @@ namespace shark {
 			template<typename T, typename Func>
 			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
 			internal_sum(const T& zero, const Func& f) const;
+
+#ifdef SHARK_RANGE
+			template<typename Func>
+			INLINE void for_each_range(const Func& f) const;
+
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+			template<typename T, typename Func>
+			INLINE typename std::enable_if<!std::is_scalar<T>::value,T>::type
+			internal_sum_range(const T& zero, const Func& f) const;
+#endif
 		};
 
 		template<typename Func>
@@ -377,9 +570,10 @@ namespace shark {
 		}
 
 		template<typename T, typename Func>
-		inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
-		omp_coords_range<3>::internal_sum(const T& zero, const Func& f) const {
-			T sum(zero);
+		  inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+		  omp_coords_range<3>::internal_sum(const T& zero, const Func& f) const {
+		  T sum(zero);
+
 #pragma omp parallel shared(sum)
 			{
 				T local_sum(zero);
@@ -404,9 +598,102 @@ namespace shark {
 #pragma omp critical
 				sum += local_sum;
 			}
-			return sum;
+#pragma omp critical
+		    sum += local_sum;
+		  }
+		  return sum;
 		}
 		
+#ifdef SHARK_RANGE
+	  template<typename Func>
+	  inline void omp_coords_range<3>::for_each_range(const Func& f) const {
+	    
+	    auto start = r.lower[2];
+	    auto end = r.upper[2];
+	    
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp parallel for schedule(static) collapse(3)
+#else
+#pragma omp parallel for schedule(static)
+#endif
+	    for(coord j = r.lower[0]; j < r.upper[0]; j++)
+	      for(coord k = r.lower[1]; k < r.upper[1]; k++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+		for(coord l = start; l < end; l+=SHARK_RANGE_STEP) {
+		  coords<3> i;
+		  i[0] = j;
+		  i[1] = k;
+		  i[2] = l;
+		  f(i, std::min(l+SHARK_RANGE_STEP,end)-l);
+		}
+	    
+	  }
+	  
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<std::is_scalar<T>::value,T>::type
+	  omp_coords_range<3>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[2];
+	    auto end = r.upper[2];
+	    
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp parallel for schedule(static) collapse(3) reduction(+: sum)
+#else
+#pragma omp parallel for schedule(static) reduction(+: sum)
+#endif
+	    for(coord j = r.lower[0]; j < r.upper[0]; j++)
+	      for(coord k = r.lower[1]; k < r.upper[1]; k++) 
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+		for(coord l = start; l < end; l+=SHARK_RANGE_STEP) {
+		  coords<3> i;
+		  i[0] = j;
+		  i[1] = k;
+		  i[2] = l;
+		  f(sum, i, std::min(l+SHARK_RANGE_STEP,end)-l);
+		}
+	    return sum;
+	  }
+	  
+	  template<typename T, typename Func>
+	  inline typename std::enable_if<!std::is_scalar<T>::value,T>::type
+	  omp_coords_range<3>::internal_sum_range(const T& zero, const Func& f) const {
+	    T sum(zero);
+	    
+	    auto start = r.lower[2];
+	    auto end = r.upper[2];
+	    
+#pragma omp parallel shared(sum)
+	    {
+	      T local_sum(zero);
+#ifdef SHARK_THREAD_BLOCK_DIST
+#pragma omp for schedule(static) collapse(3)
+#else
+#pragma omp for schedule(static) 
+#endif
+	      for(coord j = r.lower[0]; j < r.upper[0]; j++)
+		for(coord k = r.lower[1]; k < r.upper[1]; k++)
+#ifdef SHARK_VECTOR_PRAGMA
+#pragma ivdep
+#endif
+		  for(coord l = start; l < end; l+=SHARK_RANGE_STEP) {
+		    coords<3> i;
+		    i[0] = j;
+		    i[1] = k;
+		    i[2] = l;
+		    f(local_sum, i, std::min(l+SHARK_RANGE_STEP,end)-l);
+		  }
+#pragma omp critical
+	      sum += local_sum;
+	    }
+	    return sum;
+	  }
+#endif
+
 #elif defined(SHARK_TBB_SCHED) && defined(SHARK_THREAD_BLOCK_DIST)
 
 		template<int ndim>
@@ -431,7 +718,7 @@ namespace shark {
 		}
 
 #endif
-
+	  
 	}
 
 }

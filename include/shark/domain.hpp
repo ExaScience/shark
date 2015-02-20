@@ -402,6 +402,10 @@ namespace shark {
 			ThreadWork([this,&f,r](int k) {
 				tdist[k].overlap(r).for_each_range(f);
 			});
+#elif defined(SHARK_OMP_SCHED)
+			omp_coords_range<ndim> omp;
+			omp.r = local().overlap(r);
+			omp.for_each_range(f);
 #else
 #error "No scheduler for_each_range"
 #endif
@@ -527,6 +531,10 @@ namespace shark {
 			for(int k=1; k < nthrds; k++)
 				tsum[0] += tsum[k];
 			return tsum[0];
+#elif defined(SHARK_OMP_SCHED)
+			omp_coords_range<ndim> omp;
+			omp.r = local().overlap(r);
+			return omp.internal_sum_range(zero, f);
 #else
 #error "No scheduler internal_sum_range"
 #endif
