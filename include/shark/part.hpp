@@ -9,14 +9,19 @@
 #include "vec.hpp"
 
 namespace shark {
-	
+
 	namespace ndim {
 
-		template<int ndim, typename T>
+		struct part_position {
+			int pos;
+			float off;
+		};
+
+		template<int ndim>
 		struct part {
-			vec<ndim,T> x;
-			vec<ndim,T> v;
-			T w;
+			vec<ndim,part_position> x;
+			vec<ndim,double> v;
+			double w;
 		};
 
 	}

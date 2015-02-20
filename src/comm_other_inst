@@ -4,10 +4,7 @@
 
 #if defined(SHARK_MPI_COMM)
 
-#define SYMBD(d) SYMBT(shark::ndim::part<d COMMA float>)
-#include "inst_dim"
-#undef SYMBD
-#define SYMBD(d) SYMBT(shark::ndim::part<d COMMA double>)
+#define SYMBD(d) SYMBT(shark::ndim::part<d>)
 #include "inst_dim"
 #undef SYMBD
 #define SYMBD(d) SYMBT(shark::ndim::coords_range<d>)
@@ -17,10 +14,7 @@
 
 #elif defined(SHARK_NO_COMM)
 
-#define SYMBD(d) SYMBT(shark::ndim::part<d COMMA float>)
-#include "inst_dim"
-#undef SYMBD
-#define SYMBD(d) SYMBT(shark::ndim::part<d COMMA double>)
+#define SYMBD(d) SYMBT(shark::ndim::part<d>)
 #include "inst_dim"
 #undef SYMBD
 #define SYMBD(d) SYMBT(shark::ndim::coords_range<d>)

@@ -15,7 +15,7 @@ namespace shark {
 		typedef shark::ndim::coords_range<1> coords_range;
 		typedef shark::ndim::Domain<1> Domain;
 		typedef shark::ndim::vec<1,double> vecD;
-		typedef shark::ndim::part<1,double> partD;
+		typedef shark::ndim::part<1> partD;
 		typedef shark::ndim::GlobalArray<1,int> GlobalArrayI;
 		typedef shark::ndim::GlobalArray<1,long> GlobalArrayL;
 		typedef shark::ndim::GlobalArray<1,float> GlobalArrayF;
@@ -49,7 +49,7 @@ namespace shark {
 		typedef shark::ndim::coords_range<2> coords_range;
 		typedef shark::ndim::Domain<2> Domain;
 		typedef shark::ndim::vec<2,double> vecD;
-		typedef shark::ndim::part<2,double> partD;
+		typedef shark::ndim::part<2> partD;
 		typedef shark::ndim::GlobalArray<2,int> GlobalArrayI;
 		typedef shark::ndim::GlobalArray<2,long> GlobalArrayL;
 		typedef shark::ndim::GlobalArray<2,float> GlobalArrayF;
@@ -83,7 +83,7 @@ namespace shark {
 		typedef shark::ndim::coords_range<3> coords_range;
 		typedef shark::ndim::Domain<3> Domain;
 		typedef shark::ndim::vec<3,double> vecD;
-		typedef shark::ndim::part<3,double> partD;
+		typedef shark::ndim::part<3> partD;
 		typedef shark::ndim::GlobalArray<3,int> GlobalArrayI;
 		typedef shark::ndim::GlobalArray<3,long> GlobalArrayL;
 		typedef shark::ndim::GlobalArray<3,float> GlobalArrayF;

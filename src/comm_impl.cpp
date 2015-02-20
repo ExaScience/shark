@@ -11,6 +11,7 @@ using namespace shark::ndim;
 
 #if defined(SHARK_MPI_COMM)
 
+template<> const MPI_Datatype mpi_type<char>::t = MPI_CHAR;
 template<> const MPI_Datatype mpi_type<int>::t = MPI_INT;
 template<> const MPI_Datatype mpi_type<long>::t = MPI_LONG;
 template<> const MPI_Datatype mpi_type<float>::t = MPI_FLOAT;
@@ -23,7 +24,7 @@ template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LON
 template<int ndim> const MPI_Datatype mpi_type<coords_range<ndim>>::t = mpi_type<coord>::t;
 
 template<int ndim,typename T> const MPI_Datatype mpi_type<vec<ndim,T>>::t = mpi_type<T>::t;
-template<int ndim,typename T> const MPI_Datatype mpi_type<part<ndim,T>>::t = mpi_type<T>::t;
+template<int ndim> const MPI_Datatype mpi_type<part<ndim>>::t = mpi_type<char>::t;
 
 template<typename T> const MPI_Datatype mpi_type<valarray<T>>::t = mpi_type<T>::t;
 

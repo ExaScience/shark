@@ -107,15 +107,15 @@ namespace shark {
 	/*
 	 * mpi_type for part
 	 */
-	template<int ndim,typename T>
-	struct mpi_type<shark::ndim::part<ndim,T>> {
+	template<int ndim>
+	struct mpi_type<shark::ndim::part<ndim>> {
 		static const MPI_Datatype t;
 		INLINE static int count();
 	};
 
-	template<int ndim,typename T>
-	inline int mpi_type<shark::ndim::part<ndim,T>>::count() {
-		return ndim*2 + 1;
+	template<int ndim>
+	inline int mpi_type<shark::ndim::part<ndim>>::count() {
+		return sizeof(shark::ndim::part<ndim>);
 	}
 
 	/*
