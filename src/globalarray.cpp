@@ -455,6 +455,7 @@ Future<void> GlobalArray<ndim,T>::iupdate(long k) const
 			if(gc)
 				MPI_Waitall(4, &h->req[4*di], MPI_STATUSES_IGNORE);
 #elif defined(SHARK_NO_COMM)
+			// note: potential candidate for for_each_range
 			if(pd) {
 				{
 					coords<ndim> off = ghost_back[di].adj(di, 1) - ghost_front[di].lower;

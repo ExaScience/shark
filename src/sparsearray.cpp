@@ -53,10 +53,17 @@ SparseArray<ndim,T>::SparseArray(const Domain<ndim>& dom):
 template<int ndim,typename T>
 SparseArray<ndim,T>::SparseArray(const SparseArray<ndim,T>& other):
 	dom(other.dom), cw(other.cw), ld(other.ld), cld(other.cld), ptr(new T[ld[0]]), coarse(other.coarse) {
+  /*
 	dom.total().for_each([this,&other](coords<ndim> i) {
 		coord off = i.offset(ld);
 		ptr[off] = other.ptr[off];
 	});
+  */
+  dom.total().for_each_range([this,&other](const coords<ndim>& i, coord len){
+      coord off = i.offset(ld);
+      for (coord j=0; j<len; ++j)
+	ptr[off+j] = other.ptr[off+j];
+    });
 }
 
 template<int ndim,typename T>
@@ -64,10 +71,17 @@ SparseArray<ndim,T>& SparseArray<ndim,T>::operator=(const SparseArray<ndim,T>& o
 	assert(dom == other.dom);
 	assert(cw == other.cw);
 	coarse = other.coarse;
+	/*
 	dom.total().for_each([this,&other](coords<ndim> i) {
 		coord off = i.offset(ld);
 		ptr[off] = other.ptr[off];
 	});
+	*/
+	dom.total().for_each_range([this,&other](const coords<ndim>& i, coord len){
+	    coord off = i.offset(ld);
+	    for (coord j=0; j<len; ++j)
+	      ptr[off+j] = other.ptr[off+j];
+	  });
 	return *this;
 }
 
@@ -78,9 +92,16 @@ SparseArray<ndim,T>::~SparseArray() {
 
 template<int ndim,typename T>
 void SparseArray<ndim,T>::init() {
+  /*
 	dom.total().for_each([this](coords<ndim> i) {
 		ptr[i.offset(ld)] = T();
 	});
+  */
+  dom.total().for_each_range([this](const coords<ndim>& i, coord len){
+      coord off = i.offset(ld);
+      for (coord j=0; j<len; ++j)
+	ptr[off+j] = T();
+    });
 }
 
 template<int ndim,typename T>
@@ -106,10 +127,17 @@ void SparseArray<ndim,T>::operator+=(const SparseArray<ndim,T>& other) {
 				r.upper[d] = min((fk+1) << cw, dom.n[d]);
 				kk = kk % cld[d+1];
 			}
+			/*
 			r.for_each([this,&other](coords<ndim> i) {
 				coord off = i.offset(ld);
 				ptr[off] += other.ptr[off];
 			});
+			*/
+			r.for_each_range([this,&other](const coords<ndim>& i, coord len) {
+			    coord off = i.offset(ld);
+			    for (coord j=0; j<len; ++j)
+			      ptr[off+j] += other.ptr[off+j];
+			  });
 		}
 }
 
