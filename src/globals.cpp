@@ -151,10 +151,10 @@ void shark::Finalize() {
 	delete sch;
 #endif
 
+#if defined(SHARK_MPI_COMM)
 #define SYMBD(d) free_part_type<d>();
 #include "inst_dim"
 #undef SYMBD
-#if defined(SHARK_MPI_COMM)
 	MPI_Type_free(&mpi_type<part_position>::t);
 	Group::w.reset();
 	MPI_Finalize();
