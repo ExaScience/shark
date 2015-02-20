@@ -9,7 +9,7 @@ comms="off|mpi"
 asyncs="off|mpi3"
 
 function usage {
-	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>] [--no-inst]" 2>&1
+	echo "Usage: $0 [--with-cc=<cmd>] [--with-cxx=<cmd>] [--mode=$modes] [--sched=$scheds] [--comm=$comms] [--async=$asyncs] [--mpi=<pkg>] [--pkg-dir=<dir>] [--no-inst] [--with-range]" 2>&1
 }
 
 function use_err {
@@ -38,6 +38,7 @@ comm=mpi
 mpi=ompi-c
 async=off
 inst=1
+range=
 
 # Parse arguments
 
@@ -75,6 +76,9 @@ while [ $# != 0 ]; do
 		;;
 		--no-inst)
 			inst=
+		;;
+		--with-range)
+			range=1
 		;;
 		-h|--help)
 			usage
@@ -149,6 +153,10 @@ case $async in
 		pub_cflags="$pub_cflags -DSHARK_MPI_ASYNC"
 	;;
 esac
+
+if [ -n "$range" ]; then
+		pub_cflags="$pub_cflags -DSHARK_RANGE"
+fi
 
 # Determine version
 

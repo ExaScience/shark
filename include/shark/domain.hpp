@@ -200,11 +200,12 @@ namespace shark {
 			INLINE void for_each(const Func& f) const;
 			template<typename Func>
 			void for_each(coords_range<ndim> r, const Func& f) const;
-
+#ifdef SHARK_RANGE
                         template<typename Func>
                         INLINE void for_each_range(const Func& f) const;
                         template<typename Func>
                         void for_each_range(coords_range<ndim> r, const Func& f) const;
+#endif
 
 			/**
 			 * Sum elemental function over the elements of range
@@ -214,10 +215,12 @@ namespace shark {
 			template<typename T, typename Func>
 			T sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
+#ifdef SHARK_RANGE
                         template<typename T, typename Func>
                         INLINE T sum_range(const T& zero, const Func& f) const;
                         template<typename T, typename Func>
                         T sum_range(coords_range<ndim> r, const T& zero, const Func& f) const;
+#endif
 
 			template<typename T, typename Func>
 			INLINE Future<T> isum(const T& zero, const Func& f) const;
@@ -229,10 +232,12 @@ namespace shark {
 			template<typename T, typename Func>
 			T internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const;
 
+#ifdef SHARK_RANGE
                         template<typename T, typename Func>
                         INLINE T internal_sum_range(const T& zero, const Func& f) const;
                         template<typename T, typename Func>
                         T internal_sum_range(coords_range<ndim> r, const T& zero, const Func& f) const;
+#endif
 
 			class ProcessOverlap {
 				const Domain<ndim>& dom;
@@ -383,24 +388,26 @@ namespace shark {
 #endif
 		}
 
-	  template<int ndim> template<typename Func>
-	  inline void Domain<ndim>::for_each_range(const Func& f) const {
-	    for_each_range(total(), f);
-	  }
+#ifdef SHARK_RANGE
+		template<int ndim> template<typename Func>
+		inline void Domain<ndim>::for_each_range(const Func& f) const {
+			for_each_range(total(), f);
+		}
 		
-	  template<int ndim> template<typename Func>
-	  void Domain<ndim>::for_each_range(coords_range<ndim> r, const Func& f) const {
+		template<int ndim> template<typename Func>
+		void Domain<ndim>::for_each_range(coords_range<ndim> r, const Func& f) const {
 #if defined(SHARK_SER_SCHED)
-	    local().overlap(r).for_each_range(f);
+			local().overlap(r).for_each_range(f);
 #elif defined(SHARK_PTHREAD_SCHED)
-	    ThreadWork([this,&f,r](int k) {
-		tdist[k].overlap(r).for_each_range(f);
-	      });
+			ThreadWork([this,&f,r](int k) {
+				tdist[k].overlap(r).for_each_range(f);
+			});
 #else
-#error "No scheduler for_each"
+#error "No scheduler for_each_range"
 #endif
-	  }
-	  
+		}
+#endif
+
 		template<int ndim> template<typename T, typename Func>
 		inline T Domain<ndim>::internal_sum(const T& zero, const Func& f) const {
 			return internal_sum(total(), zero, f);
@@ -496,33 +503,35 @@ namespace shark {
 #endif
 		}
 
-	  template<int ndim> template<typename T, typename Func>
-	  inline T Domain<ndim>::internal_sum_range(const T& zero, const Func& f) const {
-	    return internal_sum_range(total(), zero, f);
-	  }
-	  
-	  template<int ndim> template<typename T, typename Func>
-	  T Domain<ndim>::internal_sum_range(coords_range<ndim> r, const T& zero, const Func& f) const {
+#ifdef SHARK_RANGE
+		template<int ndim> template<typename T, typename Func>
+		inline T Domain<ndim>::internal_sum_range(const T& zero, const Func& f) const {
+			return internal_sum_range(total(), zero, f);
+		}
+		
+		template<int ndim> template<typename T, typename Func>
+		T Domain<ndim>::internal_sum_range(coords_range<ndim> r, const T& zero, const Func& f) const {
 #if defined(SHARK_SER_SCHED)
-	    T sum(zero);
-	    local().overlap(r).for_each_range([&f,&sum](coords<ndim> i, coord len) {
-		f(sum, i, len);
-	      });
-	    return sum;
+			T sum(zero);
+			local().overlap(r).for_each_range([&f,&sum](coords<ndim> i, coord len) {
+				f(sum, i, len);
+			});
+			return sum;
 #elif defined(SHARK_PTHREAD_SCHED)
-	    std::vector<T> tsum(nthrds, zero);
-	    ThreadWork([this,&f,&tsum,r](int k) {
-		tdist[k].overlap(r).for_each_range([&f,&tsum,k](coords<ndim> i, coord len) {
-		    f(tsum[k], i, len);
-		  });
-	      });
-	    for(int k=1; k < nthrds; k++)
-	      tsum[0] += tsum[k];
-	    return tsum[0];
+			std::vector<T> tsum(nthrds, zero);
+			ThreadWork([this,&f,&tsum,r](int k) {
+				tdist[k].overlap(r).for_each_range([&f,&tsum,k](coords<ndim> i, coord len) {
+					f(tsum[k], i, len);
+				});
+			});
+			for(int k=1; k < nthrds; k++)
+				tsum[0] += tsum[k];
+			return tsum[0];
 #else
-#error "No scheduler internal_sum"
+#error "No scheduler internal_sum_range"
 #endif
-	  }
+		}
+#endif
 
 		template<int ndim> template<typename T, typename Func>
 		inline T Domain<ndim>::sum(const T& zero, const Func& f) const {
@@ -545,6 +554,7 @@ namespace shark {
 			return group.external_isum(internal_sum(r, zero, f));
 		}
   
+#ifdef SHARK_RANGE
                 template<int ndim> template<typename T, typename Func>
                 inline T Domain<ndim>::sum_range(const T& zero, const Func& f) const {
                   return sum_range(total(), zero, f);
@@ -554,6 +564,7 @@ namespace shark {
                 T Domain<ndim>::sum_range(coords_range<ndim> r, const T& zero, const Func& f) const {
                   return group.external_sum(internal_sum_range(r, zero, f));
                 }
+#endif
 
 		template<int ndim> template<typename Op>
 		void Domain<ndim>::ProcessOverlap::visit(const Op& op) {

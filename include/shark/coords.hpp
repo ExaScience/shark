@@ -43,20 +43,6 @@ namespace shark {
 			INLINE coords<ndim> operator+(const coords<ndim>& other) const;
 			INLINE coords<ndim> operator-(const coords<ndim>& other) const;
 
-		  template<typename... T>
-		  INLINE coords<ndim> add(T... c) const {
-		    coords<ndim> result = {{c...}};
-		    for (auto i=0; i<ndim; ++i) result[i] += val[i];
-		    return result;
-		  }
-
-		  template<typename... T>
-		  INLINE coords<ndim> sub(T... c) const {
-		    coords<ndim> result = {{c...}};
-		    for (auto i=0; i<ndim; ++i) result[i] = val[i] - result[i];
-		    return result;
-		  }
-
 			INLINE coords<ndim>& operator<<=(unsigned short w);
 			INLINE coords<ndim>& operator>>=(unsigned short w);
 			INLINE coords<ndim> operator<<(unsigned short w) const;

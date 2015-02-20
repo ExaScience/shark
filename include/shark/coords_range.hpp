@@ -40,18 +40,21 @@ namespace shark {
 			template<int d, typename Func>
 			INLINE typename std::enable_if<d == ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 
-		  template<int d, typename Func>
-		  INLINE typename std::enable_if<d < ndim-1>::type for_eachr(const Func& f, const coords<ndim>& i) const;
-
-		  template<int d, typename Func>
-		  INLINE typename std::enable_if<d == ndim-1>::type for_eachr(const Func& f, const coords<ndim>& i) const;
+#ifdef SHARK_RANGE
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachr(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachr(const Func& f, coords<ndim>& i) const;
+#endif
 
 		public:
 			template<typename Func>
 			INLINE void for_each(const Func& f) const;
 
-		  template<typename Func>
-		  INLINE void for_each_range(const Func& f) const;
+#ifdef SHARK_RANGE
+			template<typename Func>
+			INLINE void for_each_range(const Func& f) const;
+#endif
 
 			coords_range<ndim> overlap(coords_range<ndim> other) const;
 			bool contains(coords<ndim> i) const;
@@ -95,27 +98,25 @@ namespace shark {
 			for_eachd<0>(f, i);
 		}
 
-	  template<int ndim> template<int d, typename Func>
-	  inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachr(const Func& f, const coords<ndim>& i) const {
-	    coords<ndim> ic(i);
-	    const auto low = lower[d];
-	    const auto up = upper[d];
-	    for (auto j = low; j < up; j++) {
-	      ic[d] = j;
-	      for_eachr<d+1>(f, ic);
-	    }
-	  }
-	    
-	    template<int ndim> template<int d, typename Func>
-	    inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachr(const Func& f, const coords<ndim>& i) const {
-	      f(i, upper[d] - lower[d]);
-	    }
-	  
-	  template<int ndim> template<typename Func>
-	  inline void coords_range<ndim>::for_each_range(const Func& f) const {
-	    coords<ndim> i(lower);
-	    for_eachr<0>(f, i);
-	  }
+#ifdef SHARK_RANGE
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachr(const Func& f, coords<ndim>& i) const {
+			for(i[d] = lower[d]; i[d] < upper[d]; i[d]++)
+				for_eachr<d+1>(f, i);
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachr(const Func& f, coords<ndim>& i) const {
+			i[d] = lower[d];
+			f(i, upper[d] - lower[d]);
+		}
+
+		template<int ndim> template<typename Func>
+		inline void coords_range<ndim>::for_each_range(const Func& f) const {
+			coords<ndim> i;
+			for_eachr<0>(f, i);
+		}
+#endif
 
 		template<int ndim>
 		inline coords<ndim> coords_range<ndim>::counts() const {
