@@ -598,9 +598,6 @@ namespace shark {
 #pragma omp critical
 				sum += local_sum;
 			}
-#pragma omp critical
-		    sum += local_sum;
-		  }
 		  return sum;
 		}
 		
