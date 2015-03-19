@@ -7,7 +7,7 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a heat cg cg_poisson_3d testsuite dump_to_file
+all: libshark.a heat cg cg_poisson_3d dump_to_file main BPMF  testsuite
 
 SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
@@ -16,9 +16,11 @@ DFILES=$(CCFILES:.cpp=.d)
 
 testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
 
-heat: libshark.a heat.o
+BPMF: libshark.a Data.o BPMF.o  
 
-main: libshark.a main.o
+bpmf_tom: bpmf_tom.o
+
+heat: libshark.a heat.o
 
 cg: libshark.a cg.o
 
@@ -27,6 +29,8 @@ cg_poisson_3d: libshark.a cg_poisson_3d.o
 testsuite: libshark.a testsuite.o
 
 dump_to_file: libshark.a dump_to_file.o
+
+main: libshark.a main.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
