@@ -68,6 +68,7 @@ namespace shark {
 			bool contains(coords<ndim> i) const;
 			bool contains(coords_range<ndim> other) const;
 			INLINE coords<ndim> counts() const;
+		        INLINE coords<ndim> next(coords<ndim> ii) const;
 			INLINE coord count() const;
 			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
 			INLINE coords<ndim> adj(int d, int shift) const;
@@ -78,6 +79,14 @@ namespace shark {
 		std::ostream& operator<<(std::ostream& out, const coords_range<ndim>& r);
 
 		// Inline function implementations
+
+#ifdef SHARK_SIMPLE_FOREACH
+		template<int ndim> template<typename Func>
+		inline void coords_range<ndim>::for_each(const Func& f) const {
+                        for(auto i = lower; i < upper; i = next(i)) f(i);
+		}
+
+#else
 
 		template<int ndim> template<int d, typename Func>
 		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
@@ -105,6 +114,7 @@ namespace shark {
 			coords<ndim> i;
 			for_eachd<0>(f, i);
 		}
+#endif
 
 #ifdef SHARK_RANGE
 		template<int ndim> template<int d, typename Func>
@@ -129,6 +139,19 @@ namespace shark {
 		template<int ndim>
 		inline coords<ndim> coords_range<ndim>::counts() const {
 			return upper - lower;
+		}
+
+		template<int ndim>
+		inline coords<ndim> coords_range<ndim>::next(coords<ndim> ii) const {
+                        ii[ndim-1]++;
+		        seq<0,ndim>::for_each([this,&ii](int j) {
+                                auto k = ndim - j - 1;
+                                if (ii[k] >= upper[k] && k > 0) {
+                                    ii[k] = lower[k];
+                                    ii[k-1]++;
+                                }
+                        });
+                        return ii;
 		}
 
 		template<int ndim>

@@ -64,7 +64,7 @@ bool split_range<ndim>::empty() const {
 
 template<int ndim>
 bool split_range<ndim>::is_divisible() const {
-	return r.size() > grainsize;
+	return r.count() > grainsize;
 }
 
 template<int ndim>
