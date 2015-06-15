@@ -48,6 +48,9 @@ namespace shark {
 			INLINE coords<ndim> operator<<(unsigned short w) const;
 			INLINE coords<ndim> operator>>(unsigned short w) const;
 
+			INLINE coords<ndim>& operator*=(int);
+			INLINE coords<ndim>  operator*(int) const;
+
 			INLINE coord offset(const coords<ndim+1>& ld) const;
 			INLINE coord offset(const std::array<std::size_t,ndim-1>& ld) const;
 
@@ -156,6 +159,16 @@ namespace shark {
 		template<int ndim>
 		inline coords<ndim> coords<ndim>::operator>>(unsigned short w) const {
 			return coords<ndim>(*this) >>= w;
+		}
+
+		template<int ndim>
+		inline coords<ndim>& coords<ndim>::operator*=(int w) {
+			seq<0,ndim>::for_each([this,w](int d) { val[d] *= w; });
+			return *this;
+		}
+		template<int ndim>
+		inline coords<ndim> coords<ndim>::operator*(int w) const {
+			return coords<ndim>(*this) *= w;
 		}
 
 		template<int ndim>
