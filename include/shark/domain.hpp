@@ -380,6 +380,7 @@ namespace shark {
 					lr.lower[0] = br.begin();
 				if(lr.upper[0] > br.end())
 					lr.upper[0] = br.end();
+				//lr.for_each_blocked(f);
 				lr.for_each(f);
 			}, *ap);
 #endif

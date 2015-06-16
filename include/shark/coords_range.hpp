@@ -45,6 +45,14 @@ namespace shark {
 			INLINE typename std::enable_if<d < ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 			template<int d, typename Func>
 			INLINE typename std::enable_if<d == ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i) const;
 
 #ifdef SHARK_RANGE
 			template<int d, typename Func>
@@ -56,6 +64,8 @@ namespace shark {
 		public:
 			template<typename Func>
 			INLINE void for_each(const Func& f) const;
+			template<typename Func>
+			INLINE void for_each_blocked(const Func& f) const;
 
 #ifdef SHARK_RANGE
 			template<typename Func>
@@ -113,6 +123,50 @@ namespace shark {
 			for_eachd<0>(f, i);
 		}
 #endif
+
+                static const int bs = 32;
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id+=bs) {
+				i[d] = id;
+				for_eachd_outer_block<d+1>(f, i);
+			}
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id+=bs) {
+				i[d] = id;
+                                for_eachd_inner_block<0>(f, i);
+			}
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = std::min(ld+bs,upper[d]);
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
+				for_eachd_inner_block<d+1>(f, i);
+			}
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = std::min(ld+bs,upper[d]);
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
+                                f(i);
+			}
+		}
+
+		template<int ndim> template<typename Func>
+		inline void coords_range<ndim>::for_each_blocked(const Func& f) const {
+			coords<ndim> i;
+			for_eachd_outer_block<0>(f, i);
+		}
 
 #ifdef SHARK_RANGE
 		template<int ndim> template<int d, typename Func>
