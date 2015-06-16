@@ -368,7 +368,7 @@ namespace shark {
 #endif
 #elif defined(SHARK_TBB_SCHED)
 #if defined(SHARK_THREAD_BLOCK_DIST)
-			split_range<ndim> sr(local(), r.size()/nwork);
+			split_range<ndim> sr(local(), r.count()/nwork);
 			tbb::parallel_for(sr, [&r,&f](const split_range<ndim>& sr) {
 				sr.range().overlap(r).for_each(f);
 			}, *ap);
@@ -475,7 +475,7 @@ namespace shark {
 				}
 				void join(Adder& rhs) { sum += rhs.sum; }
 			} adder(f, zero, r);
-			split_range<ndim> sr(local(), r.size()/nwork);
+			split_range<ndim> sr(local(), r.count()/nwork);
 			tbb::parallel_reduce(sr, adder, *ap);
 			return adder.sum;
 #else
