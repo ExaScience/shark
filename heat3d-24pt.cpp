@@ -27,44 +27,43 @@ void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 	// Sync and make sure ga is complete
 	ga.update();
 
-	gb = unary(ga, [nu](const AccessD& u, coords ii) -> double {
-		coords left =  { -1,  0,  0};
-		coords right = {  1,  0,  0};
-		coords above = {  0, -1,  0};
-		coords below = {  0,  1,  0};
-		coords  back = {  0,  0, -1};
-		coords front = {  0,  0,  1};
+        coords left =  { -1,  0,  0};
+        coords right = {  1,  0,  0};
+        coords above = {  0, -1,  0};
+        coords below = {  0,  1,  0};
+        coords  back = {  0,  0, -1};
+        coords front = {  0,  0,  1};
 
-	        gb = ga + nu * (
-                                shift(ga,1* left) + 
-                                shift(ga,1*right) + 
-                                shift(ga,1*above) +
-                                shift(ga,1*below) +
-                                shift(ga,1* back) +
-                                shift(ga,1*front) +
-                                
-                                shift(ga,2* left) + 
-                                shift(ga,2*right) + 
-                                shift(ga,2*above) +
-                                shift(ga,2*below) +
-                                shift(ga,2* back) +
-                                shift(ga,2*front) +
+        gb = ga + nu * (
+                        shift(ga, left*1) + 
+                        shift(ga,right*1) + 
+                        shift(ga,above*1) +
+                        shift(ga,below*1) +
+                        shift(ga, back*1) +
+                        shift(ga,front*1) +
+                        
+                        shift(ga, left*2) + 
+                        shift(ga,right*2) + 
+                        shift(ga,above*2) +
+                        shift(ga,below*2) +
+                        shift(ga, back*2) +
+                        shift(ga,front*2) +
 
-                                shift(ga,3* left) + 
-                                shift(ga,3*right) + 
-                                shift(ga,3*above) +
-                                shift(ga,3*below) +
-                                shift(ga,3* back) +
-                                shift(ga,3*front) +
+                        shift(ga, left*3) + 
+                        shift(ga,right*3) + 
+                        shift(ga,above*3) +
+                        shift(ga,below*3) +
+                        shift(ga, back*3) +
+                        shift(ga,front*3) +
 
-                                shift(ga,4* left) + 
-                                shift(ga,4*right) + 
-                                shift(ga,4*above) +
-                                shift(ga,4*below) +
-                                shift(ga,4* back) +
-                                shift(ga,4*front)
+                        shift(ga, left*4) + 
+                        shift(ga,right*4) + 
+                        shift(ga,above*4) +
+                        shift(ga,below*4) +
+                        shift(ga, back*4) +
+                        shift(ga,front*4)
 
-                                - 24 * ga);
+                        - 24 * ga);
 
 }
 
@@ -140,8 +139,8 @@ int main(int argc, char **argv)
 	SetupThreads();
 
 	{
-		const coords size  = {{n-1,n-1}};
-		const coords ghost = {{1,1}};
+		const coords size  = {{n,n,n}};
+		const coords ghost = {{4,4,4}};
 
 		const array<int,2> pcoords = {{ 0, block ? 0 : 1 }};
 		Domain d(world(), size, pcoords);
