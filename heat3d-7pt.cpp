@@ -39,15 +39,10 @@ struct Heat_3d_7pt {
     }
 };
 
-template<typename S>
-typename shark::ndim::UnaryExp<S,Heat_3d_7pt<S>> heat_3d_7pt(const S& src, double nu) {
-        return shark::ndim::UnaryExp<S,Heat_3d_7pt<S>>(src, Heat_3d_7pt<S>({nu}));
-}
-
-void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu)
+void heat(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
 	ga.update();
-	gb = heat_3d_7pt(ga, nu);
+	gb = unary(ga, Heat_3d_7pt<GlobalArrayD>({nu}));
 }
 
 int heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
