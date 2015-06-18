@@ -39,10 +39,38 @@ struct Heat_3d_7pt {
     }
 };
 
+template<typename S>
+struct Heat_3d_19pt {
+    double nu;
+    double operator()(const typename S::accessor& u, coords ii) const {
+        coords  left = { -1,  0,  0};
+        coords right = {  1,  0,  0};
+        coords above = {  0, -1,  0};
+        coords below = {  0,  1,  0};
+        coords  back = {  0,  0, -1};
+        coords front = {  0,  0,  1};
+
+        return u(ii) + nu * (
+                u(ii + left*1) + u(ii + right*1) + u(ii + above*1) + u(ii + below*1) + u(ii + back*1) + u(ii + front*1)
+              + u(ii + left*2) + u(ii + right*2) + u(ii + above*2) + u(ii + below*2) + u(ii + back*2) + u(ii + front*2)
+              + u(ii + left*3) + u(ii + right*3) + u(ii + above*3) + u(ii + below*3) + u(ii + back*3) + u(ii + front*3)
+              -  19 * u(ii));
+    }
+};
+
+void heat_overlap(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
+{
+    auto op = unary(ga, Heat_3d_19pt<GlobalArrayD>({nu})); 
+    auto f = ga.iupdate();
+    gb.region(gb.inner()) = op;
+    f.wait();
+    gb.region(gb.outer()) = op;
+}
+
 void heat(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
-	ga.update();
-	gb = unary(ga, Heat_3d_7pt<GlobalArrayD>({nu}));
+    ga.update();
+    gb = unary(ga, Heat_3d_7pt<GlobalArrayD>({nu}));
 }
 
 int heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
@@ -55,9 +83,9 @@ int heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
 	for(k = 0; (end-start) < nr; k++)
 	{
 		if (k % 2 == 0)
-			heat(ga, gb, nu);
+			heat_overlap(ga, gb, nu);
 		else
-			heat(gb, ga, nu);
+			heat_overlap(gb, ga, nu);
 
                 end = Wtime();
 	}
@@ -126,7 +154,7 @@ int main(int argc, char **argv)
 
 	{
 		const coords size  = {{n,n,n}};
-		const coords ghost = {{1,1,1}};
+		const coords ghost = {{3,3,3}};
 
 		const array<int,3> pcoords = {{ 0, 0, block ? 0 : 1 }};
 		Domain d(world(), size, pcoords);
