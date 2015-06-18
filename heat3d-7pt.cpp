@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <getopt.h>
 #include <shark.hpp>
 
@@ -22,27 +23,31 @@ void init_pyramid(GlobalArrayD& ga)
 	ga = 1.0 - max_element(abs(coord_vec(ga.domain(), outer, one) - mid)) / 0.5;
 }
 
+
+template<typename S>
+struct Heat_3d_7pt {
+    double nu;
+    double operator()(const typename S::accessor& u, coords ii) const {
+        coords  left = ii + coords({ -1,  0,  0});
+        coords right = ii + coords({  1,  0,  0});
+        coords above = ii + coords({  0, -1,  0});
+        coords below = ii + coords({  0,  1,  0});
+        coords  back = ii + coords({  0,  0, -1});
+        coords front = ii + coords({  0,  0,  1});
+
+        return u(ii) + nu * (u(left) + u(right) + u(above) + u(below) + u(back) + u(front) - 7 * u(ii));
+    }
+};
+
+template<typename S>
+typename shark::ndim::UnaryExp<S,Heat_3d_7pt<S>> heat_3d_7pt(const S& src, double nu) {
+        return shark::ndim::UnaryExp<S,Heat_3d_7pt<S>>(src, Heat_3d_7pt<S>({nu}));
+}
+
 void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
-	// Sync and make sure ga is complete
 	ga.update();
-
-        coords left =  { -1,  0,  0};
-        coords right = {  1,  0,  0};
-        coords above = {  0, -1,  0};
-        coords below = {  0,  1,  0};
-        coords  back = {  0,  0, -1};
-        coords front = {  0,  0,  1};
-
-        gb = ga + nu * (
-                        shift(ga, left) + 
-                        shift(ga,right) + 
-                        shift(ga,above) +
-                        shift(ga,below) +
-                        shift(ga, back) +
-                        shift(ga,front)
-                        - 7 * ga);
-
+	gb = heat_3d_7pt(ga, nu);
 }
 
 int heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
