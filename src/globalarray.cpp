@@ -736,17 +736,23 @@ void GlobalArray<ndim,T>::scatterAcc(const SparseArray<ndim,T>& sa) {
 
 template<int ndim,typename T>
 GADest<ndim,T> GlobalArray<ndim,T>::region(coords_range<ndim> r) {
+	return GADest<ndim,T>(*this, std::vector<coords_range<ndim>>(1, r));
+}
+
+template<int ndim,typename T>
+GADest<ndim,T> GlobalArray<ndim,T>::region(std::vector<coords_range<ndim>> r) {
 	return GADest<ndim,T>(*this, r);
 }
 
 template<int ndim,typename T>
-GADest<ndim,T>::GADest(GlobalArray<ndim,T>& ga, coords_range<ndim> r): ga(ga), r(r) { }
+GADest<ndim,T>::GADest(GlobalArray<ndim,T>& ga, std::vector<coords_range<ndim>> r)
+    : ga(ga), regions(r) { }
 
 template<int ndim,typename T>
 GADest<ndim,T>::~GADest() { }
 
 template<int ndim,typename T>
-GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), r(gad.r) { }
+GADest<ndim,T>::GADest(const GADest& gad): ga(gad.ga), regions(gad.regions) { }
 
 template<int ndim, typename T>
 GARef<ndim,T>::GARef(const GlobalArray<ndim,T>& ga): ga(ga) { }

@@ -97,11 +97,14 @@ namespace shark {
 			INLINE coords_range<ndim> inner() const;
 			INLINE coords_range<ndim> outer_front(int) const;
 			INLINE coords_range<ndim> outer_back(int) const;
+                        INLINE std::vector<coords_range<ndim>>
+                                                  outer() const;
 
 			/**
 			 * Select a region of elements as destination
 			 */
-			GADest<ndim,T> region(coords_range<ndim> r);
+			GADest<ndim,T> region(coords_range<ndim>);
+			GADest<ndim,T> region(std::vector<coords_range<ndim>>);
 
 			/**
 			 * Construct a GlobalArray (collective).
@@ -226,8 +229,8 @@ namespace shark {
 		class GADest {
 			friend class GlobalArray<ndim,T>;
 			GlobalArray<ndim,T>& ga;
-			coords_range<ndim> r;
-			GADest(GlobalArray<ndim,T>& ga, coords_range<ndim> r);
+                        std::vector<coords_range<ndim>> regions;
+			GADest(GlobalArray<ndim,T>& ga, std::vector<coords_range<ndim>> r);
 		public:
 			~GADest();
 			GADest(const GADest<ndim,T>& gad);
@@ -299,6 +302,16 @@ namespace shark {
 		}
 
 		template<int ndim, typename T>
+		inline std::vector<coords_range<ndim>> GlobalArray<ndim,T>::outer() const {
+                        auto r = std::vector<coords_range<ndim>>(2*ndim);
+                        seq<0,ndim>::for_each([this,&r](int d) { 
+                                r[2*d  ] = outer_front(d);
+                                r[2*d+1] = outer_back(d);
+                        });
+                        return r;
+		}
+
+		template<int ndim, typename T>
 		inline T& GlobalArray<ndim,T>::da(coords<ndim> i) const {
 			return ptr[(i + gw).offset(ld)];
 		}
@@ -330,12 +343,16 @@ namespace shark {
 		GADest<ndim,T>& GADest<ndim,T>::operator=(const S& src) {
 			static_assert(S::number_of_dimensions == ndim, "source dimensionality");
 			assert(ga.domain() == src.domain());
-			assert(src.region().contains(r));
 			Access<ndim,T> d(ga);
 			const typename S::accessor s(src);
-			ga.domain().for_each(r, [&d, &s](coords<ndim> i){
-				d(i) = s(i);
-			});
+
+                        for(auto r : regions) {
+                            ga.domain().for_each(r, [&d, &s](coords<ndim> i){
+                                    assert(src.region().contains(r));
+                                    d(i) = s(i);
+                            });
+                        }
+
 			return *this;
 		}
 	}
