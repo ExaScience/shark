@@ -28,12 +28,12 @@ template<typename S>
 struct Heat_3d_7pt {
     double nu;
     double operator()(const typename S::accessor& u, coords ii) const {
-        coords  left = ii + coords({ -1,  0,  0});
-        coords right = ii + coords({  1,  0,  0});
-        coords above = ii + coords({  0, -1,  0});
-        coords below = ii + coords({  0,  1,  0});
-        coords  back = ii + coords({  0,  0, -1});
-        coords front = ii + coords({  0,  0,  1});
+        coords  left = ii + coords({{ -1,  0,  0}});
+        coords right = ii + coords({{  1,  0,  0}});
+        coords above = ii + coords({{  0, -1,  0}});
+        coords below = ii + coords({{  0,  1,  0}});
+        coords  back = ii + coords({{  0,  0, -1}});
+        coords front = ii + coords({{  0,  0,  1}});
 
         return u(ii) + nu * (u(left) + u(right) + u(above) + u(below) + u(back) + u(front) - 7 * u(ii));
     }
@@ -43,12 +43,12 @@ template<typename S>
 struct Heat_3d_19pt {
     double nu;
     double operator()(const typename S::accessor& u, coords ii) const {
-        coords  left = { -1,  0,  0};
-        coords right = {  1,  0,  0};
-        coords above = {  0, -1,  0};
-        coords below = {  0,  1,  0};
-        coords  back = {  0,  0, -1};
-        coords front = {  0,  0,  1};
+        coords  left = {{ -1,  0,  0}};
+        coords right = {{  1,  0,  0}};
+        coords above = {{  0, -1,  0}};
+        coords below = {{  0,  1,  0}};
+        coords  back = {{  0,  0, -1}};
+        coords front = {{  0,  0,  1}};
 
         return u(ii) + nu * (
                 u(ii + left*1) + u(ii + right*1) + u(ii + above*1) + u(ii + below*1) + u(ii + back*1) + u(ii + front*1)
