@@ -699,11 +699,11 @@ Future<void> GlobalArray<ndim,T>::iscatterAcc(const SparseArray<ndim,T>& sa) {
 }
 template<int ndim,typename T> template<typename>
 void GlobalArray<ndim,T>::dump(coords_range<ndim> range, std::string filename) {
-#if defined(SHARK_MPI_COMM)
 #ifndef NDEBUG
         if(log_mask[verbose_rma])
                 this->log_out() << "dump to " << filename << endl;
 #endif
+#if defined(SHARK_MPI_COMM)
         MPI_File fh;
         MPI_File_open(MPI_COMM_WORLD, filename.c_str(), MPI_MODE_CREATE | MPI_MODE_RDWR, MPI_INFO_NULL, &fh);
 
@@ -723,7 +723,12 @@ void GlobalArray<ndim,T>::dump(coords_range<ndim> range, std::string filename) {
 
         MPI_File_close(&fh);
 #elif defined(SHARK_NO_COMM)
-#warning "Dump not implemented for SHARK_NO_COMM"
+        FILE *fd = fopen(filename.c_str(), "w");
+        Access<ndim,T> acc(*this);
+	range.for_block([&acc,fd](coords<ndim> ii, coord count) {
+                fwrite(&acc(ii), sizeof(T), count, fd);
+	});
+        fclose(fd);
 #else
 #error "No comm dump"
 #endif
