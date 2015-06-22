@@ -347,8 +347,8 @@ namespace shark {
 			const typename S::accessor s(src);
 
                         for(auto r : regions) {
+                            assert(src.region().contains(r));
                             ga.domain().for_each(r, [&d, &s](coords<ndim> i){
-                                    assert(src.region().contains(r));
                                     d(i) = s(i);
                             });
                         }
