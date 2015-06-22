@@ -103,7 +103,7 @@ void Future<void>::wait() {
 
 #include "comm_impl.hpp"
 
-#define SYMBT(T) template struct shark::Future<T>;
+#define SYMBT(T) template class shark::Future<T>;
 #include "comm_int_inst"
 #include "comm_fp_inst"
 #include "comm_cplx_inst"
