@@ -18,11 +18,9 @@ testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-gro
 
 bpmf: bpmf.o mvnormal.o libshark.a
 
-heat: libshark.a heat.o
+heat2d: libshark.a heat2d.o
 
-heat3d-24pt: libshark.a heat3d-24pt.o
-
-heat3d-7pt: libshark.a heat3d-7pt.o
+heat3d: libshark.a heat3d.o
 
 cg: libshark.a cg.o
 
@@ -39,7 +37,7 @@ libshark.a: $(SHARKSRC:.cpp=.o)
 
 clean:
 	rm -f $(DFILES) $(OFILES)
-	rm -f libshark.a heat cg cg_poisson_3d testsuite main heat3d-24pt
+	rm -f libshark.a heat2d heat3d cg cg_poisson_3d testsuite main
  
 -include $(DFILES)
 
