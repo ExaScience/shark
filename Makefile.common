@@ -7,7 +7,7 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a heat cg cg_poisson_3d dump_to_file main testsuite bpmf
+all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite bpmf
 
 SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
