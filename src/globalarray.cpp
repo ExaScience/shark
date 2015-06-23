@@ -725,8 +725,8 @@ void GlobalArray<ndim,T>::dump(coords_range<ndim> range, std::string filename) {
 #elif defined(SHARK_NO_COMM)
         FILE *fd = fopen(filename.c_str(), "w");
         Access<ndim,T> acc(*this);
-	range.for_block([&acc,fd](coords<ndim> ii, coord count) {
-                fwrite(&acc(ii), sizeof(T), count, fd);
+	range.for_each([&acc,fd](coords<ndim> ii) {
+                fwrite(&acc(ii), sizeof(T), 1, fd);
 	});
         fclose(fd);
 #else
