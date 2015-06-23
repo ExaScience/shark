@@ -55,9 +55,9 @@ namespace shark {
 			template<int d, typename Func>
 			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b) const;
 
 #ifdef SHARK_RANGE
 			template<int d, typename Func>
@@ -145,26 +145,28 @@ namespace shark {
 			coord ld = lower[d], ud = upper[d];
 			for(coord id = ld; id < ud; id+=bs) {
 				i[d] = id;
-                                for_eachd_inner_block<0>(f, i);
+                                coords<ndim> b = i;
+                                coords<ndim> j = i;
+                                for_eachd_inner_block<0>(f, j, b);
 			}
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& i) const {
-			coord ld = lower[d], ud = std::min(ld+bs,upper[d]);
-			for(coord id = ld; id < ud; id++) {
-				i[d] = id;
-				for_eachd_inner_block<d+1>(f, i);
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b) const {
+			coord ld = b[d], ud = std::min(ld+bs,upper[d]);
+			for(coord id = j[d]; id < ud; id++) {
+				j[d] = id;
+				for_eachd_inner_block<d+1>(f, j, b);
 			}
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& i) const {
-			coord ld = lower[d], ud = std::min(ld+bs,upper[d]);
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b) const {
+			coord ld = b[d], ud = std::min(ld+bs,upper[d]);
                         SHARK_VECTOR_PRAGMA
 			for(coord id = ld; id < ud; id++) {
-				i[d] = id;
-                                f(i);
+				j[d] = id;
+                                f(j);
 			}
 		}
 
