@@ -77,13 +77,10 @@ void heat(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int iter, double dt) {
 	double nu = dt * n * n * n;
 
-	double starttime = Wtime();
 	for(int k = 0; k < iter; k+=2)
 	{
 		heat_overlap(ga, gb, nu);
 		heat_overlap(gb, ga, nu);
-		double mlups = (double)(k+2)*ga.domain().total().count()/(Wtime() - starttime)/1e6;
-		cerr << world().procid << " - " << k << ": MLUP/s: " << mlups << endl;
 	}
 }
 
