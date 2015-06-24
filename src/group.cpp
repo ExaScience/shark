@@ -96,7 +96,7 @@ template<typename T>
 Future<T> Group::external_isum(T&& sum) const
 {
 #if defined(SHARK_MPI_COMM)
-#if defined(SHARK_MPI_ASYNC)
+#if defined(SHARK_MPI_ASYNC) && defined(SHARK_MPI_IALLREDUCE)
 
 	auto val = make_unique<T>(std::move(sum));
 	auto h = make_unique<SumHandle>();
