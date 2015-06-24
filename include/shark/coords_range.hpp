@@ -24,7 +24,7 @@
 #endif
 
 #ifdef __INTEL_COMPILER
-#define SHARK_VECTOR_PRAGMA _Pragma(ivdep)
+#define SHARK_VECTOR_PRAGMA _Pragma("ivdep")
 #else 
 #define SHARK_VECTOR_PRAGMA 
 #endif

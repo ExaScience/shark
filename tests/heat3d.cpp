@@ -27,21 +27,23 @@ void init_pyramid(GlobalArrayD& ga)
 
 template<typename S>
 struct Heat_3d_7pt {
+    Heat_3d_7pt(double nu) : nu(nu) {}
     double nu;
     double operator()(const typename S::accessor& u, coords ii) const {
-        coords  left = ii + coords({{ -1,  0,  0}});
-        coords right = ii + coords({{  1,  0,  0}});
-        coords above = ii + coords({{  0, -1,  0}});
-        coords below = ii + coords({{  0,  1,  0}});
-        coords  back = ii + coords({{  0,  0, -1}});
-        coords front = ii + coords({{  0,  0,  1}});
+        coords  left = {{ -1,  0,  0}};
+        coords right = {{  1,  0,  0}};
+        coords above = {{  0, -1,  0}};
+        coords below = {{  0,  1,  0}};
+        coords  back = {{  0,  0, -1}};
+        coords front = {{  0,  0,  1}};
 
-        return u(ii) + nu * (u(left) + u(right) + u(above) + u(below) + u(back) + u(front) - 7 * u(ii));
+        return u(ii) + nu * (u(ii + left) + u(ii + right) + u(ii + above) + u(ii + below) + u(ii + back) + u(ii + front) - 7 * u(ii));
     }
 };
 
 template<typename S>
 struct Heat_3d_19pt {
+    Heat_3d_19pt(double nu) : nu(nu) {}
     double nu;
     double operator()(const typename S::accessor& u, coords ii) const {
         coords  left = {{ -1,  0,  0}};
@@ -61,7 +63,7 @@ struct Heat_3d_19pt {
 
 void heat_overlap(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
-    auto op = unary(ga, Heat_3d_19pt<GlobalArrayD>({nu})); 
+    auto op = unary(ga, Heat_3d_19pt<GlobalArrayD>(nu)); 
     auto f = ga.iupdate();
     gb.region(gb.inner()) = op;
     f.wait();
@@ -71,7 +73,7 @@ void heat_overlap(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 void heat(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
     ga.update();
-    gb = unary(ga, Heat_3d_7pt<GlobalArrayD>({nu}));
+    gb = unary(ga, Heat_3d_7pt<GlobalArrayD>(nu));
 }
 
 void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int iter, double dt) {
