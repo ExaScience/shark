@@ -3,6 +3,9 @@
  *
  *  Created on: 5 févr. 2015
  *  Author: chakro23
+ *
+ * Copyright (c) 2015, imec
+ *  
  */
 
 #include "BPMF.h"

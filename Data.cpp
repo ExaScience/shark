@@ -3,6 +3,9 @@
  *
  *  Created on: 16 févr. 2015
  *      Author: chakro23
+ *
+ * Copyright (c) 2015, imec
+ *
  */
 
 #include "Data.h"
