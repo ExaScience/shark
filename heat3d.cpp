@@ -73,24 +73,17 @@ void heat(GlobalArrayD& ga, GlobalArrayD& gb, double nu)
     gb = unary(ga, Heat_3d_7pt<GlobalArrayD>({nu}));
 }
 
-int heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
+void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int iter, double dt) {
 	double nu = dt * n * n * n;
-        int k;
 
-        double start = Wtime();
-        double end = start;
-
-	for(k = 0; (end-start) < nr; k++)
+	double starttime = Wtime();
+	for(int k = 0; k < iter; k+=2)
 	{
-		if (k % 2 == 0)
-			heat_overlap(ga, gb, nu);
-		else
-			heat_overlap(gb, ga, nu);
-
-                end = Wtime();
+		heat_overlap(ga, gb, nu);
+		heat_overlap(gb, ga, nu);
+		double mlups = (double)(k+2)*ga.domain().total().count()/(Wtime() - starttime)/1e6;
+		cerr << world().procid << " - " << k << ": MLUP/s: " << mlups << endl;
 	}
-
-        return k;
 }
 
 int main(int argc, char **argv)
@@ -98,7 +91,7 @@ int main(int argc, char **argv)
 	Init(&argc, &argv);
 
 	//Default values that might be overridden by options
-	int nr = 2; // run for 2seconds
+	int iter = -1; 
 	int n = 511;	//incremented by one internally
 	bool block = false;
 
@@ -118,7 +111,7 @@ int main(int argc, char **argv)
 			case 'i':
 				{
 					istringstream iss(optarg);
-					iss >> nr; 
+					iss >> iter; 
 				}
 				break;
 			case 't':
@@ -138,11 +131,15 @@ int main(int argc, char **argv)
 		}
 	}
 
+	// if the number of iterations is not provided we calculate a
+	// reasonable number for benchmarking at given size
+	if (iter < 0)  iter = 1e7 * world().nprocs / n / n;
+
 	if(world().procid == 0)
 	{
 		cerr << "sched: " << sched << endl;
-		cerr << "n: " << n  << " (" << n*n*n*sizeof(double)/1e9 << "GB)" << endl;
-		cerr << "nr: " << nr << " sec" << endl;
+		cerr << "n: " << n  << " ( " << n*n*n*sizeof(double)/1e9 << "GB)" << endl;
+		cerr << "niter: " << iter << endl;
 		cerr << "block: " << boolalpha << block << noboolalpha << endl;
 		cerr << "nprocs: " << world().nprocs << endl;
 		cerr << "nthrds: " << nthrds << endl;
@@ -180,7 +177,7 @@ int main(int argc, char **argv)
 		}
 
 		double starttime = Wtime();
-		int iter = heat_loop(n, ga, gb, nr, dt);
+		heat_loop(n, ga, gb, iter, dt);
 		double endtime = Wtime();
 		double e1 = norm1(ga) / n / n;
 		double f1 = norm2(ga) / n / n;
@@ -189,7 +186,7 @@ int main(int argc, char **argv)
 		{
 			cerr << "e1: " << e1 << endl;
 			cerr << "f1: " << f1 << endl;
-			cerr << "t: " << dt * nr << endl;
+			cerr << "t: " << dt * iter << endl;
                         cerr << "iter: " << iter << endl;
 			cerr << "runtime: " << endtime - starttime << endl;
                         cerr << "MLUP/s: " << (double)iter*n*n*n/(endtime - starttime)/1e6 << endl;
