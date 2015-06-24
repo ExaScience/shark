@@ -7,35 +7,34 @@ VPATH=$(ROOT)
 
 .PHONY: all clean distclean
 
-all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite bpmf
+all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite
 
 SHARKSRC=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
 
-
-# bpmf
-bpmf: bpmf/bpmf.o bpmf/mvnormal.o libshark.a
-
 # solvers
-cg:            libshark.a solvers/cg.o
-cg_poisson_3d: libshark.a solvers/cg_poisson_3d.o
-main:          libshark.a solvers/main.o
+vpath %.o solvers
+cg:            libshark.a cg.o
+cg_poisson_3d: libshark.a cg_poisson_3d.o
+main:          libshark.a main.o
 
 # small progs
+vpath %.o tests
 tests/testsuite.o:  CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
-testsuite:    libshark.a tests/testsuite.o
-dump_to_file: libshark.a tests/dump_to_file.o
-heat2d:       libshark.a tests/heat2d.o
-heat3d:       libshark.a tests/heat3d.o
-
+testsuite:    libshark.a testsuite.o
+dump_to_file: libshark.a dump_to_file.o
+heat2d:       libshark.a heat2d.o
+heat3d:       libshark.a heat3d.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
 
 clean:
 	rm -f $(DFILES) $(OFILES)
+	rm -f tests/*.o solvers/*.o
+	rm -f tests/*.d solvers/*.d
 	rm -f libshark.a heat2d heat3d cg cg_poisson_3d testsuite main
  
 -include $(DFILES)

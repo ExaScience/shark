@@ -206,7 +206,7 @@ for pkg in $pri_pkgs $pub_pkgs; do
 done
 
 echo "Creating subdirs..."
-mkdir -p src
+mkdir -p src solvers bpmf tests
 
 echo "Writing Makefile..."
 cat > Makefile <<END
