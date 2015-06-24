@@ -22,15 +22,15 @@ heat2d: libshark.a heat2d.o
 
 heat3d: libshark.a heat3d.o
 
-cg: libshark.a cg.o
+cg: libshark.a solvers/cg.o
 
-cg_poisson_3d: libshark.a cg_poisson_3d.o
+cg_poisson_3d: libshark.a solvers/cg_poisson_3d.o
 
 testsuite: libshark.a testsuite.o
 
 dump_to_file: libshark.a dump_to_file.o
 
-main: libshark.a main.o
+main: libshark.a solvers/main.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
