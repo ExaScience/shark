@@ -16,12 +16,14 @@ DFILES=$(CCFILES:.cpp=.d)
 
 # solvers
 vpath %.o solvers
+vpath %.cpp $(ROOT)/solvers
 cg:            libshark.a cg.o
 cg_poisson_3d: libshark.a cg_poisson_3d.o
 main:          libshark.a main.o
 
 # small progs
 vpath %.o tests
+vpath %.cpp $(ROOT)/tests
 tests/testsuite.o:  CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
 testsuite:    libshark.a testsuite.o
 dump_to_file: libshark.a dump_to_file.o
