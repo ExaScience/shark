@@ -14,23 +14,22 @@ CCFILES=$(SHARKSRC) $(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
 DFILES=$(CCFILES:.cpp=.d)
 
-testsuite.o: CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
 
-bpmf: bpmf.o mvnormal.o libshark.a
+# bpmf
+bpmf: bpmf/bpmf.o bpmf/mvnormal.o libshark.a
 
-heat2d: libshark.a heat2d.o
-
-heat3d: libshark.a heat3d.o
-
-cg: libshark.a solvers/cg.o
-
+# solvers
+cg:            libshark.a solvers/cg.o
 cg_poisson_3d: libshark.a solvers/cg_poisson_3d.o
+main:          libshark.a solvers/main.o
 
-testsuite: libshark.a testsuite.o
-
+# small progs
+testsuite.o:  CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
+testsuite:    libshark.a testsuite.o
 dump_to_file: libshark.a dump_to_file.o
+heat2d:       libshark.a heat2d.o
+heat3d:       libshark.a heat3d.o
 
-main: libshark.a solvers/main.o
 
 libshark.a: $(SHARKSRC:.cpp=.o)
 	$(AR) csr $@ $+
