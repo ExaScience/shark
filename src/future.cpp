@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2010-2013, Vrije Universiteit Brussel.
+ * Copyright (c) 2014-2015, imec
  * All rights reserved.
  */
 
