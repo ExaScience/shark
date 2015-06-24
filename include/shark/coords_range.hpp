@@ -154,7 +154,7 @@ namespace shark {
 		template<int ndim> template<int d, typename Func>
 		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b) const {
 			coord ld = b[d], ud = std::min(ld+bs,upper[d]);
-			for(coord id = j[d]; id < ud; id++) {
+			for(coord id = ld; id < ud; id++) {
 				j[d] = id;
 				for_eachd_inner_block<d+1>(f, j, b);
 			}
