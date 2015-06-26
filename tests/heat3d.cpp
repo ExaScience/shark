@@ -22,12 +22,12 @@ double roundOff(double n) {
     return d;
 }
 
-std::pair<double, const char *> convertSize(size_t size) {               
-    static const char *SIZES[] = { "B", "KB", "MB", "GB" };
-    int div = 0;
+std::pair<double, std::string> convertSize(size_t size) {               
+    std::vector<std::string> SIZES = { "B", "KB", "MB", "GB" };
+    unsigned div = 0;
     size_t rem = 0;
 
-    while (size >= 1024 && div < (sizeof SIZES / sizeof *SIZES)) {
+    while (size >= 1024 && div < SIZES.size()) {
         rem = (size % 1024);
         div++;
         size /= 1024;
