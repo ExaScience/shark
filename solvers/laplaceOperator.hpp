@@ -4,6 +4,9 @@
  * All rights reserved.
  */
 
+#ifndef LAPLACE_OPERATOR_H
+#define LAPLACE_OPERATOR_H
+
 #include <shark.hpp>
 
 using namespace std;
@@ -76,3 +79,5 @@ void applyOperator(GlobalArrayD& first, const GlobalArrayD& other)
       dom.for_each(outer, stencil);
   }
 }
+
+#endif
