@@ -374,15 +374,16 @@ namespace shark {
 				sr.range().overlap(r).for_each(f);
 			}, *ap);
 #else
+			auto lr = local().overlap(r);
 			tbb::blocked_range<coord> br(local().lower[0], local().upper[0]);
-			tbb::parallel_for(br, [&r,&f](const tbb::blocked_range<coord>& br) {
-				coords_range<ndim> lr = r;
-				if(lr.lower[0] < br.begin())
-					lr.lower[0] = br.begin();
-				if(lr.upper[0] > br.end())
-					lr.upper[0] = br.end();
-				lr.for_each_blocked(f);
-				//lr.for_each(f);
+			tbb::parallel_for(br, [&lr,&f](const tbb::blocked_range<coord>& br) {
+				coords_range<ndim> tr = lr;
+				if(tr.lower[0] < br.begin())
+					tr.lower[0] = br.begin();
+				if(tr.upper[0] > br.end())
+					tr.upper[0] = br.end();
+				tr.for_each_blocked(f);
+				//tr.for_each(f);
 			}, *ap);
 #endif
 #else
