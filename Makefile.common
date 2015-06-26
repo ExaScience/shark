@@ -1,6 +1,6 @@
 
 CXXFLAGS=$(CFLAGS) -std=c++0x
-LINK.o=$(CXX) $(LDFLAGS) $(TARGET_ARCH)
+LINK.o=$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 OUTPUT_OPTION=-MMD -MP -o $@
 
 .PHONY: all clean distclean
