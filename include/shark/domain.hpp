@@ -368,22 +368,22 @@ namespace shark {
 			omp.for_each(f);
 #endif
 #elif defined(SHARK_TBB_SCHED)
+			r = local().overlap(r);
 #if defined(SHARK_THREAD_BLOCK_DIST)
 			split_range<ndim> sr(local(), r.count()/nwork);
 			tbb::parallel_for(sr, [&r,&f](const split_range<ndim>& sr) {
 				sr.range().overlap(r).for_each(f);
 			}, *ap);
 #else
-			auto lr = local().overlap(r);
 			tbb::blocked_range<coord> br(local().lower[0], local().upper[0]);
-			tbb::parallel_for(br, [&lr,&f](const tbb::blocked_range<coord>& br) {
-				coords_range<ndim> tr = lr;
-				if(tr.lower[0] < br.begin())
-					tr.lower[0] = br.begin();
-				if(tr.upper[0] > br.end())
-					tr.upper[0] = br.end();
-				tr.for_each_blocked(f);
-				//tr.for_each(f);
+			tbb::parallel_for(br, [&r,&f](const tbb::blocked_range<coord>& br) {
+				coords_range<ndim> lr = r;
+				if(lr.lower[0] < br.begin())
+					lr.lower[0] = br.begin();
+				if(lr.upper[0] > br.end())
+					lr.upper[0] = br.end();
+				lr.for_each_blocked(f);
+				//lr.for_each(f);
 			}, *ap);
 #endif
 #else
@@ -463,6 +463,7 @@ namespace shark {
 			return omp.internal_sum(zero, f);
 #endif
 #elif defined(SHARK_TBB_SCHED)
+			r = local().overlap(r);
 #if defined(SHARK_THREAD_BLOCK_DIST)
 			struct Adder {
 				const Func& f;
@@ -487,8 +488,11 @@ namespace shark {
 				const T& zero;
 				const coords_range<ndim>& r;
 				T sum;
-				Adder(const Func& f, const T& zero, const coords_range<ndim>& r) : f(f), zero(zero), r(r), sum(zero) {}
-				Adder(Adder& adder, tbb::split) : f(adder.f), zero(adder.zero), r(adder.r), sum(zero) {}
+				Adder(const Func& f, const T& zero, const coords_range<ndim>& r) 
+					: f(f), zero(zero), r(r), sum(zero) {}
+				Adder(Adder& adder, tbb::split)
+					: f(adder.f), zero(adder.zero), r(adder.r), sum(zero) {}
+
 				void operator()(const tbb::blocked_range<coord>& br) {
 					coords_range<ndim> lr = r;
 					if(lr.lower[0] < br.begin())
