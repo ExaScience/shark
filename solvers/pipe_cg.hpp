@@ -1,17 +1,7 @@
 
-#include <cmath>
-#include <iostream>
-#include <sstream>
-#include <getopt.h>
-#include <cassert>
-#include <shark.hpp>
 #include "laplaceOperator.hpp"
 
-using namespace std;
-using namespace shark;
-using namespace shark::types2d;
-
-#ifdef SHARK_MPI_ASYNC
+//#ifdef SHARK_MPI_ASYNC
 double pipe_cg(GlobalArrayD& x, GlobalArrayD& b,double tol, int& k, int maxit, double h, ostream* out = NULL)
 {
   vector<GlobalArrayD*> r_w;
@@ -86,5 +76,5 @@ double pipe_cg(GlobalArrayD& x, GlobalArrayD& b,double tol, int& k, int maxit, d
   return res;
 }
 
-#endif
+//#endif
 

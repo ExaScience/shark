@@ -1,11 +1,5 @@
-/*
- * Copyright (c) 2010-2013, Vrije Universiteit Brussel.
- * Copyright (c) 2014-2015, imec
- * All rights reserved.
- */
 
-#include <iostream>
-#include <valarray>
+#include "laplaceOperator.hpp"
 
 using namespace std;
 using namespace shark;
@@ -14,7 +8,7 @@ enum BASIS {
 	MONOMIAL, NEWTON, CHEBYSHEV
 };
 
-#ifdef SHARK_MPI_ASYNC
+//#ifdef SHARK_MPI_ASYNC
 template <typename Scalar, typename LinearVector>
 
 void ritz(LinearVector&, int, Scalar*)
@@ -257,4 +251,4 @@ Scalar pipe_gmres(LinearVector& x, LinearVector& b,	Scalar tol, int& totit, int 
 	return rho;
 }
 
-#endif
+//#endif

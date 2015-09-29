@@ -5,9 +5,8 @@
 #include <getopt.h>
 #include <cassert>
 #include <shark.hpp>
-#include "pipe_cg.hpp"
-
-//#define USE_BOUNDS
+#include "laplaceOperator.hpp"
+#include "gmres.hpp"
 
 using namespace std;
 using namespace shark;
@@ -20,12 +19,13 @@ int main(int argc, char **argv)
 	//Default values that might be overridden by options
 
 	int n = 40; //incremented by one internally
-	double tol = 1e-6;
+	double tol = 1e-06;
 	int maxit = 1000;
 	int restart = 30;
 	int reps = 1;
 	int l = 2;
 	ostream* ostr = NULL;
+	GS basis = MODIFIED;
 	bool block = false;
 	//Process arguments
 	int ch;
@@ -75,8 +75,8 @@ int main(int argc, char **argv)
 		}
 			break;
 		case 'b':
-					block = true;
-					break;
+			block = true;
+			break;
 		case 'h':
 		case '?':
 		default:
@@ -120,20 +120,17 @@ int main(int argc, char **argv)
 
 	double mintime = 1.0e10;
 
-	for (int i = 0; i < reps; i++)
-	{
-		applyOperator(b, x_exact);
+	applyOperatorsync(b, x_exact);
 
-		sol = constant(d, 0.0);
+	sol = constant(d, 0.0);
 
-		double starttime = Wtime();
+	double starttime = Wtime();
 
-		pipe_cg(sol, b, tol, k, maxit, 0, ostr);
+	gmres(sol, b, tol, k, maxit, restart, basis, ostr);
 
-		double totaltime = Wtime() - starttime;
+	double totaltime = Wtime() - starttime;
 
-		if (totaltime < mintime)	mintime = totaltime;
-	}
+	if (totaltime < mintime)	mintime = totaltime;
 
 	GlobalArrayD error(sol, true);
 	error = error - x_exact;

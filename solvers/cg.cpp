@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2010-2013, Vrije Universiteit Brussel.
- * Copyright (c) 2014-2015, imec
  * All rights reserved.
  */
 
@@ -76,13 +75,13 @@ int main(int argc, char **argv) {
 
 	//Default values that might be overridden by options
 	int n = 600;	//incremented by one internally
-	double tol = 1e0;
+	double tol = 1e-06;
 	int maxit = 1000;
 	string method = "cg";
-
+	bool block = false;
 	//Process arguments
 	int ch;
-	while((ch = getopt(argc, argv, "n:e:m:t:hc:")) != -1) {
+	while((ch = getopt(argc, argv, "n:e:m:t:hc:b:")) != -1) {
 		switch(ch) {
 			case 'n':
 				{
@@ -113,6 +112,9 @@ int main(int argc, char **argv) {
 					istringstream iss(optarg);
 					iss >> method;
 				}
+				break;
+			case 'b':
+				block = true;
 				break;
 			case 'h':
 			case '?':
@@ -146,7 +148,9 @@ int main(int argc, char **argv) {
 #else
 		typename GlobalArrayD::bounds bd = {{ }};
 #endif
-		Domain d(world(), size);
+		const array<int,2> pcoords = {{ 0, block ? 0 : 1 }};
+		Domain d(world(), size, pcoords);
+
 		if(world().procid == 0)
 			d.outputDistribution(cerr);
 
