@@ -202,6 +202,7 @@ void sample_users(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_rat
 int main(int argc, char *argv[])
 {
 	Init(&argc, &argv);
+        {
 
 	bool random_assignment = false;
 	bool block = false;
@@ -488,7 +489,8 @@ int main(int argc, char *argv[])
 	  cout << "Total exchanged movies elements: " << total_exchanged_movies_elements / nsims << endl;
 	  cout << "Total exchanged users elements: " << total_exchanged_users_elements / nsims << endl;
 
-      //Finalize();
+        }
+      Finalize();
 
       return 0;
 }
