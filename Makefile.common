@@ -21,7 +21,7 @@ testsuite dump_to_file heat2d heat3d: libshark.a
 
 # bpmf
 vpath %.cpp $(ROOT)/bpmf
-bpmf: libshark.a
+bpmf: libshark.a mvnormal.o
 
 # shark lib
 vpath %.cpp $(ROOT)
