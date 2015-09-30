@@ -4,11 +4,13 @@
 #include <string>
 #include <algorithm>
 #include <random>
+#include <unistd.h>
+#include <sys/time.h>
+
 #include <shark.hpp>
 #include "../src/comm_impl.hpp"
 #include <unsupported/Eigen/SparseExtra>
 
-#include <sys/time.h>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -24,7 +26,7 @@ using namespace Eigen;
 using namespace shark;
 using namespace shark::types2d;
 
-const int num_feat = 300;
+const int num_feat = 30;
 
 const double alpha = 2;
 int nsims = 20;
@@ -36,7 +38,7 @@ int num_p = 0;
 int num_m = 0;
 
 typedef SparseMatrix<double> SparseMatrixD;
-SparseMatrixD M, Mt, P;
+SparseMatrixD M, Mt, P, Pt;
 
 long int total_exchanged_movies = 0;
 long int total_exchanged_movies_elements = 0;
@@ -95,19 +97,15 @@ std::pair<double,double> eval_probe_vec(int n, VectorXd & predictions, const Mat
         	if ( (users.domain().local().lower[1] <= it.row()) && (it.row() < users.domain().local().upper[1]))
         	{
         		const double pred = sample_m.col(it.col()).dot(sample_u.col(it.row() - users.domain().local().lower[1])) + mean_rating;
-        		//se += (it.value() < log10(200)) == (pred < log10(200));
         		se += sqr(it.value() - pred);
 
         		const double pred_avg = (n == 0) ? pred : (predictions[idx] + (pred - predictions[idx]) / n);
-        		//se_avg += (it.value() < log10(200)) == (pred_avg < log10(200));
         		se_avg += sqr(it.value() - pred_avg);
         		predictions[idx++] = pred_avg;
         	}
         }
     }
 
-
-    const unsigned N = P.nonZeros();
 
     const double rmse = sqrt( se / idx );
     const double rmse_avg = sqrt( se_avg / idx );
@@ -118,11 +116,8 @@ void sample_movies(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_ra
 const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda_u, GlobalArrayD& users,double* communication_time)
 {
 	int i = 0;
-    MatrixXd MM(num_feat, num_feat); MM.setZero();
+        MatrixXd MM(num_feat, num_feat); MM.setZero();
 	VectorXd rr(num_feat); rr.setZero();
-
-    struct timeval start;
-    struct timeval end;
 
 	for (SparseMatrixD::InnerIterator it(mat,mm); it; ++it, ++i)
 	{
@@ -131,7 +126,7 @@ const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda
 		{
 			vector<double> communication_buffer(num_feat);
 
-			gettimeofday(&start, NULL);
+			double s = tick();
 
 			coords_range missing_user;
 
@@ -146,9 +141,8 @@ const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda
 
 			total_exchanged_users_elements ++;
 
-			gettimeofday(&end, NULL);
 
-			*communication_time += end.tv_sec - start.tv_sec;
+			*communication_time += tick() - s;
 
 			auto col = Map<VectorXd> (communication_buffer.data(), num_feat);
 
@@ -175,7 +169,7 @@ const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda
 }
 
 void sample_users(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_rating,
-    const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda_, int idx)
+    const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda_u, int idx)
 {
     int i = 0;
     MatrixXd MM(num_feat, num_feat); MM.setZero();
@@ -212,47 +206,29 @@ int main(int argc, char *argv[])
 
     while((ch = getopt(argc, argv, "n:t:b:r:p:i:")) != -1)
     {
-    	switch(ch)
-    	{
-    		case 'i':
-				{
-					istringstream iss(optarg);
-					iss >> nsims;
-				}
-				break;
-    	    case 't':
-    			{
-    				istringstream iss(optarg);
-    				iss >> nthrds;
-    			}
-    			break;
-    		case 'n':
-    			{
-    				istringstream iss(optarg);
-    				iss >> fname;
-    			}
-    			break;
-    		case 'p':
-    			{
-    				istringstream iss(optarg);
-    				iss >> probename;
-    			}
-    			break;
-    		case 'r':
-    			{
-    				istringstream iss(optarg);
-    				iss >> random_assignment;
-    			}
-    			break;
-    		case 'b':
-    				block = true;
-    				break;
-    			case '?':
-    			default:
-    				cout << "Usage: " << argv[0] << " [-t <threads>] [-p <problem>] [-r <random_assignement>] \n" << endl;
-    				Abort(1);
-    		}
-    	}
+        switch(ch)
+        {
+            case 'i': nsims = atoi(optarg); break;
+            case 't': nthrds = atoi(optarg); break;
+            case 'n': fname = optarg; break;
+            case 'p': probename = optarg; break;
+            case 'r': random_assignment = true; break;
+            case 'b': block = true; break;
+            case '?':
+            default:
+                cout << "Usage: " << argv[0] << " [-t <threads>]  [-r (random_assignement)] [ -b (block assignment) ]" 
+                     << "[ -i <niters> ] -n <samples.mtx> -p <probe.mtx>"
+                     << endl;
+                Abort(1);
+        }
+    }
+
+    if (fname.empty() || probename.empty()) { 
+        cout << "Usage: " << argv[0] << " [-t <threads>] [-p <problem>] [-r <random_assignement>]" 
+             << " -n <samples.mtx> -p <probe.mtx>"
+             << endl;
+        Abort(1);
+    }
 
     assert(fname.c_str() && "filename missing");
 
@@ -261,6 +237,8 @@ int main(int argc, char *argv[])
     Mt = M.transpose();
 
     loadMarket(P, probename);
+
+    Pt = P.transpose();
 
     assert(M.nonZeros() > P.nonZeros());
 
@@ -283,9 +261,7 @@ int main(int argc, char *argv[])
 
 	GlobalArrayD users(d,gw, false, bd);
 
-	VectorXd predictions;
-
-	predictions = VectorXd::Zero( P.nonZeros() );
+	VectorXd predictions(VectorXd::Zero( P.nonZeros() ));
 
 	long double  average_sampling_sec =0;
 	if(world().procid == 0)
@@ -307,7 +283,7 @@ int main(int argc, char *argv[])
 
 	vector<double> recv(num_feat); //first element is the movie index to update
 
-	if (world().nprocs != 0)
+	if (world().nprocs != 0) {
 		if (random_assignment == 0) //assign a movie to the process that owns the biggest number of users that rated that movie
 		{
 			for (int mm = 0; mm < num_m; mm++)
@@ -341,6 +317,7 @@ int main(int argc, char *argv[])
 				if ( (int) (u/ratio) == world().nprocs ) assigned_movies[u] = 0;
 			}
 		}
+        }
 
 		auto start = tick();
 
@@ -354,35 +331,27 @@ int main(int argc, char *argv[])
 
         SparseMatrixD Mt = M.transpose();
 
-        sample_u = MatrixXd(num_feat, (my_users_max - my_users_min));
-        sample_u = Map<MatrixXd>(users.ptr, num_feat, (my_users_max - my_users_min));
-
-        struct timeval s;
-        struct timeval e;
-
-        double total_send_time = 0, total_recv_time = 0;
+        sample_u = Map<MatrixXd>(&users.da(users.domain().local().lower), num_feat, (my_users_max - my_users_min));
 
         for(int i=0; i<nsims; ++i)
         {
-          gettimeofday(&s, NULL);
+          double s = tick();
 
     	  // Sample from user hyperparams
           tie(mu_u, Lambda_u) = CondNormalWishart(sample_u, mu0_u, b0_u, WI_u, df_u);
 
-          gettimeofday(&e, NULL);
 
-          wishart_users_time  += e.tv_sec - s.tv_sec;
+          wishart_users_time  += tick() - s;
 
-          gettimeofday(&s, NULL);
+          s = tick();
 
           // Sample from movie hyperparams
           tie(mu_m, Lambda_m) = CondNormalWishart(sample_m, mu0_m, b0_m, WI_m, df_m);
 
-          wishart_movies_time += e.tv_sec - s.tv_sec;
+          wishart_movies_time += tick() - s;
 
-          gettimeofday(&e, NULL);
 
-          gettimeofday(&s, NULL);
+          s = tick();
 
 		  #pragma omp parallel for
           	  for(int uu = my_users_min; uu < my_users_max - 1; uu++)
@@ -390,9 +359,8 @@ int main(int argc, char *argv[])
           		  sample_users(sample_u, uu, Mt, mean_rating, sample_m, alpha, mu_u, Lambda_u, uu - my_users_min);
           	  }
 
-          gettimeofday(&e, NULL);
 
-          sampling_users_time += e.tv_sec - s.tv_sec;
+          sampling_users_time += tick() - s;
 
           MPI_Status status;
 
@@ -402,15 +370,14 @@ int main(int argc, char *argv[])
           {
        	   if (assigned_movies[mm] == world().procid) //this movie is assigned to me so I sample it and then I send the new movie data to all the users that are concerned
        	   {
-       		  gettimeofday(&s, NULL);
+       		  double s = tick();
 
        		  sample_movies(sample_m, mm, M, mean_rating, sample_u, alpha, mu_m, Lambda_m, users, &get_user_time);
 
-        	   gettimeofday(&e, NULL);
 
-        	   sampling_movies_time += e.tv_sec - s.tv_sec;
+        	   sampling_movies_time += tick() - s;
 
-       		   gettimeofday(&s, NULL);
+       		   s = tick();
 
        		   vector<int> flagsp(world().nprocs, 0);
 
@@ -429,13 +396,12 @@ int main(int argc, char *argv[])
     			  	   }
         	   }
 
-    		   gettimeofday(&e, NULL);
 
-    		   sending_time += e.tv_sec - s.tv_sec;
+    		   sending_time += tick() - s;
        	   }
            else //the movie is not assigned to me but I may have users that rated it
            {
-        	   gettimeofday(&s, NULL);
+        	   double s = tick();
 
         	   for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
         	   {
@@ -449,9 +415,7 @@ int main(int argc, char *argv[])
            		   }
         	   }
 
-    		   gettimeofday(&e, NULL);
-
-    		   receiving_time += e.tv_sec - s.tv_sec;
+    		   receiving_time += tick() - s;
            }
         }
 
