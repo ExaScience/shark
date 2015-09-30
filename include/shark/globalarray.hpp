@@ -66,11 +66,11 @@ namespace shark {
 			void deallocate();
 			void reset();
 
+		public:
 			INLINE T& da(coords<ndim> i) const;
 
 			std::ostream& log_out() const;
 
-		public:
 			/**
 			 * The domain
 			 */
