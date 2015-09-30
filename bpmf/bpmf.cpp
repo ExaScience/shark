@@ -90,19 +90,17 @@ std::pair<double,double> eval_probe_vec(int n, VectorXd & predictions, const Mat
     double se = 0.0, se_avg = 0.0;
     unsigned idx = 0;
 
-    for (int k=0; k< P.outerSize(); ++k)
+    auto range = users.domain().local();
+    for (int k=range.lower[1]; k<std::min(range.upper[1], (long)Pt.outerSize()); ++k)
     {
-        for (SparseMatrix<double>::InnerIterator it(P,k); it; ++it)
+        for (SparseMatrix<double>::InnerIterator it(Pt,k); it; ++it)
         {
-        	if ( (users.domain().local().lower[1] <= it.row()) && (it.row() < users.domain().local().upper[1]))
-        	{
-        		const double pred = sample_m.col(it.col()).dot(sample_u.col(it.row() - users.domain().local().lower[1])) + mean_rating;
-        		se += sqr(it.value() - pred);
+            const double pred = sample_m.col(it.row()).dot(sample_u.col(it.col() - users.domain().local().lower[1])) + mean_rating;
+            se += sqr(it.value() - pred);
 
-        		const double pred_avg = (n == 0) ? pred : (predictions[idx] + (pred - predictions[idx]) / n);
-        		se_avg += sqr(it.value() - pred_avg);
-        		predictions[idx++] = pred_avg;
-        	}
+            const double pred_avg = (n == 0) ? pred : (predictions[idx] + (pred - predictions[idx]) / n);
+            se_avg += sqr(it.value() - pred_avg);
+            predictions[idx++] = pred_avg;
         }
     }
 
