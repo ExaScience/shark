@@ -95,6 +95,7 @@ namespace shark {
 			 * The total/inner/outer region of elements
 			 */
 			INLINE coords_range<ndim> region() const;
+			INLINE coords_range<ndim> local() const;
 			INLINE coords_range<ndim> inner() const;
 			INLINE coords_range<ndim> outer_front(int) const;
 			INLINE coords_range<ndim> outer_back(int) const;
@@ -277,6 +278,12 @@ namespace shark {
 		inline coords_range<ndim> GlobalArray<ndim,T>::region() const {
 			return domain().total();
 		}
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::local() const {
+			return domain().local();
+		}
+
 
 		template<int ndim, typename T>
 		inline coords_range<ndim> GlobalArray<ndim,T>::inner() const {
