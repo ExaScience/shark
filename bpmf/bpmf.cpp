@@ -184,139 +184,139 @@ void sample_users(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_rat
 
 int main(int argc, char *argv[])
 {
-	Init(&argc, &argv);
-        {
-
-	bool random_assignment = false;
-	bool block = false;
-    int ch;
-    string fname;
-    string probename;
-
-    while((ch = getopt(argc, argv, "n:t:b:r:p:i:")) != -1)
+    Init(&argc, &argv);
     {
-        switch(ch)
+
+        bool random_assignment = false;
+        bool block = false;
+        int ch;
+        string fname;
+        string probename;
+
+        while((ch = getopt(argc, argv, "n:t:b:r:p:i:")) != -1)
         {
-            case 'i': nsims = atoi(optarg); break;
-            case 't': nthrds = atoi(optarg); break;
-            case 'n': fname = optarg; break;
-            case 'p': probename = optarg; break;
-            case 'r': random_assignment = true; break;
-            case 'b': block = true; break;
-            case '?':
-            default:
-                cout << "Usage: " << argv[0] << " [-t <threads>]  [-r (random_assignement)] [ -b (block assignment) ]" 
-                     << "[ -i <niters> ] -n <samples.mtx> -p <probe.mtx>"
-                     << endl;
-                Abort(1);
-        }
-    }
-
-    if (fname.empty() || probename.empty()) { 
-        cout << "Usage: " << argv[0] << " [-t <threads>] [-p <problem>] [-r <random_assignement>]" 
-             << " -n <samples.mtx> -p <probe.mtx>"
-             << endl;
-        Abort(1);
-    }
-
-    assert(fname.c_str() && "filename missing");
-
-    loadMarket(M, fname);
-
-    Mt = M.transpose();
-
-    loadMarket(P, probename);
-
-    Pt = P.transpose();
-
-    assert(M.nonZeros() > P.nonZeros());
-
-    num_m = M.cols();
-    num_p = M.rows();
-
-	init();
-
-	SetupThreads();
-
-	typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
-
-	double sampling_users_time = 0, sampling_movies_time = 0, wishart_users_time = 0,  wishart_movies_time = 0;
-    double get_user_time = 0, receiving_time = 0, sending_time = 0;
-
-	coords gw = { { 1,1 } };
-	const array<int,2> pcoords = {{ block ? 0 : 1, 0}};
-	coords size = { {num_feat + 1, num_p + 1} };
-	Domain d(world(), size, pcoords);
-
-	GlobalArrayD users(d,gw, false, bd);
-
-	VectorXd predictions(VectorXd::Zero( P.nonZeros() ));
-
-	long double  average_sampling_sec =0;
-	if(world().procid == 0)
-	{
-		cout << "num_feat: " << num_feat<<endl;
-		cout << "sched: " << sched << endl;
-		cout << "block: " << boolalpha << block << noboolalpha << endl;
-		cout << "nprocs: " << world().nprocs << endl;
-		cout << "nthrds: " << nthrds << endl;
-
-		d.outputDistribution(cout);
-	}
-
-	int my_users_min = users.local().lower[1];
-	int my_users_max = users.local().upper[1];
-
-	std::vector<int> movie_bids(world().nprocs,0); //contains the indices of the movies that this process will sample
-	std::vector<int> assigned_movies(num_m, 0); //contains the indice of the process that will sample the movie assigned_movies[0] = 1 the process number 1 will sample the movies number 0 ...
-
-	vector<double> recv(num_feat); //first element is the movie index to update
-
-	if (world().nprocs != 0) {
-		if (random_assignment == 0) //assign a movie to the process that owns the biggest number of users that rated that movie
-		{
-			for (int mm = 0; mm < num_m; mm++)
-			{
-				int max = 0;
-
-				for(int k = 0; k < world().nprocs; k++) movie_bids[k] = 0;
-
-				for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
-				{
-					for(int k = 0; k < world().nprocs; k++)
-					{
-						if ( ( d.local(k).lower[1] <= it.row() ) && ( it.row() <= d.local(k).upper[1] ) ) movie_bids[k]++;
-						if ( movie_bids[k] > movie_bids[max] ) max = k;
-					}
-
-					assigned_movies[mm] = max;
-				}
-			}
-		}
-		else //random assignment of the movies to the processes
-		{
-			int ratio = num_m / world().nprocs;
-
-			for (int u = 0; u < num_m; u++)
-			{
-				for(int k = 0; k < world().nprocs; k++)
-					if ( (int) (u/ratio) == k )
-						assigned_movies[u] = k;
-
-				if ( (int) (u/ratio) == world().nprocs ) assigned_movies[u] = 0;
-			}
-		}
+            switch(ch)
+            {
+                case 'i': nsims = atoi(optarg); break;
+                case 't': nthrds = atoi(optarg); break;
+                case 'n': fname = optarg; break;
+                case 'p': probename = optarg; break;
+                case 'r': random_assignment = true; break;
+                case 'b': block = true; break;
+                case '?':
+                default:
+                          cout << "Usage: " << argv[0] << " [-t <threads>]  [-r (random_assignement)] [ -b (block assignment) ]" 
+                              << "[ -i <niters> ] -n <samples.mtx> -p <probe.mtx>"
+                              << endl;
+                          Abort(1);
+            }
         }
 
-		auto start = tick();
+        if (fname.empty() || probename.empty()) { 
+            cout << "Usage: " << argv[0] << " [-t <threads>] [-p <problem>] [-r <random_assignement>]" 
+                << " -n <samples.mtx> -p <probe.mtx>"
+                << endl;
+            Abort(1);
+        }
 
-    	std::vector<int> movies_assigned_to_me(world().nprocs,0);
+        assert(fname.c_str() && "filename missing");
 
-    	for (int u = 0; u < num_m; u++)
-    		for(int k = 0; k < world().nprocs; k++)
-    			if (assigned_movies[u] == k) movies_assigned_to_me[k]++;
+        loadMarket(M, fname);
 
-    	cout << "I am process " << world().procid << " I will sample " << movies_assigned_to_me[world().procid] << " movies " <<endl;
+        Mt = M.transpose();
+
+        loadMarket(P, probename);
+
+        Pt = P.transpose();
+
+        assert(M.nonZeros() > P.nonZeros());
+
+        num_m = M.cols();
+        num_p = M.rows();
+
+        init();
+
+        SetupThreads();
+
+        typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
+
+        double sampling_users_time = 0, sampling_movies_time = 0, wishart_users_time = 0,  wishart_movies_time = 0;
+        double get_user_time = 0, receiving_time = 0, sending_time = 0;
+
+        coords gw = { { 1,1 } };
+        const array<int,2> pcoords = {{ block ? 0 : 1, 0}};
+        coords size = { {num_feat + 1, num_p + 1} };
+        Domain d(world(), size, pcoords);
+
+        GlobalArrayD users(d,gw, false, bd);
+
+        VectorXd predictions(VectorXd::Zero( P.nonZeros() ));
+
+        long double  average_sampling_sec =0;
+        if(world().procid == 0)
+        {
+            cout << "num_feat: " << num_feat<<endl;
+            cout << "sched: " << sched << endl;
+            cout << "block: " << boolalpha << block << noboolalpha << endl;
+            cout << "nprocs: " << world().nprocs << endl;
+            cout << "nthrds: " << nthrds << endl;
+
+            d.outputDistribution(cout);
+        }
+
+        int my_users_min = users.local().lower[1];
+        int my_users_max = users.local().upper[1];
+
+        std::vector<int> movie_bids(world().nprocs,0); //contains the indices of the movies that this process will sample
+        std::vector<int> assigned_movies(num_m, 0); //contains the indice of the process that will sample the movie assigned_movies[0] = 1 the process number 1 will sample the movies number 0 ...
+
+        vector<double> recv(num_feat); //first element is the movie index to update
+
+        if (world().nprocs != 0) {
+            if (random_assignment == 0) //assign a movie to the process that owns the biggest number of users that rated that movie
+            {
+                for (int mm = 0; mm < num_m; mm++)
+                {
+                    int max = 0;
+
+                    for(int k = 0; k < world().nprocs; k++) movie_bids[k] = 0;
+
+                    for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
+                    {
+                        for(int k = 0; k < world().nprocs; k++)
+                        {
+                            if ( ( d.local(k).lower[1] <= it.row() ) && ( it.row() <= d.local(k).upper[1] ) ) movie_bids[k]++;
+                            if ( movie_bids[k] > movie_bids[max] ) max = k;
+                        }
+
+                        assigned_movies[mm] = max;
+                    }
+                }
+            }
+            else //random assignment of the movies to the processes
+            {
+                int ratio = num_m / world().nprocs;
+
+                for (int u = 0; u < num_m; u++)
+                {
+                    for(int k = 0; k < world().nprocs; k++)
+                        if ( (int) (u/ratio) == k )
+                            assigned_movies[u] = k;
+
+                    if ( (int) (u/ratio) == world().nprocs ) assigned_movies[u] = 0;
+                }
+            }
+        }
+
+        auto start = tick();
+
+        std::vector<int> movies_assigned_to_me(world().nprocs,0);
+
+        for (int u = 0; u < num_m; u++)
+            for(int k = 0; k < world().nprocs; k++)
+                if (assigned_movies[u] == k) movies_assigned_to_me[k]++;
+
+        cout << "I am process " << world().procid << " I will sample " << movies_assigned_to_me[world().procid] << " movies " <<endl;
 
         SparseMatrixD Mt = M.transpose();
 
@@ -418,28 +418,28 @@ int main(int argc, char *argv[])
             average_sampling_sec += samples_per_sec;
         }
 
-      auto end = tick();
-      auto elapsed = end - start;
+        auto end = tick();
+        auto elapsed = end - start;
 
-      if (world().procid == 0)
-      {
-    	  cout << "Total time: " << elapsed <<endl <<flush;
-		  cout << "Average Samples/sec: " << average_sampling_sec / nsims << endl <<flush;
-		  cout << "Sampling users time: " << sampling_users_time << endl <<flush;
-		  cout << "Sampling movies time: " << sampling_movies_time << endl <<flush;
-		  cout << "Wishart users times " << wishart_users_time << endl <<flush;
-		  cout << "Wishart movies times " << wishart_movies_time << endl <<flush;
-		  cout << "Receiving time: " << receiving_time << endl <<flush;
-		  cout << "Sending time: " << sending_time << endl <<flush;
-		  cout << "Get user time: " << get_user_time << endl <<flush;
-		  cout << "Sampling users time: " << sampling_users_time << endl <<flush;
-	  }
-
-	  cout << "Total exchanged movies elements: " << total_exchanged_movies_elements / nsims << endl;
-	  cout << "Total exchanged users elements: " << total_exchanged_users_elements / nsims << endl;
-
+        if (world().procid == 0)
+        {
+            cout << "Total time: " << elapsed <<endl <<flush;
+            cout << "Average Samples/sec: " << average_sampling_sec / nsims << endl <<flush;
+            cout << "Sampling users time: " << sampling_users_time << endl <<flush;
+            cout << "Sampling movies time: " << sampling_movies_time << endl <<flush;
+            cout << "Wishart users times " << wishart_users_time << endl <<flush;
+            cout << "Wishart movies times " << wishart_movies_time << endl <<flush;
+            cout << "Receiving time: " << receiving_time << endl <<flush;
+            cout << "Sending time: " << sending_time << endl <<flush;
+            cout << "Get user time: " << get_user_time << endl <<flush;
+            cout << "Sampling users time: " << sampling_users_time << endl <<flush;
         }
-      Finalize();
 
-      return 0;
+        cout << "Total exchanged movies elements: " << total_exchanged_movies_elements / nsims << endl;
+        cout << "Total exchanged users elements: " << total_exchanged_users_elements / nsims << endl;
+
+    }
+    Finalize();
+
+    return 0;
 }
