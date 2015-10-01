@@ -8,15 +8,14 @@
 #include <sys/time.h>
 
 #include <shark.hpp>
-#include "../src/comm_impl.hpp"
 #include <unsupported/Eigen/SparseExtra>
 
 
-#ifdef _OPENMP
+#ifdef SHARK_OMP_SCHED
 #include <omp.h>
-#else
-#include <tbb/tbb.h>
 #endif
+
+#include <mpi.h>
 
 #include "bpmf.h"
 
@@ -90,12 +89,12 @@ std::pair<double,double> eval_probe_vec(int n, VectorXd & predictions, const Mat
     double se = 0.0, se_avg = 0.0;
     unsigned idx = 0;
 
-    auto range = users.domain().local();
+    auto range = users.local();
     for (int k=range.lower[1]; k<std::min(range.upper[1], (long)Pt.outerSize()); ++k)
     {
         for (SparseMatrix<double>::InnerIterator it(Pt,k); it; ++it)
         {
-            const double pred = sample_m.col(it.row()).dot(sample_u.col(it.col() - users.domain().local().lower[1])) + mean_rating;
+            const double pred = sample_m.col(it.row()).dot(sample_u.col(it.col() - users.local().lower[1])) + mean_rating;
             se += sqr(it.value() - pred);
 
             const double pred_avg = (n == 0) ? pred : (predictions[idx] + (pred - predictions[idx]) / n);
@@ -110,60 +109,52 @@ std::pair<double,double> eval_probe_vec(int n, VectorXd & predictions, const Mat
     return std::make_pair(rmse, rmse_avg);
 }
 
+//
+//-- sample movies
+// 
+//   Movies are duplicated on all processes but owned by a certain process
+//   Hence sample_movies processes only its own movies
+//
 void sample_movies(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_rating,
-const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda_u, GlobalArrayD& users,double* communication_time)
+        const MatrixXd &samples, int alpha, const VectorXd &mu_u, const MatrixXd &Lambda_u, GlobalArrayD& users,double* communication_time)
 {
-	int i = 0;
-        MatrixXd MM(num_feat, num_feat); MM.setZero();
-	VectorXd rr(num_feat); rr.setZero();
+    int i = 0;
+    MatrixXd MM(num_feat, num_feat); MM.setZero();
+    VectorXd rr(num_feat); rr.setZero();
+    
+    // for each user
+    for (SparseMatrixD::InnerIterator it(mat,mm); it; ++it, ++i)
+    {
+        // fetch if needed
+        if ( (users.local().lower[1] > it.row()) || (it.row() >= users.local().upper[1]))
+        {
 
-	for (SparseMatrixD::InnerIterator it(mat,mm); it; ++it, ++i)
-	{
-	       // cout << "M[" << it.row() << "," << it.col() << "] = " << it.value() << endl;
-		if ( (users.domain().local().lower[1] > it.row()) || (it.row() >= users.domain().local().upper[1]))
-		{
-			vector<double> communication_buffer(num_feat);
+            double s = tick();
+            coords_range missing_user({{{0, it.row()}}, {{num_feat, it.row()+1}}});
+            VectorXd col(num_feat);
 
-			double s = tick();
+            users.get(missing_user,col.data());
+            total_exchanged_users_elements ++;
+            *communication_time += tick() - s;
+            MM.noalias() += col * col.transpose();
+            rr.noalias() += col * ((it.value() - mean_rating) * alpha);
+        }
+        else
+        {
+            auto col = samples.col(it.row() - users.local().lower[1]);
+            MM.noalias() += col * col.transpose();
+            rr.noalias() += col * ((it.value() - mean_rating) * alpha);
+        }
 
-			coords_range missing_user;
+    }
 
-			missing_user.lower[1] = it.row();
-			missing_user.upper[1] = it.row() + 1;
+    Eigen::LLT<MatrixXd> chol = (Lambda_u + alpha * MM).llt();
 
-		    missing_user.lower[0] = 0;
-		    missing_user.upper[0] = num_feat;
-
-		    //#pragma omp critical
-			   	users.get(missing_user,communication_buffer.data());
-
-			total_exchanged_users_elements ++;
-
-
-			*communication_time += tick() - s;
-
-			auto col = Map<VectorXd> (communication_buffer.data(), num_feat);
-
-			MM.noalias() += col * col.transpose();
-			rr.noalias() += col * ((it.value() - mean_rating) * alpha);
-		 }
-		 else
-		 {
-			 auto col = samples.col(it.row() - users.domain().local().lower[1]);
-			 MM.noalias() += col * col.transpose();
-			 rr.noalias() += col * ((it.value() - mean_rating) * alpha);
-		 }
-
-
-	}
-
-	Eigen::LLT<MatrixXd> chol = (Lambda_u + alpha * MM).llt();
-
-	VectorXd tmp = rr + Lambda_u * mu_u;
-	chol.matrixL().solveInPlace(tmp);
-	tmp += nrandn(num_feat);
-	chol.matrixU().solveInPlace(tmp);
-	s.col(mm) = tmp;
+    VectorXd tmp = rr + Lambda_u * mu_u;
+    chol.matrixL().solveInPlace(tmp);
+    tmp += nrandn(num_feat);
+    chol.matrixU().solveInPlace(tmp);
+    s.col(mm) = tmp;
 }
 
 void sample_users(MatrixXd &s, int mm, const SparseMatrixD &mat, double mean_rating,
@@ -273,8 +264,8 @@ int main(int argc, char *argv[])
 		d.outputDistribution(cout);
 	}
 
-	int my_users_min = users.domain().local().lower[1];
-	int my_users_max = users.domain().local().upper[1];
+	int my_users_min = users.local().lower[1];
+	int my_users_max = users.local().upper[1];
 
 	std::vector<int> movie_bids(world().nprocs,0); //contains the indices of the movies that this process will sample
 	std::vector<int> assigned_movies(num_m, 0); //contains the indice of the process that will sample the movie assigned_movies[0] = 1 the process number 1 will sample the movies number 0 ...
@@ -329,107 +320,103 @@ int main(int argc, char *argv[])
 
         SparseMatrixD Mt = M.transpose();
 
-        sample_u = Map<MatrixXd>(&users.da(users.domain().local().lower), num_feat, (my_users_max - my_users_min));
+        sample_u = Map<MatrixXd>(&users.da(users.local().lower), num_feat, (my_users_max - my_users_min));
 
         for(int i=0; i<nsims; ++i)
         {
-          double s = tick();
+            double s = tick();
 
-    	  // Sample from user hyperparams
-          tie(mu_u, Lambda_u) = CondNormalWishart(sample_u, mu0_u, b0_u, WI_u, df_u);
-
-
-          wishart_users_time  += tick() - s;
-
-          s = tick();
-
-          // Sample from movie hyperparams
-          tie(mu_m, Lambda_m) = CondNormalWishart(sample_m, mu0_m, b0_m, WI_m, df_m);
-
-          wishart_movies_time += tick() - s;
+            // Sample from user hyperparams
+            tie(mu_u, Lambda_u) = CondNormalWishart(sample_u, mu0_u, b0_u, WI_u, df_u);
 
 
-          s = tick();
+            wishart_users_time  += tick() - s;
 
-		  #pragma omp parallel for
-          	  for(int uu = my_users_min; uu < my_users_max - 1; uu++)
-          	  {
-          		  sample_users(sample_u, uu, Mt, mean_rating, sample_m, alpha, mu_u, Lambda_u, uu - my_users_min);
-          	  }
+            s = tick();
 
+            // Sample from movie hyperparams
+            tie(mu_m, Lambda_m) = CondNormalWishart(sample_m, mu0_m, b0_m, WI_m, df_m);
 
-          sampling_users_time += tick() - s;
-
-          MPI_Status status;
-
-          vector<int> flagsm(num_m, 0); //receive info about a movie only once, this is used in the case this process have more than one user that have rated that movie
-
-          for(int mm = 0; mm < num_m; mm++)
-          {
-       	   if (assigned_movies[mm] == world().procid) //this movie is assigned to me so I sample it and then I send the new movie data to all the users that are concerned
-       	   {
-       		  double s = tick();
-
-       		  sample_movies(sample_m, mm, M, mean_rating, sample_u, alpha, mu_m, Lambda_m, users, &get_user_time);
+            wishart_movies_time += tick() - s;
 
 
-        	   sampling_movies_time += tick() - s;
+            s = tick();
 
-       		   s = tick();
-
-       		   vector<int> flagsp(world().nprocs, 0);
-
-    		   for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
-        	   {
-    			   for(int k = 0; k < world().nprocs; k++)
-    				   if ( ( users.domain().local(k).lower[1] <= it.row() ) && ( it.row() < users.domain().local(k).upper[1] ) && flagsp[k] == 0 && k != world().procid )
-    			  	   {
-    		               flagsp[k] = 1;
-
-    		               MPI_Send(sample_m.col(mm).data(), num_feat, MPI_DOUBLE, k , 0, MPI_COMM_WORLD);
-
-    		               total_exchanged_movies += num_feat;
-
-    		               total_exchanged_movies_elements ++;
-    			  	   }
-        	   }
+#pragma omp parallel for
+            for(int uu = my_users_min; uu < my_users_max - 1; uu++)
+            {
+                sample_users(sample_u, uu, Mt, mean_rating, sample_m, alpha, mu_u, Lambda_u, uu - my_users_min);
+            }
 
 
-    		   sending_time += tick() - s;
-       	   }
-           else //the movie is not assigned to me but I may have users that rated it
-           {
-        	   double s = tick();
+            sampling_users_time += tick() - s;
 
-        	   for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
-        	   {
-         		   if ( (users.domain().local().lower[1] <= it.row()) && (it.row() < users.domain().local().upper[1]) && flagsm[mm] == 0 )
-           		   {
-           				flagsm[mm] = 1;
+            MPI_Status status;
 
-           			    MPI_Recv(recv.data(), num_feat, MPI_DOUBLE, assigned_movies[mm] , 0, MPI_COMM_WORLD, &status);
+            vector<int> flagsm(num_m, 0); //receive info about a movie only once, this is used in the case this process have more than one user that have rated that movie
 
-           				sample_m.col(mm) = Map<VectorXd> (recv.data(), num_feat);
-           		   }
-        	   }
+            for(int mm = 0; mm < num_m; mm++)
+            {
+                if (assigned_movies[mm] == world().procid) //this movie is assigned to me so I sample it and then I send the new movie data to all the users that are concerned
+                {
+                    double s = tick();
 
-    		   receiving_time += tick() - s;
-           }
+                    sample_movies(sample_m, mm, M, mean_rating, sample_u, alpha, mu_m, Lambda_m, users, &get_user_time);
+
+
+                    sampling_movies_time += tick() - s;
+
+                    s = tick();
+
+                    vector<int> flagsp(world().nprocs, 0);
+
+                    for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
+                    {
+                        for(int k = 0; k < world().nprocs; k++)
+                            if ( ( users.domain().local(k).lower[1] <= it.row() ) && ( it.row() < users.domain().local(k).upper[1] ) && flagsp[k] == 0 && k != world().procid )
+                            {
+                                flagsp[k] = 1;
+
+                                MPI_Send(sample_m.col(mm).data(), num_feat, MPI_DOUBLE, k , 0, MPI_COMM_WORLD);
+
+                                total_exchanged_movies += num_feat;
+
+                                total_exchanged_movies_elements ++;
+                            }
+                    }
+
+
+                    sending_time += tick() - s;
+                }
+                else //the movie is not assigned to me but I may have users that rated it
+                {
+                    double s = tick();
+
+                    for (SparseMatrixD::InnerIterator it(M,mm); it; ++it)
+                    {
+                        if ( !users.local().contains(coords({0, it.row()})) || flagsm[mm] ) continue;
+                        flagsm[mm] = 1;
+                        MPI_Recv(recv.data(), num_feat, MPI_DOUBLE, assigned_movies[mm], 0, MPI_COMM_WORLD, &status);
+                        sample_m.col(mm) = Map<VectorXd> (recv.data(), num_feat);
+                    }
+
+                    receiving_time += tick() - s;
+                }
+            }
+
+            auto eval = eval_probe_vec( (i < burnin) ? 0 : (i - burnin), predictions, sample_m, sample_u, mean_rating, users);
+            double norm_u = sample_u.norm();
+            double norm_m = sample_m.norm();
+            auto end = tick();
+            auto elapsed = end - start;
+
+            double samples_per_sec = (i + 1) * (M.rows() + M.cols()) / elapsed;
+
+            if (world().procid == 0)  printf("Iteration %d:\t RMSE: %3.2f\tavg RMSE: %3.2f\tFU(%6.2f)\tFM(%6.2f)\tSamples/sec: %6.2f\n",
+                    i, eval.first, eval.second, norm_u, norm_m, samples_per_sec);
+
+            average_sampling_sec += samples_per_sec;
         }
-
-          auto eval = eval_probe_vec( (i < burnin) ? 0 : (i - burnin), predictions, sample_m, sample_u, mean_rating, users);
-           double norm_u = sample_u.norm();
-           double norm_m = sample_m.norm();
-           auto end = tick();
-           auto elapsed = end - start;
-
-           double samples_per_sec = (i + 1) * (M.rows() + M.cols()) / elapsed;
-
-           if (world().procid == 0)  printf("Iteration %d:\t RMSE: %3.2f\tavg RMSE: %3.2f\tFU(%6.2f)\tFM(%6.2f)\tSamples/sec: %6.2f\n",
-                   i, eval.first, eval.second, norm_u, norm_m, samples_per_sec);
-
-           average_sampling_sec += samples_per_sec;
-      }
 
       auto end = tick();
       auto elapsed = end - start;
