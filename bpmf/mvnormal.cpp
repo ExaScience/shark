@@ -9,6 +9,7 @@
 
 
 #include "bpmf.h"
+#include <mpi.h>
 
 using namespace std;
 using namespace Eigen;
@@ -140,56 +141,100 @@ std::pair<VectorXd, MatrixXd> NormalWishart(const VectorXd & mu, double kappa, c
   return std::make_pair(mu_o , Lam);
 }
 
-std::pair<VectorXd, MatrixXd> OldCondNormalWishart(const MatrixXd &U, const VectorXd &mu, const double kappa, const MatrixXd &T, const int nu)
-{
-  int N = U.cols();
-
-  auto Um = U.rowwise().mean();
-
-  // http://stackoverflow.com/questions/15138634/eigen-is-there-an-inbuilt-way-to-calculate-sample-covariance
-  MatrixXd C = U.colwise() - Um;
-  MatrixXd S = (C * C.adjoint()) / double(N - 1);
-  VectorXd mu_c = (kappa*mu + N*Um) / (kappa + N);
-  double kappa_c = kappa + N;
-  MatrixXd T_c = ( T + N * S.transpose() + (kappa * N)/(kappa + N) * (mu - Um) * ((mu - Um).transpose())).inverse();
-  int nu_c = nu + N;
-
-#ifdef TEST_MVNORMAL
-  cout << "mu_c:\n" << mu_c << endl;
-  cout << "kappa_c:\n" << kappa_c << endl;
-  cout << "T_c:\n" << T_c << endl;
-  cout << "nu_c:\n" << nu_c << endl;
-#endif
-
-  return NormalWishart(mu_c, kappa_c, T_c, nu_c);
-}
-
-// from bpmf.jl -- verified
 std::pair<VectorXd, MatrixXd> CondNormalWishart(const MatrixXd &U, const VectorXd &mu, const double kappa, const MatrixXd &T, const int nu)
 {
-  int N = U.cols();
+	  int N = U.cols();
 
-  VectorXd Um = U.rowwise().mean();
+	  VectorXd Um = U.rowwise().mean();
 
-  // http://stackoverflow.com/questions/15138634/eigen-is-there-an-inbuilt-way-to-calculate-sample-covariance
-  auto C = U.colwise() - Um;
-  MatrixXd S = (C * C.adjoint()) / double(N - 1);
-  VectorXd mu_c = (kappa*mu + N*Um) / (kappa + N);
-  double kappa_c = kappa + N;
-  auto mu_m = (mu - Um);
-  double kappa_m = (kappa * N)/(kappa + N);
-  auto X = ( T + N * S + kappa_m * (mu_m * mu_m.transpose()));
-  MatrixXd T_c = X.inverse();
-  int nu_c = nu + N;
+	  // http://stackoverflow.com/questions/15138634/eigen-is-there-an-inbuilt-way-to-calculate-sample-covariance
+	  auto C = U.colwise() - Um;
+	  MatrixXd S = (C * C.adjoint()) / double(N - 1);
+	  VectorXd mu_c = (kappa*mu + N*Um) / (kappa + N);
+	  double kappa_c = kappa + N;
+	  auto mu_m = (mu - Um);
+	  double kappa_m = (kappa * N)/(kappa + N);
+	  auto X = ( T + N * S + kappa_m * (mu_m * mu_m.transpose()));
+	  MatrixXd T_c = X.inverse();
+	  int nu_c = nu + N;
 
-#ifdef TEST_MVNORMAL
-  cout << "mu_c:\n" << mu_c << endl;
-  cout << "kappa_c:\n" << kappa_c << endl;
-  cout << "T_c:\n" << T_c << endl;
-  cout << "nu_c:\n" << nu_c << endl;
-#endif
+	#ifdef TEST_MVNORMAL
+	  cout << "mu_c:\n" << mu_c << endl;
+	  cout << "kappa_c:\n" << kappa_c << endl;
+	  cout << "T_c:\n" << T_c << endl;
+	  cout << "nu_c:\n" << nu_c << endl;
+	#endif
 
-  return NormalWishart(mu_c, kappa_c, T_c, nu_c);
+	  return NormalWishart(mu_c, kappa_c, T_c, nu_c);
+}
+
+std::pair<VectorXd, MatrixXd> CondNormalWishartUsers(GlobalArrayD& users, const VectorXd &mu, const double kappa, const MatrixXd &T, const int nu, int num_feat)
+{
+	int my_min = users.domain().local().lower[1];
+	int my_max = users.domain().local().upper[1];
+
+	int N = users.domain().total().upper[1];
+
+	const coords size = users.domain().local().upper - users.domain().local().lower;
+
+	MatrixXd S(num_feat,num_feat);
+	S.setZero();
+
+	VectorXd means(num_feat);
+	means.setZero();
+
+	VectorXd local_means(num_feat);
+	local_means.setZero();
+
+	MatrixXd local_dot(num_feat,num_feat);
+	local_dot.setZero();
+
+	#pragma omp parallel for
+		for (int i = 0; i < num_feat; i++)
+			for(int k = 0 ; k < my_max - my_min; k++)
+				means[i] += users.ptr[k * size[0] + i];
+
+	for (int i = 0; i < num_feat; i++)
+		MPI_Allreduce(&local_means[i], &means[i], 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+	means /= (double) N;
+
+	#pragma omp parallel for
+		for (int i = 0; i < num_feat; i++)
+		{
+			for (int j = 0; j < num_feat; j++)
+				for(int k = 0 ; k < my_max - my_min; k++)
+					S(i,j) += (users.ptr[k * size[0] + i] - means[i]) * (users.ptr[k * size[0] + j] - means[i]);
+		}
+
+	for (int i = 0; i < num_feat; i++)
+		for (int j = 0; j < num_feat; j++)
+			MPI_Allreduce(&local_dot(i,j), &S(i,j), 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+	S /= double (N -1);
+
+	VectorXd mu_c = (kappa*mu + N * means) / (kappa + N);
+
+	double kappa_c = kappa + N;
+
+	auto mu_m = (mu - means);
+
+	double kappa_m = (kappa * N)/(kappa + N);
+
+	auto X = ( T + N * S + kappa_m * (mu_m * mu_m.transpose()));
+
+	MatrixXd T_c = X.inverse();
+
+	int nu_c = nu + N;
+
+	#ifdef TEST_MVNORMAL
+	  cout << "mu_c:\n" << mu_c << endl;
+	  cout << "kappa_c:\n" << kappa_c << endl;
+	  cout << "T_c:\n" << T_c << endl;
+	  cout << "nu_c:\n" << nu_c << endl;
+	#endif
+
+	  return NormalWishart(mu_c, kappa_c, T_c, nu_c);
 }
 
 #if defined(TEST_MVNORMAL) || defined (BENCH_MVNORMAL)
