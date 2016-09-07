@@ -5,7 +5,7 @@ OUTPUT_OPTION=-MMD -MP -o $@
 
 .PHONY: all clean distclean
 
-all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite bpmf
+all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite # bpmf
 
 CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
