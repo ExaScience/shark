@@ -46,7 +46,7 @@ namespace shark {
 			Access();
 
 			// No copying semantics
-			Access(const Access<ndim,T>&) = delete;
+			Access(Access<ndim,T>&) = delete;
 			Access& operator=(const Access<ndim,T>&) = delete;
 
 			// Move semantics

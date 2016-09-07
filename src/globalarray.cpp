@@ -20,7 +20,8 @@ template<int ndim, typename T>
 const int GlobalArray<ndim,T>::number_of_dimensions;
 
 template<int ndim, typename T>
-ostream& GlobalArray<ndim,T>::log_out() const {
+ostream& GlobalArray<ndim,T>::log_out() const
+{
 	return *shark::log_out << domain().group.procid << ": " << this << ": ";
 }
 
@@ -28,8 +29,10 @@ template<int ndim, typename T>
 GlobalArray<ndim,T>::GlobalArray(): dom(0) { }
 
 template<int ndim, typename T>
-GlobalArray<ndim,T>::~GlobalArray() {
-	if(*this) {
+GlobalArray<ndim,T>::~GlobalArray()
+{
+	if(*this)
+	{
 		assert(lc == 0);
 		deallocate();
 	}
@@ -53,7 +56,8 @@ GlobalArray<ndim,T>::GlobalArray(GlobalArray<ndim,T>&& other):
 }
 
 template<int ndim, typename T>
-GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other) {
+GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(GlobalArray<ndim,T>&& other)
+{
 	assert(!other || other.lc == 0);
 	if(*this)
 		deallocate();
@@ -83,7 +87,8 @@ void GlobalArray<ndim,T>::reset() {
 }
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::allocate() {
+void GlobalArray<ndim,T>::allocate()
+{
 	const coords_range<ndim> local = domain().local();
 	const coords<ndim> gw = ghost_width();
 	const bool gc = ghost_corners(); 
@@ -92,17 +97,22 @@ void GlobalArray<ndim,T>::allocate() {
 
 	for(int di = 0; di < ndim; di++)
 		for(int d = 0; d < ndim; d++)
-			if(d == di) {
+			if(d == di)
+			{
 				ghost_back [di].lower[d] = local.lower[d] - gw[d];
 				ghost_back [di].upper[d] = local.lower[d];
 				ghost_front[di].lower[d] = local.upper[d];
 				ghost_front[di].upper[d] = local.upper[d] + gw[d];
-			} else if(gc && d < di) {
+			}
+			else if(gc && d < di)
+			{
 				ghost_back [di].lower[d] = local.lower[d] - gw[d];
 				ghost_back [di].upper[d] = local.upper[d] + gw[d];
 				ghost_front[di].lower[d] = local.lower[d] - gw[d];
 				ghost_front[di].upper[d] = local.upper[d] + gw[d];
-			} else {
+			}
+			else
+			{
 				ghost_back [di].lower[d] = local.lower[d];
 				ghost_back [di].upper[d] = local.upper[d];
 				ghost_front[di].lower[d] = local.lower[d];
@@ -121,16 +131,22 @@ void GlobalArray<ndim,T>::allocate() {
 			MPI_Type_contiguous(mpi_type<T>::count(), base, &base);
 		MPI_Aint lb, extent;
 		MPI_Type_get_extent(base, &lb, &extent);
-		for(int di = 0; di < ndim; di++) {
+
+		for(int di = 0; di < ndim; di++)
+		{
 			MPI_Type_dup(base, &impl->ghost[di]);
-			for(int d = ndim-1; d >= 0; d--) {
+
+			for(int d = ndim-1; d >= 0; d--)
+			{
 				MPI_Datatype tmp = impl->ghost[di];
 				coord n = ghost_back[di].upper[d] - ghost_back[di].lower[d];
 				MPI_Type_create_hvector(n, 1, ld[d+1]*extent, tmp, &impl->ghost[di]);
 				MPI_Type_free(&tmp);
 			}
+
 			MPI_Type_commit(&impl->ghost[di]);
 		}
+
 		if(mpi_type<T>::count() != 1)
 			MPI_Type_free(&base);
 	}
@@ -152,9 +168,13 @@ void GlobalArray<ndim,T>::allocate() {
 		typename Domain<ndim>::pcoords np = domain().np;
 		typename Domain<ndim>::pcoords ip = domain().indexp();
 		Access<ndim,T> acc(*this);
-		for(int di = 0; di < ndim; di++) {
+
+		for(int di = 0; di < ndim; di++)
+		{
 			typename Boundary<ndim,T>::fixed_type* b = dynamic_cast<typename Boundary<ndim,T>::fixed_type*>(bd[di].t.get());
-			if(b != nullptr) {
+
+			if(b != nullptr)
+			{
 				if(ip[di] == 0)
 					b->set(acc, ghost_back[di]);
 				if(ip[di] == np[di]-1)
@@ -183,7 +203,8 @@ GlobalArray<ndim,T>::GlobalArray(const GlobalArray<ndim,T>& other, bool copy):
 // Destructor
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::deallocate() {
+void GlobalArray<ndim,T>::deallocate()
+{
 #if defined(SHARK_MPI_COMM)
 	for(int di = 0; di < ndim; di++)
 		MPI_Type_free(&impl->ghost[di]);
@@ -198,7 +219,8 @@ void GlobalArray<ndim,T>::deallocate() {
 }
 
 template<int ndim,typename T>
-void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain) {
+void GlobalArray<ndim,T>::reshape(const Domain<ndim>& domain)
+{
 	assert(this->domain().equiv(domain));
 
 	GlobalArray<ndim,T> tmp(domain, gw, gc, bd);
@@ -240,7 +262,8 @@ namespace {
 
 
 	template<int ndim, typename T>
-	class ScatterHandle: public Handle {
+	class ScatterHandle: public Handle
+	{
 		friend class GlobalArray<ndim,T>;
 		GlobalArray<ndim,T>& ga;
 		vector<MPI_Request> reqs_local;
@@ -258,8 +281,10 @@ namespace {
 }
 
 template<int ndim>
-UpdateHandle<ndim>::UpdateHandle() {
-	for(int di = 0; di < ndim; di++) {
+UpdateHandle<ndim>::UpdateHandle()
+{
+	for(int di = 0; di < ndim; di++)
+	{
 		req[4*di] = MPI_REQUEST_NULL;
 		req[4*di+1] = MPI_REQUEST_NULL;
 		req[4*di+2] = MPI_REQUEST_NULL;
@@ -268,16 +293,19 @@ UpdateHandle<ndim>::UpdateHandle() {
 }
 
 template<int ndim>
-UpdateHandle<ndim>::~UpdateHandle() {
+UpdateHandle<ndim>::~UpdateHandle()
+{
 }
 
 template<int ndim>
-void UpdateHandle<ndim>::wait() {
+void UpdateHandle<ndim>::wait()
+{
 	MPI_Waitall(4*ndim, req, MPI_STATUSES_IGNORE);
 }
 
 template<int ndim>
-bool UpdateHandle<ndim>::test() {
+bool UpdateHandle<ndim>::test()
+{
 	int flag;
 	MPI_Testall(4*ndim, req, &flag, MPI_STATUSES_IGNORE);
 	return flag;
@@ -379,10 +407,13 @@ void GlobalArray<ndim,T>::update(long k) const {
 }
 
 template<int ndim,typename T>
-Future<void> GlobalArray<ndim,T>::iupdate(long k) const {
+Future<void> GlobalArray<ndim,T>::iupdate(long k) const
+{
 	const coords<ndim> gw = ghost_width();
+
 	typename Domain<ndim>::pcoords np = domain().np;
 	typename Domain<ndim>::pcoords ip = domain().indexp();
+
 	Access<ndim,T> acc(*this);
 	
 #if defined(SHARK_MPI_COMM)

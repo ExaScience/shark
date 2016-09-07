@@ -55,6 +55,7 @@ public:
 		coords above; above[0] = ii[0];   above[1] = ii[1]+1; above[2] = ii[2];
 		coords back;   back[0] = ii[0];    back[1] = ii[1];    back[2] = ii[2]-1;
 		coords front; front[0] = ii[0];   front[1] = ii[1];   front[2] = ii[2]+1;
+
 #ifdef USE_BOUNDS
 		return 6.0 * x(ii) - x(left) - x(below) - x(above) - x(right) - x(back) - x(front);
 #else
@@ -70,10 +71,12 @@ public:
 	}
 };
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	Init(&argc, &argv);
 
-	if(argc != 5) {
+	if(argc != 5)
+	{
 		cerr << "Usage: " << argv[0] << " <nx> <ny> <nz> <tol>" << endl;
 		return 1;
 	}
@@ -82,7 +85,8 @@ int main(int argc, char **argv) {
 	int nz = stoi(argv[3]);
 	double tol = stod(argv[4]);
 
-	if(world().procid == 0) {
+	if(world().procid == 0)
+	{
 		cerr << "sched: " << sched << endl;
 		cerr << "nx: " << nx << endl;
 		cerr << "ny: " << ny << endl;
@@ -122,7 +126,8 @@ int main(int argc, char **argv) {
 		cg(Amult, x, b, tol, k, 10000);
 		double endtime = Wtime();
 
-		if(world().procid == 0) {
+		if(world().procid == 0)
+		{
 			cerr << "runtime: " << endtime - starttime << endl;
 			cerr << "it: " << k << endl;
 		}

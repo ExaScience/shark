@@ -23,12 +23,16 @@ namespace shark {
 	namespace ndim {
 
 		// Using SFINAE to determine whether S can be considered a source
-		template<typename S>
-		class is_source {
+
+	    template<typename S>
+		class is_source
+		{
 			template<typename T>
 			static std::true_type test(decltype(T::number_of_dimensions)*);
+
 			template<typename>
 			static std::false_type test(...);
+
 		public:
 			// http://gcc.gnu.org/bugzilla/show_bug.cgi?id=6709
 			typedef decltype(test<S>(0)) result_type;
@@ -36,7 +40,8 @@ namespace shark {
 		};
 
 		template<typename S>
-		struct source {
+		struct source
+		{
 			typedef typename std::remove_reference<
 				//typename std::result_of<typename S::accessor(coords<S::number_of_dimensions>)>::type
 				decltype(std::declval<typename S::accessor>()(std::declval<coords<S::number_of_dimensions>>()))
@@ -917,25 +922,28 @@ namespace shark {
 		/**
 		 * Sum reduction
 		 */
+
 		template<typename R, typename S>
-		typename std::enable_if<is_source<S>::value, R>::type sum(const R& zero, const S& src) {
+		typename std::enable_if<is_source<S>::value, R>::type sum(const R& zero, const S& src)
+		{
 			const typename S::accessor s(src);
-			return src.domain().sum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i) {
-				acc += s(i);
-			});
+			return src.domain().sum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i)
+			{acc += s(i);});
 		}
 
 		template<typename R, typename S>
-		typename std::enable_if<is_source<S>::value, Future<R>>::type isum(const R& zero, const S& src) {
+		typename std::enable_if<is_source<S>::value, Future<R>>::type isum(const R& zero, const S& src)
+		{
 			const typename S::accessor s(src);
-			return src.domain().isum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i) {
-				acc += s(i);
-			});
+
+			return src.domain().isum(src.region(), zero, [&s](R& acc, coords<S::number_of_dimensions> i)
+			{acc += s(i); });
 		}
 
 		/**
 		 * Matrix norms
 		 */
+
 		template<typename S>
 		typename std::enable_if<is_source<S>::value, typename source<S>::element_type>::type norm1(const S& src) {
 			return sum(typename source<S>::element_type(), abs(src));
@@ -949,89 +957,131 @@ namespace shark {
 		/**
 		 * Dot product
 		 */
+
+		//IMEN source<S1>::element_type c'est le type du resultat de dot si elle est executee
+
 		template<typename S1, typename S2>
-		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, typename source<S1>::element_type>::type dot(const S1& src1, const S2& src2) {
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, typename source<S1>::element_type>::type
+		dot(const S1& src1, const S2& src2)
+		{
 			return sum(typename source<S1>::element_type(), src1 * src2);
 		}
 
 		template<typename S1, typename S2>
-		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, Future<typename source<S1>::element_type>>::type idot(const S1& src1, const S2& src2) {
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, Future<typename source<S1>::element_type>>::type
+		idot(const S1& src1, const S2& src2)
+		{
 			return isum(typename source<S1>::element_type(), src1 * src2);
 		}
 
-
 //NEW
+		/*double kahanSum(double input, double tosum, double times)
+		{
+			double c=0.0, sum=input,y,t;
+			int count;
+
+			for(count=0; count<times; count++)
+			{
+				y=tosum-c;
+				t=sum+y;
+				c=(t-sum)-y;
+				sum=t;
+			}
+
+			return(sum);
+		}*/
 
 		template<typename S1, typename S2>
-				typename std::enable_if<is_source<S1>::value && is_source<S2>::value, Future<std::valarray<typename source<S1>::element_type>>>::type
-				cidot(const S1& src, const std::vector<S2*> &others)
+		typename std::enable_if<is_source<S1>::value && is_source<S2>::value, Future<std::valarray<typename source<S1>::element_type>>>::type
+		cidot(const S1& src, const std::vector<S2*> &others)
+		{
+			size_t n = others.size();
+
+			std::valarray<typename source<S1>::element_type> res(n);
+
+			const typename S1::accessor s(src);
+
+			for(size_t k = 0; k < n; k++)
+			{
+				if(&src == others[k])
 				{
-					size_t n = others.size();
-
-					std::valarray<typename source<S1>::element_type> res(n);
-
-					const typename S1::accessor s(src);
-
-					for(size_t k = 0; k < n; k++)
+					res[k] = src.domain().internal_sum(src.domain().total(), typename source<S1>::element_type(),
+					[&s](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
 					{
-						if(&src == others[k])
-						{
-							res[k] = src.domain().internal_sum(src.domain().total(), typename source<S1>::element_type(),
-							[&s](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
-							{
-								acc += s(i) * s(i);
-							});
-						}
-						else
-						{
-				   		    typename S2::accessor p(*others[k]);
-
-							res[k] = src.domain().internal_sum(others[k]->region(), typename source<S1>::element_type(),
-							[&s,&p](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
-							{
-								acc += s(i) * p(i);
-							});
-						}
-					}
-
-					return src.domain().group.external_isum(std::move(res)); //std::move of a valarray is a valarray
+						//acc += kahanSum(0.0 , s(i)* s(i),1);
+						acc += s(i) * s(i);
+					});
 				}
-
-		template<typename S1, typename S2>
-				typename std::enable_if<is_source<S1>::value && is_source<S2>::value, std::valarray<typename source<S1>::element_type>>::type
-				cdot(const S1& src, const std::vector<S2*>& others)
+				else
 				{
-					size_t n = others.size();
+		   		    typename S2::accessor p(*others[k]);
 
-					std::valarray<typename source<S1>::element_type> res(n);
-
-					const typename S1::accessor s(src);
-
-					for(size_t k = 0; k < n; k++)
+					res[k] = src.domain().internal_sum(others[k]->region(), typename source<S1>::element_type(),
+					[&s,&p](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
 					{
-						if(&src == others[k])
-						{
-							res[k] = src.domain().internal_sum(src.domain().total(), typename source<S1>::element_type(),
-							[&s](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
-							{
-								acc += s(i) * s(i);
-							});
-						}
-						else
-						{
-							typename S2::accessor p(*others[k]);
-
-							res[k] = src.domain().internal_sum(others[k]->region(), typename source<S1>::element_type(),
-							[&s,&p](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
-							{
-								acc += s(i) * p(i);
-							});
-					}
-
-					return src.domain().group.external_sum(std::move(res)); //std::move of a valarray is a valarray
+						//acc += kahanSum(0.0 , s(i)* p(i),1);
+							acc += s(i) * p(i);
+					});
 				}
+			}
+
+			return src.domain().group.external_isum(std::move(res)); //std::move of a valarray is a valarray
+
+			/*
+			std::vector<typename S1::accessor> bs;
+
+			for(size_t k = 0; k < n; k++)
+			{
+				const typename S2::accessor b(*others[k]);
+				bs.push_back(std::move(b));
+			}
+
+			for(size_t k = 0; k < n; k++)
+			{
+			    res[k] = src.domain().internal_sum(src.region(), typename source<S1>::element_type(),
+					[&s,&bs,k](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
+					{
+						acc += s(i) * bs.at(k)(i);
+					});
+			}
+
+			return src.domain().group.external_isum(std::move(res)); //std::move of a valarray is a valarray
+			*/
 		}
 
+		template<typename S1, typename S2>
+			typename std::enable_if<is_source<S1>::value && is_source<S2>::value, std::valarray<typename source<S1>::element_type>>::type
+			cdot(const S1& src, const std::vector<S2*>& others)
+			{
+				size_t n = others.size();
+
+				std::valarray<typename source<S1>::element_type> res(n);
+
+				const typename S1::accessor s(src);
+
+				for(size_t k = 0; k < n; k++)
+				{
+					if(&src == others[k])
+					{
+						res[k] = src.domain().internal_sum(src.domain().total(), typename source<S1>::element_type(),
+						[&s](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
+						{
+							acc += s(i) * s(i);
+						});
+					}
+					else
+					{
+						typename S2::accessor p(*others[k]);
+
+						res[k] = src.domain().internal_sum(others[k]->region(), typename source<S1>::element_type(),
+						[&s,&p](typename source<S1>::element_type& acc, coords<S1::number_of_dimensions> i)
+						{
+							acc += s(i) * p(i);
+						});
+				}
+
+				return src.domain().group.external_sum(std::move(res)); //std::move of a valarray is a valarray
+			}
 	}
 
 }

@@ -49,7 +49,8 @@ void Group::sync() const {
 }
 
 template<typename T>
-T Group::external_sum(T&& sum) const {
+T Group::external_sum(T&& sum) const
+{
 #if defined(SHARK_MPI_COMM)
 	MPI_Allreduce(MPI_IN_PLACE, mpi_type<T>::address(sum), mpi_type<T>::count(sum), mpi_type<T>::t, MPI_SUM, impl->comm);
 	return sum;
@@ -91,7 +92,8 @@ void SumHandle::wait() {
 #endif
 
 template<typename T>
-Future<T> Group::external_isum(T&& sum) const {
+Future<T> Group::external_isum(T&& sum) const
+{
 #if defined(SHARK_MPI_COMM)
 #if defined(SHARK_MPI_ASYNC)
 	auto val = make_unique<T>(std::move(sum));

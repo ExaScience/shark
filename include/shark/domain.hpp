@@ -87,6 +87,7 @@ namespace shark {
 
 		private:
 			const std::array<int,ndim+1> b;
+
 #if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
 			const std::vector<coords_range<ndim>> tdist;
 			std::vector<coords_range<ndim>> tdistribution() const;
@@ -243,12 +244,17 @@ namespace shark {
 		// Inline function implementations
 		
 		template<int ndim>
-		inline typename Domain<ndim>::pcoords Domain<ndim>::indexp(int id) const {
+		inline typename Domain<ndim>::pcoords Domain<ndim>::indexp(int id) const
+		{
 			pcoords ip;
-			seq<0,ndim>::for_each([&id,&ip,this](int d){
+
+			seq<0,ndim>::for_each([&id,&ip,this](int d)
+			{
 				ip[d] = id / b[d+1];
 				id = id % b[d+1];
-			});
+			}
+			);
+
 			return ip;
 		}
 
@@ -260,9 +266,12 @@ namespace shark {
 		template<int ndim>
 		inline int Domain<ndim>::pindex(pcoords ip) const {
 			int id = 0;
-			seq<0,ndim>::for_each([&id,&ip,this](int d) {
+
+			seq<0,ndim>::for_each([&id,&ip,this](int d)
+			{
 				id += ip[d] * b[d+1];
 			});
+
 			return id;
 		}
 		
@@ -365,7 +374,8 @@ namespace shark {
 		}
 		
 		template<int ndim> template<typename T, typename Func>
-		T Domain<ndim>::internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const {
+		T Domain<ndim>::internal_sum(coords_range<ndim> r, const T& zero, const Func& f) const
+		{
 #if defined(SHARK_SER_SCHED)
 			T sum(zero);
 			local().overlap(r).for_each([&f,&sum](coords<ndim> i) {
@@ -459,7 +469,8 @@ namespace shark {
 		}
 
 		template<int ndim> template<typename T, typename Func>
-		T Domain<ndim>::sum(coords_range<ndim> r, const T& zero, const Func& f) const {
+		T Domain<ndim>::sum(coords_range<ndim> r, const T& zero, const Func& f) const
+		{
 			return group.external_sum(internal_sum(r, zero, f));
 		}
 

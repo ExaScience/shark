@@ -33,7 +33,8 @@ namespace shark {
 		 * A global array that is partitioned across a process group according to a domain
 		 */
 		template<int ndim,typename T>
-		class GlobalArray {
+		class GlobalArray
+		{
 			friend class Access<ndim,T>;
 		
 		public:
@@ -122,6 +123,7 @@ namespace shark {
 
 			// Move semantics
 			GlobalArray(const GlobalArray<ndim,T>& other) = delete;
+
 			GlobalArray(GlobalArray<ndim,T>&& other);
 			GlobalArray<ndim,T>& operator=(GlobalArray<ndim,T>&& other);
 

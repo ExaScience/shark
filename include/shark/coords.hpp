@@ -20,7 +20,9 @@ namespace shark {
 		 * An n-dimensional coordinate pair.
 		 */
 		template<int ndim>
+
 		struct coords {
+
 			coord val[ndim];
 
 			// No explicit construct/copy/destroy for aggregate type.
@@ -63,17 +65,20 @@ namespace shark {
 		// Inline function implementations
 
 		template<int ndim>
-		inline coord& coords<ndim>::operator[](int d) {
+		inline coord& coords<ndim>::operator[](int d)
+		{
 			return val[d];
 		}
 
 		template<int ndim>
-		inline const coord& coords<ndim>::operator[](int d) const {
+		inline const coord& coords<ndim>::operator[](int d) const
+		{
 			return val[d];
 		}
 
 		template<int ndim>
-		inline bool coords<ndim>::operator==(const coords<ndim>& other) const {
+		inline bool coords<ndim>::operator==(const coords<ndim>& other) const
+		{
 			return seq<0,ndim>::all_of([this,&other](int d) { return val[d] == other.val[d]; });
 		}
 
