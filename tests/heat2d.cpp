@@ -23,12 +23,20 @@ void init_pyramid(GlobalArrayD& ga)
 	ga = 1.0 - max_element(abs(coord_vec(ga.domain(), outer, one) - mid)) / 0.5;
 }
 
+
 void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 {
+    SHARK_COUNTER("heat");
 	// Sync and make sure ga is complete
-	ga.update();
+#ifdef ASYNC
+	auto h = ga.iupdate();
+#elif defined NOCOMM
+        ;
+#else
+       ga.update();
+#endif
 
-#if 1
+#if 0
 	gb = unary(ga, [nu](const AccessD& u, coords ii) -> double {
 		coords left;   left[0] = ii[0]-1;  left[1] = ii[1];
 		coords right; right[0] = ii[0]+1; right[1] = ii[1];
@@ -45,17 +53,20 @@ void heat(const GlobalArrayD& ga, GlobalArrayD& gb, double nu)
 
 	gb = ga + nu * (shift(ga,west) + shift(ga,east) + shift(ga,north) + shift(ga,south) - 4 * ga);
 #endif
+
+#if (ASYNC == 1)
+        h.wait();
+#endif
 }
 
 void heat_loop(int n, GlobalArrayD& ga, GlobalArrayD& gb, int nr, double dt) {
+        SHARK_COUNTER("main");
 	double nu = dt * n * n;
 
-	for(int k = 0; k < nr; k++)
+	for(int k = 0; k < nr; k+=2)
 	{
-		if (k % 2 == 0)
-			heat(ga, gb, nu);
-		else
-			heat(gb, ga, nu);
+                heat(ga, gb, nu);
+                heat(gb, ga, nu);
 	}
 }
 
@@ -99,19 +110,19 @@ int main(int argc, char **argv)
 			case 'h':
 			case '?':
 			default:
-				cerr << "Usage: " << argv[0] << " [-n <grid-cells>] [-i <iterations>] [-t <threads>]\n" << endl;
+				cout << "Usage: " << argv[0] << " [-n <grid-cells>] [-i <iterations>] [-t <threads>]\n" << endl;
 				Abort(1);
 		}
 	}
 
 	if(world().procid == 0)
 	{
-		cerr << "sched: " << sched << endl;
-		cerr << "n: " << n << endl;
-		cerr << "nr: " << nr << endl;
-		cerr << "block: " << boolalpha << block << noboolalpha << endl;
-		cerr << "nprocs: " << world().nprocs << endl;
-		cerr << "nthrds: " << nthrds << endl;
+		cout << "sched: " << sched << endl;
+		cout << "n: " << n << endl;
+		cout << "nr: " << nr << endl;
+		cout << "block: " << boolalpha << block << noboolalpha << endl;
+		cout << "nprocs: " << world().nprocs << endl;
+		cout << "nthrds: " << nthrds << endl;
 	}
 
 	//Declare auxiliary variables and run	
@@ -119,14 +130,16 @@ int main(int argc, char **argv)
 	SetupThreads();
 
 	{
+
 		const coords size  = {{n-1,n-1}};
 		const coords ghost = {{1,1}};
+		const coords cb = {{0,0}};
 
 		const array<int,2> pcoords = {{ 0, block ? 0 : 1 }};
-		Domain d(world(), size, pcoords);
+		Domain d(world(), size, cb, pcoords);
 
 		if(world().procid == 0)
-			d.outputDistribution(cerr);
+			d.outputDistribution(cout);
 
 		typename GlobalArrayD::bounds bd = {{ BoundaryD::constant(0.0), BoundaryD::constant(0.0) }};
 
@@ -141,8 +154,8 @@ int main(int argc, char **argv)
 
 		if(world().procid == 0)
 		{
-			cerr << "e0: " << e0 << endl;
-			cerr << "f0: " << f0 << endl;
+			cout << "e0: " << e0 << endl;
+			cout << "f0: " << f0 << endl;
 		}
 
 		double starttime = Wtime();
@@ -153,10 +166,12 @@ int main(int argc, char **argv)
 
 		if(world().procid == 0)
 		{
-			cerr << "e1: " << e1 << endl;
-			cerr << "f1: " << f1 << endl;
-			cerr << "t: " << dt * nr << endl;
-			cerr << "runtime: " << endtime - starttime << endl;
+			cout << "e1: " << e1 << endl;
+			cout << "f1: " << f1 << endl;
+			cout << "t: " << dt * nr << endl;
+			cout << "runtime: " << endtime - starttime << endl;
+			cout << "runtime / point: " << (endtime - starttime) * 1e6 / n / n  << endl;
+			cout << "runtime / nodes: " << (endtime - starttime) * world().nprocs << endl;
 		}
 	}
 

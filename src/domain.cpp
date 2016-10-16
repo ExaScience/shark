@@ -29,7 +29,6 @@ namespace {
 	}
 
 	// This function is a reimplementation of MPI_Dims_create
-
 	void assign_dims(int n, int ndim, int dims[]) {
 		vector<bool> skip(ndim);
 		for(int d = 0; d < ndim; d++)
@@ -53,8 +52,9 @@ namespace {
 }
 
 template<int ndim>
-void Domain<ndim>::adjustProcs(int nprocs, pcoords& np) {
+typename Domain<ndim>::pcoords Domain<ndim>::adjustProcs(int nprocs, pcoords& np) {
 	assign_dims(nprocs, ndim, np.data());
+        return np;
 }
 
 template<int ndim>
@@ -165,27 +165,27 @@ vector<coords_range<ndim>> Domain<ndim>::tdistribution() const {
 #endif
 
 template<int ndim>
-Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np)
-	: group(group)
-	, n(n)
-	// Using comma operator to invoke adjustProcs
-	, np((adjustProcs(group.nprocs,np), np))
-	, nd(distribution(n, np))
-	, b(base(np))
+Domain<ndim>::Domain(const Group& group, coords<ndim> n, coords<ndim> bs, pcoords np, int m)
+        : group(group)
+        , n(n)
+        , bs(bs)
+        // Using comma operator to invoke adjustProcs
+        , np((adjustProcs(m ? m : group.nprocs,np), np))
+        , nd(distribution(n, np))
+        , b(base(np))
 #if defined(SHARK_PTHREAD_SCHED) || defined(SHARK_OMP_SCHED) && defined(SHARK_OMP_TDIST)
-	, tdist(tdistribution())
+        , tdist(tdistribution())
 #elif defined(SHARK_TBB_SCHED)
-	, ap(new tbb::affinity_partitioner())
-	, nwork(nthrds)
+        , ap(new tbb::affinity_partitioner())
+        , nwork(nthrds)
 #endif
-{
-	assert(b[0] == group.nprocs);
-}
+{ }
 
 template<int ndim>
-Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np, dists nd)
+Domain<ndim>::Domain(const Group& group, coords<ndim> n, coords<ndim> bs, pcoords np, dists nd)
 	: group(group)
 	, n(n)
+        , bs(bs)
 	, np(np)
 	, nd(nd)
 	, b(base(np))
@@ -199,6 +199,10 @@ Domain<ndim>::Domain(const Group& group, coords<ndim> n, pcoords np, dists nd)
 	assert(b[0] == group.nprocs);
 	assert(consistentDistribution());
 }
+
+template<int ndim>
+Domain<ndim>::Domain(const Group& group, coords<ndim> n, int m)
+       : Domain(group, n, coords<ndim>(), pcoords(), m) { }
 
 template<int ndim>
 Domain<ndim>::~Domain() { }
@@ -239,6 +243,15 @@ void Domain<ndim>::find(coords<ndim> i, pcoords& ip, coords<ndim>& off) const {
 }
 
 template<int ndim>
+coord Domain<ndim>::find(coords<ndim> i) const {
+        for(int d = 0; d < group.nprocs; d++) 
+            if (local(d).contains(i)) return d;
+
+        assert(false);
+        return 0;
+}
+
+template<int ndim>
 bool Domain<ndim>::operator==(const Domain<ndim>& other) const {
 	if(this == &other)
 		return true;
@@ -257,12 +270,12 @@ void Domain<ndim>::sync() const {
 }
 
 template<int ndim>
-coords_range<ndim> Domain<ndim>::local(int id) const {
+coords_range<ndim> Domain<ndim>::local(int id, coords<ndim> gw) const {
 	pcoords ip = indexp(id);
 	coords_range<ndim> r;
-	seq<0,ndim>::for_each([this,&r,&ip](int d) {
-		r.lower[d] = nd[d][ip[d]];
-		r.upper[d] = nd[d][ip[d]+1];
+	seq<0,ndim>::for_each([this,&r,&ip,&gw](int d) {
+		r.lower[d] = nd[d][ip[d]] - gw[d];
+		r.upper[d] = nd[d][ip[d]+1] + gw[d];
 	});
 	return r;
 }
@@ -271,7 +284,8 @@ template<int ndim>
 int Domain<ndim>::shiftd(int d, int disp, bool pd, int id) const {
 	pcoords ip = indexp(id);
 	ip[d] += disp;
-#if defined(SHARK_MPI_COMM)
+        
+#if defined(SHARK_MPI_COMM) || defined(SHARK_GPI_COMM)
 	if(ip[d] >= np[d]) {
 		if(pd)
 			do {

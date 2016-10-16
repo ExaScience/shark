@@ -12,6 +12,7 @@
 #include <tbb/tbb_stddef.h>            // tbb::split
 #endif
 
+#include "future.hpp"
 #include "common.hpp"
 #include "coords.hpp"
 
@@ -23,10 +24,18 @@
 #endif
 #endif
 
+#ifndef SHARK_VECTOR_PRAGMA
 #ifdef __INTEL_COMPILER
 #define SHARK_VECTOR_PRAGMA _Pragma("ivdep")
-#else 
-#define SHARK_VECTOR_PRAGMA 
+#elif defined(__GNUC__)
+#if defined(_OPENMP)
+#define SHARK_VECTOR_PRAGMA
+#else
+#define SHARK_VECTOR_PRAGMA _Pragma("GCC ivdep")
+#endif
+#else
+#define SHARK_VECTOR_PRAGMA
+#endif
 #endif
 
 
@@ -48,17 +57,25 @@ namespace shark {
 			
 		private:
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d < ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d < ndim-1>::type for_blockd(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == ndim-1>::type for_blockd(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == 0 && 1 < ndim>::type for_eachd(const Func& f, coords<ndim>& i) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<0 < d && d < ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 			template<int d, typename Func>
 			INLINE typename std::enable_if<d == ndim-1>::type for_eachd(const Func& f, coords<ndim>& i) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<d == 0 && 1 < ndim>::type for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i) const;
+			INLINE typename std::enable_if<0 < d && d < ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b) const;
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const;
 			template<int d, typename Func>
-			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b) const;
+			INLINE typename std::enable_if<d < ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b, const coords<ndim>& bs) const;
+			template<int d, typename Func>
+			INLINE typename std::enable_if<d == ndim-1>::type for_eachd_inner_block(const Func& f, coords<ndim>& i, const coords<ndim>& b, const coords<ndim>& bs) const;
 
 #ifdef SHARK_RANGE
 			template<int d, typename Func>
@@ -71,7 +88,9 @@ namespace shark {
 			template<typename Func>
 			INLINE void for_each(const Func& f) const;
 			template<typename Func>
-			INLINE void for_each_blocked(const Func& f) const;
+			INLINE void for_block(const Func& f) const;
+			template<typename Func>
+			INLINE void for_each_blocked(const Func& f, const coords<ndim>& bs) const;
 
 #ifdef SHARK_RANGE
 			template<typename Func>
@@ -85,8 +104,21 @@ namespace shark {
 		        INLINE coords<ndim> next(coords<ndim> ii) const;
 			INLINE coord count() const;
 			INLINE coords<ndim> periodic_equiv(coords<ndim> i) const;
-			INLINE coords<ndim> adj(int d, int shift) const;
+			INLINE coords_range<ndim> adj(int d, int shift) const;
 			coords<ndim+1> stride(coords<ndim> bw = coords<ndim>()) const;
+
+			INLINE coords_range<ndim>& operator+=(const coords_range<ndim>& other);
+			INLINE coords_range<ndim>& operator-=(const coords_range<ndim>& other);
+			INLINE coords_range<ndim> operator-() const;
+			INLINE coords_range<ndim> operator+(const coords_range<ndim>& other) const;
+			INLINE coords_range<ndim> operator-(const coords_range<ndim>& other) const;
+
+			INLINE coords_range<ndim>& operator<<=(unsigned short w);
+			INLINE coords_range<ndim>& operator>>=(unsigned short w);
+			INLINE coords_range<ndim> operator<<(unsigned short w) const;
+			INLINE coords_range<ndim> operator>>(unsigned short w) const;
+
+			INLINE bool operator==(const coords_range<ndim>& other) const;
 		};
 
 		template<int ndim>
@@ -104,7 +136,42 @@ namespace shark {
 #else
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_blockd(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
+				for_blockd<d+1>(f, i);
+			}
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_blockd(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
+                        i[d] = ld;
+                        f(i, ud - ld);
+		}
+
+		template<int ndim> template<typename Func>
+		inline void coords_range<ndim>::for_block(const Func& f) const {
+			coords<ndim> i;
+			for_blockd<0>(f, i);
+		}
+
+                ///------------
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == 0 && 1 < ndim>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id++) {
+				i[d] = id;
+                                Handle::make_progress();
+				for_eachd<d+1>(f, i);
+			}
+		}
+
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<0 < d && d < ndim-1>::type coords_range<ndim>::for_eachd(const Func& f, coords<ndim>& i) const {
 			coord ld = lower[d], ud = upper[d];
 			for(coord id = ld; id < ud; id++) {
 				i[d] = id;
@@ -122,48 +189,54 @@ namespace shark {
 				f(i);
 			}
 		}
-
 		template<int ndim> template<typename Func>
 		inline void coords_range<ndim>::for_each(const Func& f) const {
 			coords<ndim> i;
 			for_eachd<0>(f, i);
 		}
 #endif
-
-                static const int bs = 64;
-
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i) const {
+		inline typename std::enable_if<d == 0 && 1 < ndim>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const {
 			coord ld = lower[d], ud = upper[d];
-			for(coord id = ld; id < ud; id+=bs) {
+			for(coord id = ld; id < ud; id+=bs[d]) {
 				i[d] = id;
-				for_eachd_outer_block<d+1>(f, i);
+                                shark::Handle::make_progress();
+				for_eachd_outer_block<d+1>(f, i, bs);
 			}
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i) const {
+		inline typename std::enable_if<0 < d && d < ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const {
 			coord ld = lower[d], ud = upper[d];
-			for(coord id = ld; id < ud; id+=bs) {
+			for(coord id = ld; id < ud; id+=bs[d]) {
+				i[d] = id;
+				for_eachd_outer_block<d+1>(f, i, bs);
+			}
+		}
+
+		template<int ndim> template<int d, typename Func>
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_outer_block(const Func& f, coords<ndim>& i, const coords<ndim>& bs) const {
+			coord ld = lower[d], ud = upper[d];
+			for(coord id = ld; id < ud; id+=bs[d]) {
 				i[d] = id;
                                 coords<ndim> b = i;
                                 coords<ndim> j = i;
-                                for_eachd_inner_block<0>(f, j, b);
+                                for_eachd_inner_block<0>(f, j, b, bs);
 			}
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b) const {
-			coord ld = b[d], ud = std::min(ld+bs,upper[d]);
+		inline typename std::enable_if<d < ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b, const coords<ndim>& bs) const {
+			coord ld = b[d], ud = std::min(ld+bs[d],upper[d]);
 			for(coord id = ld; id < ud; id++) {
 				j[d] = id;
-				for_eachd_inner_block<d+1>(f, j, b);
+				for_eachd_inner_block<d+1>(f, j, b, bs);
 			}
 		}
 
 		template<int ndim> template<int d, typename Func>
-		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b) const {
-			coord ld = b[d], ud = std::min(ld+bs,upper[d]);
+		inline typename std::enable_if<d == ndim-1>::type coords_range<ndim>::for_eachd_inner_block(const Func& f, coords<ndim>& j, const coords<ndim>& b, const coords<ndim>& bs) const {
+			coord ld = b[d], ud = std::min(ld+bs[d],upper[d]);
                         SHARK_VECTOR_PRAGMA
 			for(coord id = ld; id < ud; id++) {
 				j[d] = id;
@@ -172,9 +245,9 @@ namespace shark {
 		}
 
 		template<int ndim> template<typename Func>
-		inline void coords_range<ndim>::for_each_blocked(const Func& f) const {
+		inline void coords_range<ndim>::for_each_blocked(const Func& f, const coords<ndim>& bs) const {
 			coords<ndim> i;
-			for_eachd_outer_block<0>(f, i);
+			for_eachd_outer_block<0>(f, i, bs);
 		}
 
 #ifdef SHARK_RANGE
@@ -238,9 +311,10 @@ namespace shark {
 		}
 
 		template<int ndim>
-		inline coords<ndim> coords_range<ndim>::adj(int d, int shift) const {
-			coords<ndim> adj = lower;
-			adj[d] = lower[d] + shift * (upper[d] - lower[d]);
+		inline coords_range<ndim> coords_range<ndim>::adj(int d, int shift) const {
+			coords_range<ndim> adj = *this;
+			adj.lower[d] = lower[d] + shift * (upper[d] - lower[d]);
+			adj.upper[d] = upper[d] + shift * (upper[d] - lower[d]);
 			return adj;
 		}
 
@@ -763,7 +837,74 @@ namespace shark {
 		}
 
 #endif
-	  
+
+		template<int ndim>
+		inline coords_range<ndim>& coords_range<ndim>::operator+=(const coords_range<ndim>& other) {
+                        lower += other.lower;
+                        upper += other.lower;
+			return *this;
+		}
+
+		template<int ndim>
+		inline coords_range<ndim> coords_range<ndim>::operator-() const {
+			coords_range<ndim> r;
+                        r.lower = -lower;
+                        r.upper = -upper;
+			return r;
+		}
+
+		template<int ndim>
+		inline coords_range<ndim> coords_range<ndim>::operator+(const coords_range<ndim>& other) const {
+			coords_range<ndim> r;
+                        r.lower = lower + other.lower;
+                        r.upper = upper + other.upper;
+                        return r;
+		}
+
+		template<int ndim>
+		inline coords_range<ndim>& coords_range<ndim>::operator-=(const coords_range<ndim>& other) {
+                        lower -= other.lower;
+                        upper -= other.lower;
+			return *this;
+                }
+
+		template<int ndim>
+		inline coords_range<ndim> coords_range<ndim>::operator-(const coords_range<ndim>& other) const {
+			coords_range<ndim> r;
+                        r.lower = lower - other.lower;
+                        r.upper = upper - other.upper;
+                        return r;
+                }
+
+		template<int ndim>
+		inline coords_range<ndim>& coords_range<ndim>::operator<<=(unsigned short w) {
+                        lower <<= w;
+                        upper <<= w;
+			return *this;
+                }
+
+		template<int ndim>
+		inline coords_range<ndim>& coords_range<ndim>::operator>>=(unsigned short w) {
+                        lower >>= w;
+                        upper >>= w;
+			return *this;
+		}
+
+		template<int ndim>
+		inline coords_range<ndim> coords_range<ndim>::operator<<(unsigned short w) const {
+			return coords_range<ndim>(*this) <<= w;
+		}
+
+		template<int ndim>
+		inline coords_range<ndim> coords_range<ndim>::operator>>(unsigned short w) const {
+			return coords_range<ndim>(*this) >>= w;
+		}
+
+		template<int ndim>
+		inline bool coords_range<ndim>::operator==(const coords_range<ndim>& other) const {
+                        return upper == other.upper && lower == other.lower;
+                }
+
 	}
 
 }

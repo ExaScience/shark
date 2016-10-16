@@ -201,7 +201,7 @@ for pkg in $pri_pkgs $pub_pkgs; do
 	echo -n "Checking $pkg... "
 	if ! $pkgcfg --modversion $pkg 2>/dev/null; then
 		echo failed
-		exit 1
+		# exit 1
 	fi
 done
 

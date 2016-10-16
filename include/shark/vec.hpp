@@ -197,6 +197,11 @@ namespace shark {
 			return r;
 		}
 
+		template<int ndim, typename T>
+		inline std::ostream & operator<<(std::ostream &os, const vec<ndim, T> &v) {
+                        os << "[" << v.val << "]";
+			return os;
+		}
 	}
 
 }

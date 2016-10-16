@@ -14,7 +14,6 @@
 #include "shark/globalarray.hpp"
 #include "shark/access.hpp"
 #include "shark/expr.hpp"
-#include "shark/sparsearray.hpp"
 #include "shark/globals.hpp"
 #include "shark/vec.hpp"
 #include "shark/part.hpp"

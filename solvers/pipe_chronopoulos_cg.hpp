@@ -13,8 +13,6 @@
 using namespace shark;
 using namespace std;
 
-#ifdef SHARK_MPI_ASYNC
-
 template <typename Scalar, typename LinearVector> Scalar pipe_chronopoulos_cg(LinearVector& x, LinearVector& b, Scalar tol, int& k, int maxit,
 		ostream* out = NULL)
 {
@@ -38,7 +36,7 @@ template <typename Scalar, typename LinearVector> Scalar pipe_chronopoulos_cg(Li
 
 	Scalar res = sqrt(gamma_old);
 
-	if (res <= tol) return res;
+	if (tol > .0 && res <= tol) return res;
 
 	vector<const LinearVector* > r_w;
 
@@ -66,7 +64,7 @@ template <typename Scalar, typename LinearVector> Scalar pipe_chronopoulos_cg(Li
 
 	for (k = 0; k < maxit; k++)
 	{
-		if (res <= tol) break;
+		if (tol > .0 && res <= tol) break;
 
 		if (out != NULL) *out << k << "\t" << res << std::endl;
 
@@ -103,5 +101,4 @@ template <typename Scalar, typename LinearVector> Scalar pipe_chronopoulos_cg(Li
 
 	return res;
 }
-#endif
 

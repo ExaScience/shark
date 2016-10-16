@@ -2,6 +2,8 @@
 
 #define COMMA ,
 
+#ifdef SYMBDT
+
 #define SYMBD(d) SYMBDT(d,int)
 #include "inst_dim"
 #undef SYMBD
@@ -23,6 +25,8 @@
 #define SYMBD(d) SYMBDT(d,shark::ndim::part<d>)
 #include "inst_dim"
 #undef SYMBD
+
+#endif
 
 #endif
 

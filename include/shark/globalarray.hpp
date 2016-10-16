@@ -16,13 +16,14 @@
 #include "coords.hpp"
 #include "coords_range.hpp"
 #include "future.hpp"
+#include "globals.hpp"
 //#include <mpi.h>
 
 namespace shark {
 
 	namespace ndim {
 
-		template<int>
+		template<int,typename>
 		class GAImpl;
 
 		template<int,typename>
@@ -31,6 +32,16 @@ namespace shark {
 		template<int,typename>
 		class GARef;
 
+		template<int,typename>
+		class GABuf;
+
+		template<int ndim,typename T>
+                void get(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+		template<int ndim,typename T>
+                void put(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+		template<int ndim,typename T>
+                void accumulate(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+
 		/**
 		 * A global array that is partitioned across a process group according to a domain
 		 */
@@ -38,8 +49,12 @@ namespace shark {
 		class GlobalArray
 		{
 			friend class Access<ndim,T>;
-		
+                        friend void get<>(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+                        friend void put<>(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+                        friend void accumulate<>(GlobalArray<ndim, T> &tgt, coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
+	
 		public:
+                        typedef T value_type;
 			typedef GARef<ndim,T> storage;
 			typedef Access<ndim,T> accessor;
 			static const /*constexpr*/ int number_of_dimensions = ndim;
@@ -53,9 +68,14 @@ namespace shark {
 			bounds bd;
 
 			// after allocate
+		public:
 			T* ptr;
-			std::unique_ptr<GAImpl<ndim>> impl;
+			std::unique_ptr<GAImpl<ndim, T>> impl;
+
+                private:
 			coords<ndim+1> ld;
+
+                        // ghost regions
 			std::array<coords_range<ndim>,ndim> ghost_back;
 			std::array<coords_range<ndim>,ndim> ghost_front;
 
@@ -66,8 +86,13 @@ namespace shark {
 			void deallocate();
 			void reset();
 
-		public:
+                public:
+                        std::array<GABuf<ndim,T>, ndim> g_out_back, g_out_front, g_in_back, g_in_front;
+
 			INLINE T& da(coords<ndim> i) const;
+			INLINE T* pa(coords<ndim> i) const;
+                        INLINE coord offset(coords<ndim> i) const;
+                        INLINE coord byte_offset(coords<ndim> i) const;
 
 			std::ostream& log_out() const;
 
@@ -99,14 +124,18 @@ namespace shark {
 			INLINE coords_range<ndim> inner() const;
 			INLINE coords_range<ndim> outer_front(int) const;
 			INLINE coords_range<ndim> outer_back(int) const;
-                        INLINE std::vector<coords_range<ndim>>
-                                                  outer() const;
+                        INLINE std::vector<coords_range<ndim>> outer() const;
+                        INLINE std::vector<coords_range<ndim>> split(coords_range<ndim>) const;
+
+			INLINE coords_range<ndim> ghost_in_front(int) const;
+			INLINE coords_range<ndim> ghost_in_back(int) const;
+			INLINE coords_range<ndim> ghost_out_front(int) const;
+			INLINE coords_range<ndim> ghost_out_back(int) const;
 
 			/**
 			 * Select a region of elements as destination
 			 */
-			GADest<ndim,T> region(coords_range<ndim>);
-			GADest<ndim,T> region(std::vector<coords_range<ndim>>);
+			GADest<ndim,T> region(coords_range<ndim>, bool = true);
 
 			/**
 			 * Construct a GlobalArray (collective).
@@ -140,12 +169,8 @@ namespace shark {
 			GlobalArray<ndim,T>& operator=(const GlobalArray<ndim,T>& other);
 			template<typename S>
 			GlobalArray<ndim,T>& operator=(const S&);
-
-			/**
-			 * Redistribute the GlobalArray to have a Domain.
-			 * @param domain the new domain, \verbatim domain().equiv(domain) \enverbatim
-			 */
-			void reshape(const Domain<ndim>& domain);
+			template<typename S>
+			GlobalArray<ndim,T>& operator<<=(const S&);
 
 			/**
 			 * Update the ghost cells with data from their original locations (collective).
@@ -162,21 +187,22 @@ namespace shark {
 			/**
 			 * Get remote range (one-sided).
 			 * RMA operations cannot overlap with local access.
-			 * @param range the area of the global array to retrieve
+			 * @param range the area of the global array to retrieve from
 			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the target buffer
 			 */
-
+                        void get(coords_range<ndim> range_src, GlobalArray<ndim, T> &src, coords_range<ndim> range_tgt);
 			void get(coords_range<ndim> range, T* buf) const;
 			void get(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, T* buf) const;
 
 			/**
 			 * Put remote range (one-sided).
 			 * RMA operations cannot overlap with local access.
-			 * @param range the area of the global array to retrieve
+			 * @param range the area of the global array to store to
 			 * @param ld the strides to use for buf (default: determined by range)
-			 * @param buf the target buffer
+			 * @param buf the source buffer
 			 */
+			void put(coords_range<ndim> range_tgt, GlobalArray<ndim, T> &src, coords_range<ndim> range_src);
 			void put(coords_range<ndim> range, const T* buf);
 			void put(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
 
@@ -187,52 +213,25 @@ namespace shark {
 			 * @param ld the strides to use for buf (default: determined by range)
 			 * @param buf the source buffer
 			 */
-			template<typename = void>
-			void accumulate(coords_range<ndim> range, const T* buf);
-			template<typename = void>
-			void accumulate(coords_range<ndim> range, std::array<std::size_t,ndim-1> ld, const T* buf);
-
-			/**
-			 * Selective gather of remote values (collective). This fills all available positions in a
-			 * local sparse array with their values from this global array.
-			 * RMA operations cannot overlap with local access.
-			 * @param sa the sparse array to fill
-			 *
-			 * igather is a non-blocking variant if circumstances permit this (aync communication
-			 * support)
-			 */
-			template<typename = void>
-			void gather(SparseArray<ndim,T>& sa) const;
-			template<typename = void>
-			Future<void> igather(SparseArray<ndim,T>& sa) const;
-
-			/**
-			 * Selective scatter to remote values (collective). This sends out all available values of a
-			 * local sparse array to the respective positions in this global array. The values are accumulated
-			 * with the original value at the destination.
-			 * RMA operations cannot overlap with local access.
-			 * @param sa the sparse array whose values to send out
-			 *
-			 * iscatterAcc is a non-blocking variant if circumstances permit this (aync communication
-			 * support)
-			 */
-			template<typename = void>
-			void scatterAcc(const SparseArray<ndim,T>& sa);
-			template<typename = void>
-			Future<void> iscatterAcc(const SparseArray<ndim,T>& sa);
+			void accumulate(coords_range<ndim> range_tgt, GlobalArray<ndim, T> &src, coords_range<ndim> range_src);
 
 			/**
 			 * Dump values of global array to a file
-			 */			template<typename = void>
+			 */
+			template<typename = void>
 			void dump(coords_range<ndim> range, std::string filename);
 		};
+
+                template<int ndim,typename T>
+                std::ostream& operator<<(std::ostream& out, const GlobalArray<ndim,T> &ga);
 
 		template<int ndim, typename T>
 		class GADest {
 			friend class GlobalArray<ndim,T>;
 			GlobalArray<ndim,T>& ga;
-                        std::vector<coords_range<ndim>> regions;
-			GADest(GlobalArray<ndim,T>& ga, std::vector<coords_range<ndim>> r);
+                        coords_range<ndim> region;
+                        bool pack;
+			GADest(GlobalArray<ndim,T>& ga, coords_range<ndim> r, bool pack);
 		public:
 			~GADest();
 			GADest(const GADest<ndim,T>& gad);
@@ -250,6 +249,22 @@ namespace shark {
 			INLINE operator const GlobalArray<ndim,T>&() const;
 			INLINE const Domain<ndim>& domain() const;
 			INLINE coords_range<ndim> region() const;
+		};
+
+		template<int ndim, typename T>
+		struct GABuf {
+                        coords_range<ndim> r;
+                        T* ptr;
+                        mutable bool full;
+
+			GABuf() : full(false) {}
+			GABuf(coords_range<ndim> r, T* ptr) : r(r), ptr(ptr), full(false) {}
+
+                        T& da(coords<ndim> i) const {
+                                auto off = (i - r.lower).offset(r.stride());
+                                assert(off < r.count());
+                                return ptr[off];
+                        }
 		};
 
 		// Inline function implementations
@@ -280,10 +295,14 @@ namespace shark {
 		}
 
 		template<int ndim, typename T>
+		inline T* GlobalArray<ndim,T>::pa(coords<ndim> i) const {
+			return ptr + offset(i);
+                }
+
+		template<int ndim, typename T>
 		inline coords_range<ndim> GlobalArray<ndim,T>::local() const {
 			return domain().local();
 		}
-
 
 		template<int ndim, typename T>
 		inline coords_range<ndim> GlobalArray<ndim,T>::inner() const {
@@ -296,7 +315,12 @@ namespace shark {
 		template<int ndim, typename T>
 		inline coords_range<ndim> GlobalArray<ndim,T>::outer_front(int d) const {
                         assert(d >= 0 && d < ndim);
+                        const auto gw = ghost_width();
 			auto r = domain().local();
+                        for(int i = 0; i<d; ++i) { 
+                            r.lower[i] += gw[i];
+                            r.upper[i] -= gw[i];
+                        }
                         r.upper[d] = r.lower[d] + ghost_width()[d];
                         return r;
 		}
@@ -304,8 +328,13 @@ namespace shark {
 		template<int ndim, typename T>
 		inline coords_range<ndim> GlobalArray<ndim,T>::outer_back(int d) const {
                         assert(d >= 0 && d < ndim);
-			auto r = domain().local();
-                        r.lower[d] = r.upper[d] - ghost_width()[d];
+                        const auto gw = ghost_width();
+                        auto r = domain().local();
+                        for(int i = 0; i<d; ++i) {
+                            r.lower[i] += gw[i];
+                            r.upper[i] -= gw[i];
+                        }
+                        r.lower[d] = r.upper[d] - gw[d];
                         return r;
 		}
 
@@ -319,9 +348,57 @@ namespace shark {
                         return r;
 		}
 
+                template<int ndim, typename T>
+                inline std::vector<coords_range<ndim>> GlobalArray<ndim,T>::split(coords_range<ndim> r) const {
+                    int count = 0;
+                    if (r == region()) {
+                        //log_out() << "split " << r << " into " << std::endl;
+                        auto ret = outer();
+                        ret.push_back(inner());
+                        for(auto r : ret) {
+                            //log_out() << " " << r << std::endl;
+                            count += r.count();
+                        }
+                        assert(count == local().count());
+                        return ret;
+                    }
+                    return std::vector<coords_range<ndim>>(1,r);
+                }
+
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::ghost_in_front(int d) const {
+                    return ghost_front[d];
+                }
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::ghost_in_back(int d) const {
+                    return ghost_back[d];
+                }
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::ghost_out_front(int d) const {
+                    return ghost_front[d].adj(d, -1);
+                }
+
+		template<int ndim, typename T>
+		inline coords_range<ndim> GlobalArray<ndim,T>::ghost_out_back(int d) const {
+                    return ghost_back[d].adj(d, 1);
+                }
+
 		template<int ndim, typename T>
 		inline T& GlobalArray<ndim,T>::da(coords<ndim> i) const {
-			return ptr[(i + gw).offset(ld)];
+			return ptr[offset(i)];
+		}
+
+       		template<int ndim, typename T>
+		inline coord GlobalArray<ndim,T>::offset(coords<ndim> i) const {
+			return (i + gw).offset(ld);
+		}
+
+       		template<int ndim, typename T>
+		inline coord GlobalArray<ndim,T>::byte_offset(coords<ndim> i) const {
+			return offset(i) * sizeof(T);
 		}
 
 		template<int ndim, typename T>
@@ -343,7 +420,13 @@ namespace shark {
 
 		template<int ndim, typename T> template<typename S>
 		GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator=(const S& src) {
-			region(domain().total()) = src;
+			region(domain().total(), false) = src;
+			return *this;
+		}
+
+		template<int ndim, typename T> template<typename S>
+		GlobalArray<ndim,T>& GlobalArray<ndim,T>::operator<<=(const S& src) {
+			region(domain().total(), true) = src;
 			return *this;
 		}
 
@@ -354,15 +437,68 @@ namespace shark {
 			Access<ndim,T> d(ga);
 			const typename S::accessor s(src);
 
-                        for(auto r : regions) {
-                            assert(src.region().contains(r));
-                            ga.domain().for_each(r, [&d, &s](coords<ndim> i){
+                        if (pack) {
+                            auto regions = ga.split(region);
+                            for(auto r : regions) {
+                                assert(src.region().contains(r));
+                                std::vector<GABuf<ndim,T> *> ghosts;
+                                GABuf<ndim,T> *full_ghost = 0;
+
+                                auto push = [this, &full_ghost, &ghosts,&r](GABuf<ndim,T> *g) {
+                                    auto overlap = g->r.overlap(r); 
+                                    if (g->r.count() > 0) ga.log_out() << " overlap " << 100 * overlap.count() / g->r.count() << "%" << std::endl;
+                                    if (!full_ghost && overlap.count() > 0 && overlap.count() == g->r.count()) {
+                                        full_ghost = g;
+                                        g->full = true;
+                                    } else if (overlap.count() > 0) {
+                                        ghosts.push_back(g);
+                                        g->full = true;
+                                    }
+                                };
+
+                                seq<0,ndim>::for_each([this, &r, &full_ghost, &ghosts, &push](int d) {
+                                        push(&ga.g_out_front[d]);
+                                        push(&ga.g_out_back[d]);
+                                        });
+
+                                //ga.log_out() << "total ghosts that overlap: " << ghosts.size() << " out of " <<  regions.size() << std::endl;
+
+                                if(full_ghost && ghosts.size()) {
+                                    //SHARK_COUNTER("pack_full+ghost");
+                                    ga.domain().for_each(r, [this, &d, &s, &full_ghost, &ghosts](coords<ndim> i){
+                                            auto v = d(i) = s(i);
+                                            full_ghost->da(i) = v;
+                                            for(auto g : ghosts) if (g->r.contains(i)) g->da(i) = v;
+                                    });
+                                } else if (full_ghost) {
+                                    //SHARK_COUNTER("pack_onlyfull");
+                                    ga.domain().for_each(r, [this, &d, &s, &full_ghost](coords<ndim> i){
+                                            auto v = d(i) = s(i);
+                                            full_ghost->da(i) = v;
+                                    });
+                                } else if (ghosts.size()) {
+                                    //SHARK_COUNTER("pack_ghost");
+                                    ga.domain().for_each(r, [this, &d, &s, &ghosts](coords<ndim> i){
+                                            auto v = d(i) = s(i);
+                                            for(auto g : ghosts) if (g->r.contains(i)) g->da(i) = v;
+                                    });
+                                } else {
+                                    //SHARK_COUNTER("pack_no_ghost");
+                                    ga.domain().for_each(r, [this, &d, &s](coords<ndim> i){
+                                            d(i) = s(i);
+                                    });
+                                }
+                            }
+                        } else  {
+                            //SHARK_COUNTER("pack_no_pack");
+                            ga.domain().for_each(region, [this, &d, &s](coords<ndim> i){
                                     d(i) = s(i);
                             });
                         }
 
-			return *this;
-		}
+                        return *this;
+                }
+
 	}
 
 }

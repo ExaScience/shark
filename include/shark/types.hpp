@@ -35,11 +35,6 @@ namespace shark {
 		typedef shark::ndim::Boundary<1,double> BoundaryD;
 		typedef shark::ndim::Boundary<1,vecD> BoundaryV;
 		typedef shark::ndim::Boundary<1,partD> BoundaryP;
-		typedef shark::ndim::SparseArray<1,int> SparseArrayI;
-		typedef shark::ndim::SparseArray<1,long> SparseArrayL;
-		typedef shark::ndim::SparseArray<1,float> SparseArrayF;
-		typedef shark::ndim::SparseArray<1,double> SparseArrayD;
-		typedef shark::ndim::SparseArray<1,vecD> SparseArrayV;
 
 		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
 		template<typename T> void coord_val();
@@ -69,11 +64,6 @@ namespace shark {
 		typedef shark::ndim::Boundary<2,double> BoundaryD;
 		typedef shark::ndim::Boundary<2,vecD> BoundaryV;
 		typedef shark::ndim::Boundary<2,partD> BoundaryP;
-		typedef shark::ndim::SparseArray<2,int> SparseArrayI;
-		typedef shark::ndim::SparseArray<2,long> SparseArrayL;
-		typedef shark::ndim::SparseArray<2,float> SparseArrayF;
-		typedef shark::ndim::SparseArray<2,double> SparseArrayD;
-		typedef shark::ndim::SparseArray<2,vecD> SparseArrayV;
 
 		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
 		template<typename T> void coord_val();
@@ -103,11 +93,6 @@ namespace shark {
 		typedef shark::ndim::Boundary<3,double> BoundaryD;
 		typedef shark::ndim::Boundary<3,vecD> BoundaryV;
 		typedef shark::ndim::Boundary<3,partD> BoundaryP;
-		typedef shark::ndim::SparseArray<3,int> SparseArrayI;
-		typedef shark::ndim::SparseArray<3,long> SparseArrayL;
-		typedef shark::ndim::SparseArray<3,float> SparseArrayF;
-		typedef shark::ndim::SparseArray<3,double> SparseArrayD;
-		typedef shark::ndim::SparseArray<3,vecD> SparseArrayV;
 
 		// Hack: Allow ADL for function call with explicit template argument according to 14.8.1/8
 		template<typename T> void coord_val();

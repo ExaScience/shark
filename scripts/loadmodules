@@ -1,0 +1,4 @@
+source /opt/modules.sh
+
+module load mvapich2-1.9
+module load intel_icc-14

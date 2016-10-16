@@ -1027,10 +1027,9 @@ namespace shark {
 							{
 								acc += s(i) * p(i);
 							});
-					}
-
-					return src.domain().group.external_sum(std::move(res)); //std::move of a valarray is a valarray
-				}
+                                            }
+                                        }
+                                        return src.domain().group.external_sum(std::move(res)); //std::move of a valarray is a valarray
 		}
 
 	}

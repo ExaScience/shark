@@ -1,36 +1,43 @@
 
+CFLAGS+=--param max-inline-insns-single=800 --param inline-unit-growth=100
 CXXFLAGS=$(CFLAGS) -std=c++0x
 LINK.o=$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 OUTPUT_OPTION=-MMD -MP -o $@
 
 .PHONY: all clean distclean
 
-all: libshark.a heat2d heat3d cg cg_poisson_3d dump_to_file main testsuite # bpmf
+all: libshark.a heat2d heat3d solve_3d dump_to_file testsuite 
 
 CCFILES=$(patsubst $(ROOT)/%,%,$(wildcard $(ROOT)/src/*.cpp))
 OFILES=$(CCFILES:.cpp=.o)
-DFILES=$(CCFILES:.cpp=.d)
 
 # solvers
 vpath %.cpp $(ROOT)/solvers
-cg cg_poisson_3d main: libshark.a
+solve_3d: solve_3d.o libshark.a
 
 # small progs
 vpath %.cpp $(ROOT)/tests
-testsuite dump_to_file heat2d heat3d: libshark.a
-
-# bpmf
-vpath %.cpp $(ROOT)/bpmf
-bpmf: libshark.a mvnormal.o
+testsuite: testsuite.o libshark.a
+dump_to_file: dump_to_file.o libshark.a
+heat2d: heat2d.o libshark.a
+heat3d: heat3d.o libshark.a
 
 # shark lib
 vpath %.cpp $(ROOT)
-libshark.a: $(CCFILES:.cpp=.o)
+libshark.a: $(OFILES)
 	$(AR) csr $@ $+
 
 clean:
-	rm -f $(DFILES) $(OFILES)
-	rm -f libshark.a heat2d heat3d cg cg_poisson_3d testsuite main
+	rm -f */*.o *.o */*.d *.d
+	rm -f libshark.a heat2d heat3d solve_3d testsuite 
  
+# DFILES 
+DFILES=$(CCFILES:.cpp=.d)
+DFILES=$(wildcard */*.d *.d)
+
 -include $(DFILES)
 
+$(OFILES): | src
+
+src:
+	mkdir src

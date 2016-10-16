@@ -1,0 +1,16 @@
+#Pure MT
+#../configure --comm=off --sched=omp --mode=release
+
+#Pure MPI
+#../configure --mpi=mvapich2 --sched=ser --mode=release
+
+#Hybrid MPI/MT
+../configure --mpi=mvapich2 --sched=omp --mode=release --async=mpi3
+
+#async pure MPI
+#../configure --mpi=mvapich2 --sched=ser --async=mpi3 --mode=release
+
+
+
+
+

@@ -2,7 +2,7 @@
 
 #define COMMA ,
 
-#if defined(SHARK_MPI_COMM)
+#if defined(SHARK_MPI_COMM) || defined(SHARK_GPI_COMM)
 
 SYMBT(int)
 SYMBT(long) 

@@ -2,7 +2,7 @@
 
 #define COMMA ,
 
-#if defined(SHARK_MPI_COMM)
+#if defined(SHARK_MPI_COMM) || defined(SHARK_GPI_COMM)
 
 #if (MPI_VERSION > 2 || MPI_VERSION == 2 && MPI_SUBVERSION >= 2)
 SYMBT(std::complex<float>)

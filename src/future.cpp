@@ -5,11 +5,24 @@
  */
 
 #include <shark/future.hpp>
+#include <shark/globals.hpp>
 
 #include <cassert>
 
 using namespace std;
 using namespace shark;
+
+std::set<std::shared_ptr<Handle>> Handle::ongoing;
+
+void Handle::make_progress() {
+    for (auto it = ongoing.begin(); it != ongoing.end(); ) {
+        if ((*it)->test()) it = ongoing.erase(it);
+        else ++it;
+    }
+}
+
+Handle::Handle() {
+}
 
 Handle::~Handle() {
 }
@@ -44,35 +57,40 @@ Future<void>::~Future() {
 }
 
 template<typename T>
-Future<T>::Future(Future<T>&& f): done(f.done), h(std::move(f.h)), val(std::move(f.val)) {
+Future<T>::Future(Future<T>&& f): done(f.done), h(f.h), val(std::move(f.val)) {
 }
 
-Future<void>::Future(Future<void>&& f): done(f.done), h(std::move(f.h)) {
+Future<void>::Future(Future<void>&& f): done(f.done), h(f.h) {
 }
 
 template<typename T>
 Future<T>& Future<T>::operator=(Future<T>&& f) {
 	done = f.done;
-	h = std::move(f.h);
+        f.done = true;
+	h = f.h;
 	val = std::move(f.val);
 	return *this;
 }
 
 Future<void>& Future<void>::operator=(Future<void>&& f) {
 	done = f.done;
-	h = std::move(f.h);
+        f.done = true;
+	h = f.h;
 	return *this;
 }
 
 template<typename T>
-Future<T>::Future(unique_ptr<Handle>&& h): done(false), h(std::move(h)), val(make_unique<T>()) {
+Future<T>::Future(shared_ptr<Handle> h): done(false), h(h), val(make_unique<T>()) {
+    Handle::ongoing.insert(h);
 }
 
 template<typename T>
-Future<T>::Future(unique_ptr<Handle>&& h, unique_ptr<T>&& val): done(false), h(std::move(h)), val(std::move(val)) {
+Future<T>::Future(shared_ptr<Handle> h, unique_ptr<T>&& val): done(false), h(h), val(std::move(val)) {
+    Handle::ongoing.insert(h);
 }
 
-Future<void>::Future(unique_ptr<Handle>&& h): done(false), h(std::move(h)) {
+Future<void>::Future(shared_ptr<Handle> h): done(false), h(h) {
+    Handle::ongoing.insert(h);
 }
 
 template<typename T>

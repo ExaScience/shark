@@ -48,6 +48,12 @@ namespace shark {
 			 */
 			const coords<ndim> n;
 
+
+                        /*
+                         * cache blocking size for each dimension
+                         */
+                        coords<ndim> bs;
+
 			/**
 			 * The number of processes for every dimension.
 			 */
@@ -64,8 +70,11 @@ namespace shark {
 			 * @param n the number of elements for every dimension
 			 * @param np the number of processes for every dimension (0 = auto)
 			 * \verbatim nprocs = prod{d=0..ndim-1} np[d] \endverbatim
+			 * @param m replication modulo m
 			 */
-			Domain(const Group& group, coords<ndim> n, pcoords np = pcoords());
+			Domain(const Group& group, coords<ndim> n, coords<ndim> bs = coords<ndim>(),
+                                pcoords np = pcoords(), int m = 0);
+			Domain(const Group& group, coords<ndim> n, int m);
 
 			/**
 			 * Construct a new domain (local).
@@ -76,7 +85,7 @@ namespace shark {
 			 * @param dist specifyies the distribution for each dimension
 			 * \verbatim for each d=0..ndim-1, dist[d][0] = 0, dist[d][np[d]] = n[d], dist[d][i] <= dist[d][j] when i < j \endverbatim
 			 */
-			Domain(const Group& group, coords<ndim> n, pcoords np, dists nd);
+			Domain(const Group& group, coords<ndim> n, coords<ndim> b, pcoords np, dists nd);
 
 			/**
 			 * Destruct a domain (local).
@@ -96,7 +105,7 @@ namespace shark {
 			const std::unique_ptr<tbb::affinity_partitioner> ap;
 			const int nwork;
 #endif
-			static void adjustProcs(int nprocs, pcoords& np);
+			static pcoords adjustProcs(int nprocs, pcoords& np = pcoords());
 			static std::array<int,ndim+1> base(pcoords np);
 			static dists distribution(coords<ndim> n, pcoords np);
 			bool consistentDistribution() const;
@@ -131,8 +140,8 @@ namespace shark {
 			 * Get coordinates of the array region owned by a process (local).
 			 * @param id the process identifier (default: group.procid)
 			 */
-			coords_range<ndim> local(int id) const;
-			INLINE coords_range<ndim> local() const;
+			coords_range<ndim> local(int id, coords<ndim> gw = coords<ndim>()) const;
+			INLINE coords_range<ndim> local(coords<ndim> gw = coords<ndim>()) const;
 
 			/**
 			 * Get coordinates of the total domain region (local).
@@ -154,10 +163,25 @@ namespace shark {
 			INLINE coords<ndim> count() const;
 
 			/**
+			 * Get/Set cache block size per dimension
+			 */
+			INLINE coord        block_size(int         ) const;
+			INLINE coords<ndim> block_size(            ) const;
+			INLINE coords<ndim> block_size(int,coord   );
+			INLINE coords<ndim> block_size(coords<ndim>);
+
+
+			/**
 			 * Output the distribution of this global array (local).
 			 * @param out the output stream to write to
 			 */
 			void outputDistribution(std::ostream& out) const;
+
+			/**
+			 * Efficiently find which process owns a given point (local).
+			 * @param i the coordinates of the point to find
+			 */
+			coord find(coords<ndim> i) const;
 
 			/**
 			 * Efficiently find which process owns a given point (local).
@@ -302,8 +326,8 @@ namespace shark {
 		}
 
 		template<int ndim>
-		inline coords_range<ndim> Domain<ndim>::local() const {
-			return local(group.procid);
+		inline coords_range<ndim> Domain<ndim>::local(coords<ndim> gw) const {
+			return local(group.procid, gw);
 		}
 
 
@@ -336,6 +360,28 @@ namespace shark {
 		inline coords<ndim> Domain<ndim>::count() const {
 			return count(group.procid);
 		}
+
+		template<int ndim>
+                inline coord Domain<ndim>::block_size(int i) const {
+                        return bs[i];
+                }
+		
+                template<int ndim>
+                inline coords<ndim> Domain<ndim>::block_size() const {
+                        return bs;
+                }
+
+		template<int ndim>
+                inline coords<ndim> Domain<ndim>::block_size(int d, coord b) {
+                    bs[d] = b;
+                    return bs;
+                }
+
+		template<int ndim>
+                inline coords<ndim> Domain<ndim>::block_size(coords<ndim> b) {
+                    bs = b;
+                    return bs;
+                }
 
 		template<int ndim>
 		inline bool Domain<ndim>::operator!=(const Domain<ndim>& other) const {
@@ -376,14 +422,14 @@ namespace shark {
 			}, *ap);
 #else
 			tbb::blocked_range<coord> br(local().lower[0], local().upper[0]);
-			tbb::parallel_for(br, [&r,&f](const tbb::blocked_range<coord>& br) {
+			tbb::parallel_for(br, [&r,&f,this](const tbb::blocked_range<coord>& br) {
 				coords_range<ndim> lr = r;
 				if(lr.lower[0] < br.begin())
 					lr.lower[0] = br.begin();
 				if(lr.upper[0] > br.end())
 					lr.upper[0] = br.end();
-				lr.for_each_blocked(f);
-				//lr.for_each(f);
+                                if (bs != coords<ndim>()) lr.for_each_blocked(f, bs);
+                                else                      lr.for_each(f);
 			}, *ap);
 #endif
 #else

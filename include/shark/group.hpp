@@ -21,17 +21,20 @@ namespace shark {
 	class Group {
 		template<int> friend class shark::ndim::Domain;
 		template<int,typename> friend class shark::ndim::GlobalArray;
-		template<int,typename> friend class shark::ndim::SparseArray;
+		template<int,typename> friend class shark::ndim::AccBuffer;
+                template<typename, typename> friend class shark::RequestQ;
+
 		friend const Group& world();
-		friend void Init(int*, char***);
+		friend const Group& self();
+		friend void Init(int*, char***, bool);
 		friend void Finalize();
 
 	private:
 		static std::unique_ptr<Group> w;
-
+		static std::unique_ptr<Group> s;
 		const std::unique_ptr<GroupImpl> impl;
 		
-	public:
+        public:
 		/**
 		 * The identifier of the calling process in the group (zero-based).
 		 */

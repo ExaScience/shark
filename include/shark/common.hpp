@@ -146,9 +146,11 @@ namespace shark {
 	}
 
 	// Forward declarations
+        template<typename, typename>
+        class RequestQ;
 	class Group;
 	template<typename>
-	class Future;
+	struct Future;
 
 	namespace ndim {
 
@@ -160,11 +162,11 @@ namespace shark {
 		template<int ndim>
 		class Domain;
 		template<int,typename>
-		class SparseArray;
-		template<int,typename>
 		class Boundary;
 		template<int,typename>
 		class GlobalArray;
+		template<int,typename>
+		class AccBuffer;
 		template<int,typename>
 		class Access;
 

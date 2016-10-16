@@ -8,6 +8,8 @@
 #define __SHARK_FUTURE_HPP
 
 #include <memory>                      // std::unique_ptr
+#include <set>
+#include <functional>
 
 #include "common.hpp"
 
@@ -15,6 +17,10 @@ namespace shark {
 
 	class Handle {
 	public:
+                static std::set<std::shared_ptr<Handle>> ongoing;
+                static void make_progress();
+
+                Handle();
 		virtual ~Handle();
 		virtual bool test() = 0;
 		virtual void wait() = 0;
@@ -32,15 +38,14 @@ namespace shark {
 	 * A future value of type T
 	 */
 	template<typename T>
-	class Future {
+	struct Future {
 		friend class shark::Group;
-
 		bool done;
-		std::unique_ptr<Handle> h;
+		std::shared_ptr<Handle> h;
 		std::unique_ptr<T> val;
 
-		Future(std::unique_ptr<Handle>&& h);
-		Future(std::unique_ptr<Handle>&& h, std::unique_ptr<T>&& val);
+		Future(std::shared_ptr<Handle> h);
+		Future(std::shared_ptr<Handle> h, std::unique_ptr<T>&& val);
 
 	public:
 		/**
@@ -85,13 +90,13 @@ namespace shark {
 	 * A future with no value
 	 */
 	template<>
-	class Future<void> {
+	struct Future<void> {
 		template<int,typename> friend class shark::ndim::GlobalArray;
 
 		bool done;
-		std::unique_ptr<Handle> h;
+		std::shared_ptr<Handle> h;
 
-		Future(std::unique_ptr<Handle>&& h);
+		Future(std::shared_ptr<Handle> h);
 	
 	public:
 		/**

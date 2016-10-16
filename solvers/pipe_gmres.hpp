@@ -1,254 +1,244 @@
 
-#include "laplaceOperator.hpp"
-
-using namespace std;
-using namespace shark;
-
-enum BASIS {
-	MONOMIAL, NEWTON, CHEBYSHEV
-};
-
-//#ifdef SHARK_MPI_ASYNC
-template <typename Scalar, typename LinearVector>
-
-void ritz(LinearVector&, int, Scalar*)
+void ritz(GlobalArrayD&, int, double*)
 {
 
 }
 
-template <typename Scalar, typename LinearVector>
-Scalar pipe_gmres(LinearVector& x, LinearVector& b,	Scalar tol, int& totit, int maxit, int restart, int l, BASIS basis, double lmin=0.0,
-		double lmax=0.0,ostream* out = NULL)
+void Solver::pipe_gmres()
 {
-	if (restart > maxit) restart = maxit;
+        if (restart > maxit) restart = maxit; 
 
-	Scalar givens_c[restart];
-	Scalar givens_s[restart];
-	Scalar y[restart];
-	Scalar b_[restart+1];
-	Scalar hess[restart+1][restart];
-	Scalar G[restart+1][restart];
-	Scalar R[restart][restart];
+	double givens_c[restart];
+	double givens_s[restart];
+	double y[restart];
+	double b_[restart+1];
+	double hess[restart+1][restart];
+	double G[restart+1][restart];
+	double R[restart][restart];
 
-	Future<std::valarray<Scalar> > future_dots[l];
+	Future<std::valarray<double> > future_dots[l];
 
-	std::valarray<Scalar> dot_prods;
+	std::valarray<double> dot_prods;
 
-	Scalar sigma[l];
+	double sigma[l];
 
-	if (basis == MONOMIAL)
+	if (basis == Solver::MONOMIAL)
 		for (int k=0; k<l; k++)
 			sigma[k] = 0.0;
 
-	if (basis == NEWTON)
+	if (basis == Solver::NEWTON)
 		ritz(x, l, sigma);
 
-	if (basis == CHEBYSHEV)
+	if (basis == Solver::CHEBYSHEV)
 		for (int k=0; k<l; k++)
 			sigma[k] = 0.5*(lmin+lmax) + 0.5*(lmax-lmin)*cos(M_PI*(2.0*k+1.0)/(2.0*l));
 
-	vector<LinearVector> Z(restart+1);
-	vector<LinearVector> Q(restart+1);
+	vector<GlobalArrayD> Z(restart+1);
+	vector<GlobalArrayD> Q(restart+1);
 
-	for (int i=0; i<=restart; i++)
-	{
-		Z[i] = LinearVector(b, false);
-		Q[i] = LinearVector(b, false);
-	}
+        for(int r=0; r<reps; ++r) {
 
-	vector<LinearVector*> tempVector;
+            start();
 
-	Scalar rho;
-	bool no_conv = true;
-	totit = 0;
+            for (int i=0; i<=restart; i++)
+            {
+                Z[i] = GlobalArrayD(b, false);
+                Q[i] = GlobalArrayD(b, false);
+            }
 
-	while (no_conv)
-	{
-		applyOperator(Z[0], x);
+            vector<GlobalArrayD*> tempVector;
 
-		Z[0] = b - Z[0];
+            double rho;
+            bool no_conv = true;
+            int totit = 0;
 
-		rho = norm2(Z[0]);
+            while (no_conv)
+            {
+                applyOperator(Z[0], x, degree);
 
-		Z[0] = Z[0] / rho;
+                Z[0] = b - Z[0];
 
-		Q[0] = Z[0];
+                rho = norm2(Z[0]);
 
-		b_[0] = rho;
+                Z[0] = Z[0] / rho;
 
-		for (int i=1; i<=restart; i++) b_[i] = 0.0;
+                Q[0] = Z[0];
 
-		for (int j=0; j<=restart; j++)
-			for (int i=0; i<restart; i++)
-			{
-				hess[j][i] = 0.0;
-				G[j][i] = 0.0;
-			}
+                b_[0] = rho;
 
-		int nrit = restart-2*l-1;
+                for (int i=1; i<=restart; i++) b_[i] = 0.0;
 
-		if (out != NULL) *out << totit << "\t" << rho << endl;
+                for (int j=0; j<=restart; j++)
+                    for (int i=0; i<restart; i++)
+                    {
+                        hess[j][i] = 0.0;
+                        G[j][i] = 0.0;
+                    }
 
-		for (int it=0; it<restart+l; it++)
-		{
-			totit++;
+                int nrit = restart-2*l-1;
 
-			int i = it-l;
+                if (out != NULL) *out << totit << "\t" << rho << endl;
 
-			if (it < restart) applyOperator(Z[it+1], Z[it]);
+                for (int it=0; it<restart+l; it++)
+                {
+                    totit++;
 
-			if (i < 0)
-			{
-				if (it < restart) Z[it+1] = Z[it+1] - sigma[it] * Z[it];
-			}
-			else
-			{
-				// wait for the dot products started l iterations ago to complete
-				dot_prods = future_dots[i % l].wait();
+                    int i = it-l;
 
-				for (int j=0; j<=i-l+1; j++) G[j][i] = dot_prods[j];
+                    if (it < restart) applyOperator(Z[it+1], Z[it], degree);
 
-				for (int j=max(i-l+2,0); j<i+2; j++) G[j][i] = dot_prods[j];
+                    if (i < 0)
+                    {
+                        if (it < restart) Z[it+1] = Z[it+1] - sigma[it] * Z[it];
+                    }
+                    else
+                    {
+                        // wait for the dot products started l iterations ago to complete
+                        dot_prods = future_dots[i % l].wait();
 
-				for (int j=max(1,i+2-l); j<=i; j++)
-				{
-					double t = 0;
+                        for (int j=0; j<=i-l+1; j++) G[j][i] = dot_prods[j];
 
-					for (int k=0; k<j; k++) t += G[k][j-1] * G[k][i];
+                        for (int j=max(i-l+2,0); j<i+2; j++) G[j][i] = dot_prods[j];
 
-					G[j][i] = (G[j][i] - t) / G[j][j-1];
-				}
+                        for (int j=max(1,i+2-l); j<=i; j++)
+                        {
+                            double t = 0;
 
-				double t = 0.0;
+                            for (int k=0; k<j; k++) t += G[k][j-1] * G[k][i];
 
-				for (int k=0; k<=i; k++) t += G[k][i] * G[k][i];
+                            G[j][i] = (G[j][i] - t) / G[j][j-1];
+                        }
 
-				if (G[i+1][i] < t)
-				{
-					nrit = i-1;
-					break;
-				}
+                        double t = 0.0;
 
-				G[i+1][i] = sqrt(G[i+1][i] - t);
+                        for (int k=0; k<=i; k++) t += G[k][i] * G[k][i];
 
-				if (i == 0)
-				{
-					hess[0][0] = G[0][0] + sigma[0];
-					hess[1][0] = G[1][0];
-				}
-				else if (i < l)
-				{
-					for (int j=0; j<=i; j++)
-					{
-						double t = 0.0;
+                        if (G[i+1][i] < t)
+                        {
+                            nrit = i-1;
+                            break;
+                        }
 
-						for (int k=0; k<i; k++) t += hess[j][k] * G[k][i-1];
+                        G[i+1][i] = sqrt(G[i+1][i] - t);
 
-						hess[j][i] = (G[j][i] + sigma[i] * G[j][i-1] - t) / G[i][i-1];
-					}
+                        if (i == 0)
+                        {
+                            hess[0][0] = G[0][0] + sigma[0];
+                            hess[1][0] = G[1][0];
+                        }
+                        else if (i < l)
+                        {
+                            for (int j=0; j<=i; j++)
+                            {
+                                double t = 0.0;
 
-					hess[i+1][i] = G[i+1][i] / G[i][i-1];
-				}
-				else
-				{
-					for (int j=0; j<=i; j++)
-					{
-						double t1 = 0.0, t2 = 0.0;
+                                for (int k=0; k<i; k++) t += hess[j][k] * G[k][i-1];
 
-						for (int k=0; k<i+2-l; k++) t1 += G[j][l-1+k] * hess[k][i-l];
+                                hess[j][i] = (G[j][i] + sigma[i] * G[j][i-1] - t) / G[i][i-1];
+                            }
 
-						for (int k=0; k<=i; k++) t2 += hess[j][k] * G[k][i-1];
+                            hess[i+1][i] = G[i+1][i] / G[i][i-1];
+                        }
+                        else
+                        {
+                            for (int j=0; j<=i; j++)
+                            {
+                                double t1 = 0.0, t2 = 0.0;
 
-						hess[j][i] = (t1 - t2) / G[i][i-1];
-					}
+                                for (int k=0; k<i+2-l; k++) t1 += G[j][l-1+k] * hess[k][i-l];
 
-					hess[i+1][i] = G[i+1][i] * hess[i+1-l][i-l] / G[i][i-1];
-				}
+                                for (int k=0; k<=i; k++) t2 += hess[j][k] * G[k][i-1];
 
-				Q[i+1] = Z[i+1];
+                                hess[j][i] = (t1 - t2) / G[i][i-1];
+                            }
 
-				for (int j=0; j<=i; j++)
-					Q[i+1] = Q[i+1] - G[j][i] * Q[j];
+                            hess[i+1][i] = G[i+1][i] * hess[i+1-l][i-l] / G[i][i-1];
+                        }
 
-				Q[i+1] = Q[i+1] / G[i+1][i];
+                        Q[i+1] = Z[i+1];
 
-				if (it < restart)
-				{
-					for (int j=0; j<=i; j++) Z[it+1] = Z[it+1] - hess[j][i] * Z[j+l];
+                        for (int j=0; j<=i; j++)
+                            Q[i+1] = Q[i+1] - G[j][i] * Q[j];
 
-					Z[it+1] = Z[it+1] / hess[i+1][i];
-				}
-			}
+                        Q[i+1] = Q[i+1] / G[i+1][i];
 
-			//USING DOTS
+                        if (it < restart)
+                        {
+                            for (int j=0; j<=i; j++) Z[it+1] = Z[it+1] - hess[j][i] * Z[j+l];
 
-			/*if (it < restart)
-			{
-			 for (int j=0; j<=i+1; j++) G[j][it] = dot(Z[it+1],Q[j]);
-			 for (int j=max(i+2,0); j<=it+1; j++) G[j][it] = dot(Z[it+1],Z[j]);
-			}
-			*/
+                            Z[it+1] = Z[it+1] / hess[i+1][i];
+                        }
+                    }
 
-			if (it < restart)
-			{
-				tempVector.clear();
+                    //USING DOTS
 
-				for (int j=0; j<=i+1; j++) tempVector.emplace_back(&Q[j]);
+                    /*if (it < restart)
+                      {
+                      for (int j=0; j<=i+1; j++) G[j][it] = dot(Z[it+1],Q[j]);
+                      for (int j=max(i+2,0); j<=it+1; j++) G[j][it] = dot(Z[it+1],Z[j]);
+                      }
+                      */
 
-				for (int j=max(i+2,0); j<=it+1; j++) tempVector.emplace_back(&Z[j]);
+                    if (it < restart)
+                    {
+                        tempVector.clear();
 
-				future_dots[it % l] = cidot(Z[it+1],tempVector);
-			}
+                        for (int j=0; j<=i+1; j++) tempVector.emplace_back(&Q[j]);
 
-			if (i >= 0)
-			{
-				R[0][i] = hess[0][i];
+                        for (int j=max(i+2,0); j<=it+1; j++) tempVector.emplace_back(&Z[j]);
 
-				for (int j=1; j<=i; j++)
-				{
-					double gamma = givens_c[j-1] * R[j-1][i] + givens_s[j-1] * hess[j][i];
-					R[j][i] = -givens_s[j-1] * R[j-1][i] + givens_c[j-1] * hess[j][i];
-					R[j-1][i] = gamma;
-				}
+                        future_dots[it % l] = cidot(Z[it+1],tempVector);
+                    }
 
-				double delta = sqrt(R[i][i] * R[i][i] + hess[i+1][i] * hess[i+1][i]);
-				givens_c[i] = R[i][i] / delta;
-				givens_s[i] = hess[i+1][i] / delta;
-				R[i][i] = givens_c[i] * R[i][i] + givens_s[i] * hess[i+1][i];
-				b_[i+1] = -givens_s[i] * b_[i];
-				b_[i] = givens_c[i] * b_[i];
-				rho = fabs(b_[i+1]);
-			}
+                    if (i >= 0)
+                    {
+                        R[0][i] = hess[0][i];
 
-			if (out != NULL) *out << totit << "\t" << rho << endl;
-			if (i >= 0)
+                        for (int j=1; j<=i; j++)
+                        {
+                            double gamma = givens_c[j-1] * R[j-1][i] + givens_s[j-1] * hess[j][i];
+                            R[j][i] = -givens_s[j-1] * R[j-1][i] + givens_c[j-1] * hess[j][i];
+                            R[j-1][i] = gamma;
+                        }
 
-			if ((rho < tol) || (totit >= maxit + l))
-			{
-				no_conv = false;
-				nrit = i;
-				break;
-			}
-		}
+                        double delta = sqrt(R[i][i] * R[i][i] + hess[i+1][i] * hess[i+1][i]);
+                        givens_c[i] = R[i][i] / delta;
+                        givens_s[i] = hess[i+1][i] / delta;
+                        R[i][i] = givens_c[i] * R[i][i] + givens_s[i] * hess[i+1][i];
+                        b_[i+1] = -givens_s[i] * b_[i];
+                        b_[i] = givens_c[i] * b_[i];
+                        rho = fabs(b_[i+1]);
+                    }
 
-		for (int i=0; i<l; i++) future_dots[i].wait(); // wait for the remaining futures
+                    if (out != NULL) *out << totit << "\t" << rho << endl;
+                    if (i >= 0)
 
-		for (int k=nrit; k>=0; k--)
-		{
-			y[k] = b_[k];
+                        if ((tol > .0 && rho < tol) || (totit >= maxit + l))
+                        {
+                            no_conv = false;
+                            nrit = i;
+                            break;
+                        }
+                }
 
-			for (int i=k+1; i<=nrit; i++)
-				y[k] -= R[k][i] * y[i];
+                for (int i=0; i<l; i++) future_dots[i].wait(); // wait for the remaining futures
 
-			y[k] /= R[k][k];
-		}
+                for (int k=nrit; k>=0; k--)
+                {
+                    y[k] = b_[k];
 
-		for (int i=0; i<=nrit; i++)
-			x = x + y[i] * Q[i];
+                    for (int i=k+1; i<=nrit; i++)
+                        y[k] -= R[k][i] * y[i];
 
-	}
+                    y[k] /= R[k][k];
+                }
 
-	return rho;
+                for (int i=0; i<=nrit; i++)
+                    x = x + y[i] * Q[i];
+
+            }
+
+            stop(totit);
+        }
 }
 
-//#endif

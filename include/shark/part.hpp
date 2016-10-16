@@ -19,7 +19,20 @@ namespace shark {
 		struct part_position {
 			int pos;
 			float off;
-		};
+
+                        part_position& operator+=(const part_position& other) {
+                            pos += other.pos;
+                            off += other.off;
+                            return *this;
+                        }
+
+                        part_position operator+(const part_position& other) const {
+                            part_position r;
+                            r.pos = pos + other.pos;
+                            r.off = off + other.off;
+                            return r;
+                        }
+                };
 
 		INLINE bool operator<=(const part_position& p1, const part_position& p2);
 
@@ -28,7 +41,7 @@ namespace shark {
 		inline bool operator<=(const part_position& p1, const part_position& p2) {
 			return p1.pos < p2.pos || (p1.pos == p2.pos && p1.off <= p2.off);
 		}
-
+         
 		/**
 		 * Particles with position, velocity, charge
 		 */
@@ -37,9 +50,31 @@ namespace shark {
 			vec<ndim,part_position> x;
 			vec<ndim,double> v;
 			double w;
+
+                        inline part<ndim>& operator+=(const part<ndim>& other) {
+                                x += other.x;
+                                v += other.v;
+                                w += other.w;
+                                return *this;
+                        }
+
+                        inline part<ndim> operator+(const part<ndim>& other) const {
+                                part<ndim> r;
+                                r.x = x + other.x;
+                                r.v = v + other.v;
+                                r.w = w + other.w;
+                                return r;
+                        }
 		};
 
-	}
+                template<int ndim>
+       		inline std::ostream & operator<<(std::ostream &os, const part<ndim> &v) {
+                        os << "[" << v.x << ", " << v.v << ", " << v.w << "]";;
+			return os;
+		}
+
+                
+ 	}
 
 }
 

@@ -1,80 +1,85 @@
 
-#include "laplaceOperator.hpp"
 
-//#ifdef SHARK_MPI_ASYNC
-double pipe_cg(GlobalArrayD& x, GlobalArrayD& b,double tol, int& k, int maxit, double h, ostream* out = NULL)
+
+void Solver::pipe_cg()
 {
-  vector<GlobalArrayD*> r_w;
 
-  r_w.push_back(new GlobalArrayD(x, false));
-  r_w.push_back(new GlobalArrayD(x, false));
+    vector<GlobalArrayD*> r_w;
 
-  GlobalArrayD& r = *r_w[0];
-  GlobalArrayD& w = *r_w[1];
+    r_w.push_back(new GlobalArrayD(x, false));
+    r_w.push_back(new GlobalArrayD(x, false));
 
-  GlobalArrayD z(r, false), x_old(r, false), r_old(r, false), w_old(r, false);
-  GlobalArrayD tmp(r, false); // Tmp vector to make add operations idempotent
+    GlobalArrayD& r = *r_w[0];
+    GlobalArrayD& w = *r_w[1];
 
-  applyOperator(tmp, x);
+    GlobalArrayD z(r, false), x_old(r, false), r_old(r, false), w_old(r, false);
+    GlobalArrayD tmp(b, false); // Tmp vector to make add operations idempotent
 
-  r = b - tmp;
+    for (int i = 0; i < reps; i++)
+    {
+        start();
 
-  applyOperator(w, r);
+        applyOperator(tmp, x, degree);
+        r <<= b - tmp;
+        applyOperator(tmp, r, degree);
+        w <<= tmp;
 
-  double rho = 1.0, rho_old = 1.0, mu, mu_old = 0.0, gamma, gamma_old = 0.0, nu, res;
+        double rho = 1.0, rho_old = 1.0, mu, mu_old = 0.0, gamma, gamma_old = 0.0, nu, res;
 
-  for (k = 0; k < maxit; k++)
-  {
-    Future<valarray<double> > future_dots = cidot(r, r_w);
+        int k;
+        for (k = 0; k < maxit; k++)
+        {
+            Future<valarray<double> > future_dots;
+            {SHARK_COUNTER("VecTDot"); future_dots = cidot(r, r_w); }
 
-    applyOperator(z, w);
+            {SHARK_COUNTER("MatMult"); applyOperator(z, w, degree); }
 
-    valarray<double> dots = future_dots.wait();
+            valarray<double> dots;
+            {SHARK_COUNTER("VecTDot"); { SHARK_COUNTER("wait"); dots = future_dots.wait(); }}
 
-    mu = dots[0];
-    nu = dots[1];
+            mu = dots[0];
+            nu = dots[1];
 
-    res = sqrt(mu);
+            res = sqrt(mu);
 
-    if (res <= tol) break;
-    if (out != NULL) *out << k << "\t" << res << std::endl;
+            if (tol > .0 && res <= tol) break;
+            if (out != NULL) *out << k << "\t" << res << std::endl;
 
-    gamma = mu / nu;
+            {
+                SHARK_COUNTER("VecAXPY");
+                gamma = mu / nu;
 
-    if (k > 0) rho = 1.0 / (1.0 - gamma / gamma_old * mu / mu_old / rho_old);
+                if (k > 0) rho = 1.0 / (1.0 - gamma / gamma_old * mu / mu_old / rho_old);
 
-    if (k > 0) tmp = (1 - rho) * x_old + rho * x + rho * gamma * r ;
-    else       tmp = rho * x + rho * gamma * r;
+                if (k > 0) tmp = (1 - rho) * x_old + rho * x + rho * gamma * r ;
+                else       tmp = rho * x + rho * gamma * r;
 
-   	swap(x, x_old);
-    swap(x, tmp);
+                swap(x, x_old);
+                swap(x, tmp);
 
-    if (k > 0) tmp = (1 - rho) * r_old + rho * r - rho * gamma * w ;
-    else       tmp = rho * r - rho * gamma * w;
+                if (k > 0) tmp = (1 - rho) * r_old + rho * r - rho * gamma * w ;
+                else       tmp = rho * r - rho * gamma * w;
 
-    swap(r, r_old);
-    swap(r, tmp);
+                swap(r, r_old);
+                swap(r, tmp);
 
-    if (k > 0) tmp = (1 - rho) * w_old + rho * w - rho * gamma * z ;
-    else       tmp = rho * w - rho * gamma * z;
+                if (k > 0) tmp <<= (1 - rho) * w_old + rho * w - rho * gamma * z ;
+                else       tmp <<= rho * w - rho * gamma * z;
 
-    swap(w, w_old);
-    swap(w, tmp);
+                swap(w, w_old);
+                swap(w, tmp);
 
-    mu_old = mu;
-    rho_old = rho;
-    gamma_old = gamma;
+                mu_old = mu;
+                rho_old = rho;
+                gamma_old = gamma;
+            }
 
-  }
+        }
 
-  if (out != NULL)
-  {
-    *out << "# P1CG: iteration " << k << endl;
-    *out << "#       residual norm: " << res << endl;
-  }
+        stop(k);
+    }
 
-  return res;
+    for(auto a : r_w) delete a;
 }
 
-//#endif
 

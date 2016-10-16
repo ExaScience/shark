@@ -10,7 +10,7 @@ using namespace std;
 using namespace shark;
 using namespace shark::ndim;
 
-#if defined(SHARK_MPI_COMM)
+#if defined(SHARK_MPI_COMM) || defined(SHARK_GPI_COMM)
 
 template<> const MPI_Datatype mpi_type<char>::t = MPI_CHAR;
 template<> const MPI_Datatype mpi_type<int>::t = MPI_INT;
@@ -18,9 +18,9 @@ template<> const MPI_Datatype mpi_type<long>::t = MPI_LONG;
 template<> const MPI_Datatype mpi_type<float>::t = MPI_FLOAT;
 template<> const MPI_Datatype mpi_type<double>::t = MPI_DOUBLE;
 template<> const MPI_Datatype mpi_type<long double>::t = MPI_LONG_DOUBLE;
-template<> const MPI_Datatype mpi_type<std::complex<float>>::t = MPI_C_COMPLEX;
-template<> const MPI_Datatype mpi_type<std::complex<double>>::t = MPI_C_DOUBLE_COMPLEX;
-template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_C_LONG_DOUBLE_COMPLEX;
+template<> const MPI_Datatype mpi_type<std::complex<float>>::t = MPI_COMPLEX;
+template<> const MPI_Datatype mpi_type<std::complex<double>>::t = MPI_DOUBLE_COMPLEX;
+// template<> const MPI_Datatype mpi_type<std::complex<long double>>::t = MPI_LONG_DOUBLE_COMPLEX;
 
 template<int ndim> const MPI_Datatype mpi_type<coords_range<ndim>>::t = mpi_type<coord>::t;
 
@@ -73,6 +73,7 @@ mpi_type_block<ndim,T>::~mpi_type_block() {
 #include "comm_cplx_inst"
 #include "comm_other_inst"
 #undef SYMBT
+
 
 #define SYMBDT(d,T) template class shark::ndim::mpi_type_block<d,T>; 
 #include "inst_dimtype"

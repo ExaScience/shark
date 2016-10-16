@@ -18,6 +18,7 @@ coords_range<ndim> coords_range<ndim>::overlap(coords_range<ndim> other) const {
 		r.lower[d] = std::max(lower[d], other.lower[d]);
 		r.upper[d] = std::min(upper[d], other.upper[d]);
 	});
+        if (r.count() <= 0) r = coords_range<ndim>();
 	return r;
 }
 
