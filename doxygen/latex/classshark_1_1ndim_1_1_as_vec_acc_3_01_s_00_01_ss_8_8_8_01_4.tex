@@ -1,0 +1,168 @@
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4}{}\section{shark\+:\+:ndim\+:\+:As\+Vec\+Acc$<$ S, Ss... $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4}\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$ 1+sizeof...(Ss), typename std\+::common\+\_\+type$<$ typename \hyperlink{structshark_1_1ndim_1_1source}{source}$<$ S $>$\+::element\+\_\+type, typename \hyperlink{structshark_1_1ndim_1_1source}{source}$<$ Ss $>$\+::element\+\_\+type... $>$\+::type $>$ \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{vec\+\_\+type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a15a6a3519508753102c4e96694c9b15c}{As\+Vec\+Acc} (const \hyperlink{classshark_1_1ndim_1_1_as_vec_exp}{As\+Vec\+Exp}$<$ S, Ss... $>$ \&exp)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ad56112a1ff4e5f4bfa1808fdb6e34e43}{$\sim$\+As\+Vec\+Acc} ()
+\item 
+{\footnotesize template$<$int d, typename T $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} void \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a30fcd24dec4d442e2822838e1a5eec5b}{fill} (T \&t, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{vec\+\_\+type} \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acd05b5d259e16e6c9f87e298547d6243}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const
+\item 
+{\footnotesize template$<$int d, typename T $>$ }\\void \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a36bb230f01a3a2b77156424f345429c9}{fill} (T \&t, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const S\+::accessor \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_aa23d501c29acbde8ff8d9e2c72bb4756}{a}
+\item 
+const \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{As\+Vec\+Acc}$<$ Ss... $>$ \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ab43adccf8b6c612647ae7a9986dad9e2}{aa}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S, typename... Ss$>$\newline
+class shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}
+
+
+
+Definition at line 386 of file expr.\+hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!vec\+\_\+type@{vec\+\_\+type}}
+\index{vec\+\_\+type@{vec\+\_\+type}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{vec\+\_\+type}{vec\_type}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+typedef \hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$1+sizeof...(Ss), typename std\+::common\+\_\+type$<$typename \hyperlink{structshark_1_1ndim_1_1source}{source}$<$S$>$\+::element\+\_\+type, typename \hyperlink{structshark_1_1ndim_1_1source}{source}$<$Ss$>$\+::element\+\_\+type...$>$\+::type$>$ \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::\hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{vec\+\_\+type}}
+
+
+
+Definition at line 390 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a15a6a3519508753102c4e96694c9b15c}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a15a6a3519508753102c4e96694c9b15c} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!As\+Vec\+Acc@{As\+Vec\+Acc}}
+\index{As\+Vec\+Acc@{As\+Vec\+Acc}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{As\+Vec\+Acc()}{AsVecAcc()}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::\hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{As\+Vec\+Acc} (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_as_vec_exp}{As\+Vec\+Exp}$<$ S, Ss... $>$ \&}]{exp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 398 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+398 : \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_aa23d501c29acbde8ff8d9e2c72bb4756}{a}(exp.src), \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ab43adccf8b6c612647ae7a9986dad9e2}{aa}(exp.srcs) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ad56112a1ff4e5f4bfa1808fdb6e34e43}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ad56112a1ff4e5f4bfa1808fdb6e34e43} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!````~As\+Vec\+Acc@{$\sim$\+As\+Vec\+Acc}}
+\index{````~As\+Vec\+Acc@{$\sim$\+As\+Vec\+Acc}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{$\sim$\+As\+Vec\+Acc()}{~AsVecAcc()}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::$\sim$\hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{As\+Vec\+Acc} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 401 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+401 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a30fcd24dec4d442e2822838e1a5eec5b}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a30fcd24dec4d442e2822838e1a5eec5b} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!fill@{fill}}
+\index{fill@{fill}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{fill()}{fill()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+template$<$int d, typename T $>$ \\
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} void \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::fill (\begin{DoxyParamCaption}\item[{T \&}]{t,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const}
+
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a36bb230f01a3a2b77156424f345429c9}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_a36bb230f01a3a2b77156424f345429c9} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!fill@{fill}}
+\index{fill@{fill}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{fill()}{fill()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+template$<$int d, typename T $>$ \\
+void \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::fill (\begin{DoxyParamCaption}\item[{T \&}]{t,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 404 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+404                                                                                         \{
+405             t[d] = \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_aa23d501c29acbde8ff8d9e2c72bb4756}{a}(ii);
+406             \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ab43adccf8b6c612647ae7a9986dad9e2}{aa}.template fill<d+1>(t, ii);
+407         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acd05b5d259e16e6c9f87e298547d6243}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acd05b5d259e16e6c9f87e298547d6243} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{As\+Vec\+Acc}$<$ S, Ss... $>$\+::\hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{vec\+\_\+type} \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 410 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+410                                                                                                            
+                 \{
+411             \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_acc514ee9d40c54ec227d44759ce80e34}{vec\_type} v;
+412             fill<0>(v, ii);
+413             \textcolor{keywordflow}{return} v;
+414         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_aa23d501c29acbde8ff8d9e2c72bb4756}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_aa23d501c29acbde8ff8d9e2c72bb4756} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!a@{a}}
+\index{a@{a}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+const S\+::accessor \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::a\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 387 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ab43adccf8b6c612647ae7a9986dad9e2}{}\label{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4_ab43adccf8b6c612647ae7a9986dad9e2} 
+\index{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}!aa@{aa}}
+\index{aa@{aa}!shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$@{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}}
+\subsubsection{\texorpdfstring{aa}{aa}}
+{\footnotesize\ttfamily template$<$typename S , typename... Ss$>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{As\+Vec\+Acc}$<$Ss...$>$ \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc}$<$ S, Ss... $>$\+::aa\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 388 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

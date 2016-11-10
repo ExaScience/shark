@@ -1,0 +1,202 @@
+\hypertarget{expr_8hpp}{}\section{include/shark/expr.hpp File Reference}
+\label{expr_8hpp}\index{include/shark/expr.\+hpp@{include/shark/expr.\+hpp}}
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$valarray$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}declval.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}common.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}domain.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}future.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}adl.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}coords.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vec.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1is__source}{shark\+::ndim\+::is\+\_\+source$<$ S $>$}
+\item 
+struct \hyperlink{structshark_1_1ndim_1_1source}{shark\+::ndim\+::source$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc$<$ ndim, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{shark\+::ndim\+::\+Nullary\+Exp$<$ ndim, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc$<$ ndim, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc$<$ S, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp$<$ S, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc$<$ S, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_binary_acc}{shark\+::ndim\+::\+Binary\+Acc$<$ S1, S2, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_binary_exp}{shark\+::ndim\+::\+Binary\+Exp$<$ S1, S2, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_binary_acc}{shark\+::ndim\+::\+Binary\+Acc$<$ S1, S2, Func $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_acc}{shark\+::ndim\+::\+As\+Vec\+Acc$<$... $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_exp}{shark\+::ndim\+::\+As\+Vec\+Exp$<$... $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_exp_3_01_s_01_4}{shark\+::ndim\+::\+As\+Vec\+Exp$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_exp_3_01_s_00_01_ss_8_8_8_01_4}{shark\+::ndim\+::\+As\+Vec\+Exp$<$ S, Ss... $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_01_4}{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_as_vec_acc_3_01_s_00_01_ss_8_8_8_01_4}{shark\+::ndim\+::\+As\+Vec\+Acc$<$ S, Ss... $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_const}{shark\+::ndim\+::\+Const$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_coord_vec}{shark\+::ndim\+::\+Coord\+Vec$<$ ndim $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_s_coord_vec}{shark\+::ndim\+::\+S\+Coord\+Vec$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_coord_val}{shark\+::ndim\+::\+Coord\+Val$<$ d, ndim $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_s_coord_val}{shark\+::ndim\+::\+S\+Coord\+Val$<$ d, ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_neg}{shark\+::ndim\+::\+Neg$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_abs}{shark\+::ndim\+::\+Abs$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_sin}{shark\+::ndim\+::\+Sin$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_cos}{shark\+::ndim\+::\+Cos$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_min_element}{shark\+::ndim\+::\+Min\+Element$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_max_element}{shark\+::ndim\+::\+Max\+Element$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_shift}{shark\+::ndim\+::\+Shift$<$ S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_periodic_shift}{shark\+::ndim\+::\+Periodic\+Shift$<$ ndim, S $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_add_c}{shark\+::ndim\+::\+Add\+C$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_add}{shark\+::ndim\+::\+Add$<$ S1, S2 $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_sub_c_l}{shark\+::ndim\+::\+Sub\+C\+L$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_sub_c_r}{shark\+::ndim\+::\+Sub\+C\+R$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_sub}{shark\+::ndim\+::\+Sub$<$ S1, S2 $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_mul_c}{shark\+::ndim\+::\+Mul\+C$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_mul}{shark\+::ndim\+::\+Mul$<$ S1, S2 $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_div_c_l}{shark\+::ndim\+::\+Div\+C\+L$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_div_c_r}{shark\+::ndim\+::\+Div\+C\+R$<$ S, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_div}{shark\+::ndim\+::\+Div$<$ S1, S2 $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_and}{shark\+::ndim\+::\+And$<$ S1, S2 $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_eq}{shark\+::ndim\+::\+Eq$<$ S1, S2 $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshark}{shark}
+\item 
+ \hyperlink{namespaceshark_1_1ndim}{shark\+::ndim}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int ndim, typename Func $>$ }\\Nullary\+Exp$<$ ndim, Func $>$ \hyperlink{namespaceshark_1_1ndim_ae642624dc61ac0881dbf0be36871006b}{shark\+::ndim\+::nullary} (const Domain$<$ ndim $>$ \&dom, const Func \&f)
+\item 
+{\footnotesize template$<$typename S , typename Func $>$ }\\Unary\+Exp$<$ S, Func $>$ \hyperlink{namespaceshark_1_1ndim_af14b9ab4bea37d932d735ef2902cbae7}{shark\+::ndim\+::unary} (const S \&src, const Func \&f)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 , typename Func $>$ }\\Binary\+Exp$<$ S1, S2, Func $>$ \hyperlink{namespaceshark_1_1ndim_ab41df8eae2cf48f08d7d547d24268145}{shark\+::ndim\+::binary} (const S1 \&src1, const S2 \&src2, const Func \&f)
+\item 
+{\footnotesize template$<$typename... Ss$>$ }\\As\+Vec\+Exp$<$ Ss... $>$ \hyperlink{namespaceshark_1_1ndim_a154fb3be8af2f4f57ae49b73cd1a3820}{shark\+::ndim\+::as\+\_\+vec} (const Ss \&... ss)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\\hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, \hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$ ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_ac0114ef6c7c29d0b6cd96cf61f6cc089}{shark\+::ndim\+::constant} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&dom, const T \&val)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\\hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, \hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$ ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_ad9270694b8f4db58c84aff52b048183c}{shark\+::ndim\+::constant} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&dom, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, const T \&val)
+\item 
+{\footnotesize template$<$int ndim$>$ }\\\hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, \hyperlink{classshark_1_1ndim_1_1_coord_vec}{Coord\+Vec}$<$ ndim $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a79746b40d6df669922d2577ae022d531}{shark\+::ndim\+::coord\+\_\+vec} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&dom)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\Nullary\+Exp$<$ ndim, S\+Coord\+Vec$<$ ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a6dc6b1b683a83691834cee32ab8a0bd7}{shark\+::ndim\+::coord\+\_\+vec} (const Domain$<$ ndim $>$ \&dom, coords\+\_\+range$<$ ndim $>$ r, vec$<$ ndim, T $>$ one, bool inclusive=true)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\Nullary\+Exp$<$ ndim, S\+Coord\+Vec$<$ ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a6beec51528cef95c43479d8e4c378c99}{shark\+::ndim\+::coord\+\_\+vec} (const Domain$<$ ndim $>$ \&dom, vec$<$ ndim, T $>$ one, bool inclusive=true)
+\item 
+{\footnotesize template$<$int d, int ndim$>$ }\\Nullary\+Exp$<$ ndim, Coord\+Val$<$ d, ndim $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a599cfc303c9ba3f6fc3d6ddb2a13f541}{shark\+::ndim\+::coord\+\_\+val} (const Domain$<$ ndim $>$ \&dom)
+\item 
+{\footnotesize template$<$int d, int ndim, typename T $>$ }\\Nullary\+Exp$<$ ndim, S\+Coord\+Val$<$ d, ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a32dcb60d18d3a2fa6077d63ff7dcc60c}{shark\+::ndim\+::coord\+\_\+val} (const Domain$<$ ndim $>$ \&dom, coord lower, coord upper, T one, bool inclusive=true)
+\item 
+{\footnotesize template$<$int d, int ndim, typename T $>$ }\\Nullary\+Exp$<$ ndim, S\+Coord\+Val$<$ d, ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a31fe7dc4ac68fae53b8e49bac88d81fd}{shark\+::ndim\+::coord\+\_\+val} (const Domain$<$ ndim $>$ \&dom, T one, bool inclusive=true)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\\hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, \hyperlink{classshark_1_1ndim_1_1_buffer}{Buffer}$<$ ndim, T $>$ $>$ \hyperlink{namespaceshark_1_1ndim_a18f6c04b5497740c4bea65b1a77f8797}{shark\+::ndim\+::buffer} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&dom, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim+1 $>$ ld, const T $\ast$ptr)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Neg$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a7a89208e5b1e8bfe1486d3c44f0f4380}{shark\+::ndim\+::operator-\/} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Abs$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a6ec5334c10df1824526954ad5a205531}{shark\+::ndim\+::abs} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Sin$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_ad0b8060a85f85b70899c28e4fb9e7047}{shark\+::ndim\+::sin} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Cos$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a5dfdad9111c53551d5b4a60d8d68820f}{shark\+::ndim\+::cos} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Min\+Element$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a4c389b16fefd6eef118bb0c46fa50379}{shark\+::ndim\+::min\+\_\+element} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Max\+Element$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_ab3a86aa005a8963555dcb303cfc0e0c9}{shark\+::ndim\+::max\+\_\+element} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Shift$<$ S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a22800ad79a4648e95fe28d89414e950f}{shark\+::ndim\+::shift} (const S \&src, coords$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ sw)
+\item 
+{\footnotesize template$<$int ndim, typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Unary\+Exp$<$ S, Periodic\+Shift$<$ ndim, S $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_afd5a6adf0ff010016f1513b83a0dd813}{shark\+::ndim\+::shift} (const S \&src, coords$<$ ndim $>$ sw, coords\+\_\+range$<$ ndim $>$ r)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, AddC$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a63fa4086ee305e74456f6f5ec122f0e7}{shark\+::ndim\+::operator+} (const S \&src, const T \&val)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, AddC$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_ab911025a5c581955f4802f0f2a46b9b0}{shark\+::ndim\+::operator+} (const T \&val, const S \&src)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, Add$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_acc0eab01656face90121867d6c7ccca6}{shark\+::ndim\+::operator+} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, Sub\+CL$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a4668c407586ccab4c63c2a234670ea9e}{shark\+::ndim\+::operator-\/} (const T \&val, const S \&src)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, Sub\+CR$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_aaad5819052035e9b59b06130b328f9aa}{shark\+::ndim\+::operator-\/} (const S \&src, const T \&val)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, Sub$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_addbe22a064a520607db0585dd2212284}{shark\+::ndim\+::operator-\/} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, MulC$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a41663f041f9fc6fee5b026e8d046cc52}{shark\+::ndim\+::operator$\ast$} (const S \&src, const T \&val)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, MulC$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a87b233d59888fe2949738606ff57d3f9}{shark\+::ndim\+::operator$\ast$} (const T \&val, const S \&src)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, Mul$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_aa4481e240ad9a193e7502a3d5bf9caf3}{shark\+::ndim\+::operator$\ast$} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, Div\+CL$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a2cb8f6e837e4b1d3d8b8b56ced78b745}{shark\+::ndim\+::operator/} (const T \&val, const S \&src)
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value \&\&!is\+\_\+source$<$ T $>$\+::value, Unary\+Exp$<$ S, Div\+CR$<$ S, T $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a04db7e72d5f7d75e493d397e6ee1b973}{shark\+::ndim\+::operator/} (const S \&src, const T \&val)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, Div$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a1116e694b5847cfeee2bbd30f6451659}{shark\+::ndim\+::operator/} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, And$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a78f5768d2fcffe7803b9422aa1333670}{shark\+::ndim\+::operator \&\&} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Binary\+Exp$<$ S1, S2, Eq$<$ S1, S2 $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a1e0a8ad9243246f1ae0965ff1386b0db}{shark\+::ndim\+::operator==} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S $>$ }\\test\+\_\+result \hyperlink{namespaceshark_1_1ndim_a4af22655633852fd02e57f6e60febdff}{shark\+::ndim\+::check} (coords\+\_\+range$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ r, const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\test\+\_\+result \hyperlink{namespaceshark_1_1ndim_ac4c2c304de61ac4b22c8b266c1627db8}{shark\+::ndim\+::check} (const S \&src)
+\item 
+{\footnotesize template$<$typename R , typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, R $>$\+::type \hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{shark\+::ndim\+::sum} (const R \&zero, const S \&src)
+\item 
+{\footnotesize template$<$typename R , typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, Future$<$ R $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_a1628755d0773dcf15427e7bd60173d42}{shark\+::ndim\+::isum} (const R \&zero, const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, typename source$<$ S $>$\+::element\+\_\+type $>$\+::type \hyperlink{namespaceshark_1_1ndim_a6daa18cea8b9b37f3525eb0416bbb203}{shark\+::ndim\+::norm1} (const S \&src)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S $>$\+::value, typename source$<$ S $>$\+::element\+\_\+type $>$\+::type \hyperlink{namespaceshark_1_1ndim_a006dcceb3ef3d3456fdb7214489cb15e}{shark\+::ndim\+::norm2} (const S \&src)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, typename source$<$ S1 $>$\+::element\+\_\+type $>$\+::type \hyperlink{namespaceshark_1_1ndim_a9b4a2fb83e2ac9ad876f4423fc6aa8bd}{shark\+::ndim\+::dot} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Future$<$ typename source$<$ S1 $>$\+::element\+\_\+type $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_ac03f6c0b503e2edea1872c3c62bc56cf}{shark\+::ndim\+::idot} (const S1 \&src1, const S2 \&src2)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, Future$<$ std\+::valarray$<$ typename source$<$ S1 $>$\+::element\+\_\+type $>$ $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_aae51185f130890d0d852dbafb8efd05b}{shark\+::ndim\+::cidot} (const S1 \&src, const std\+::vector$<$ S2 $\ast$$>$ \&others)
+\item 
+{\footnotesize template$<$typename S1 , typename S2 $>$ }\\std\+::enable\+\_\+if$<$ is\+\_\+source$<$ S1 $>$\+::value \&\&is\+\_\+source$<$ S2 $>$\+::value, std\+::valarray$<$ typename source$<$ S1 $>$\+::element\+\_\+type $>$ $>$\+::type \hyperlink{namespaceshark_1_1ndim_af41287806ba7a4ab84540e6611a046e7}{shark\+::ndim\+::cdot} (const S1 \&src, const std\+::vector$<$ S2 $\ast$$>$ \&others)
+\end{DoxyCompactItemize}

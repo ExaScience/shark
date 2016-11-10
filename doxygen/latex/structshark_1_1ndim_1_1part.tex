@@ -1,0 +1,117 @@
+\hypertarget{structshark_1_1ndim_1_1part}{}\section{shark\+:\+:ndim\+:\+:part$<$ ndim $>$ Struct Template Reference}
+\label{structshark_1_1ndim_1_1part}\index{shark\+::ndim\+::part$<$ ndim $>$@{shark\+::ndim\+::part$<$ ndim $>$}}
+
+
+{\ttfamily \#include $<$part.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \& \hyperlink{structshark_1_1ndim_1_1part_a94f82c7e9b155ada9b231f8bb4ed7d6f}{operator+=} (const \hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \&other)
+\item 
+\hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \hyperlink{structshark_1_1ndim_1_1part_af38c76aff059b4468d7cc3d049f52547}{operator+} (const \hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \&other) const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$ ndim, \hyperlink{structshark_1_1ndim_1_1part__position}{part\+\_\+position} $>$ \hyperlink{structshark_1_1ndim_1_1part_a8683feb6fd18c499f11f72dcdd3b7c1a}{x}
+\item 
+\hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$ ndim, double $>$ \hyperlink{structshark_1_1ndim_1_1part_a985d6b06c78b3d33e080d2610ca4e3da}{v}
+\item 
+double \hyperlink{structshark_1_1ndim_1_1part_a030c3103f8272c8119666a818b99c513}{w}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim$>$\newline
+struct shark\+::ndim\+::part$<$ ndim $>$}
+
+Particles with position, velocity, charge 
+
+Definition at line 49 of file part.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structshark_1_1ndim_1_1part_af38c76aff059b4468d7cc3d049f52547}{}\label{structshark_1_1ndim_1_1part_af38c76aff059b4468d7cc3d049f52547} 
+\index{shark\+::ndim\+::part@{shark\+::ndim\+::part}!operator+@{operator+}}
+\index{operator+@{operator+}!shark\+::ndim\+::part@{shark\+::ndim\+::part}}
+\subsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1part}{part}$<$ndim$>$ \hyperlink{structshark_1_1ndim_1_1part}{shark\+::ndim\+::part}$<$ ndim $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 61 of file part.\+hpp.
+
+
+\begin{DoxyCode}
+61                                                                                    \{
+62                                 part<ndim> r;
+63                                 r.x = \hyperlink{structshark_1_1ndim_1_1part_a8683feb6fd18c499f11f72dcdd3b7c1a}{x} + other.x;
+64                                 r.v = \hyperlink{structshark_1_1ndim_1_1part_a985d6b06c78b3d33e080d2610ca4e3da}{v} + other.v;
+65                                 r.w = \hyperlink{structshark_1_1ndim_1_1part_a030c3103f8272c8119666a818b99c513}{w} + other.w;
+66                                 \textcolor{keywordflow}{return} r;
+67                         \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1ndim_1_1part_a94f82c7e9b155ada9b231f8bb4ed7d6f}{}\label{structshark_1_1ndim_1_1part_a94f82c7e9b155ada9b231f8bb4ed7d6f} 
+\index{shark\+::ndim\+::part@{shark\+::ndim\+::part}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!shark\+::ndim\+::part@{shark\+::ndim\+::part}}
+\subsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1part}{part}$<$ndim$>$\& \hyperlink{structshark_1_1ndim_1_1part}{shark\+::ndim\+::part}$<$ ndim $>$\+::operator+= (\begin{DoxyParamCaption}\item[{const \hyperlink{structshark_1_1ndim_1_1part}{part}$<$ ndim $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file part.\+hpp.
+
+
+\begin{DoxyCode}
+54                                                                                \{
+55                                 \hyperlink{structshark_1_1ndim_1_1part_a8683feb6fd18c499f11f72dcdd3b7c1a}{x} += other.x;
+56                                 \hyperlink{structshark_1_1ndim_1_1part_a985d6b06c78b3d33e080d2610ca4e3da}{v} += other.v;
+57                                 \hyperlink{structshark_1_1ndim_1_1part_a030c3103f8272c8119666a818b99c513}{w} += other.w;
+58                                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+59                         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structshark_1_1ndim_1_1part_a985d6b06c78b3d33e080d2610ca4e3da}{}\label{structshark_1_1ndim_1_1part_a985d6b06c78b3d33e080d2610ca4e3da} 
+\index{shark\+::ndim\+::part@{shark\+::ndim\+::part}!v@{v}}
+\index{v@{v}!shark\+::ndim\+::part@{shark\+::ndim\+::part}}
+\subsubsection{\texorpdfstring{v}{v}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$ndim,double$>$ \hyperlink{structshark_1_1ndim_1_1part}{shark\+::ndim\+::part}$<$ ndim $>$\+::v}
+
+
+
+Definition at line 51 of file part.\+hpp.
+
+\hypertarget{structshark_1_1ndim_1_1part_a030c3103f8272c8119666a818b99c513}{}\label{structshark_1_1ndim_1_1part_a030c3103f8272c8119666a818b99c513} 
+\index{shark\+::ndim\+::part@{shark\+::ndim\+::part}!w@{w}}
+\index{w@{w}!shark\+::ndim\+::part@{shark\+::ndim\+::part}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+double \hyperlink{structshark_1_1ndim_1_1part}{shark\+::ndim\+::part}$<$ ndim $>$\+::w}
+
+
+
+Definition at line 52 of file part.\+hpp.
+
+\hypertarget{structshark_1_1ndim_1_1part_a8683feb6fd18c499f11f72dcdd3b7c1a}{}\label{structshark_1_1ndim_1_1part_a8683feb6fd18c499f11f72dcdd3b7c1a} 
+\index{shark\+::ndim\+::part@{shark\+::ndim\+::part}!x@{x}}
+\index{x@{x}!shark\+::ndim\+::part@{shark\+::ndim\+::part}}
+\subsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1vec}{vec}$<$ndim,\hyperlink{structshark_1_1ndim_1_1part__position}{part\+\_\+position}$>$ \hyperlink{structshark_1_1ndim_1_1part}{shark\+::ndim\+::part}$<$ ndim $>$\+::x}
+
+
+
+Definition at line 50 of file part.\+hpp.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{part_8hpp}{part.\+hpp}\end{DoxyCompactItemize}

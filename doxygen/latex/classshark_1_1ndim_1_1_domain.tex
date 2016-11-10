@@ -1,0 +1,1340 @@
+\hypertarget{classshark_1_1ndim_1_1_domain}{}\section{shark\+:\+:ndim\+:\+:Domain$<$ ndim $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_domain}\index{shark\+::ndim\+::\+Domain$<$ ndim $>$@{shark\+::ndim\+::\+Domain$<$ ndim $>$}}
+
+
+{\ttfamily \#include $<$common.\+hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_domain_1_1_process_overlap}{Process\+Overlap}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::array$<$ int, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}
+\item 
+typedef std\+::array$<$ std\+::vector$<$ \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain_afe61a039b9dbcb3f4fde5bae30e19b1d}{Domain} (const \hyperlink{classshark_1_1_group}{Group} \&\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}=\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$(), \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}=\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}(), int m=0)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain_afcd66729a7f0bc45865e19ea0c920725}{Domain} (const \hyperlink{classshark_1_1_group}{Group} \&\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}, int m)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain_a88704812766d739e9ed0495eed89cc55}{Domain} (const \hyperlink{classshark_1_1_group}{Group} \&\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}, \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}, \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain_a29cec9afb2e54c810ba1f3c1a49543a8}{$\sim$\+Domain} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain_abda6ddc2b302fd3a7012a2f52bdaff40}{Domain} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain} \&)=delete
+\item 
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain} \& \hyperlink{classshark_1_1ndim_1_1_domain_a24484e5bc50ca9907904896eaf20a820}{operator=} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain} \&)=delete
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a0b21c5f42bd40695f8fc6978ff898bf4}{indexp} (int id) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203}{indexp} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} int \hyperlink{classshark_1_1ndim_1_1_domain_ad22dcae5c29d3d20dc279930b9423853}{pindex} (\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} ip) const
+\item 
+int \hyperlink{classshark_1_1ndim_1_1_domain_ae6830337d8bdd203b5267ce7666362b0}{shiftd} (int d, int disp, bool pd, int id) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} int \hyperlink{classshark_1_1ndim_1_1_domain_ac08b32ef1496aeccc639f1106bfa6355}{shiftd} (int d, int disp, bool pd) const
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local} (int id, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ gw=\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$()) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_acaf625c94a4f874d55f5989ece9dda9e}{local} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ gw=\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$()) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} bool \hyperlink{classshark_1_1ndim_1_1_domain_a9ab20d9ecd3ca2c046ee253a30ab843f}{has\+Data} (int id) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} bool \hyperlink{classshark_1_1ndim_1_1_domain_a6c4491743273ca6ab3e72f5ca3f03912}{has\+Data} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a2539860488c03f96be5fddd54f6f99c0}{count} (int id) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ae35ca88c98731659785066a92c5def91}{count} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_domain_a494512abfa4490fc22f073e111028d96}{block\+\_\+size} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a0bdb8748f3d0a8116429939668d5f0d7}{block\+\_\+size} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a13bdc44128a355f84ecb7c057f4a735e}{block\+\_\+size} (int, \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord})
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ac30400283240054ed6b01289a5b21b7f}{block\+\_\+size} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_domain_ad641aa7b49cf05bb9d231af978f3c1cc}{output\+Distribution} (std\+::ostream \&out) const
+\item 
+\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_domain_a027c9dbe5aa9fa2fd110c6fb4c62450f}{find} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_domain_a887ed57ec5fd3db43d7d947876620529}{find} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i, \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \&ip, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \&off) const
+\item 
+bool \hyperlink{classshark_1_1ndim_1_1_domain_a8e718f1cacc0c3f82197ac1d5a54d853}{operator==} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&other) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} bool \hyperlink{classshark_1_1ndim_1_1_domain_a362605b2c4faa8f7164433f647bcd6cb}{operator!=} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&other) const
+\item 
+bool \hyperlink{classshark_1_1ndim_1_1_domain_a9b488b909423d2decfce5aa505b78583}{equiv} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&other) const
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_domain_a8b68baf8f38340b6b550ebe4c3476c0b}{sync} () const
+\item 
+{\footnotesize template$<$typename Func $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} void \hyperlink{classshark_1_1ndim_1_1_domain_aa234c8c238090b7dd05f9df07c39f223}{for\+\_\+each} (const Func \&f) const
+\item 
+{\footnotesize template$<$typename Func $>$ }\\void \hyperlink{classshark_1_1ndim_1_1_domain_a109960d03c4d1900acbb482d1be9c284}{for\+\_\+each} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum} (const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\T \hyperlink{classshark_1_1ndim_1_1_domain_a500c17d3dc9dc33f0714779306d44b35}{sum} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab00f61852f9957c033d36ddb2f49f0eb}{isum} (const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a5bf4e150338d25522399b4e63c908144}{isum} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \hyperlink{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35}{internal\+\_\+sum} (const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\T \hyperlink{classshark_1_1ndim_1_1_domain_aa2e13e2bbd97d87cc3c64ce8017fd430}{internal\+\_\+sum} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename Func $>$ }\\void \hyperlink{classshark_1_1ndim_1_1_domain_ad27f4f2dfd613d8c50e0d29ff93bb8e6}{for\+\_\+each} (const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\T \hyperlink{classshark_1_1ndim_1_1_domain_ad20744022f33cbcb5bd0af12d82cf7c7}{internal\+\_\+sum} (const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\T \hyperlink{classshark_1_1ndim_1_1_domain_abe9e94aa18d934b151db4db18b42f7cc}{sum} (const T \&zero, const Func \&f) const
+\item 
+{\footnotesize template$<$typename T , typename Func $>$ }\\\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a9de68dd8f3cbf57cc23a6ddf1c58d569}{isum} (const T \&zero, const Func \&f) const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{classshark_1_1_group}{Group} \& \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}
+\item 
+const \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}
+\item 
+const \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}
+\item 
+const \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classshark_1_1ndim_1_1_domain_af10c994124cd93210194db65d5bb3c5b}{consistent\+Distribution} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a6d8aabbf8423bae3e392a4a87caf2185}{adjust\+Procs} (int nprocs, \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \&\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}=\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}())
+\item 
+static std\+::array$<$ int, ndim+1 $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a9335637df58667fdf13f6f861281c973}{base} (\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np})
+\item 
+static \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} \hyperlink{classshark_1_1ndim_1_1_domain_ad9cdf348ad0d1c8fe06965b3e9b3a5d0}{distribution} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}, \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np})
+\item 
+static void \hyperlink{classshark_1_1ndim_1_1_domain_a54d58b320fe6d558735b60753f30f7f4}{findi} (const std\+::vector$<$ \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} $>$ \&dist, \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} i, int \&id, \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \&off)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::array$<$ int, ndim+1 $>$ \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim$>$\newline
+class shark\+::ndim\+::\+Domain$<$ ndim $>$}
+
+
+
+Definition at line 163 of file common.\+hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{}\label{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!dists@{dists}}
+\index{dists@{dists}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{dists}{dists}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+typedef std\+::array$<$std\+::vector$<$\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord}$>$,ndim$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists}}
+
+
+
+Definition at line 39 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{}\label{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!pcoords@{pcoords}}
+\index{pcoords@{pcoords}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{pcoords}{pcoords}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+typedef std\+::array$<$int,ndim$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}
+
+
+
+Definition at line 38 of file domain.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_domain_afe61a039b9dbcb3f4fde5bae30e19b1d}{}\label{classshark_1_1ndim_1_1_domain_afe61a039b9dbcb3f4fde5bae30e19b1d} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{Domain()}{Domain()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+Domain\+::\+Domain (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{group,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{n,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{bs = {\ttfamily \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$()},  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}]{np = {\ttfamily \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}()},  }\item[{int}]{m = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Construct a new domain (local). The data will be evenly distributed across all processes. 
+\begin{DoxyParams}{Parameters}
+{\em n} & the number of elements for every dimension \\
+\hline
+{\em np} & the number of processes for every dimension (0 = auto) \begin{DoxyVerb}nprocs = prod{d=0..ndim-1} np[d] \end{DoxyVerb}
+ \\
+\hline
+{\em m} & replication modulo m \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 168 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+169         : \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}(group)
+170         , \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}(n)
+171         , \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}(bs)
+172         \textcolor{comment}{// Using comma operator to invoke adjustProcs}
+173         , \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}((\hyperlink{classshark_1_1ndim_1_1_domain_a6d8aabbf8423bae3e392a4a87caf2185}{adjustProcs}(m ? m : group.\hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs},\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}), \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}))
+174         , \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}(\hyperlink{classshark_1_1ndim_1_1_domain_ad9cdf348ad0d1c8fe06965b3e9b3a5d0}{distribution}(n, \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}))
+175         , \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}(\hyperlink{classshark_1_1ndim_1_1_domain_a9335637df58667fdf13f6f861281c973}{base}(\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}))
+176 \textcolor{preprocessor}{#if defined(SHARK\_PTHREAD\_SCHED) || defined(SHARK\_OMP\_SCHED) && defined(SHARK\_OMP\_TDIST)}
+177         , tdist(tdistribution())
+178 \textcolor{preprocessor}{#elif defined(SHARK\_TBB\_SCHED)}
+179         , ap(\textcolor{keyword}{new} tbb::affinity\_partitioner())
+180         , nwork(\hyperlink{namespaceshark_a4912c1d983c9655b4ed992ac1f99530f}{nthrds})
+181 \textcolor{preprocessor}{#endif}
+182 \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_afcd66729a7f0bc45865e19ea0c920725}{}\label{classshark_1_1ndim_1_1_domain_afcd66729a7f0bc45865e19ea0c920725} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{Domain()}{Domain()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+Domain\+::\+Domain (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{group,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{n,  }\item[{int}]{m }\end{DoxyParamCaption})}
+
+
+
+Definition at line 204 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+205        : \hyperlink{classshark_1_1ndim_1_1_domain_afe61a039b9dbcb3f4fde5bae30e19b1d}{Domain}(group, n, \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>}(), \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}(), m) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a88704812766d739e9ed0495eed89cc55}{}\label{classshark_1_1ndim_1_1_domain_a88704812766d739e9ed0495eed89cc55} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{Domain()}{Domain()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+Domain\+::\+Domain (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{group,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{n,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{b,  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}]{np,  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists}}]{nd }\end{DoxyParamCaption})}
+
+Construct a new domain (local). The given distribution will be used 
+\begin{DoxyParams}{Parameters}
+{\em n} & the number of elements for every dimension \\
+\hline
+{\em np} & the number of processes for every dimension. \begin{DoxyVerb}nprocs = prod{d=0..ndim-1} np[d] \end{DoxyVerb}
+ \\
+\hline
+{\em dist} & specifyies the distribution for each dimension \begin{DoxyVerb}for each d=0..ndim-1, dist[d][0] = 0, dist[d][np[d]] = n[d], dist[d][i] <= dist[d][j] when i < j \end{DoxyVerb}
+ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 185 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+186     : \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}(group)
+187     , \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}(n)
+188         , \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}(\hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs})
+189     , \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}(\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np})
+190     , \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}(\hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd})
+191     , \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}(\hyperlink{classshark_1_1ndim_1_1_domain_a9335637df58667fdf13f6f861281c973}{base}(\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}))
+192 \textcolor{preprocessor}{#if defined(SHARK\_PTHREAD\_SCHED) || defined(SHARK\_OMP\_SCHED) && defined(SHARK\_OMP\_TDIST)}
+193     , tdist(tdistribution())
+194 \textcolor{preprocessor}{#elif defined(SHARK\_TBB\_SCHED)}
+195     , ap(\textcolor{keyword}{new} tbb::affinity\_partitioner())
+196     , nwork(\hyperlink{namespaceshark_a4912c1d983c9655b4ed992ac1f99530f}{nthrds})
+197 \textcolor{preprocessor}{#endif}
+198 \{
+199     assert(b[0] == group.\hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs});
+200     assert(\hyperlink{classshark_1_1ndim_1_1_domain_af10c994124cd93210194db65d5bb3c5b}{consistentDistribution}());
+201 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a29cec9afb2e54c810ba1f3c1a49543a8}{}\label{classshark_1_1ndim_1_1_domain_a29cec9afb2e54c810ba1f3c1a49543a8} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!````~Domain@{$\sim$\+Domain}}
+\index{````~Domain@{$\sim$\+Domain}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{$\sim$\+Domain()}{~Domain()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+Domain\+::$\sim$\+Domain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destruct a domain (local). 
+
+Definition at line 208 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+208 \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_abda6ddc2b302fd3a7012a2f52bdaff40}{}\label{classshark_1_1ndim_1_1_domain_abda6ddc2b302fd3a7012a2f52bdaff40} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!Domain@{Domain}}
+\index{Domain@{Domain}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{Domain()}{Domain()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain}{Domain} (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_domain_a6d8aabbf8423bae3e392a4a87caf2185}{}\label{classshark_1_1ndim_1_1_domain_a6d8aabbf8423bae3e392a4a87caf2185} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!adjust\+Procs@{adjust\+Procs}}
+\index{adjust\+Procs@{adjust\+Procs}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{adjust\+Procs()}{adjustProcs()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} Domain\+::adjust\+Procs (\begin{DoxyParamCaption}\item[{int}]{nprocs,  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \&}]{np = {\ttfamily \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 55 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+55                                                                               \{
+56     assign\_dims(\hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs}, ndim, \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}.data());
+57         \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np};
+58 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a9335637df58667fdf13f6f861281c973}{}\label{classshark_1_1ndim_1_1_domain_a9335637df58667fdf13f6f861281c973} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!base@{base}}
+\index{base@{base}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{base()}{base()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+array$<$ int, ndim+1 $>$ Domain\+::base (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}]{np }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 61 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+61                                                \{
+62     array<int,ndim+1> \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b};
+63     b[ndim] = 1;
+64     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = ndim-1; d >= 0; d--)
+65         b[d] = \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d] * b[d+1];
+66     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b};
+67 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a494512abfa4490fc22f073e111028d96}{}\label{classshark_1_1ndim_1_1_domain_a494512abfa4490fc22f073e111028d96} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{block\+\_\+size()}{block\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::block\+\_\+size (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get/\+Set cache block size per dimension 
+
+Definition at line 365 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+365                                                                  \{
+366                         \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}[i];
+367                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a0bdb8748f3d0a8116429939668d5f0d7}{}\label{classshark_1_1ndim_1_1_domain_a0bdb8748f3d0a8116429939668d5f0d7} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{block\+\_\+size()}{block\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::block\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 370 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+370                                                                    \{
+371                         \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs};
+372                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a13bdc44128a355f84ecb7c057f4a735e}{}\label{classshark_1_1ndim_1_1_domain_a13bdc44128a355f84ecb7c057f4a735e} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{block\+\_\+size()}{block\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::block\+\_\+size (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord}}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 375 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+375                                                                            \{
+376                     \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs}[d] = \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b};
+377                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs};
+378                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ac30400283240054ed6b01289a5b21b7f}{}\label{classshark_1_1ndim_1_1_domain_ac30400283240054ed6b01289a5b21b7f} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{block\+\_\+size()}{block\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::block\+\_\+size (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 381 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+381                                                                            \{
+382                     \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs} = \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b};
+383                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs};
+384                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_af10c994124cd93210194db65d5bb3c5b}{}\label{classshark_1_1ndim_1_1_domain_af10c994124cd93210194db65d5bb3c5b} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!consistent\+Distribution@{consistent\+Distribution}}
+\index{consistent\+Distribution@{consistent\+Distribution}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{consistent\+Distribution()}{consistentDistribution()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool Domain\+::consistent\+Distribution (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 89 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+89                                                 \{
+90     \textcolor{keywordflow}{return} seq<0,ndim>::all\_of([\textcolor{keyword}{this}](\textcolor{keywordtype}{int} d) -> \textcolor{keywordtype}{bool} \{
+91         \textcolor{keyword}{auto}& dist(\hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}[d]);
+92         \textcolor{keywordflow}{if}(dist.size() != \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d] + 1))
+93             \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+94         \textcolor{keywordflow}{if}(dist[0] != 0 || dist[\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]] != \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}[d])
+95             \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+96         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k = 0; k < \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]; k++)
+97             \textcolor{keywordflow}{if}(dist[k+1] < dist[k])
+98                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+99         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+100     \});
+101 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a2539860488c03f96be5fddd54f6f99c0}{}\label{classshark_1_1ndim_1_1_domain_a2539860488c03f96be5fddd54f6f99c0} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!count@{count}}
+\index{count@{count}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::count (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the number of cells per dimension owned by a process (local). 
+\begin{DoxyParams}{Parameters}
+{\em id} & the process identifier (default\+: group.\+procid) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 354 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+354                                                             \{
+355             \textcolor{keyword}{const} coords\_range<ndim> r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(\textcolor{keywordtype}{id});
+356             \textcolor{keywordflow}{return} r.upper - r.lower;
+357         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ae35ca88c98731659785066a92c5def91}{}\label{classshark_1_1ndim_1_1_domain_ae35ca88c98731659785066a92c5def91} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!count@{count}}
+\index{count@{count}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 360 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+360                                                       \{
+361             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ae35ca88c98731659785066a92c5def91}{count}(\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid});
+362         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ad9cdf348ad0d1c8fe06965b3e9b3a5d0}{}\label{classshark_1_1ndim_1_1_domain_ad9cdf348ad0d1c8fe06965b3e9b3a5d0} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!distribution@{distribution}}
+\index{distribution@{distribution}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{distribution()}{distribution()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} Domain\+::distribution (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{n,  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}]{np }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 70 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+70                                                                                 \{
+71     \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd} = \{\{\}\};
+72 
+73     seq<0,ndim>::for\_each([&nd, &n, &\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}](\textcolor{keywordtype}{int} d) \{
+74         \textcolor{keyword}{auto}& dist(nd[d]);
+75         dist.resize(\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]+1);
+76 
+77         \textcolor{keywordtype}{int} div = n[d] / \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d];
+78         \textcolor{keywordtype}{int} rem = n[d] % \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d];
+79         dist[0] = 0;
+80         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k = 0; k < \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]; k++)
+81             dist[k+1] = dist[k] + div + (k < rem ? 1 : 0);
+82 
+83     \});
+84 
+85     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd};
+86 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a9b488b909423d2decfce5aa505b78583}{}\label{classshark_1_1ndim_1_1_domain_a9b488b909423d2decfce5aa505b78583} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!equiv@{equiv}}
+\index{equiv@{equiv}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{equiv()}{equiv()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool Domain\+::equiv (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{other }\end{DoxyParamCaption}) const}
+
+Check whether this domain is equivalent to another one (local). Equivalent means that it distributes the same number of elements over the same group of processes. 
+\begin{DoxyParams}{Parameters}
+{\em other} & the domain to compare to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 263 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+263                                                         \{
+264     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n} == other.\hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n} && \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group} == other.\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group};
+265 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a027c9dbe5aa9fa2fd110c6fb4c62450f}{}\label{classshark_1_1ndim_1_1_domain_a027c9dbe5aa9fa2fd110c6fb4c62450f} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!find@{find}}
+\index{find@{find}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} Domain\+::find (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const}
+
+Efficiently find which process owns a given point (local). 
+\begin{DoxyParams}{Parameters}
+{\em i} & the coordinates of the point to find \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 246 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+246                                              \{
+247         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs}; d++) 
+248             \textcolor{keywordflow}{if} (\hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(d).contains(i)) \textcolor{keywordflow}{return} d;
+249 
+250         assert(\textcolor{keyword}{false});
+251         \textcolor{keywordflow}{return} 0;
+252 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a887ed57ec5fd3db43d7d947876620529}{}\label{classshark_1_1ndim_1_1_domain_a887ed57ec5fd3db43d7d947876620529} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!find@{find}}
+\index{find@{find}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+void Domain\+::find (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i,  }\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \&}]{ip,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \&}]{off }\end{DoxyParamCaption}) const}
+
+Efficiently find which process owns a given point (local). 
+\begin{DoxyParams}{Parameters}
+{\em i} & the coordinates of the point to find \\
+\hline
+{\em ip} & the process coordinates (output) \\
+\hline
+{\em off} & the offset of the point at the process (output) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 234 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+234                                                                             \{
+235     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < ndim; d++) \{
+236         \hyperlink{classshark_1_1ndim_1_1_domain_a54d58b320fe6d558735b60753f30f7f4}{Domain<ndim>::findi}(\hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}[d], i[d], ip[d], off[d]);
+237     \}
+238     \textcolor{comment}{// http://gcc.gnu.org/bugzilla/show\_bug.cgi?id=51494}
+239     \textcolor{comment}{//seq<0,ndim>::for\_each([this,&i,&ip,&off](int d) \{}
+240     \textcolor{comment}{//  const std::vector<coord>& dist(nd[d]);}
+241     \textcolor{comment}{//  findi(dist, i[d], ip[d], off[d]);}
+242     \textcolor{comment}{//\});}
+243 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a54d58b320fe6d558735b60753f30f7f4}{}\label{classshark_1_1ndim_1_1_domain_a54d58b320fe6d558735b60753f30f7f4} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!findi@{findi}}
+\index{findi@{findi}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{findi()}{findi()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+void Domain\+::findi (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} $>$ \&}]{dist,  }\item[{\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord}}]{i,  }\item[{int \&}]{id,  }\item[{\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \&}]{off }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 219 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+219                                                                                 \{
+220     assert(i >= 0 && i <= dist.back());
+221     \textcolor{keywordtype}{int} lo(0), up(static\_cast<int>(dist.size()));
+222     \textcolor{keywordflow}{while} (lo + 1 < up) \{
+223         \textcolor{keywordtype}{int} mi((lo + up) / 2);
+224         \textcolor{keywordflow}{if}(i >= dist[mi])
+225             lo = mi;
+226         \textcolor{keywordflow}{else}
+227             up = mi;
+228     \}
+229     \textcolor{keywordtype}{id} = lo;
+230     off = i - dist[lo];
+231 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_aa234c8c238090b7dd05f9df07c39f223}{}\label{classshark_1_1ndim_1_1_domain_aa234c8c238090b7dd05f9df07c39f223} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!for\+\_\+each@{for\+\_\+each}}
+\index{for\+\_\+each@{for\+\_\+each}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{for\+\_\+each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename Func $>$ \\
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} void \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+Apply elemental function onto the elements of range 
+\begin{DoxyParams}{Parameters}
+{\em r} & the range where function is applied (default\+: \hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total()}) \\
+\hline
+{\em f} & the function to apply \\
+\hline
+\end{DoxyParams}
+\hypertarget{classshark_1_1ndim_1_1_domain_a109960d03c4d1900acbb482d1be9c284}{}\label{classshark_1_1ndim_1_1_domain_a109960d03c4d1900acbb482d1be9c284} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!for\+\_\+each@{for\+\_\+each}}
+\index{for\+\_\+each@{for\+\_\+each}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{for\+\_\+each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename Func $>$ \\
+void \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 399 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+399                                                                              \{
+400 \textcolor{preprocessor}{#if defined(SHARK\_SER\_SCHED)}
+401             \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r).for\_each(f);
+402 \textcolor{preprocessor}{#elif defined(SHARK\_PTHREAD\_SCHED)}
+403             ThreadWork([\textcolor{keyword}{this},&f,r](\textcolor{keywordtype}{int} k) \{
+404                 tdist[k].overlap(r).for\_each(f);
+405             \});
+406 \textcolor{preprocessor}{#elif defined(SHARK\_OMP\_SCHED)}
+407 \textcolor{preprocessor}{#if defined(SHARK\_OMP\_TDIST)}
+408 \textcolor{preprocessor}{#pragma omp parallel for schedule(static)}
+409             \textcolor{keywordflow}{for}(std::size\_t k = 0; k < tdist.size(); k++)
+410                 tdist[k].overlap(r).for\_each(f);
+411 \textcolor{preprocessor}{#else}
+412             omp\_coords\_range<ndim> omp;
+413             omp.r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r);
+414             omp.for\_each(f);
+415 \textcolor{preprocessor}{#endif}
+416 \textcolor{preprocessor}{#elif defined(SHARK\_TBB\_SCHED)}
+417             r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r);
+418 \textcolor{preprocessor}{#if defined(SHARK\_THREAD\_BLOCK\_DIST)}
+419             split\_range<ndim> sr(\hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(), r.count()/nwork);
+420             tbb::parallel\_for(sr, [&r,&f](\textcolor{keyword}{const} split\_range<ndim>& sr) \{
+421                 sr.range().overlap(r).for\_each(f);
+422             \}, *ap);
+423 \textcolor{preprocessor}{#else}
+424             tbb::blocked\_range<coord> br(\hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().lower[0], \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().upper[0]);
+425             tbb::parallel\_for(br, [&r,&f,\textcolor{keyword}{this}](\textcolor{keyword}{const} tbb::blocked\_range<coord>& br) \{
+426                 coords\_range<ndim> lr = r;
+427                 \textcolor{keywordflow}{if}(lr.lower[0] < br.begin())
+428                     lr.lower[0] = br.begin();
+429                 \textcolor{keywordflow}{if}(lr.upper[0] > br.end())
+430                     lr.upper[0] = br.end();
+431                                 \textcolor{keywordflow}{if} (\hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs} != coords<ndim>()) lr.for\_each\_blocked(f, 
+      \hyperlink{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{bs});
+432                                 \textcolor{keywordflow}{else}                      lr.for\_each(f);
+433             \}, *ap);
+434 \textcolor{preprocessor}{#endif}
+435 \textcolor{preprocessor}{#else}
+436 \textcolor{preprocessor}{#error "No scheduler for\_each"}
+437 \textcolor{preprocessor}{#endif}
+438         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ad27f4f2dfd613d8c50e0d29ff93bb8e6}{}\label{classshark_1_1ndim_1_1_domain_ad27f4f2dfd613d8c50e0d29ff93bb8e6} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!for\+\_\+each@{for\+\_\+each}}
+\index{for\+\_\+each@{for\+\_\+each}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{for\+\_\+each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename Func $>$ \\
+void \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 394 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+394                                                               \{
+395             \hyperlink{classshark_1_1ndim_1_1_domain_aa234c8c238090b7dd05f9df07c39f223}{for\_each}(\hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total}(), f);
+396         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a9ab20d9ecd3ca2c046ee253a30ab843f}{}\label{classshark_1_1ndim_1_1_domain_a9ab20d9ecd3ca2c046ee253a30ab843f} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!has\+Data@{has\+Data}}
+\index{has\+Data@{has\+Data}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{has\+Data()}{hasData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::has\+Data (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Check whether a process owns any data (local). 
+\begin{DoxyParams}{Parameters}
+{\em id} & the process identifier (default\+: group.\+procid) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 341 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+341                                                       \{
+342             \textcolor{keyword}{const} coords\_range<ndim> r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(\textcolor{keywordtype}{id});
+343             \textcolor{keywordflow}{return} seq<0,ndim>::all\_of([&r](\textcolor{keywordtype}{int} d) \{
+344                 \textcolor{keywordflow}{return} r.lower[d] < r.upper[d];
+345             \});
+346         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a6c4491743273ca6ab3e72f5ca3f03912}{}\label{classshark_1_1ndim_1_1_domain_a6c4491743273ca6ab3e72f5ca3f03912} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!has\+Data@{has\+Data}}
+\index{has\+Data@{has\+Data}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{has\+Data()}{hasData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::has\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 349 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+349                                                 \{
+350             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a6c4491743273ca6ab3e72f5ca3f03912}{hasData}(\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid});
+351         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a0b21c5f42bd40695f8fc6978ff898bf4}{}\label{classshark_1_1ndim_1_1_domain_a0b21c5f42bd40695f8fc6978ff898bf4} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!indexp@{indexp}}
+\index{indexp@{indexp}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{indexp()}{indexp()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::indexp (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get process coordinates for a process (local). 
+\begin{DoxyParams}{Parameters}
+{\em id} & the process identifier (default\+: group.\+procid) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 292 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+293         \{
+294             \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} ip;
+295 
+296             seq<0,ndim>::for\_each([&\textcolor{keywordtype}{id},&ip,\textcolor{keyword}{this}](\textcolor{keywordtype}{int} d)
+297             \{
+298                 ip[d] = \textcolor{keywordtype}{id} / \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}[d+1];
+299                 \textcolor{keywordtype}{id} = \textcolor{keywordtype}{id} % \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}[d+1];
+300             \}
+301             );
+302 
+303             \textcolor{keywordflow}{return} ip;
+304         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203}{}\label{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!indexp@{indexp}}
+\index{indexp@{indexp}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{indexp()}{indexp()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$\+::\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::indexp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 307 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+307                                                                        \{
+308             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203}{indexp}(\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid});
+309         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35}{}\label{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!internal\+\_\+sum@{internal\+\_\+sum}}
+\index{internal\+\_\+sum@{internal\+\_\+sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{internal\+\_\+sum()}{internal\_sum()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::internal\+\_\+sum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+\hypertarget{classshark_1_1ndim_1_1_domain_aa2e13e2bbd97d87cc3c64ce8017fd430}{}\label{classshark_1_1ndim_1_1_domain_aa2e13e2bbd97d87cc3c64ce8017fd430} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!internal\+\_\+sum@{internal\+\_\+sum}}
+\index{internal\+\_\+sum@{internal\+\_\+sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{internal\+\_\+sum()}{internal\_sum()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::internal\+\_\+sum (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 470 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+471         \{
+472 \textcolor{preprocessor}{#if defined(SHARK\_SER\_SCHED)}
+473             T \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}(zero);
+474             \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r).for\_each([&f,&\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}](coords<ndim> i) \{
+475                 f(\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}, i);
+476             \});
+477             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum};
+478 \textcolor{preprocessor}{#elif defined(SHARK\_PTHREAD\_SCHED)}
+479             std::unique\_ptr<T>* tsum = \textcolor{keyword}{new} std::unique\_ptr<T>[tdist.size()];
+480             ThreadWork([\textcolor{keyword}{this},&f,&tsum,&zero,r](\textcolor{keywordtype}{int} k) \{
+481                 tsum[k].reset(\textcolor{keyword}{new} T(zero));
+482                 tdist[k].overlap(r).for\_each([&f,&tsum,k](coords<ndim> i) \{
+483                     f(*tsum[k], i);
+484                 \});
+485             \});
+486             std::unique\_ptr<T> \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}(std::move(tsum[0]));
+487             \textcolor{keywordflow}{for}(std::size\_t k=1; k < tdist.size(); k++)
+488                 *\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum} += *tsum[k];
+489             \textcolor{keyword}{delete}[] tsum;
+490             \textcolor{keywordflow}{return} *\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum};
+491 \textcolor{preprocessor}{#elif defined(SHARK\_OMP\_SCHED)}
+492 \textcolor{preprocessor}{#if defined(SHARK\_OMP\_TDIST)}
+493             std::unique\_ptr<T>* tsum = \textcolor{keyword}{new} std::unique\_ptr<T>[tdist.size()];
+494 \textcolor{preprocessor}{#pragma omp parallel for schedule(static)}
+495             \textcolor{keywordflow}{for}(std::size\_t k = 0; k < tdist.size(); k++) \{
+496                 tsum[k].reset(\textcolor{keyword}{new} T(zero));
+497                 tdist[k].overlap(r).for\_each([&f,&tsum,k](coords<ndim> i) \{
+498                     f(*tsum[k], i);
+499                 \});
+500             \}
+501             std::unique\_ptr<T> \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}(std::move(tsum[0]));
+502             \textcolor{keywordflow}{for}(std::size\_t k=1; k < tdist.size(); k++)
+503                 *\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum} += *tsum[k];
+504             \textcolor{keyword}{delete}[] tsum;
+505             \textcolor{keywordflow}{return} *\hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum};
+506 \textcolor{preprocessor}{#else}
+507             omp\_coords\_range<ndim> omp;
+508             omp.r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r);
+509             \textcolor{keywordflow}{return} omp.internal\_sum(zero, f);
+510 \textcolor{preprocessor}{#endif}
+511 \textcolor{preprocessor}{#elif defined(SHARK\_TBB\_SCHED)}
+512             r = \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().overlap(r);
+513 \textcolor{preprocessor}{#if defined(SHARK\_THREAD\_BLOCK\_DIST)}
+514             \textcolor{keyword}{struct }Adder \{
+515                 \textcolor{keyword}{const} Func& f;
+516                 \textcolor{keyword}{const} T& zero;
+517                 \textcolor{keyword}{const} coords\_range<ndim>& r;
+518                 T \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum};
+519                 Adder(\textcolor{keyword}{const} Func& f, \textcolor{keyword}{const} T& zero, \textcolor{keyword}{const} coords\_range<ndim>& r) : f(f), zero(zero), r(r), 
+      sum(zero) \{\}
+520                 Adder(Adder& adder, tbb::split) : f(adder.f), zero(adder.zero), r(adder.r), sum(zero) \{\}
+521                 \textcolor{keywordtype}{void} operator()(\textcolor{keyword}{const} split\_range<ndim>& sr) \{
+522                     sr.range().overlap(r).for\_each([\textcolor{keyword}{this}](coords<ndim> i) \{
+523                         f(sum, i);
+524                     \});
+525                 \}
+526                 \textcolor{keywordtype}{void} join(Adder& rhs) \{ sum += rhs.sum; \}
+527             \} adder(f, zero, r);
+528             split\_range<ndim> sr(\hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(), r.count()/nwork);
+529             tbb::parallel\_reduce(sr, adder, *ap);
+530             \textcolor{keywordflow}{return} adder.sum;
+531 \textcolor{preprocessor}{#else}
+532             \textcolor{keyword}{struct }Adder \{
+533                 \textcolor{keyword}{const} Func& f;
+534                 \textcolor{keyword}{const} T& zero;
+535                 \textcolor{keyword}{const} coords\_range<ndim>& r;
+536                 T \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum};
+537                 Adder(\textcolor{keyword}{const} Func& f, \textcolor{keyword}{const} T& zero, \textcolor{keyword}{const} coords\_range<ndim>& r) 
+538                     : f(f), zero(zero), r(r), sum(zero) \{\}
+539                 Adder(Adder& adder, tbb::split)
+540                     : f(adder.f), zero(adder.zero), r(adder.r), sum(zero) \{\}
+541 
+542                 \textcolor{keywordtype}{void} operator()(\textcolor{keyword}{const} tbb::blocked\_range<coord>& br) \{
+543                     coords\_range<ndim> lr = r;
+544                     \textcolor{keywordflow}{if}(lr.lower[0] < br.begin())
+545                         lr.lower[0] = br.begin();
+546                     \textcolor{keywordflow}{if}(lr.upper[0] > br.end())
+547                         lr.upper[0] = br.end();
+548                     lr.for\_each([\textcolor{keyword}{this}](coords<ndim> i) \{
+549                         f(sum, i);
+550                     \});
+551                 \}
+552                 \textcolor{keywordtype}{void} join(Adder& rhs) \{ sum += rhs.sum; \}
+553             \} adder(f, zero, r);
+554             tbb::blocked\_range<coord> br(\hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().lower[0], \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}().upper[0]);
+555             tbb::parallel\_reduce(br, adder, *ap);
+556             \textcolor{keywordflow}{return} adder.sum;
+557 \textcolor{preprocessor}{#endif}
+558 \textcolor{preprocessor}{#else}
+559 \textcolor{preprocessor}{#error "No scheduler internal\_sum"}
+560 \textcolor{preprocessor}{#endif}
+561         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ad20744022f33cbcb5bd0af12d82cf7c7}{}\label{classshark_1_1ndim_1_1_domain_ad20744022f33cbcb5bd0af12d82cf7c7} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!internal\+\_\+sum@{internal\+\_\+sum}}
+\index{internal\+\_\+sum@{internal\+\_\+sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{internal\+\_\+sum()}{internal\_sum()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::internal\+\_\+sum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 465 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+465                                                                               \{
+466             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35}{internal\_sum}(\hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total}(), zero, f);
+467         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ab00f61852f9957c033d36ddb2f49f0eb}{}\label{classshark_1_1ndim_1_1_domain_ab00f61852f9957c033d36ddb2f49f0eb} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!isum@{isum}}
+\index{isum@{isum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{isum()}{isum()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1_future}{Future}$<$T$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::isum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a5bf4e150338d25522399b4e63c908144}{}\label{classshark_1_1ndim_1_1_domain_a5bf4e150338d25522399b4e63c908144} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!isum@{isum}}
+\index{isum@{isum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{isum()}{isum()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::isum (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 614 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+614                                                                                              \{
+615             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_a45c07b72e75f90b39e550e80d7ea2418}{external\_isum}(\hyperlink{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35}{internal\_sum}(r, zero, f));
+616         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a9de68dd8f3cbf57cc23a6ddf1c58d569}{}\label{classshark_1_1ndim_1_1_domain_a9de68dd8f3cbf57cc23a6ddf1c58d569} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!isum@{isum}}
+\index{isum@{isum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{isum()}{isum()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$T$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::isum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 609 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+609                                                                               \{
+610             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ab00f61852f9957c033d36ddb2f49f0eb}{isum}(\hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total}(), zero, f);
+611         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{}\label{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!local@{local}}
+\index{local@{local}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{local()}{local()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ Domain\+::local (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{gw = {\ttfamily \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$()} }\end{DoxyParamCaption}) const}
+
+Get coordinates of the array region owned by a process (local). 
+\begin{DoxyParams}{Parameters}
+{\em id} & the process identifier (default\+: group.\+procid) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 273 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+273                                                                     \{
+274     \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} ip = \hyperlink{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203}{indexp}(\textcolor{keywordtype}{id});
+275     \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\_range<ndim>} r;
+276     seq<0,ndim>::for\_each([\textcolor{keyword}{this},&r,&ip,&gw](\textcolor{keywordtype}{int} d) \{
+277         r.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d] = \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}[d][ip[d]] - gw[d];
+278         r.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d] = \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd}[d][ip[d]+1] + gw[d];
+279     \});
+280     \textcolor{keywordflow}{return} r;
+281 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_acaf625c94a4f874d55f5989ece9dda9e}{}\label{classshark_1_1ndim_1_1_domain_acaf625c94a4f874d55f5989ece9dda9e} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!local@{local}}
+\index{local@{local}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{local()}{local()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::local (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{gw = {\ttfamily \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$()} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 329 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+329                                                                            \{
+330             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(\hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid}, gw);
+331         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a362605b2c4faa8f7164433f647bcd6cb}{}\label{classshark_1_1ndim_1_1_domain_a362605b2c4faa8f7164433f647bcd6cb} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Check whether this domain is different from another one (local). 
+\begin{DoxyParams}{Parameters}
+{\em other} & the domain to compare to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 387 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+387                                                                             \{
+388             \textcolor{keywordflow}{return} !(*\textcolor{keyword}{this} == other);
+389         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a24484e5bc50ca9907904896eaf20a820}{}\label{classshark_1_1ndim_1_1_domain_a24484e5bc50ca9907904896eaf20a820} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_domain}{Domain}\& \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a8e718f1cacc0c3f82197ac1d5a54d853}{}\label{classshark_1_1ndim_1_1_domain_a8e718f1cacc0c3f82197ac1d5a54d853} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!operator==@{operator==}}
+\index{operator==@{operator==}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+bool Domain\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{other }\end{DoxyParamCaption}) const}
+
+Check whether this domain is equal to another one (local). 
+\begin{DoxyParams}{Parameters}
+{\em other} & the domain to compare to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 255 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+255                                                              \{
+256     \textcolor{keywordflow}{if}(\textcolor{keyword}{this} == &other)
+257         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+258 
+259     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a9b488b909423d2decfce5aa505b78583}{equiv}(other) && \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np} == other.\hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np} && \hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd} == other.\hyperlink{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{nd};
+260 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ad641aa7b49cf05bb9d231af978f3c1cc}{}\label{classshark_1_1ndim_1_1_domain_ad641aa7b49cf05bb9d231af978f3c1cc} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!output\+Distribution@{output\+Distribution}}
+\index{output\+Distribution@{output\+Distribution}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{output\+Distribution()}{outputDistribution()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+void Domain\+::output\+Distribution (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out }\end{DoxyParamCaption}) const}
+
+Output the distribution of this global array (local). 
+\begin{DoxyParams}{Parameters}
+{\em out} & the output stream to write to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 211 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+211                                                         \{
+212     out << \textcolor{stringliteral}{"Domain "} << \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n} << endl;
+213 
+214     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k = 0; k < \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs}; k++)
+215         out << \textcolor{stringliteral}{"Process "} << k << \textcolor{stringliteral}{" owns "} << \hyperlink{classshark_1_1ndim_1_1_domain_a3351db56f9d6bd22ba473d744e3f7025}{local}(k) << endl;
+216 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ad22dcae5c29d3d20dc279930b9423853}{}\label{classshark_1_1ndim_1_1_domain_ad22dcae5c29d3d20dc279930b9423853} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!pindex@{pindex}}
+\index{pindex@{pindex}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{pindex()}{pindex()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+int \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::pindex (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords}}]{ip }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get process identifier for process coordinates (local). 
+\begin{DoxyParams}{Parameters}
+{\em pc} & the process coordinates \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 312 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+312                                                         \{
+313             \textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = 0;
+314 
+315             seq<0,ndim>::for\_each([&\textcolor{keywordtype}{id},&ip,\textcolor{keyword}{this}](\textcolor{keywordtype}{int} d)
+316             \{
+317                 \textcolor{keywordtype}{id} += ip[d] * \hyperlink{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{b}[d+1];
+318             \});
+319 
+320             \textcolor{keywordflow}{return} id;
+321         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ae6830337d8bdd203b5267ce7666362b0}{}\label{classshark_1_1ndim_1_1_domain_ae6830337d8bdd203b5267ce7666362b0} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!shiftd@{shiftd}}
+\index{shiftd@{shiftd}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{shiftd()}{shiftd()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+int Domain\+::shiftd (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{disp,  }\item[{bool}]{pd,  }\item[{int}]{id }\end{DoxyParamCaption}) const}
+
+Get process identifier after a process shift (local). 
+\begin{DoxyParams}{Parameters}
+{\em d} & the dimension to shift \\
+\hline
+{\em disp} & the amount to shift with \\
+\hline
+{\em pd} & wrap around periodically (else returns M\+P\+I\+\_\+\+P\+R\+O\+C\+\_\+\+N\+U\+LL or -\/1) \\
+\hline
+{\em id} & the process identifier to start from (default\+: group.\+procid) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 284 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+284                                                                \{
+285     \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} ip = \hyperlink{classshark_1_1ndim_1_1_domain_ab8a7d1fa990b118f316f1e630e86b203}{indexp}(\textcolor{keywordtype}{id});
+286     ip[d] += disp;
+287         
+288 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined(SHARK\_GPI\_COMM)}
+289     \textcolor{keywordflow}{if}(ip[d] >= \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]) \{
+290         \textcolor{keywordflow}{if}(pd)
+291             \textcolor{keywordflow}{do} \{
+292                 ip[d] -= \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d];
+293             \} \textcolor{keywordflow}{while}(ip[d] >= \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d]);
+294         \textcolor{keywordflow}{else}
+295             \textcolor{keywordflow}{return} MPI\_PROC\_NULL;
+296     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(ip[d] < 0) \{
+297         \textcolor{keywordflow}{if}(pd)
+298             \textcolor{keywordflow}{do} \{
+299                 ip[d] += \hyperlink{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{np}[d];
+300             \} \textcolor{keywordflow}{while}(ip[d] < 0);
+301         \textcolor{keywordflow}{else}
+302             \textcolor{keywordflow}{return} MPI\_PROC\_NULL;
+303     \}
+304     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ad22dcae5c29d3d20dc279930b9423853}{pindex}(ip);
+305 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+306     \textcolor{keywordflow}{return} pd || ip[d] == 0 ? 0 : -1;
+307 \textcolor{preprocessor}{#endif}
+308 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ac08b32ef1496aeccc639f1106bfa6355}{}\label{classshark_1_1ndim_1_1_domain_ac08b32ef1496aeccc639f1106bfa6355} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!shiftd@{shiftd}}
+\index{shiftd@{shiftd}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{shiftd()}{shiftd()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+int \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::shiftd (\begin{DoxyParamCaption}\item[{int}]{d,  }\item[{int}]{disp,  }\item[{bool}]{pd }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 324 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+324                                                                       \{
+325             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_ae6830337d8bdd203b5267ce7666362b0}{shiftd}(d, disp, pd, \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid});
+326         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{}\label{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!sum@{sum}}
+\index{sum@{sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{sum()}{sum()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::sum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+Sum elemental function over the elements of range \hypertarget{classshark_1_1ndim_1_1_domain_a500c17d3dc9dc33f0714779306d44b35}{}\label{classshark_1_1ndim_1_1_domain_a500c17d3dc9dc33f0714779306d44b35} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!sum@{sum}}
+\index{sum@{sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{sum()}{sum()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::sum (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 603 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+604         \{
+605             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_ac254938f11bae1e1cda77072468f9bc1}{external\_sum}(\hyperlink{classshark_1_1ndim_1_1_domain_ae6b753c7b16ffd14e6247d4b00c92d35}{internal\_sum}(r, zero, f));
+606         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_abe9e94aa18d934b151db4db18b42f7cc}{}\label{classshark_1_1ndim_1_1_domain_abe9e94aa18d934b151db4db18b42f7cc} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!sum@{sum}}
+\index{sum@{sum}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{sum()}{sum()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+template$<$typename T , typename Func $>$ \\
+T \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::sum (\begin{DoxyParamCaption}\item[{const T \&}]{zero,  }\item[{const Func \&}]{f }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 598 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+598                                                                      \{
+599             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_domain_a4acf8890a0637ff9987c4dea1f72bf79}{sum}(\hyperlink{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{total}(), zero, f);
+600         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_a8b68baf8f38340b6b550ebe4c3476c0b}{}\label{classshark_1_1ndim_1_1_domain_a8b68baf8f38340b6b550ebe4c3476c0b} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!sync@{sync}}
+\index{sync@{sync}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{sync()}{sync()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+void Domain\+::sync (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Synchronize the processes of this domain (collective). 
+
+Definition at line 268 of file domain.\+cpp.
+
+
+\begin{DoxyCode}
+268                               \{
+269     \hyperlink{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{group}.\hyperlink{classshark_1_1_group_a73a616469f03e775f8203e86690fbe7e}{sync}();
+270 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87}{}\label{classshark_1_1ndim_1_1_domain_ae4357c99519b3efbaf2544828629de87} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!total@{total}}
+\index{total@{total}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{total()}{total()}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::total (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get coordinates of the total domain region (local). 
+
+Definition at line 335 of file domain.\+hpp.
+
+
+\begin{DoxyCode}
+335                                                             \{
+336             \textcolor{keyword}{const} coords\_range<ndim> r = \{\{\{\}\}, \hyperlink{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{n}\};
+337             \textcolor{keywordflow}{return} r;
+338         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105}{}\label{classshark_1_1ndim_1_1_domain_a3b9ed7ea09cc2d90575a43f92cc4e105} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!b@{b}}
+\index{b@{b}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+const std\+::array$<$int,ndim+1$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::b\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 99 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe}{}\label{classshark_1_1ndim_1_1_domain_a2be17b3d153f7fbbede6eec0afd17ebe} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!bs@{bs}}
+\index{bs@{bs}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{bs}{bs}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::bs}
+
+
+
+Definition at line 55 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f}{}\label{classshark_1_1ndim_1_1_domain_a2bbf100371762ce405efd218bc1e3d0f} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!group@{group}}
+\index{group@{group}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{group}{group}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+const \hyperlink{classshark_1_1_group}{Group}\& \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::group}
+
+The group of processes that are hosting this domain. 
+
+Definition at line 44 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd}{}\label{classshark_1_1ndim_1_1_domain_ab942ffcf99c5ee0f2589c8b9104abcfd} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!n@{n}}
+\index{n@{n}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{n}{n}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+const \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::n}
+
+The total number of elements for every dimension. 
+
+Definition at line 49 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570}{}\label{classshark_1_1ndim_1_1_domain_a4964336cc4ccdb2bfcc616fdcbb9a570} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!nd@{nd}}
+\index{nd@{nd}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{nd}{nd}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_domain_a8d425ae958ccde33494fe1346307e991}{dists} \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::nd}
+
+The distribution of the elements for every dimension. 
+
+Definition at line 65 of file domain.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf}{}\label{classshark_1_1ndim_1_1_domain_a1d15ab99cb54dcc456c5bba8699bcddf} 
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!np@{np}}
+\index{np@{np}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\subsubsection{\texorpdfstring{np}{np}}
+{\footnotesize\ttfamily template$<$int ndim$>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{pcoords} \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}$<$ ndim $>$\+::np}
+
+The number of processes for every dimension. 
+
+Definition at line 60 of file domain.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{common_8hpp}{common.\+hpp}\item 
+include/shark/\hyperlink{domain_8hpp}{domain.\+hpp}\item 
+src/\hyperlink{domain_8cpp}{domain.\+cpp}\end{DoxyCompactItemize}

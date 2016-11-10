@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['sched',['sched',['../namespaceshark.html#ae92376c2b8a35cd983f3f7eea9ab959b',1,'shark']]],
-  ['src',['src',['../classshark_1_1ndim_1_1_unary_exp.html#ad43011a53ffbee999334c7cc52fb95ad',1,'shark::ndim::UnaryExp::src()'],['../classshark_1_1ndim_1_1_as_vec_exp_3_01_s_01_4.html#aa80febebc38b07290aac9a41c7762252',1,'shark::ndim::AsVecExp&lt; S &gt;::src()'],['../classshark_1_1ndim_1_1_as_vec_exp_3_01_s_00_01_ss_8_8_8_4.html#a9bd7bf5e42649a870d0ea57a5ac0ddea',1,'shark::ndim::AsVecExp&lt; S, Ss...&gt;::src()']]],
-  ['src1',['src1',['../classshark_1_1ndim_1_1_binary_exp.html#adca0646eb1ee123dc4312644a39ffdb6',1,'shark::ndim::BinaryExp']]],
-  ['src2',['src2',['../classshark_1_1ndim_1_1_binary_exp.html#a42495dbe9f1fdc13b53fc53d21c847a1',1,'shark::ndim::BinaryExp']]],
-  ['srcs',['srcs',['../classshark_1_1ndim_1_1_as_vec_exp_3_01_s_00_01_ss_8_8_8_4.html#af44d923d2ab0557ceb5894ad50de18fa',1,'shark::ndim::AsVecExp&lt; S, Ss...&gt;']]],
-  ['step',['step',['../classshark_1_1ndim_1_1_s_coord_vec.html#aa2ce747ed08501f5fe6bf4a8c6b25a20',1,'shark::ndim::SCoordVec::step()'],['../classshark_1_1ndim_1_1_s_coord_val.html#afd74ad2086b0e8c5bab9ee5906ec08fa',1,'shark::ndim::SCoordVal::step()']]],
-  ['sw',['sw',['../classshark_1_1ndim_1_1_shift.html#a3bd6f579c282ca70d391bd43bc582331',1,'shark::ndim::Shift::sw()'],['../classshark_1_1ndim_1_1_periodic_shift.html#aded04c5bc0760cfb247590c85921b653',1,'shark::ndim::PeriodicShift::sw()']]]
+  ['r',['r',['../classshark_1_1ndim_1_1_nullary_exp.html#a2ab3c895de1618318f8864c90cd7b21e',1,'shark::ndim::NullaryExp::r()'],['../classshark_1_1ndim_1_1_buffer.html#adf5e1304ce98553284cf98e88e6c24e0',1,'shark::ndim::Buffer::r()'],['../classshark_1_1ndim_1_1_periodic_shift.html#ad2b058280d2b466c8acb82e6f473e240',1,'shark::ndim::PeriodicShift::r()'],['../classshark_1_1ndim_1_1_g_a_buf.html#ad956cb661d537077c40362c8bc371ddf',1,'shark::ndim::GABuf::r()']]],
+  ['range',['range',['../classshark_1_1ndim_1_1_domain_1_1_process_overlap.html#a1130b73407bf2aaa0a8cb6ac25fcb3c1',1,'shark::ndim::Domain::ProcessOverlap']]],
+  ['region',['region',['../classshark_1_1ndim_1_1_g_a_dest.html#a13e2c3f9bc86ceec20bd4c98bf4699b2',1,'shark::ndim::GADest']]],
+  ['result_5ftype',['result_type',['../classshark_1_1ndim_1_1is__source.html#a8f572031c798bd5661798790582835b2',1,'shark::ndim::is_source']]]
 ];

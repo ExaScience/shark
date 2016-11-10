@@ -1,0 +1,47 @@
+\hypertarget{classshark_1_1ndim_1_1_abs}{}\section{shark\+:\+:ndim\+:\+:Abs$<$ S $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_abs}\index{shark\+::ndim\+::\+Abs$<$ S $>$@{shark\+::ndim\+::\+Abs$<$ S $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_abs_a7c29b4bb5074202d55de5ff51bc90db2}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(\hyperlink{namespaceshark_a01c919545e5586af9484f058f38774b6}{adl\+\_\+abs}(a(ii)))
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S$>$\newline
+class shark\+::ndim\+::\+Abs$<$ S $>$}
+
+Absolute value, sine, cosine 
+
+Definition at line 582 of file expr.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_abs_a7c29b4bb5074202d55de5ff51bc90db2}{}\label{classshark_1_1ndim_1_1_abs_a7c29b4bb5074202d55de5ff51bc90db2} 
+\index{shark\+::ndim\+::\+Abs@{shark\+::ndim\+::\+Abs}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Abs@{shark\+::ndim\+::\+Abs}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_abs}{shark\+::ndim\+::\+Abs}$<$ S $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(\hyperlink{namespaceshark_a01c919545e5586af9484f058f38774b6}{adl\+\_\+abs}(a(ii))) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 584 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+584                                                                                                            
+                        \{
+585                 \textcolor{keywordflow}{return} \hyperlink{namespaceshark_a01c919545e5586af9484f058f38774b6}{adl\_abs}(a(ii));
+586             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

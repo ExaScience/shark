@@ -1,0 +1,246 @@
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest}{}\section{shark\+:\+:ndim\+:\+:G\+A\+Dest$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_g_a_dest}\index{shark\+::ndim\+::\+G\+A\+Dest$<$ ndim, T $>$@{shark\+::ndim\+::\+G\+A\+Dest$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$globalarray.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a65b5bbfe74c714882a0469d62d0dd355}{$\sim$\+G\+A\+Dest} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a349841f3baadf92afdb6c41198f1c36c}{G\+A\+Dest} (const \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \&gad)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest} \& \hyperlink{classshark_1_1ndim_1_1_g_a_dest_ab6632790b5f89a3a19a24a4bf2988e01}{operator=} (const \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \&gad)=delete
+\item 
+{\footnotesize template$<$typename S $>$ }\\\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_g_a_dest_af05507ececbff5564c7ee32aa28918f6}{operator=} (const S \&src)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a5da867cbd42503f33eb5b824f18926af}{G\+A\+Dest} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ r, bool \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack})
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region}
+\item 
+bool \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_dest_ae56b9154646ac1569c81ea1215860995}{Global\+Array$<$ ndim, T $>$}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+G\+A\+Dest$<$ ndim, T $>$}
+
+
+
+Definition at line 30 of file globalarray.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_a5da867cbd42503f33eb5b824f18926af}{}\label{classshark_1_1ndim_1_1_g_a_dest_a5da867cbd42503f33eb5b824f18926af} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!G\+A\+Dest@{G\+A\+Dest}}
+\index{G\+A\+Dest@{G\+A\+Dest}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{G\+A\+Dest()}{GADest()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+G\+A\+Dest\+::\+G\+A\+Dest (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{ga,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{bool}]{pack }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 992 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+993     : \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}(ga), \hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region}(r), \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}(\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_a65b5bbfe74c714882a0469d62d0dd355}{}\label{classshark_1_1ndim_1_1_g_a_dest_a65b5bbfe74c714882a0469d62d0dd355} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!````~G\+A\+Dest@{$\sim$\+G\+A\+Dest}}
+\index{````~G\+A\+Dest@{$\sim$\+G\+A\+Dest}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{$\sim$\+G\+A\+Dest()}{~GADest()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+G\+A\+Dest\+::$\sim$\+G\+A\+Dest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 996 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+996 \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_a349841f3baadf92afdb6c41198f1c36c}{}\label{classshark_1_1ndim_1_1_g_a_dest_a349841f3baadf92afdb6c41198f1c36c} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!G\+A\+Dest@{G\+A\+Dest}}
+\index{G\+A\+Dest@{G\+A\+Dest}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{G\+A\+Dest()}{GADest()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+G\+A\+Dest\+::\+G\+A\+Dest (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \&}]{gad }\end{DoxyParamCaption})}
+
+
+
+Definition at line 999 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+999 : \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}(gad.\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}), \hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region}(gad.\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region}), \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}(gad.\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}) \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_ab6632790b5f89a3a19a24a4bf2988e01}{}\label{classshark_1_1ndim_1_1_g_a_dest_ab6632790b5f89a3a19a24a4bf2988e01} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}\& \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$ ndim, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \&}]{gad }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_af05507ececbff5564c7ee32aa28918f6}{}\label{classshark_1_1ndim_1_1_g_a_dest_af05507ececbff5564c7ee32aa28918f6} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename S $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$ ndim, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const S \&}]{src }\end{DoxyParamCaption})}
+
+
+
+Definition at line 434 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+434                                                               \{
+435             static\_assert(S::number\_of\_dimensions == ndim, \textcolor{stringliteral}{"source dimensionality"});
+436             assert(\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain() == src.domain());
+437             Access<ndim,T> d(\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga});
+438             \textcolor{keyword}{const} \textcolor{keyword}{typename} S::accessor s(src);
+439 
+440                         \textcolor{keywordflow}{if} (\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{pack}) \{
+441                             \textcolor{keyword}{auto} regions = \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.split(\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region});
+442                             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} r : regions) \{
+443                                 assert(src.region().contains(r));
+444                                 std::vector<GABuf<ndim,T> *> ghosts;
+445                                 GABuf<ndim,T> *full\_ghost = 0;
+446 
+447                                 \textcolor{keyword}{auto} push = [\textcolor{keyword}{this}, &full\_ghost, &ghosts,&r](GABuf<ndim,T> *g) \{
+448                                     \textcolor{keyword}{auto} overlap = g->r.overlap(r); 
+449                                     \textcolor{keywordflow}{if} (g->r.count() > 0) \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.log\_out() << \textcolor{stringliteral}{" overlap "} << 100 * overlap.
+      count() / g->r.count() << \textcolor{stringliteral}{"%"} << std::endl;
+450                                     \textcolor{keywordflow}{if} (!full\_ghost && overlap.count() > 0 && overlap.count() == g->r.count
+      ()) \{
+451                                         full\_ghost = g;
+452                                         g->full = \textcolor{keyword}{true};
+453                                     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (overlap.count() > 0) \{
+454                                         ghosts.push\_back(g);
+455                                         g->full = \textcolor{keyword}{true};
+456                                     \}
+457                                 \};
+458 
+459                                 seq<0,ndim>::for\_each([\textcolor{keyword}{this}, &r, &full\_ghost, &ghosts, &push](\textcolor{keywordtype}{int} d) \{
+460                                         push(&\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.g\_out\_front[d]);
+461                                         push(&\hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.g\_out\_back[d]);
+462                                         \});
+463 
+464                                 \textcolor{comment}{//ga.log\_out() << "total ghosts that overlap: " << ghosts.size() << " out
+       of " <<  regions.size() << std::endl;}
+465 
+466                                 \textcolor{keywordflow}{if}(full\_ghost && ghosts.size()) \{
+467                                     \textcolor{comment}{//SHARK\_COUNTER("pack\_full+ghost");}
+468                                     \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain().for\_each(r, [\textcolor{keyword}{this}, &d, &s, &full\_ghost, &ghosts](
+      coords<ndim> i)\{
+469                                             \textcolor{keyword}{auto} v = d(i) = s(i);
+470                                             full\_ghost->da(i) = v;
+471                                             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} g : ghosts) \textcolor{keywordflow}{if} (g->r.contains(i)) g->da(i) = v;
+472                                     \});
+473                                 \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (full\_ghost) \{
+474                                     \textcolor{comment}{//SHARK\_COUNTER("pack\_onlyfull");}
+475                                     \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain().for\_each(r, [\textcolor{keyword}{this}, &d, &s, &full\_ghost](coords<ndim> i)\{
+476                                             \textcolor{keyword}{auto} v = d(i) = s(i);
+477                                             full\_ghost->da(i) = v;
+478                                     \});
+479                                 \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ghosts.size()) \{
+480                                     \textcolor{comment}{//SHARK\_COUNTER("pack\_ghost");}
+481                                     \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain().for\_each(r, [\textcolor{keyword}{this}, &d, &s, &ghosts](coords<ndim> i)\{
+482                                             \textcolor{keyword}{auto} v = d(i) = s(i);
+483                                             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} g : ghosts) \textcolor{keywordflow}{if} (g->r.contains(i)) g->da(i) = v;
+484                                     \});
+485                                 \} \textcolor{keywordflow}{else} \{
+486                                     \textcolor{comment}{//SHARK\_COUNTER("pack\_no\_ghost");}
+487                                     \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain().for\_each(r, [\textcolor{keyword}{this}, &d, &s](coords<ndim> i)\{
+488                                             d(i) = s(i);
+489                                     \});
+490                                 \}
+491                             \}
+492                         \} \textcolor{keywordflow}{else}  \{
+493                             \textcolor{comment}{//SHARK\_COUNTER("pack\_no\_pack");}
+494                             \hyperlink{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{ga}.domain().for\_each(\hyperlink{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{region}, [\textcolor{keyword}{this}, &d, &s](coords<ndim> i)\{
+495                                     d(i) = s(i);
+496                             \});
+497                         \}
+498 
+499                         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+500                 \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_ae56b9154646ac1569c81ea1215860995}{}\label{classshark_1_1ndim_1_1_g_a_dest_ae56b9154646ac1569c81ea1215860995} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!Global\+Array$<$ ndim, T $>$@{Global\+Array$<$ ndim, T $>$}}
+\index{Global\+Array$<$ ndim, T $>$@{Global\+Array$<$ ndim, T $>$}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{Global\+Array$<$ ndim, T $>$}{GlobalArray< ndim, T >}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 230 of file globalarray.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e}{}\label{classshark_1_1ndim_1_1_g_a_dest_aa64cb1bd1f2155c6cca997e4ba69760e} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!ga@{ga}}
+\index{ga@{ga}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{ga}{ga}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ndim,T$>$\& \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$ ndim, T $>$\+::ga\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 231 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca}{}\label{classshark_1_1ndim_1_1_g_a_dest_aeef6b8ca8d9d57db09b32949e0493aca} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!pack@{pack}}
+\index{pack@{pack}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{pack}{pack}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$ ndim, T $>$\+::pack\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 233 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2}{}\label{classshark_1_1ndim_1_1_g_a_dest_a13e2c3f9bc86ceec20bd4c98bf4699b2} 
+\index{shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}!region@{region}}
+\index{region@{region}!shark\+::ndim\+::\+G\+A\+Dest@{shark\+::ndim\+::\+G\+A\+Dest}}
+\subsubsection{\texorpdfstring{region}{region}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$ ndim, T $>$\+::region\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 232 of file globalarray.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{globalarray_8hpp}{globalarray.\+hpp}\item 
+src/\hyperlink{globalarray_8cpp}{globalarray.\+cpp}\end{DoxyCompactItemize}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['world',['world',['../classshark_1_1_group.html#ab2389cee4068fd386c970669a3beb2c0',1,'shark::Group']]]
+  ['unaryacc_3c_20s_2c_20func_20_3e',['UnaryAcc&lt; S, Func &gt;',['../classshark_1_1ndim_1_1_unary_exp.html#a022f283e42a9d39735bdcf5d954349f1',1,'shark::ndim::UnaryExp']]]
 ];

@@ -1,0 +1,201 @@
+\hypertarget{classshark_1_1ndim_1_1_unary_exp}{}\section{shark\+:\+:ndim\+:\+:Unary\+Exp$<$ S, Func $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_unary_exp}\index{shark\+::ndim\+::\+Unary\+Exp$<$ S, Func $>$@{shark\+::ndim\+::\+Unary\+Exp$<$ S, Func $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp}$<$ S, Func $>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp_aff41674c204a5df02b79b518efa8ea5b}{storage}
+\item 
+typedef \hyperlink{classshark_1_1ndim_1_1_unary_acc}{Unary\+Acc}$<$ S, Func $>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp_aa34e1f563bfcee209cd2c1886fe7320f}{accessor}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_unary_exp_a5b4b3528aa72c169b82dbd699ddbdf5f}{Unary\+Exp} (const S \&\hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}, const Func \&\hyperlink{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9}{f})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_unary_exp_a602b169be3f0bda9f2d668daf01e5ca2}{$\sim$\+Unary\+Exp} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \& \hyperlink{classshark_1_1ndim_1_1_unary_exp_a87bc70f88d3c8d535984595b20e4def3}{domain} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp_ab5cbee53029546b1c0f87f98c4f34616}{region} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{classshark_1_1ndim_1_1_unary_exp_a333e05cf6d425d7f42b3f7eb575e6bcb}{number\+\_\+of\+\_\+dimensions} = S\+::number\+\_\+of\+\_\+dimensions
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const S\+::storage \hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}
+\item 
+const Func \hyperlink{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9}{f}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_unary_exp_a022f283e42a9d39735bdcf5d954349f1}{Unary\+Acc$<$ S, Func $>$}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S, typename Func$>$\newline
+class shark\+::ndim\+::\+Unary\+Exp$<$ S, Func $>$}
+
+
+
+Definition at line 129 of file expr.\+hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_aa34e1f563bfcee209cd2c1886fe7320f}{}\label{classshark_1_1ndim_1_1_unary_exp_aa34e1f563bfcee209cd2c1886fe7320f} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!accessor@{accessor}}
+\index{accessor@{accessor}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{accessor}{accessor}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+typedef \hyperlink{classshark_1_1ndim_1_1_unary_acc}{Unary\+Acc}$<$S,Func$>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::\hyperlink{classshark_1_1ndim_1_1_unary_exp_aa34e1f563bfcee209cd2c1886fe7320f}{accessor}}
+
+
+
+Definition at line 136 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_aff41674c204a5df02b79b518efa8ea5b}{}\label{classshark_1_1ndim_1_1_unary_exp_aff41674c204a5df02b79b518efa8ea5b} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!storage@{storage}}
+\index{storage@{storage}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{storage}{storage}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+typedef \hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp}$<$S,Func$>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::\hyperlink{classshark_1_1ndim_1_1_unary_exp_aff41674c204a5df02b79b518efa8ea5b}{storage}}
+
+
+
+Definition at line 135 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a5b4b3528aa72c169b82dbd699ddbdf5f}{}\label{classshark_1_1ndim_1_1_unary_exp_a5b4b3528aa72c169b82dbd699ddbdf5f} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!Unary\+Exp@{Unary\+Exp}}
+\index{Unary\+Exp@{Unary\+Exp}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{Unary\+Exp()}{UnaryExp()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::\hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp} (\begin{DoxyParamCaption}\item[{const S \&}]{src,  }\item[{const Func \&}]{f }\end{DoxyParamCaption})}
+
+
+
+Definition at line 147 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+147 : \hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}(\hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}), \hyperlink{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9}{f}(\hyperlink{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9}{f}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a602b169be3f0bda9f2d668daf01e5ca2}{}\label{classshark_1_1ndim_1_1_unary_exp_a602b169be3f0bda9f2d668daf01e5ca2} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!````~Unary\+Exp@{$\sim$\+Unary\+Exp}}
+\index{````~Unary\+Exp@{$\sim$\+Unary\+Exp}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{$\sim$\+Unary\+Exp()}{~UnaryExp()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::$\sim$\hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 150 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+150 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a87bc70f88d3c8d535984595b20e4def3}{}\label{classshark_1_1ndim_1_1_unary_exp_a87bc70f88d3c8d535984595b20e4def3} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!domain@{domain}}
+\index{domain@{domain}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{domain()}{domain()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \& \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::domain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 153 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+153                                                                                    \{
+154             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}.domain();
+155         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_ab5cbee53029546b1c0f87f98c4f34616}{}\label{classshark_1_1ndim_1_1_unary_exp_ab5cbee53029546b1c0f87f98c4f34616} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!region@{region}}
+\index{region@{region}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{region()}{region()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::region (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 158 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+158                                                                                   \{
+159             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{src}.region();
+160         \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a022f283e42a9d39735bdcf5d954349f1}{}\label{classshark_1_1ndim_1_1_unary_exp_a022f283e42a9d39735bdcf5d954349f1} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!Unary\+Acc$<$ S, Func $>$@{Unary\+Acc$<$ S, Func $>$}}
+\index{Unary\+Acc$<$ S, Func $>$@{Unary\+Acc$<$ S, Func $>$}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{Unary\+Acc$<$ S, Func $>$}{UnaryAcc< S, Func >}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_unary_acc}{Unary\+Acc}$<$ S, Func $>$\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 130 of file expr.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9}{}\label{classshark_1_1ndim_1_1_unary_exp_a7d3fe16a63fc7e035839407f24b586b9} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!f@{f}}
+\index{f@{f}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+const Func \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 132 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_a333e05cf6d425d7f42b3f7eb575e6bcb}{}\label{classshark_1_1ndim_1_1_unary_exp_a333e05cf6d425d7f42b3f7eb575e6bcb} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!number\+\_\+of\+\_\+dimensions@{number\+\_\+of\+\_\+dimensions}}
+\index{number\+\_\+of\+\_\+dimensions@{number\+\_\+of\+\_\+dimensions}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{number\+\_\+of\+\_\+dimensions}{number\_of\_dimensions}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+const int \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::number\+\_\+of\+\_\+dimensions = S\+::number\+\_\+of\+\_\+dimensions\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 134 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad}{}\label{classshark_1_1ndim_1_1_unary_exp_ad43011a53ffbee999334c7cc52fb95ad} 
+\index{shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}!src@{src}}
+\index{src@{src}!shark\+::ndim\+::\+Unary\+Exp@{shark\+::ndim\+::\+Unary\+Exp}}
+\subsubsection{\texorpdfstring{src}{src}}
+{\footnotesize\ttfamily template$<$typename S, typename Func$>$ \\
+const S\+::storage \hyperlink{classshark_1_1ndim_1_1_unary_exp}{shark\+::ndim\+::\+Unary\+Exp}$<$ S, Func $>$\+::src\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 131 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

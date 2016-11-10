@@ -1,0 +1,272 @@
+\hypertarget{structshark_1_1_future}{}\section{shark\+:\+:Future$<$ T $>$ Struct Template Reference}
+\label{structshark_1_1_future}\index{shark\+::\+Future$<$ T $>$@{shark\+::\+Future$<$ T $>$}}
+
+
+{\ttfamily \#include $<$common.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structshark_1_1_future_a92d1efe967edc2466b85ac14062cde61}{Future} (std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$ \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h})
+\item 
+\hyperlink{structshark_1_1_future_a2c240241a370e1775353f3c4f0f1b3bb}{Future} (std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$ \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}, std\+::unique\+\_\+ptr$<$ T $>$ \&\&\hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val})
+\item 
+\hyperlink{structshark_1_1_future_adbc00059974d00508636b062c2062b9b}{Future} ()
+\item 
+\hyperlink{structshark_1_1_future_aa17ac6c907e9768b69c143d0b4046551}{$\sim$\+Future} ()
+\item 
+\hyperlink{structshark_1_1_future_a3c76fd022444f58fcc06ee248d81f72b}{Future} (const \hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&)=delete
+\item 
+\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \& \hyperlink{structshark_1_1_future_a45d4c1fdd9602d41f7e07f49b31e5943}{operator=} (const \hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&)=delete
+\item 
+\hyperlink{structshark_1_1_future_a6eff07d7db700729f333f86712dd5f07}{Future} (\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&\&f)
+\item 
+\hyperlink{structshark_1_1_future}{Future} \& \hyperlink{structshark_1_1_future_a660602bfa8a6096020931f35f8d7a7a1}{operator=} (\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&\&f)
+\item 
+bool \hyperlink{structshark_1_1_future_abbc3d1456a7c62296de4ec4603efac2a}{test} ()
+\item 
+const T \& \hyperlink{structshark_1_1_future_a88a411b5cedec34af07b054d15deedc2}{wait} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1_future_a2ad40708ac7a1df9e288af5739d513f1}{operator const T \&} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done}
+\item 
+std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$ \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}
+\item 
+std\+::unique\+\_\+ptr$<$ T $>$ \hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{structshark_1_1_future_a8e678e0244c103cad9467c2b743509bb}{shark\+::\+Group}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+struct shark\+::\+Future$<$ T $>$}
+
+A future value of type T 
+
+Definition at line 153 of file common.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structshark_1_1_future_a92d1efe967edc2466b85ac14062cde61}{}\label{structshark_1_1_future_a92d1efe967edc2466b85ac14062cde61} 
+\index{shark\+::\+Future@{shark\+::\+Future}!Future@{Future}}
+\index{Future@{Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{Future()}{Future()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::\hyperlink{structshark_1_1_future}{Future} (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$}]{h }\end{DoxyParamCaption})}
+
+\hypertarget{structshark_1_1_future_a2c240241a370e1775353f3c4f0f1b3bb}{}\label{structshark_1_1_future_a2c240241a370e1775353f3c4f0f1b3bb} 
+\index{shark\+::\+Future@{shark\+::\+Future}!Future@{Future}}
+\index{Future@{Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{Future()}{Future()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::\hyperlink{structshark_1_1_future}{Future} (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$}]{h,  }\item[{std\+::unique\+\_\+ptr$<$ T $>$ \&\&}]{val }\end{DoxyParamCaption})}
+
+\hypertarget{structshark_1_1_future_adbc00059974d00508636b062c2062b9b}{}\label{structshark_1_1_future_adbc00059974d00508636b062c2062b9b} 
+\index{shark\+::\+Future@{shark\+::\+Future}!Future@{Future}}
+\index{Future@{Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{Future()}{Future()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+Future\+::\+Future (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Create an inactive \hyperlink{structshark_1_1_future}{Future} 
+
+Definition at line 44 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+44                  : \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done}(\textcolor{keyword}{false}), \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}(), \hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val}() \{
+45 \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1_future_aa17ac6c907e9768b69c143d0b4046551}{}\label{structshark_1_1_future_aa17ac6c907e9768b69c143d0b4046551} 
+\index{shark\+::\+Future@{shark\+::\+Future}!````~Future@{$\sim$\+Future}}
+\index{````~Future@{$\sim$\+Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{$\sim$\+Future()}{~Future()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+Future\+::$\sim$\+Future (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 51 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+51                    \{
+52     assert(!\hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h} || \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done});
+53 \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1_future_a3c76fd022444f58fcc06ee248d81f72b}{}\label{structshark_1_1_future_a3c76fd022444f58fcc06ee248d81f72b} 
+\index{shark\+::\+Future@{shark\+::\+Future}!Future@{Future}}
+\index{Future@{Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{Future()}{Future()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::\hyperlink{structshark_1_1_future}{Future} (\begin{DoxyParamCaption}\item[{const \hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+No copy semantics \hypertarget{structshark_1_1_future_a6eff07d7db700729f333f86712dd5f07}{}\label{structshark_1_1_future_a6eff07d7db700729f333f86712dd5f07} 
+\index{shark\+::\+Future@{shark\+::\+Future}!Future@{Future}}
+\index{Future@{Future}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{Future()}{Future()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+Future\+::\+Future (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&\&}]{f }\end{DoxyParamCaption})}
+
+Move semantics 
+
+Definition at line 60 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+60                               : \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done}(f.\hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done}), \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}(f.\hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}), \hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val}(std::move(f.
+      \hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val})) \{
+61 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{structshark_1_1_future_a2ad40708ac7a1df9e288af5739d513f1}{}\label{structshark_1_1_future_a2ad40708ac7a1df9e288af5739d513f1} 
+\index{shark\+::\+Future@{shark\+::\+Future}!operator const T \&@{operator const T \&}}
+\index{operator const T \&@{operator const T \&}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{operator const T \&()}{operator const T \&()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::operator const T \& (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 85 of file future.\+hpp.
+
+
+\begin{DoxyCode}
+85                                         \{
+86         \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_a88a411b5cedec34af07b054d15deedc2}{wait}();
+87     \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1_future_a45d4c1fdd9602d41f7e07f49b31e5943}{}\label{structshark_1_1_future_a45d4c1fdd9602d41f7e07f49b31e5943} 
+\index{shark\+::\+Future@{shark\+::\+Future}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$T$>$\& \hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{structshark_1_1_future_a660602bfa8a6096020931f35f8d7a7a1}{}\label{structshark_1_1_future_a660602bfa8a6096020931f35f8d7a7a1} 
+\index{shark\+::\+Future@{shark\+::\+Future}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \& Future\+::operator= (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \&\&}]{f }\end{DoxyParamCaption})}
+
+
+
+Definition at line 67 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+67                                              \{
+68     \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done} = f.\hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done};
+69         f.\hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done} = \textcolor{keyword}{true};
+70     \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h} = f.\hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h};
+71     \hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val} = std::move(f.\hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val});
+72     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+73 \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1_future_abbc3d1456a7c62296de4ec4603efac2a}{}\label{structshark_1_1_future_abbc3d1456a7c62296de4ec4603efac2a} 
+\index{shark\+::\+Future@{shark\+::\+Future}!test@{test}}
+\index{test@{test}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool Future\+::test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Test for completion. Returns immediately. 
+
+Definition at line 97 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+97                      \{
+98     \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done} || (\hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done} = \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}->test());
+99 \}
+\end{DoxyCode}
+\hypertarget{structshark_1_1_future_a88a411b5cedec34af07b054d15deedc2}{}\label{structshark_1_1_future_a88a411b5cedec34af07b054d15deedc2} 
+\index{shark\+::\+Future@{shark\+::\+Future}!wait@{wait}}
+\index{wait@{wait}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{wait()}{wait()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void Future\+::wait (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Wait for completion and return value. 
+
+Definition at line 106 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+106                          \{
+107     \textcolor{keywordflow}{if}(!\hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done}) \{
+108         \hyperlink{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{h}->wait();
+109         \hyperlink{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{done} = \textcolor{keyword}{true};
+110     \}
+111     \textcolor{keywordflow}{return} *\hyperlink{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{val};
+112 \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{structshark_1_1_future_a8e678e0244c103cad9467c2b743509bb}{}\label{structshark_1_1_future_a8e678e0244c103cad9467c2b743509bb} 
+\index{shark\+::\+Future@{shark\+::\+Future}!shark\+::\+Group@{shark\+::\+Group}}
+\index{shark\+::\+Group@{shark\+::\+Group}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{shark\+::\+Group}{shark::Group}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+friend class \hyperlink{classshark_1_1_group}{shark\+::\+Group}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 42 of file future.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1}{}\label{structshark_1_1_future_ae873cf93e919c066f04ff337ce3a21e1} 
+\index{shark\+::\+Future@{shark\+::\+Future}!done@{done}}
+\index{done@{done}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{done}{done}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+bool \hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::done}
+
+
+
+Definition at line 43 of file future.\+hpp.
+
+\hypertarget{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32}{}\label{structshark_1_1_future_a54f00db085adbffb18b2e2ab9e3d4b32} 
+\index{shark\+::\+Future@{shark\+::\+Future}!h@{h}}
+\index{h@{h}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::shared\+\_\+ptr$<$\hyperlink{classshark_1_1_handle}{Handle}$>$ \hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::h}
+
+
+
+Definition at line 44 of file future.\+hpp.
+
+\hypertarget{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da}{}\label{structshark_1_1_future_ad47e70b84ce6303568af0bd6aca991da} 
+\index{shark\+::\+Future@{shark\+::\+Future}!val@{val}}
+\index{val@{val}!shark\+::\+Future@{shark\+::\+Future}}
+\subsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::unique\+\_\+ptr$<$T$>$ \hyperlink{structshark_1_1_future}{shark\+::\+Future}$<$ T $>$\+::val}
+
+
+
+Definition at line 45 of file future.\+hpp.
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{common_8hpp}{common.\+hpp}\item 
+include/shark/\hyperlink{future_8hpp}{future.\+hpp}\item 
+src/\hyperlink{future_8cpp}{future.\+cpp}\end{DoxyCompactItemize}

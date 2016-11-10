@@ -1,0 +1,372 @@
+\hypertarget{classshark_1_1ndim_1_1_access}{}\section{shark\+:\+:ndim\+:\+:Access$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_access}\index{shark\+::ndim\+::\+Access$<$ ndim, T $>$@{shark\+::ndim\+::\+Access$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$access.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_a4d5c793cce84924fc4f8a0f8ce0ac780}{Access} (const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_a228d7e275cbb011b48e6d7cb76f8479d}{Access} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga})
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_access_af1f5644abd12d6affaf5f52db26ce512}{operator bool} () const
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_a629b4a756aba5363d6172d01e4b8cb77}{Access} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_a1d9ce46490a545c00c2327963428aa00}{Access} (\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&)=delete
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access}{Access} \& \hyperlink{classshark_1_1ndim_1_1_access_a8bda6b272af845c56891d06343b686f2}{operator=} (const \hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&)=delete
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_abbc49fde47e1da6c01ca28ee881544a8}{Access} (\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&\&other)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access}{Access} \& \hyperlink{classshark_1_1ndim_1_1_access_a221dbc68423570496fd0e1069af4b3d1}{operator=} (\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&\&other)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_access_a2957f851de845382e05955892506a2f1}{$\sim$\+Access} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const T \& \hyperlink{classshark_1_1ndim_1_1_access_a3f9cceefe7a04c4e50c6f96de0296a15}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \& \hyperlink{classshark_1_1ndim_1_1_access_a67b1107ce87e39d19e2112e26f2f15c5}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i)
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const T \& \hyperlink{classshark_1_1ndim_1_1_access_a1701e437e4c435473672500f678f41ac}{get\+Local} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \& \hyperlink{classshark_1_1ndim_1_1_access_a8fe86487f1b5a1b5af26798665cb09b8}{get\+Local} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_access_a22c889d50f5f45566ee12cf04f874701}{release} ()
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_access_ae3aeb7637a41a2da81bcda20772ccac4}{reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ $\ast$ \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+Access$<$ ndim, T $>$}
+
+Direct access to the local region of a \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}. Local access cannot overlap with R\+MA operations. 
+
+Definition at line 24 of file access.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_access_a4d5c793cce84924fc4f8a0f8ce0ac780}{}\label{classshark_1_1ndim_1_1_access_a4d5c793cce84924fc4f8a0f8ce0ac780} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Access\+::\+Access (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{ga }\end{DoxyParamCaption})}
+
+Construct active access to the local region of a \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array} (local). 
+\begin{DoxyParams}{Parameters}
+{\em ga} & the global array \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+48                                                    : \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}(&ga), \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower}(ga.
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local().lower)
+49 \{
+50     assert(ga);
+51 
+52 \textcolor{preprocessor}{    #if defined(SHARK\_MPI\_COMM)}
+53         \textcolor{keywordflow}{if}(ga.\hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}++ == 0)
+54             MPI\_Win\_lock(MPI\_LOCK\_SHARED, ga.\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.procid, 0, ga.
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->win);
+55 \textcolor{preprocessor}{    #endif}
+56 
+57 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a228d7e275cbb011b48e6d7cb76f8479d}{}\label{classshark_1_1ndim_1_1_access_a228d7e275cbb011b48e6d7cb76f8479d} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Access\+::\+Access (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{ga }\end{DoxyParamCaption})}
+
+
+
+Definition at line 60 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+60                                              : \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}(&ga), \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower}(ga.\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local().lower)
+61 \{
+62     assert(ga);
+63 
+64 \textcolor{preprocessor}{    #if defined(SHARK\_MPI\_COMM)}
+65         \textcolor{keywordflow}{if}(ga.\hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}++ == 0)
+66             MPI\_Win\_lock(MPI\_LOCK\_EXCLUSIVE, ga.\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.procid, 0, ga.
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->win);
+67         \textcolor{keywordflow}{else}
+68             \textcolor{keywordflow}{throw} logic\_error(\textcolor{stringliteral}{"Trying to create non-first mutable Access object"});
+69 \textcolor{preprocessor}{    #endif}
+70 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a629b4a756aba5363d6172d01e4b8cb77}{}\label{classshark_1_1ndim_1_1_access_a629b4a756aba5363d6172d01e4b8cb77} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Access\+::\+Access (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Create an inactive access. 
+
+Definition at line 24 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+24 : \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}(0) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a1d9ce46490a545c00c2327963428aa00}{}\label{classshark_1_1ndim_1_1_access_a1d9ce46490a545c00c2327963428aa00} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_access}{Access} (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1ndim_1_1_access_abbc49fde47e1da6c01ca28ee881544a8}{}\label{classshark_1_1ndim_1_1_access_abbc49fde47e1da6c01ca28ee881544a8} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Access\+::\+Access (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 27 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+27                                             : \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}(other.\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}), \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower}(other.
+      \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower}) \{
+28     other.\hyperlink{classshark_1_1ndim_1_1_access_ae3aeb7637a41a2da81bcda20772ccac4}{reset}();
+29 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a2957f851de845382e05955892506a2f1}{}\label{classshark_1_1ndim_1_1_access_a2957f851de845382e05955892506a2f1} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!````~Access@{$\sim$\+Access}}
+\index{````~Access@{$\sim$\+Access}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{$\sim$\+Access()}{~Access()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Access\+::$\sim$\+Access (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Terminate an \hyperlink{classshark_1_1ndim_1_1_access}{Access}. If active, this will release the access on the \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}. 
+
+Definition at line 42 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+42                         \{
+43     \textcolor{keywordflow}{if}(*\textcolor{keyword}{this})
+44         \hyperlink{classshark_1_1ndim_1_1_access_a22c889d50f5f45566ee12cf04f874701}{release}();
+45 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_access_a1701e437e4c435473672500f678f41ac}{}\label{classshark_1_1ndim_1_1_access_a1701e437e4c435473672500f678f41ac} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!get\+Local@{get\+Local}}
+\index{get\+Local@{get\+Local}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Local()}{getLocal()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T \& \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::get\+Local (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hyperlink{classshark_1_1ndim_1_1_access}{Access} an element using a local index 
+\begin{DoxyParams}{Parameters}
+{\em i} & the n-\/dimensional local index of the element to access \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 101 of file access.\+hpp.
+
+
+\begin{DoxyCode}
+101                                                                      \{
+102             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->da(i);
+103         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a8fe86487f1b5a1b5af26798665cb09b8}{}\label{classshark_1_1ndim_1_1_access_a8fe86487f1b5a1b5af26798665cb09b8} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!get\+Local@{get\+Local}}
+\index{get\+Local@{get\+Local}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Local()}{getLocal()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+T \& \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::get\+Local (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 96 of file access.\+hpp.
+
+
+\begin{DoxyCode}
+96                                                          \{
+97             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->da(i);
+98         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_af1f5644abd12d6affaf5f52db26ce512}{}\label{classshark_1_1ndim_1_1_access_af1f5644abd12d6affaf5f52db26ce512} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns whether this is an active access. 
+
+Definition at line 81 of file access.\+hpp.
+
+
+\begin{DoxyCode}
+81                                                    \{
+82             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga} != 0;
+83         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a3f9cceefe7a04c4e50c6f96de0296a15}{}\label{classshark_1_1ndim_1_1_access_a3f9cceefe7a04c4e50c6f96de0296a15} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T \& \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hyperlink{classshark_1_1ndim_1_1_access}{Access} an element 
+\begin{DoxyParams}{Parameters}
+{\em i} & the n-\/dimensional index of the element to access \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 91 of file access.\+hpp.
+
+
+\begin{DoxyCode}
+91                                                                        \{
+92             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->da(i - \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower});
+93         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a67b1107ce87e39d19e2112e26f2f15c5}{}\label{classshark_1_1ndim_1_1_access_a67b1107ce87e39d19e2112e26f2f15c5} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+T \& \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 86 of file access.\+hpp.
+
+
+\begin{DoxyCode}
+86                                                            \{
+87             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->da(i - \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower});
+88         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a8bda6b272af845c56891d06343b686f2}{}\label{classshark_1_1ndim_1_1_access_a8bda6b272af845c56891d06343b686f2} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_access}{Access}\& \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1ndim_1_1_access_a221dbc68423570496fd0e1069af4b3d1}{}\label{classshark_1_1ndim_1_1_access_a221dbc68423570496fd0e1069af4b3d1} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \& Access\+::operator= (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 32 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+32                                                                 \{
+33     \textcolor{keywordflow}{if}(*\textcolor{keyword}{this})
+34         \hyperlink{classshark_1_1ndim_1_1_access_a22c889d50f5f45566ee12cf04f874701}{release}();
+35     \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga} = other.\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga};
+36     \hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower} = other.\hyperlink{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{lower};
+37     other.\hyperlink{classshark_1_1ndim_1_1_access_ae3aeb7637a41a2da81bcda20772ccac4}{reset}();
+38     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+39 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_a22c889d50f5f45566ee12cf04f874701}{}\label{classshark_1_1ndim_1_1_access_a22c889d50f5f45566ee12cf04f874701} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!release@{release}}
+\index{release@{release}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{release()}{release()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Access\+::release (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 73 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+74 \{
+75 \textcolor{preprocessor}{    #if defined(SHARK\_MPI\_COMM)}
+76         \textcolor{keywordflow}{if}(--\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->lc == 0)
+77             MPI\_Win\_unlock(\hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->domain().group.procid, \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga}->impl->win);
+78 \textcolor{preprocessor}{    #endif}
+79 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_access_ae3aeb7637a41a2da81bcda20772ccac4}{}\label{classshark_1_1ndim_1_1_access_ae3aeb7637a41a2da81bcda20772ccac4} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!reset@{reset}}
+\index{reset@{reset}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Access\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 19 of file access.\+cpp.
+
+
+\begin{DoxyCode}
+19                            \{
+20     \hyperlink{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{ga} = 0;
+21 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7}{}\label{classshark_1_1ndim_1_1_access_abc59e261a07fcecc3f1db641ef04efa7} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!ga@{ga}}
+\index{ga@{ga}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{ga}{ga}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ndim,T$>$$\ast$ \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::ga\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 26 of file access.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb}{}\label{classshark_1_1ndim_1_1_access_ac1e92dba307ff877963c94bd42fcbafb} 
+\index{shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}!lower@{lower}}
+\index{lower@{lower}!shark\+::ndim\+::\+Access@{shark\+::ndim\+::\+Access}}
+\subsubsection{\texorpdfstring{lower}{lower}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access}$<$ ndim, T $>$\+::lower\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 27 of file access.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{access_8hpp}{access.\+hpp}\item 
+src/\hyperlink{access_8cpp}{access.\+cpp}\end{DoxyCompactItemize}

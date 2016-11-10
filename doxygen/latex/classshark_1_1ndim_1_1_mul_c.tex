@@ -1,0 +1,103 @@
+\hypertarget{classshark_1_1ndim_1_1_mul_c}{}\section{shark\+:\+:ndim\+:\+:MulC$<$ S, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_mul_c}\index{shark\+::ndim\+::\+Mul\+C$<$ S, T $>$@{shark\+::ndim\+::\+Mul\+C$<$ S, T $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_mul_c_aea6eccffd6c63cc792714e48c9dc1c9e}{MulC} (const T \&\hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_mul_c_a045d8909667e5ccf881459f35119b74e}{$\sim$\+MulC} ()
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_mul_c_a81f80d754e0c9852bcf6ce4f58a55c64}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a(ii) $\ast$\hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val})
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const T \hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S, typename T$>$\newline
+class shark\+::ndim\+::\+Mul\+C$<$ S, T $>$}
+
+Multiplication 
+
+Definition at line 783 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_mul_c_aea6eccffd6c63cc792714e48c9dc1c9e}{}\label{classshark_1_1ndim_1_1_mul_c_aea6eccffd6c63cc792714e48c9dc1c9e} 
+\index{shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}!MulC@{MulC}}
+\index{MulC@{MulC}!shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}}
+\subsubsection{\texorpdfstring{Mul\+C()}{MulC()}}
+{\footnotesize\ttfamily template$<$typename S , typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_mul_c}{shark\+::ndim\+::\+MulC}$<$ S, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_mul_c}{MulC} (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 787 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+787 : \hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val}(\hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_mul_c_a045d8909667e5ccf881459f35119b74e}{}\label{classshark_1_1ndim_1_1_mul_c_a045d8909667e5ccf881459f35119b74e} 
+\index{shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}!````~MulC@{$\sim$\+MulC}}
+\index{````~MulC@{$\sim$\+MulC}!shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}}
+\subsubsection{\texorpdfstring{$\sim$\+Mul\+C()}{~MulC()}}
+{\footnotesize\ttfamily template$<$typename S , typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_mul_c}{shark\+::ndim\+::\+MulC}$<$ S, T $>$\+::$\sim$\hyperlink{classshark_1_1ndim_1_1_mul_c}{MulC} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 788 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+788 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_mul_c_a81f80d754e0c9852bcf6ce4f58a55c64}{}\label{classshark_1_1ndim_1_1_mul_c_a81f80d754e0c9852bcf6ce4f58a55c64} 
+\index{shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S , typename T $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_mul_c}{shark\+::ndim\+::\+MulC}$<$ S, T $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a(ii)$\ast$\hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val}) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 789 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+789                                                                                                            
+                   \{
+790                 \textcolor{keywordflow}{return} a(ii) * \hyperlink{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{val};
+791             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd}{}\label{classshark_1_1ndim_1_1_mul_c_adf2e920c0c3a31d93f551ba6d75170cd} 
+\index{shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}!val@{val}}
+\index{val@{val}!shark\+::ndim\+::\+MulC@{shark\+::ndim\+::\+MulC}}
+\subsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily template$<$typename S , typename T $>$ \\
+const T \hyperlink{classshark_1_1ndim_1_1_mul_c}{shark\+::ndim\+::\+MulC}$<$ S, T $>$\+::val\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 785 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,78 @@
+\hypertarget{common_8hpp}{}\section{include/shark/common.hpp File Reference}
+\label{common_8hpp}\index{include/shark/common.\+hpp@{include/shark/common.\+hpp}}
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$bitset$>$}\newline
+{\ttfamily \#include $<$ostream$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1_request_q}{shark\+::\+Request\+Q$<$ typename, typename $>$}
+\item 
+struct \hyperlink{structshark_1_1_future}{shark\+::\+Future$<$ T $>$}
+\item 
+struct \hyperlink{structshark_1_1ndim_1_1coords}{shark\+::ndim\+::coords$<$ ndim $>$}
+\item 
+struct \hyperlink{structshark_1_1ndim_1_1coords__range}{shark\+::ndim\+::coords\+\_\+range$<$ ndim $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain$<$ ndim $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_acc_buffer}{shark\+::ndim\+::\+Acc\+Buffer$<$ int, typename $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_access}{shark\+::ndim\+::\+Access$<$ ndim, T $>$}
+\item 
+struct \hyperlink{structshark_1_1test__result}{shark\+::test\+\_\+result}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshark}{shark}
+\item 
+ \hyperlink{namespaceshark_1_1ndim}{shark\+::ndim}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE}~inline \+\_\+\+\_\+attribute((\+\_\+\+\_\+no\+\_\+instrument\+\_\+function\+\_\+\+\_\+))
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef long \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{shark\+::coord}
+\item 
+typedef std\+::bitset$<$ verbose\+\_\+end $>$ \hyperlink{namespaceshark_a882c3e22f3e4476cf4a95f34a42e27eb}{shark\+::verbosity\+\_\+mask}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{namespaceshark_a067e8941bdd5f38f5ab2e49920787b9d}{shark\+::verbose\+\_\+alloc} = 0
+\item 
+static const int \hyperlink{namespaceshark_a054837402a3923de5acc50070b378cd6}{shark\+::verbose\+\_\+update} = 1
+\item 
+static const int \hyperlink{namespaceshark_a8faafcaa495b6cf0c0eca37a846e45f2}{shark\+::verbose\+\_\+rma} = 2
+\item 
+static const int \hyperlink{namespaceshark_a8a29362250362c792179fc4096ae03a6}{shark\+::verbose\+\_\+collective} = 3
+\item 
+static const int \hyperlink{namespaceshark_a0603d8d658beed6e7e3fc44471f5c04f}{shark\+::verbose\+\_\+end} = 4
+\item 
+\hyperlink{namespaceshark_a882c3e22f3e4476cf4a95f34a42e27eb}{verbosity\+\_\+mask} \hyperlink{namespaceshark_a110e03e8104b06caef346fcc25621aa9}{shark\+::log\+\_\+mask} = \hyperlink{namespaceshark_a882c3e22f3e4476cf4a95f34a42e27eb}{verbosity\+\_\+mask}()
+\item 
+std\+::ostream $\ast$ \hyperlink{namespaceshark_a503a509b9d2d2710abe48d6c3338abc0}{shark\+::log\+\_\+out}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{}\label{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116} 
+\index{common.\+hpp@{common.\+hpp}!I\+N\+L\+I\+NE@{I\+N\+L\+I\+NE}}
+\index{I\+N\+L\+I\+NE@{I\+N\+L\+I\+NE}!common.\+hpp@{common.\+hpp}}
+\subsubsection{\texorpdfstring{I\+N\+L\+I\+NE}{INLINE}}
+{\footnotesize\ttfamily \#define I\+N\+L\+I\+NE~inline \+\_\+\+\_\+attribute((\+\_\+\+\_\+no\+\_\+instrument\+\_\+function\+\_\+\+\_\+))}
+
+
+
+Definition at line 25 of file common.\+hpp.
+

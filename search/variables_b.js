@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['r',['r',['../classshark_1_1ndim_1_1_nullary_exp.html#a2ab3c895de1618318f8864c90cd7b21e',1,'shark::ndim::NullaryExp::r()'],['../classshark_1_1ndim_1_1_buffer.html#adf5e1304ce98553284cf98e88e6c24e0',1,'shark::ndim::Buffer::r()'],['../classshark_1_1ndim_1_1_periodic_shift.html#ad2b058280d2b466c8acb82e6f473e240',1,'shark::ndim::PeriodicShift::r()']]],
-  ['range',['range',['../classshark_1_1ndim_1_1_domain_1_1_process_overlap.html#a1130b73407bf2aaa0a8cb6ac25fcb3c1',1,'shark::ndim::Domain::ProcessOverlap']]],
-  ['result_5ftype',['result_type',['../classshark_1_1ndim_1_1is__source.html#a8f572031c798bd5661798790582835b2',1,'shark::ndim::is_source']]]
+  ['pack',['pack',['../classshark_1_1ndim_1_1_g_a_dest.html#aeef6b8ca8d9d57db09b32949e0493aca',1,'shark::ndim::GADest']]],
+  ['pos',['pos',['../structshark_1_1ndim_1_1part__position.html#abbc439e94001c9f96cc8985d683e24e0',1,'shark::ndim::part_position']]],
+  ['procid',['procid',['../classshark_1_1_group.html#af8c22a10243c3d05301280119b72c073',1,'shark::Group']]],
+  ['ptr',['ptr',['../classshark_1_1ndim_1_1_buffer.html#a0a63bf45d2f93a9670d736ae5123331a',1,'shark::ndim::Buffer::ptr()'],['../classshark_1_1ndim_1_1_global_array.html#ad4af3b8307a3a7107186cf699b5a2432',1,'shark::ndim::GlobalArray::ptr()'],['../classshark_1_1ndim_1_1_g_a_buf.html#a97b125250ee5edfc8c9f5c3663928421',1,'shark::ndim::GABuf::ptr()']]]
 ];

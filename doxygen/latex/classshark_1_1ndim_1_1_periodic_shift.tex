@@ -1,0 +1,98 @@
+\hypertarget{classshark_1_1ndim_1_1_periodic_shift}{}\section{shark\+:\+:ndim\+:\+:Periodic\+Shift$<$ ndim, S $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_periodic_shift}\index{shark\+::ndim\+::\+Periodic\+Shift$<$ ndim, S $>$@{shark\+::ndim\+::\+Periodic\+Shift$<$ ndim, S $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_periodic_shift_aceef16e1e0671276f46277d219386d68}{Periodic\+Shift} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{r}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{sw})
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_periodic_shift_acc2d3268c34e15655301843e4370a349}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ ii) const -\/$>$ decltype(a(ii))
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{r}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{sw}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename S$>$\newline
+class shark\+::ndim\+::\+Periodic\+Shift$<$ ndim, S $>$}
+
+
+
+Definition at line 671 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_periodic_shift_aceef16e1e0671276f46277d219386d68}{}\label{classshark_1_1ndim_1_1_periodic_shift_aceef16e1e0671276f46277d219386d68} 
+\index{shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}!Periodic\+Shift@{Periodic\+Shift}}
+\index{Periodic\+Shift@{Periodic\+Shift}!shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}}
+\subsubsection{\texorpdfstring{Periodic\+Shift()}{PeriodicShift()}}
+{\footnotesize\ttfamily template$<$int ndim, typename S $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_periodic_shift}{shark\+::ndim\+::\+Periodic\+Shift}$<$ ndim, S $>$\+::\hyperlink{classshark_1_1ndim_1_1_periodic_shift}{Periodic\+Shift} (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{sw }\end{DoxyParamCaption})}
+
+
+
+Definition at line 682 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+682 : \hyperlink{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{r}(\hyperlink{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{r}), \hyperlink{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{sw}(\hyperlink{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{sw}) \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_periodic_shift_acc2d3268c34e15655301843e4370a349}{}\label{classshark_1_1ndim_1_1_periodic_shift_acc2d3268c34e15655301843e4370a349} 
+\index{shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$int ndim, typename S $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_periodic_shift}{shark\+::ndim\+::\+Periodic\+Shift}$<$ ndim, S $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a(ii)) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 676 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+676                                                                                                    \{
+677                 \textcolor{keywordflow}{return} a(\hyperlink{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{r}.periodic\_equiv(ii+\hyperlink{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{sw}));
+678             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240}{}\label{classshark_1_1ndim_1_1_periodic_shift_ad2b058280d2b466c8acb82e6f473e240} 
+\index{shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}!r@{r}}
+\index{r@{r}!shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}}
+\subsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily template$<$int ndim, typename S $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift}{shark\+::ndim\+::\+Periodic\+Shift}$<$ ndim, S $>$\+::r\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 672 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653}{}\label{classshark_1_1ndim_1_1_periodic_shift_aded04c5bc0760cfb247590c85921b653} 
+\index{shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}!sw@{sw}}
+\index{sw@{sw}!shark\+::ndim\+::\+Periodic\+Shift@{shark\+::ndim\+::\+Periodic\+Shift}}
+\subsubsection{\texorpdfstring{sw}{sw}}
+{\footnotesize\ttfamily template$<$int ndim, typename S $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_periodic_shift}{shark\+::ndim\+::\+Periodic\+Shift}$<$ ndim, S $>$\+::sw\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 673 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

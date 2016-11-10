@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['h',['h',['../singletonshark_1_1_future.html#a6f6b64c69f0fc8116424c966388bae61',1,'shark::Future::h()'],['../classshark_1_1_future_3_01void_01_4.html#a9b221adaee8166f52318f49dc35c5b0a',1,'shark::Future&lt; void &gt;::h()']]]
+  ['h',['h',['../structshark_1_1_future.html#a54f00db085adbffb18b2e2ab9e3d4b32',1,'shark::Future::h()'],['../structshark_1_1_future_3_01void_01_4.html#a6cd84878a921af7b50e18accd766677e',1,'shark::Future&lt; void &gt;::h()']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['local',['local',['../singletonshark_1_1ndim_1_1_domain.html#a1c4e005bd15fecc26e1a8622c4eab37f',1,'shark::ndim::Domain::local(int id) const '],['../singletonshark_1_1ndim_1_1_domain.html#a53e8597bafe15b7bc72c9ca862dcb288',1,'shark::ndim::Domain::local() const ']]]
+  ['local',['local',['../classshark_1_1ndim_1_1_domain.html#a3351db56f9d6bd22ba473d744e3f7025',1,'shark::ndim::Domain::local(int id, coords&lt; ndim &gt; gw=coords&lt; ndim &gt;()) const'],['../classshark_1_1ndim_1_1_domain.html#acaf625c94a4f874d55f5989ece9dda9e',1,'shark::ndim::Domain::local(coords&lt; ndim &gt; gw=coords&lt; ndim &gt;()) const'],['../classshark_1_1ndim_1_1_global_array.html#a871fb1acbd9bd46439766121053e20d1',1,'shark::ndim::GlobalArray::local()']]],
+  ['log_5fout',['log_out',['../classshark_1_1ndim_1_1_global_array.html#ae56b93f4ac19003102749015275a6d0c',1,'shark::ndim::GlobalArray']]]
 ];

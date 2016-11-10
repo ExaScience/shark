@@ -1,0 +1,129 @@
+\hypertarget{classshark_1_1ndim_1_1_buffer}{}\section{shark\+:\+:ndim\+:\+:Buffer$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_buffer}\index{shark\+::ndim\+::\+Buffer$<$ ndim, T $>$@{shark\+::ndim\+::\+Buffer$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_buffer_a835dbc113d95b290cd274d9895280e1f}{Buffer} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0}{r}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim+1 $>$ \hyperlink{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1}{ld}, const T $\ast$\hyperlink{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{ptr})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_buffer_a59b8743e4a5f731bdd0c4185c9ef263b}{$\sim$\+Buffer} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const T \& \hyperlink{classshark_1_1ndim_1_1_buffer_ad2395794d4c56e71376178d770061a09}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ ii) const
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0}{r}
+\item 
+const \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim+1 $>$ \hyperlink{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1}{ld}
+\item 
+const T $\ast$ \hyperlink{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{ptr}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+Buffer$<$ ndim, T $>$}
+
+\hyperlink{classshark_1_1ndim_1_1_buffer}{Buffer} as a source 
+
+Definition at line 542 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_buffer_a835dbc113d95b290cd274d9895280e1f}{}\label{classshark_1_1ndim_1_1_buffer_a835dbc113d95b290cd274d9895280e1f} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{Buffer()}{Buffer()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Buffer\+::\+Buffer (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim+1 $>$}]{ld,  }\item[{const T $\ast$}]{ptr }\end{DoxyParamCaption})}
+
+
+
+Definition at line 31 of file expr.\+cpp.
+
+
+\begin{DoxyCode}
+31 : \hyperlink{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0}{r}(r), \hyperlink{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1}{ld}(ld), \hyperlink{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{ptr}(\hyperlink{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{ptr}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_buffer_a59b8743e4a5f731bdd0c4185c9ef263b}{}\label{classshark_1_1ndim_1_1_buffer_a59b8743e4a5f731bdd0c4185c9ef263b} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!````~Buffer@{$\sim$\+Buffer}}
+\index{````~Buffer@{$\sim$\+Buffer}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{$\sim$\+Buffer()}{~Buffer()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Buffer\+::$\sim$\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 34 of file expr.\+cpp.
+
+
+\begin{DoxyCode}
+34 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_buffer_ad2395794d4c56e71376178d770061a09}{}\label{classshark_1_1ndim_1_1_buffer_ad2395794d4c56e71376178d770061a09} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T \& \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$ ndim, T $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{ii }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 553 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+553                                                                         \{
+554             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{ptr}[(ii - \hyperlink{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0}{r}.lower).offset(\hyperlink{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1}{ld})];
+555         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1}{}\label{classshark_1_1ndim_1_1_buffer_aa17fcbd807223fcb3cc5f211c32253d1} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!ld@{ld}}
+\index{ld@{ld}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{ld}{ld}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim+1$>$ \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$ ndim, T $>$\+::ld\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 544 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a}{}\label{classshark_1_1ndim_1_1_buffer_a0a63bf45d2f93a9670d736ae5123331a} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!ptr@{ptr}}
+\index{ptr@{ptr}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{ptr}{ptr}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T$\ast$ \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$ ndim, T $>$\+::ptr\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 545 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0}{}\label{classshark_1_1ndim_1_1_buffer_adf5e1304ce98553284cf98e88e6c24e0} 
+\index{shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}!r@{r}}
+\index{r@{r}!shark\+::ndim\+::\+Buffer@{shark\+::ndim\+::\+Buffer}}
+\subsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$ ndim, T $>$\+::r\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 543 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\item 
+src/\hyperlink{expr_8cpp}{expr.\+cpp}\end{DoxyCompactItemize}

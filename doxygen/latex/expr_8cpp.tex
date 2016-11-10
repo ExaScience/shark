@@ -1,0 +1,85 @@
+\hypertarget{expr_8cpp}{}\section{src/expr.cpp File Reference}
+\label{expr_8cpp}\index{src/expr.\+cpp@{src/expr.\+cpp}}
+{\ttfamily \#include $<$shark/domain.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/expr.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}types\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}inst\+\_\+dimtype\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}inst\+\_\+dim\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_const}{shark\+::ndim\+::\+Const}$<$d,T$>$;
+\item 
+\#define \hyperlink{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_ac0114ef6c7c29d0b6cd96cf61f6cc089}{shark\+::ndim\+::constant}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, const T\&);
+\item 
+\#define \hyperlink{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_ac0114ef6c7c29d0b6cd96cf61f6cc089}{shark\+::ndim\+::constant}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$, const T\&);
+\item 
+\#define \hyperlink{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$d,T$>$;
+\item 
+\#define \hyperlink{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_buffer}{Buffer}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_a18f6c04b5497740c4bea65b1a77f8797}{shark\+::ndim\+::buffer}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$d+1$>$, const T$\ast$);
+\item 
+\#define \hyperlink{expr_8cpp_a1fb992023b8fb1ae74382d932a3815c6}{S\+Y\+M\+BD}(d)~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_coord_vec}{Coord\+Vec}$<$d$>$$>$ \hyperlink{namespaceshark_1_1ndim_a79746b40d6df669922d2577ae022d531}{shark\+::ndim\+::coord\+\_\+vec}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&);
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{expr_8cpp_a1fb992023b8fb1ae74382d932a3815c6}{}\label{expr_8cpp_a1fb992023b8fb1ae74382d932a3815c6} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+BD@{S\+Y\+M\+BD}}
+\index{S\+Y\+M\+BD@{S\+Y\+M\+BD}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+BD}{SYMBD}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+BD(\begin{DoxyParamCaption}\item[{}]{d }\end{DoxyParamCaption})~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_coord_vec}{Coord\+Vec}$<$d$>$$>$ \hyperlink{namespaceshark_1_1ndim_a79746b40d6df669922d2577ae022d531}{shark\+::ndim\+::coord\+\_\+vec}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&);}
+
+
+
+Definition at line 70 of file expr.\+cpp.
+
+\hypertarget{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_const}{shark\+::ndim\+::\+Const}$<$d,T$>$;}
+
+
+
+Definition at line 66 of file expr.\+cpp.
+
+\hypertarget{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_ac0114ef6c7c29d0b6cd96cf61f6cc089}{shark\+::ndim\+::constant}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, const T\&);}
+
+
+
+Definition at line 66 of file expr.\+cpp.
+
+\hypertarget{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_const}{Const}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_ac0114ef6c7c29d0b6cd96cf61f6cc089}{shark\+::ndim\+::constant}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$, const T\&);}
+
+
+
+Definition at line 66 of file expr.\+cpp.
+
+\hypertarget{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_buffer}{shark\+::ndim\+::\+Buffer}$<$d,T$>$;}
+
+
+
+Definition at line 66 of file expr.\+cpp.
+
+\hypertarget{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{expr_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{expr.\+cpp@{expr.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!expr.\+cpp@{expr.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$d,\hyperlink{classshark_1_1ndim_1_1_buffer}{Buffer}$<$d,T$>$$>$ \hyperlink{namespaceshark_1_1ndim_a18f6c04b5497740c4bea65b1a77f8797}{shark\+::ndim\+::buffer}(const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$d$>$\&, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$d+1$>$, const T$\ast$);}
+
+
+
+Definition at line 66 of file expr.\+cpp.
+

@@ -1,0 +1,46 @@
+\hypertarget{vec_8hpp}{}\section{include/shark/vec.hpp File Reference}
+\label{vec_8hpp}\index{include/shark/vec.\+hpp@{include/shark/vec.\+hpp}}
+{\ttfamily \#include \char`\"{}declval.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}common.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}adl.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structshark_1_1ndim_1_1vec}{shark\+::ndim\+::vec$<$ ndim, T $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshark}{shark}
+\item 
+ \hyperlink{namespaceshark_1_1ndim}{shark\+::ndim}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} vec$<$ ndim, decltype(-\/std\+::declval$<$ T $>$))$>$ \hyperlink{namespaceshark_1_1ndim_abcf5c67c28690043fa9829afb1b617fb}{shark\+::ndim\+::operator-\/} (const vec$<$ ndim, T $>$ \&v)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} vec$<$ ndim, decltype(std\+::declval$<$ T $>$)+std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a539041908107c07ec2a9cd6eb9cdc11d}{shark\+::ndim\+::operator+} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} vec$<$ ndim, decltype(std\+::declval$<$ T $>$) -\/ std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a562ed7a1dc9951ae1674a1988710171c}{shark\+::ndim\+::operator-\/} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} vec$<$ ndim, decltype(std\+::declval$<$ T $>$)/std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a6d5687e0b15f386881a84b1918185015}{shark\+::ndim\+::operator/} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\vec$<$ ndim, decltype(-\/std\+::declval$<$ T $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a7be1c7528e2acd409211d050314c478b}{shark\+::ndim\+::operator-\/} (const vec$<$ ndim, T $>$ \&v)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$)+std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a6b4a69e43ee7955d541f6a7a1e9d9ba6}{shark\+::ndim\+::operator+} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$) -\/ std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_af88fbc3e98ec442203c618c61ce65a87}{shark\+::ndim\+::operator-\/} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$) $\ast$std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a22d58cb2f1b5492ff59617c74585903e}{shark\+::ndim\+::operator$\ast$} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$) $\ast$std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_afe2447ddf9376174429a7b4615ab4123}{shark\+::ndim\+::operator$\ast$} (const vec$<$ ndim, T $>$ \&v, const S \&a)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$) $\ast$std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_aca5a0b87c3d83950719f7ec19025b3b5}{shark\+::ndim\+::operator$\ast$} (const T \&a, const vec$<$ ndim, S $>$ \&v)
+\item 
+{\footnotesize template$<$int ndim, typename T , typename S $>$ }\\vec$<$ ndim, decltype(std\+::declval$<$ T $>$)/std\+::declval$<$ S $>$))$>$ \hyperlink{namespaceshark_1_1ndim_a6dc727bc15068ffca49ca1675cbe6c2b}{shark\+::ndim\+::operator/} (const vec$<$ ndim, T $>$ \&v1, const vec$<$ ndim, S $>$ \&v2)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\vec$<$ ndim, decltype(adl\+\_\+abs(std\+::declval$<$ T $>$)))$>$ \hyperlink{namespaceshark_1_1ndim_ac5f55bc3a5d541cd1d6bfd5d462ce365}{shark\+::ndim\+::abs} (const vec$<$ ndim, T $>$ \&v)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\std\+::ostream \& \hyperlink{namespaceshark_1_1ndim_ac25a04011fd3ab5350dc899a9359db49}{shark\+::ndim\+::operator$<$$<$} (std\+::ostream \&os, const vec$<$ ndim, T $>$ \&v)
+\end{DoxyCompactItemize}

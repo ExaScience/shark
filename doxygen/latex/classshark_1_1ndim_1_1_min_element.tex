@@ -1,0 +1,47 @@
+\hypertarget{classshark_1_1ndim_1_1_min_element}{}\section{shark\+:\+:ndim\+:\+:Min\+Element$<$ S $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_min_element}\index{shark\+::ndim\+::\+Min\+Element$<$ S $>$@{shark\+::ndim\+::\+Min\+Element$<$ S $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_min_element_a86825d644a64c6ad07cd34e18da611bd}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a(ii).min())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S$>$\newline
+class shark\+::ndim\+::\+Min\+Element$<$ S $>$}
+
+Minimal/maximal element 
+
+Definition at line 624 of file expr.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_min_element_a86825d644a64c6ad07cd34e18da611bd}{}\label{classshark_1_1ndim_1_1_min_element_a86825d644a64c6ad07cd34e18da611bd} 
+\index{shark\+::ndim\+::\+Min\+Element@{shark\+::ndim\+::\+Min\+Element}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Min\+Element@{shark\+::ndim\+::\+Min\+Element}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_min_element}{shark\+::ndim\+::\+Min\+Element}$<$ S $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a(ii).min()) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 626 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+626                                                                                                            
+                     \{
+627                 \textcolor{keywordflow}{return} a(ii).min();
+628             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

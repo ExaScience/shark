@@ -1,0 +1,47 @@
+\hypertarget{classshark_1_1ndim_1_1_div}{}\section{shark\+:\+:ndim\+:\+:Div$<$ S1, S2 $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_div}\index{shark\+::ndim\+::\+Div$<$ S1, S2 $>$@{shark\+::ndim\+::\+Div$<$ S1, S2 $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_div_ab5535da75926a49c440718ec50bfaa33}{operator()} (const typename S1\+::accessor \&a1, const typename S2\+::accessor \&a2, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S1\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a1(ii)/a2(ii))
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S1, typename S2$>$\newline
+class shark\+::ndim\+::\+Div$<$ S1, S2 $>$}
+
+
+
+Definition at line 856 of file expr.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_div_ab5535da75926a49c440718ec50bfaa33}{}\label{classshark_1_1ndim_1_1_div_ab5535da75926a49c440718ec50bfaa33} 
+\index{shark\+::ndim\+::\+Div@{shark\+::ndim\+::\+Div}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Div@{shark\+::ndim\+::\+Div}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S1 , typename S2 $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_div}{shark\+::ndim\+::\+Div}$<$ S1, S2 $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S1\+::accessor \&}]{a1,  }\item[{const typename S2\+::accessor \&}]{a2,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S1\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a1(ii) / a2(ii)) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 858 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+858                                                                                                            
+                                                           \{
+859                 \textcolor{keywordflow}{return} a1(ii) / a2(ii);
+860             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

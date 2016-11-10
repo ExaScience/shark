@@ -1,0 +1,103 @@
+\hypertarget{classshark_1_1ndim_1_1_const}{}\section{shark\+:\+:ndim\+:\+:Const$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_const}\index{shark\+::ndim\+::\+Const$<$ ndim, T $>$@{shark\+::ndim\+::\+Const$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_const_a7045f6e927528a3abf82182f0c894be2}{Const} (const T \&\hyperlink{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{val})
+\item 
+\hyperlink{classshark_1_1ndim_1_1_const_a458fd0ff9671ebb6bba2e54247753126}{$\sim$\+Const} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const T \& \hyperlink{classshark_1_1ndim_1_1_const_aee20b9c9f89839ee80bcb42bab83281e}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ ii) const
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const T \hyperlink{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{val}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+Const$<$ ndim, T $>$}
+
+Constant value over domain 
+
+Definition at line 421 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_const_a7045f6e927528a3abf82182f0c894be2}{}\label{classshark_1_1ndim_1_1_const_a7045f6e927528a3abf82182f0c894be2} 
+\index{shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}!Const@{Const}}
+\index{Const@{Const}!shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}}
+\subsubsection{\texorpdfstring{Const()}{Const()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Const\+::\+Const (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 15 of file expr.\+cpp.
+
+
+\begin{DoxyCode}
+15 : \hyperlink{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{val}(\hyperlink{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{val}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_const_a458fd0ff9671ebb6bba2e54247753126}{}\label{classshark_1_1ndim_1_1_const_a458fd0ff9671ebb6bba2e54247753126} 
+\index{shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}!````~Const@{$\sim$\+Const}}
+\index{````~Const@{$\sim$\+Const}!shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}}
+\subsubsection{\texorpdfstring{$\sim$\+Const()}{~Const()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Const\+::$\sim$\+Const (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 18 of file expr.\+cpp.
+
+
+\begin{DoxyCode}
+18 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_const_aee20b9c9f89839ee80bcb42bab83281e}{}\label{classshark_1_1ndim_1_1_const_aee20b9c9f89839ee80bcb42bab83281e} 
+\index{shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T \& \hyperlink{classshark_1_1ndim_1_1_const}{shark\+::ndim\+::\+Const}$<$ ndim, T $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{ii }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 430 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+430                                                                     \{
+431             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{val};
+432         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0}{}\label{classshark_1_1ndim_1_1_const_aa7b1fd3a202063f3c8d08d75a890e4b0} 
+\index{shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}!val@{val}}
+\index{val@{val}!shark\+::ndim\+::\+Const@{shark\+::ndim\+::\+Const}}
+\subsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const T \hyperlink{classshark_1_1ndim_1_1_const}{shark\+::ndim\+::\+Const}$<$ ndim, T $>$\+::val\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 422 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\item 
+src/\hyperlink{expr_8cpp}{expr.\+cpp}\end{DoxyCompactItemize}

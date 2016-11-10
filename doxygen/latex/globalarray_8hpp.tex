@@ -1,0 +1,49 @@
+\hypertarget{globalarray_8hpp}{}\section{include/shark/globalarray.hpp File Reference}
+\label{globalarray_8hpp}\index{include/shark/globalarray.\+hpp@{include/shark/globalarray.\+hpp}}
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include \char`\"{}common.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}boundary.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}coords.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}coords\+\_\+range.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}future.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}globals.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_impl}{shark\+::ndim\+::\+G\+A\+Impl$<$ int, typename $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{shark\+::ndim\+::\+G\+A\+Ref$<$ ndim, T $>$}
+\item 
+struct \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{shark\+::ndim\+::\+G\+A\+Buf$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest$<$ ndim, T $>$}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{shark\+::ndim\+::\+G\+A\+Ref$<$ ndim, T $>$}
+\item 
+struct \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{shark\+::ndim\+::\+G\+A\+Buf$<$ ndim, T $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshark}{shark}
+\item 
+ \hyperlink{namespaceshark_1_1ndim}{shark\+::ndim}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\void \hyperlink{namespaceshark_1_1ndim_a8a52bf045ab40d975bd382067a266ee8}{shark\+::ndim\+::get} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\void \hyperlink{namespaceshark_1_1ndim_afb46dbb15b06e4fc1fe871b457cc0695}{shark\+::ndim\+::put} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\void \hyperlink{namespaceshark_1_1ndim_ac2fdde52862b140ea3d88f43d31425fe}{shark\+::ndim\+::accumulate} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+{\footnotesize template$<$int ndim, typename T $>$ }\\std\+::ostream \& \hyperlink{namespaceshark_1_1ndim_a26bc600679af01d20abfd2d8a986e91e}{shark\+::ndim\+::operator$<$$<$} (std\+::ostream \&out, const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&ga)
+\end{DoxyCompactItemize}

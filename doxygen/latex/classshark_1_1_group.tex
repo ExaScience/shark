@@ -1,0 +1,359 @@
+\hypertarget{classshark_1_1_group}{}\section{shark\+:\+:Group Class Reference}
+\label{classshark_1_1_group}\index{shark\+::\+Group@{shark\+::\+Group}}
+
+
+{\ttfamily \#include $<$group.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1_group_aed00a22ff227ee2657ae44a5cbcedf7c}{$\sim$\+Group} ()
+\item 
+\hyperlink{classshark_1_1_group_aeee7d7330ef0f51e426e93978b3376b3}{Group} (const \hyperlink{classshark_1_1_group}{Group} \&other)=delete
+\item 
+\hyperlink{classshark_1_1_group}{Group} \& \hyperlink{classshark_1_1_group_a6e7729794a54c2046bd939663f601865}{operator=} (const \hyperlink{classshark_1_1_group}{Group} \&other)=delete
+\item 
+bool \hyperlink{classshark_1_1_group_ae51d304a99a430333c2b910f55757c60}{operator==} (const \hyperlink{classshark_1_1_group}{Group} \&other) const
+\item 
+void \hyperlink{classshark_1_1_group_a73a616469f03e775f8203e86690fbe7e}{sync} () const
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{classshark_1_1_group_ac254938f11bae1e1cda77072468f9bc1}{external\+\_\+sum} (T \&\&val) const
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ \hyperlink{classshark_1_1_group_a45c07b72e75f90b39e550e80d7ea2418}{external\+\_\+isum} (T \&\&val) const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \hyperlink{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{procid}
+\item 
+const int \hyperlink{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{nprocs}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1_group_a2222ee01c6bacb1441428089fb29916a}{Group} (std\+::unique\+\_\+ptr$<$ Group\+Impl $>$ \&\&\hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl})
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::unique\+\_\+ptr$<$ Group\+Impl $>$ \hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{classshark_1_1_group}{Group} $>$ \hyperlink{classshark_1_1_group_af542c8e71a81c12d6a73203ef9152d1f}{w}
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{classshark_1_1_group}{Group} $>$ \hyperlink{classshark_1_1_group_a6c59f34c15be2873372cd006c2939da2}{s}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int $>$ }\\class \hyperlink{classshark_1_1_group_a0c647ce15d76f9253c6236ffa219ee33}{shark\+::ndim\+::\+Domain}
+\item 
+{\footnotesize template$<$int , typename $>$ }\\class \hyperlink{classshark_1_1_group_a8a5e7aad8bd5339747078692740c0a59}{shark\+::ndim\+::\+Global\+Array}
+\item 
+{\footnotesize template$<$int , typename $>$ }\\class \hyperlink{classshark_1_1_group_aaf0e46addc08f50274723b3ec7cfa1c7}{shark\+::ndim\+::\+Acc\+Buffer}
+\item 
+{\footnotesize template$<$typename , typename $>$ }\\class \hyperlink{classshark_1_1_group_af2ebd450d7dfe66c0e03093941a9f357}{shark\+::\+RequestQ}
+\item 
+const \hyperlink{classshark_1_1_group}{Group} \& \hyperlink{classshark_1_1_group_ab2389cee4068fd386c970669a3beb2c0}{world} ()
+\item 
+const \hyperlink{classshark_1_1_group}{Group} \& \hyperlink{classshark_1_1_group_a95b2488d732a4032db62c7d423a36dfa}{self} ()
+\item 
+void \hyperlink{classshark_1_1_group_adba66a23d3a48c8a7accb2e0f15ac133}{Init} (int $\ast$, char $\ast$$\ast$$\ast$, bool)
+\item 
+void \hyperlink{classshark_1_1_group_a8fee61d7a783cade1a3d07fe86284d27}{Finalize} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A group of processes 
+
+Definition at line 21 of file group.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1_group_a2222ee01c6bacb1441428089fb29916a}{}\label{classshark_1_1_group_a2222ee01c6bacb1441428089fb29916a} 
+\index{shark\+::\+Group@{shark\+::\+Group}!Group@{Group}}
+\index{Group@{Group}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{Group()}{Group()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily shark\+::\+Group\+::\+Group (\begin{DoxyParamCaption}\item[{std\+::unique\+\_\+ptr$<$ Group\+Impl $>$ \&\&}]{impl }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\hypertarget{classshark_1_1_group_aed00a22ff227ee2657ae44a5cbcedf7c}{}\label{classshark_1_1_group_aed00a22ff227ee2657ae44a5cbcedf7c} 
+\index{shark\+::\+Group@{shark\+::\+Group}!````~Group@{$\sim$\+Group}}
+\index{````~Group@{$\sim$\+Group}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{$\sim$\+Group()}{~Group()}}
+{\footnotesize\ttfamily Group\+::$\sim$\+Group (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 49 of file group.\+cpp.
+
+
+\begin{DoxyCode}
+49 \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_group_aeee7d7330ef0f51e426e93978b3376b3}{}\label{classshark_1_1_group_aeee7d7330ef0f51e426e93978b3376b3} 
+\index{shark\+::\+Group@{shark\+::\+Group}!Group@{Group}}
+\index{Group@{Group}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{Group()}{Group()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily shark\+::\+Group\+::\+Group (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1_group_a45c07b72e75f90b39e550e80d7ea2418}{}\label{classshark_1_1_group_a45c07b72e75f90b39e550e80d7ea2418} 
+\index{shark\+::\+Group@{shark\+::\+Group}!external\+\_\+isum@{external\+\_\+isum}}
+\index{external\+\_\+isum@{external\+\_\+isum}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{external\+\_\+isum()}{external\_isum()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$ T $>$ Group\+::external\+\_\+isum (\begin{DoxyParamCaption}\item[{T \&\&}]{val }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 109 of file group.\+cpp.
+
+
+\begin{DoxyCode}
+110 \{
+111 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined(SHARK\_GPI\_COMM)}
+112     \textcolor{keyword}{auto} val = make\_unique<T>(std::move(\hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum}));
+113     \textcolor{keyword}{auto} h = make\_unique<SumHandle>();
+114     MPI\_Iallreduce(MPI\_IN\_PLACE, mpi\_type<T>::address(*val), mpi\_type<T>::count(*val), mpi\_type<T>::t, 
+      MPI\_SUM, \hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl}->comm, &h->req);
+115     \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future}{Future<T>}(std::move(h), std::move(val));
+116 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+117     \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future}{Future<T>}(make\_unique<DoneHandle>(), make\_unique<T>(std::move(
+      \hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum})));
+118 \textcolor{preprocessor}{#else}
+119 \textcolor{preprocessor}{#error "No comm external\_isum"}
+120 \textcolor{preprocessor}{#endif}
+121 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_group_ac254938f11bae1e1cda77072468f9bc1}{}\label{classshark_1_1_group_ac254938f11bae1e1cda77072468f9bc1} 
+\index{shark\+::\+Group@{shark\+::\+Group}!external\+\_\+sum@{external\+\_\+sum}}
+\index{external\+\_\+sum@{external\+\_\+sum}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{external\+\_\+sum()}{external\_sum()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T Group\+::external\+\_\+sum (\begin{DoxyParamCaption}\item[{T \&\&}]{val }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 66 of file group.\+cpp.
+
+
+\begin{DoxyCode}
+67 \{
+68 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined (SHARK\_GPI\_COMM)}
+69     MPI\_Allreduce(MPI\_IN\_PLACE, mpi\_type<T>::address(\hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum}), mpi\_type<T>::count(
+      \hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum}), mpi\_type<T>::t, MPI\_SUM, \hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl}->comm);
+70     \textcolor{keywordflow}{return} \hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum};
+71 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+72     \textcolor{keywordflow}{return} \hyperlink{namespaceshark_1_1ndim_a864213068a08615fa12bdd67d83ed324}{sum};
+73 \textcolor{preprocessor}{#else}
+74 \textcolor{preprocessor}{#error "No comm external\_sum"}
+75 \textcolor{preprocessor}{#endif}
+76 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_group_a6e7729794a54c2046bd939663f601865}{}\label{classshark_1_1_group_a6e7729794a54c2046bd939663f601865} 
+\index{shark\+::\+Group@{shark\+::\+Group}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \hyperlink{classshark_1_1_group}{Group}\& shark\+::\+Group\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1_group_ae51d304a99a430333c2b910f55757c60}{}\label{classshark_1_1_group_ae51d304a99a430333c2b910f55757c60} 
+\index{shark\+::\+Group@{shark\+::\+Group}!operator==@{operator==}}
+\index{operator==@{operator==}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Group\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1_group}{Group} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 51 of file group.\+cpp.
+
+
+\begin{DoxyCode}
+51                                                \{
+52     \textcolor{keywordflow}{return} \textcolor{keyword}{this} == &other;
+53 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_group_a73a616469f03e775f8203e86690fbe7e}{}\label{classshark_1_1_group_a73a616469f03e775f8203e86690fbe7e} 
+\index{shark\+::\+Group@{shark\+::\+Group}!sync@{sync}}
+\index{sync@{sync}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{sync()}{sync()}}
+{\footnotesize\ttfamily void Group\+::sync (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Synchronize all processes in the group (collective). 
+
+Definition at line 55 of file group.\+cpp.
+
+
+\begin{DoxyCode}
+55                        \{
+56 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined (SHARK\_GPI\_COMM)}
+57     MPI\_Barrier(\hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl}->comm);
+58 \textcolor{preprocessor}{#if  defined (SHARK\_GPI\_COMM)}
+59         gaspi\_wait(0, GASPI\_BLOCK);
+60         gaspi\_barrier(\hyperlink{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{impl}->grp,GASPI\_BLOCK);
+61 \textcolor{preprocessor}{#endif}
+62 \textcolor{preprocessor}{#endif}
+63 \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classshark_1_1_group_a8fee61d7a783cade1a3d07fe86284d27}{}\label{classshark_1_1_group_a8fee61d7a783cade1a3d07fe86284d27} 
+\index{shark\+::\+Group@{shark\+::\+Group}!Finalize@{Finalize}}
+\index{Finalize@{Finalize}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{Finalize}{Finalize}}
+{\footnotesize\ttfamily void Finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+Finalize shark. This has to be called at the end of the program. \hypertarget{classshark_1_1_group_adba66a23d3a48c8a7accb2e0f15ac133}{}\label{classshark_1_1_group_adba66a23d3a48c8a7accb2e0f15ac133} 
+\index{shark\+::\+Group@{shark\+::\+Group}!Init@{Init}}
+\index{Init@{Init}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{Init}{Init}}
+{\footnotesize\ttfamily void Init (\begin{DoxyParamCaption}\item[{int $\ast$}]{,  }\item[{char $\ast$$\ast$$\ast$}]{,  }\item[{bool}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+Initialize shark. This has to be called at the beginning of the program. 
+\begin{DoxyParams}{Parameters}
+{\em argc} & pointer to the argument count \\
+\hline
+{\em argv} & pointer to the argument values \\
+\hline
+\end{DoxyParams}
+\hypertarget{classshark_1_1_group_a95b2488d732a4032db62c7d423a36dfa}{}\label{classshark_1_1_group_a95b2488d732a4032db62c7d423a36dfa} 
+\index{shark\+::\+Group@{shark\+::\+Group}!self@{self}}
+\index{self@{self}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{self}{self}}
+{\footnotesize\ttfamily const \hyperlink{classshark_1_1_group}{Group}\& self (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+The group of only the current process 
+
+Definition at line 84 of file globals.\+hpp.
+
+
+\begin{DoxyCode}
+84                                \{
+85         \textcolor{keywordflow}{return} *\hyperlink{classshark_1_1_group_a6c59f34c15be2873372cd006c2939da2}{Group::s};
+86     \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_group_aaf0e46addc08f50274723b3ec7cfa1c7}{}\label{classshark_1_1_group_aaf0e46addc08f50274723b3ec7cfa1c7} 
+\index{shark\+::\+Group@{shark\+::\+Group}!shark\+::ndim\+::\+Acc\+Buffer@{shark\+::ndim\+::\+Acc\+Buffer}}
+\index{shark\+::ndim\+::\+Acc\+Buffer@{shark\+::ndim\+::\+Acc\+Buffer}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{shark\+::ndim\+::\+Acc\+Buffer}{shark::ndim::AccBuffer}}
+{\footnotesize\ttfamily template$<$int , typename $>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_acc_buffer}{shark\+::ndim\+::\+Acc\+Buffer}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 24 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_a0c647ce15d76f9253c6236ffa219ee33}{}\label{classshark_1_1_group_a0c647ce15d76f9253c6236ffa219ee33} 
+\index{shark\+::\+Group@{shark\+::\+Group}!shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}}
+\index{shark\+::ndim\+::\+Domain@{shark\+::ndim\+::\+Domain}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{shark\+::ndim\+::\+Domain}{shark::ndim::Domain}}
+{\footnotesize\ttfamily template$<$int $>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_domain}{shark\+::ndim\+::\+Domain}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 22 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_a8a5e7aad8bd5339747078692740c0a59}{}\label{classshark_1_1_group_a8a5e7aad8bd5339747078692740c0a59} 
+\index{shark\+::\+Group@{shark\+::\+Group}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{shark\+::ndim\+::\+Global\+Array}{shark::ndim::GlobalArray}}
+{\footnotesize\ttfamily template$<$int , typename $>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 23 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_af2ebd450d7dfe66c0e03093941a9f357}{}\label{classshark_1_1_group_af2ebd450d7dfe66c0e03093941a9f357} 
+\index{shark\+::\+Group@{shark\+::\+Group}!shark\+::\+RequestQ@{shark\+::\+RequestQ}}
+\index{shark\+::\+RequestQ@{shark\+::\+RequestQ}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{shark\+::\+RequestQ}{shark::RequestQ}}
+{\footnotesize\ttfamily template$<$typename , typename $>$ \\
+friend class \hyperlink{classshark_1_1_request_q}{shark\+::\+RequestQ}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 25 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_ab2389cee4068fd386c970669a3beb2c0}{}\label{classshark_1_1_group_ab2389cee4068fd386c970669a3beb2c0} 
+\index{shark\+::\+Group@{shark\+::\+Group}!world@{world}}
+\index{world@{world}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{world}{world}}
+{\footnotesize\ttfamily const \hyperlink{classshark_1_1_group}{Group}\& world (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+The group of all processes. This is available after initialization. 
+
+Definition at line 73 of file globals.\+hpp.
+
+
+\begin{DoxyCode}
+73                                 \{
+74         \textcolor{keywordflow}{return} *\hyperlink{classshark_1_1_group_af542c8e71a81c12d6a73203ef9152d1f}{Group::w};
+75     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580}{}\label{classshark_1_1_group_a1b1f4345bb3d08df22d32c13bd693580} 
+\index{shark\+::\+Group@{shark\+::\+Group}!impl@{impl}}
+\index{impl@{impl}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{impl}{impl}}
+{\footnotesize\ttfamily const std\+::unique\+\_\+ptr$<$Group\+Impl$>$ shark\+::\+Group\+::impl\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2}{}\label{classshark_1_1_group_a90e041a7fa6c40c924b17f8c2006e6b2} 
+\index{shark\+::\+Group@{shark\+::\+Group}!nprocs@{nprocs}}
+\index{nprocs@{nprocs}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{nprocs}{nprocs}}
+{\footnotesize\ttfamily const int shark\+::\+Group\+::nprocs}
+
+The number of processes in the group. 
+
+Definition at line 46 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_af8c22a10243c3d05301280119b72c073}{}\label{classshark_1_1_group_af8c22a10243c3d05301280119b72c073} 
+\index{shark\+::\+Group@{shark\+::\+Group}!procid@{procid}}
+\index{procid@{procid}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{procid}{procid}}
+{\footnotesize\ttfamily const int shark\+::\+Group\+::procid}
+
+The identifier of the calling process in the group (zero-\/based). 
+
+Definition at line 41 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_a6c59f34c15be2873372cd006c2939da2}{}\label{classshark_1_1_group_a6c59f34c15be2873372cd006c2939da2} 
+\index{shark\+::\+Group@{shark\+::\+Group}!s@{s}}
+\index{s@{s}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily unique\+\_\+ptr$<$ \hyperlink{classshark_1_1_group}{Group} $>$ Group\+::s\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 34 of file group.\+hpp.
+
+\hypertarget{classshark_1_1_group_af542c8e71a81c12d6a73203ef9152d1f}{}\label{classshark_1_1_group_af542c8e71a81c12d6a73203ef9152d1f} 
+\index{shark\+::\+Group@{shark\+::\+Group}!w@{w}}
+\index{w@{w}!shark\+::\+Group@{shark\+::\+Group}}
+\subsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily unique\+\_\+ptr$<$ \hyperlink{classshark_1_1_group}{Group} $>$ Group\+::w\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 33 of file group.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{group_8hpp}{group.\+hpp}\item 
+src/\hyperlink{group_8cpp}{group.\+cpp}\end{DoxyCompactItemize}

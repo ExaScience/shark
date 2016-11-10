@@ -1,0 +1,47 @@
+\hypertarget{classshark_1_1ndim_1_1_sub}{}\section{shark\+:\+:ndim\+:\+:Sub$<$ S1, S2 $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_sub}\index{shark\+::ndim\+::\+Sub$<$ S1, S2 $>$@{shark\+::ndim\+::\+Sub$<$ S1, S2 $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_sub_a1402dac70f7b2cb17cda1e486b3b8a8c}{operator()} (const typename S1\+::accessor \&a1, const typename S2\+::accessor \&a2, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S1\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a1(ii) -\/ a2(ii))
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S1, typename S2$>$\newline
+class shark\+::ndim\+::\+Sub$<$ S1, S2 $>$}
+
+
+
+Definition at line 767 of file expr.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_sub_a1402dac70f7b2cb17cda1e486b3b8a8c}{}\label{classshark_1_1ndim_1_1_sub_a1402dac70f7b2cb17cda1e486b3b8a8c} 
+\index{shark\+::ndim\+::\+Sub@{shark\+::ndim\+::\+Sub}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Sub@{shark\+::ndim\+::\+Sub}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S1 , typename S2 $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_sub}{shark\+::ndim\+::\+Sub}$<$ S1, S2 $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S1\+::accessor \&}]{a1,  }\item[{const typename S2\+::accessor \&}]{a2,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S1\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a1(ii) -\/ a2(ii)) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 769 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+769                                                                                                            
+                                                           \{
+770                 \textcolor{keywordflow}{return} a1(ii) - a2(ii);
+771             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

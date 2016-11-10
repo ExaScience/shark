@@ -1,0 +1,47 @@
+\hypertarget{classshark_1_1ndim_1_1_max_element}{}\section{shark\+:\+:ndim\+:\+:Max\+Element$<$ S $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_max_element}\index{shark\+::ndim\+::\+Max\+Element$<$ S $>$@{shark\+::ndim\+::\+Max\+Element$<$ S $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_max_element_a7130c9b87070f3ff75bc5325f673898a}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a(ii).max())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S$>$\newline
+class shark\+::ndim\+::\+Max\+Element$<$ S $>$}
+
+
+
+Definition at line 632 of file expr.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_max_element_a7130c9b87070f3ff75bc5325f673898a}{}\label{classshark_1_1ndim_1_1_max_element_a7130c9b87070f3ff75bc5325f673898a} 
+\index{shark\+::ndim\+::\+Max\+Element@{shark\+::ndim\+::\+Max\+Element}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Max\+Element@{shark\+::ndim\+::\+Max\+Element}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_max_element}{shark\+::ndim\+::\+Max\+Element}$<$ S $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a(ii).max()) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 634 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+634                                                                                                            
+                     \{
+635                 \textcolor{keywordflow}{return} a(ii).max();
+636             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

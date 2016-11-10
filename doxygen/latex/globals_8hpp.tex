@@ -1,0 +1,59 @@
+\hypertarget{globals_8hpp}{}\section{include/shark/globals.hpp File Reference}
+\label{globals_8hpp}\index{include/shark/globals.\+hpp@{include/shark/globals.\+hpp}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include \char`\"{}common.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}group.\+hpp\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshark}{shark}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{globals_8hpp_abbe2b020b65cc72852ccd88c8cb2f4bb}{S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER}(name)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespaceshark_acb17c538c18f0773515300329c3158e3}{shark\+::\+Init} (int $\ast$argc, char $\ast$$\ast$$\ast$argv, bool thread\+\_\+multiple=false)
+\item 
+void \hyperlink{namespaceshark_aa4284bb4a0880374f13b0928c18d2143}{shark\+::\+Setup\+Threads} ()
+\item 
+void \hyperlink{namespaceshark_a3d59270cba11d6b4a4b75c37064cfaf3}{shark\+::\+Finalize} ()
+\item 
+void \hyperlink{namespaceshark_a6a162c31c594f35cb696d65d231e1b5c}{shark\+::\+Abort} (int errorcode)
+\item 
+double \hyperlink{namespaceshark_a4ca07420a22b68c516e9488d2748a578}{shark\+::\+Wtime} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const Group \& \hyperlink{namespaceshark_a1dc10b4032399f63650dbbb186483e47}{shark\+::world} ()
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const Group \& \hyperlink{namespaceshark_a48a395947ef400bc057cebb8150f7f4e}{shark\+::self} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::string \hyperlink{namespaceshark_a448eaebf80d9b1ee807faf964db030de}{shark\+::version}
+\item 
+int \hyperlink{namespaceshark_a4912c1d983c9655b4ed992ac1f99530f}{shark\+::nthrds}
+\item 
+const std\+::string \hyperlink{namespaceshark_ae92376c2b8a35cd983f3f7eea9ab959b}{shark\+::sched}
+\item 
+const std\+::string \hyperlink{namespaceshark_addbd5781efcffd1b0502c83220027b90}{shark\+::comm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{globals_8hpp_abbe2b020b65cc72852ccd88c8cb2f4bb}{}\label{globals_8hpp_abbe2b020b65cc72852ccd88c8cb2f4bb} 
+\index{globals.\+hpp@{globals.\+hpp}!S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER@{S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER}}
+\index{S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER@{S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER}!globals.\+hpp@{globals.\+hpp}}
+\subsubsection{\texorpdfstring{S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER}{SHARK\_COUNTER}}
+{\footnotesize\ttfamily \#define S\+H\+A\+R\+K\+\_\+\+C\+O\+U\+N\+T\+ER(\begin{DoxyParamCaption}\item[{}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line 131 of file globals.\+hpp.
+

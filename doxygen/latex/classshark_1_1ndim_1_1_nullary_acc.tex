@@ -1,0 +1,92 @@
+\hypertarget{classshark_1_1ndim_1_1_nullary_acc}{}\section{shark\+:\+:ndim\+:\+:Nullary\+Acc$<$ ndim, Func $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_nullary_acc}\index{shark\+::ndim\+::\+Nullary\+Acc$<$ ndim, Func $>$@{shark\+::ndim\+::\+Nullary\+Acc$<$ ndim, Func $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_nullary_acc_a65629401dcf916c324bff4f5012688ff}{Nullary\+Acc} (const \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, Func $>$ \&exp)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_nullary_acc_a34d1a64e5e395fb4ca2fa636ee164c1c}{$\sim$\+Nullary\+Acc} ()
+\item 
+decltype(std\+::declval$<$ Func $>$()(std\+::declval$<$ \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$$>$())) \hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_nullary_acc_a54d80a3d684587e7ca45d780e4832faf}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ ii) const
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const Func \& \hyperlink{classshark_1_1ndim_1_1_nullary_acc_a2818f289b8c710f249e38a20412cf54d}{f}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename Func$>$\newline
+class shark\+::ndim\+::\+Nullary\+Acc$<$ ndim, Func $>$}
+
+Nullary expressions 
+
+Definition at line 52 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_nullary_acc_a65629401dcf916c324bff4f5012688ff}{}\label{classshark_1_1ndim_1_1_nullary_acc_a65629401dcf916c324bff4f5012688ff} 
+\index{shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}!Nullary\+Acc@{Nullary\+Acc}}
+\index{Nullary\+Acc@{Nullary\+Acc}!shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}}
+\subsubsection{\texorpdfstring{Nullary\+Acc()}{NullaryAcc()}}
+{\footnotesize\ttfamily template$<$int ndim, typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc}$<$ ndim, Func $>$\+::\hyperlink{classshark_1_1ndim_1_1_nullary_acc}{Nullary\+Acc} (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_nullary_exp}{Nullary\+Exp}$<$ ndim, Func $>$ \&}]{exp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 104 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+104 : \hyperlink{classshark_1_1ndim_1_1_nullary_acc_a2818f289b8c710f249e38a20412cf54d}{f}(exp.f) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_nullary_acc_a34d1a64e5e395fb4ca2fa636ee164c1c}{}\label{classshark_1_1ndim_1_1_nullary_acc_a34d1a64e5e395fb4ca2fa636ee164c1c} 
+\index{shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}!````~Nullary\+Acc@{$\sim$\+Nullary\+Acc}}
+\index{````~Nullary\+Acc@{$\sim$\+Nullary\+Acc}!shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}}
+\subsubsection{\texorpdfstring{$\sim$\+Nullary\+Acc()}{~NullaryAcc()}}
+{\footnotesize\ttfamily template$<$int ndim, typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc}$<$ ndim, Func $>$\+::$\sim$\hyperlink{classshark_1_1ndim_1_1_nullary_acc}{Nullary\+Acc} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 107 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+107 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_nullary_acc_a54d80a3d684587e7ca45d780e4832faf}{}\label{classshark_1_1ndim_1_1_nullary_acc_a54d80a3d684587e7ca45d780e4832faf} 
+\index{shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$int ndim, typename Func $>$ \\
+decltype(std\+::declval$<$Func$>$()(std\+::declval$<$\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$$>$())) \hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc}$<$ ndim, Func $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{ii }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_nullary_acc_a2818f289b8c710f249e38a20412cf54d}{}\label{classshark_1_1ndim_1_1_nullary_acc_a2818f289b8c710f249e38a20412cf54d} 
+\index{shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}!f@{f}}
+\index{f@{f}!shark\+::ndim\+::\+Nullary\+Acc@{shark\+::ndim\+::\+Nullary\+Acc}}
+\subsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily template$<$int ndim, typename Func $>$ \\
+const Func\& \hyperlink{classshark_1_1ndim_1_1_nullary_acc}{shark\+::ndim\+::\+Nullary\+Acc}$<$ ndim, Func $>$\+::f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 92 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

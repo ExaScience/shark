@@ -1,0 +1,1647 @@
+\hypertarget{classshark_1_1ndim_1_1_global_array}{}\section{shark\+:\+:ndim\+:\+:Global\+Array$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_global_array}\index{shark\+::ndim\+::\+Global\+Array$<$ ndim, T $>$@{shark\+::ndim\+::\+Global\+Array$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$common.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef T \hyperlink{classshark_1_1ndim_1_1_global_array_ac2471050153d015a155f4c7106ae5b7c}{value\+\_\+type}
+\item 
+typedef \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{G\+A\+Ref}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a776d645cf4cd4ca129af3b082d139936}{storage}
+\item 
+typedef \hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_ac19db430fee866f14a2d8f64aabec734}{accessor}
+\item 
+typedef std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T \& \hyperlink{classshark_1_1ndim_1_1_global_array_aeadb9a62b97953c4b7a7a047632d117a}{da} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} T $\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array_a31a8a5247cc8adbe0602a83de759d915}{pa} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1}{offset} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_global_array_afc41f124baff4e53c97c38c8cbd82398}{byte\+\_\+offset} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ i) const
+\item 
+std\+::ostream \& \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\+\_\+out} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\+\_\+width} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} bool \hyperlink{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{ghost\+\_\+corners} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_global_array_aca73ba70ecbbc7f3224fd48582a15447}{operator bool} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a871fb1acbd9bd46439766121053e20d1}{local} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a9bba546920e1709b492540d4ef0b0129}{inner} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a991cfff5cda18b938bc52cfc1c383680}{outer\+\_\+front} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a6f07daf32776f286cffa8620a456a3cd}{outer\+\_\+back} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} std\+::vector$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a93f43e778ca040cb2ca8ad05dcb02ab0}{outer} () const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} std\+::vector$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a9c72fd2f409389cb47a6f47bdfb77582}{split} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097}{ghost\+\_\+in\+\_\+front} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a}{ghost\+\_\+in\+\_\+back} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\+\_\+out\+\_\+front} (int) const
+\item 
+\hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\+\_\+out\+\_\+back} (int) const
+\item 
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_aab2d58e37ec78fd0aca6a6366e9b7aac}{region} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$, bool=true)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_a5ab08686e28785763adac3fa73673f84}{Global\+Array} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_aa1fb3bab347e8bc9c1347f46c2e3e4dd}{Global\+Array} (const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\+\_\+width}=\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$(), bool \hyperlink{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{ghost\+\_\+corners}=false, \hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds} \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}=\hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds}())
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_a97e27f44095bf15566679fbb45377e2f}{Global\+Array} (const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&other, bool copy)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_acd71722990795db5e20aefc9e5545add}{$\sim$\+Global\+Array} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_ac2140f54377695ea7d2898ebfe69fee9}{Global\+Array} (const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&other)=delete
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_a963ccb19d6e77904259a7ca500cfb514}{Global\+Array} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\&other)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array_a65fd825eff8e4b3d49f1111e487991f3}{operator=} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\&other)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array_a34d08c80663eaade55f75682e3c12e2f}{operator=} (const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&other)
+\item 
+{\footnotesize template$<$typename S $>$ }\\\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array_a4a66a7ee10a7ba6c22690c74824ce73e}{operator=} (const S \&)
+\item 
+{\footnotesize template$<$typename S $>$ }\\\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array_ab76900c34fa648d9a953fbfb55c5131e}{operator$<$$<$=} (const S \&)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a27631077480a0cda76b968d6b21f0da4}{update} (long k=0) const
+\begin{DoxyCompactList}\small\item\em 
+
+ \end{DoxyCompactList}\item 
+\hyperlink{structshark_1_1_future}{Future}$<$ void $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a6485a70dbb541c3bc600fb96903169ef}{iupdate} (long k=0) const
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_ac7949ae0526bc0a8ca3b7a3561a3b788}{get} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a655f6da8e7f336f63669a0008f324e36}{get} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range, T $\ast$buf) const
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a7df181f976618d26c70d6a2b364ab459}{get} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range, std\+::array$<$ std\+::size\+\_\+t, ndim-\/1 $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}, T $\ast$buf) const
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a243017e228365f73049fdb7136bb40a6}{put} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a068b9c1fc5d00815b8be060454e14d6d}{put} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range, const T $\ast$buf)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a078514cc8388c3c48964b958d2ff5dc7}{put} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range, std\+::array$<$ std\+::size\+\_\+t, ndim-\/1 $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}, const T $\ast$buf)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a56bc7c60d0516eedcdc4be9c88bdba11}{accumulate} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src)
+\item 
+{\footnotesize template$<$typename  = void$>$ }\\void \hyperlink{classshark_1_1ndim_1_1_global_array_a2afde2694e3e5a09dc1f782b5f0f3b82}{dump} (\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range, std\+::string filename)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{classshark_1_1ndim_1_1_g_a_impl}{G\+A\+Impl}$<$ ndim, T $>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}
+\item 
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\+\_\+out\+\_\+back}
+\item 
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\+\_\+out\+\_\+front}
+\item 
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\+\_\+in\+\_\+back}
+\item 
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\+\_\+in\+\_\+front}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{classshark_1_1ndim_1_1_global_array_aa97c2cc7bef528fca0118cac8e8a5c39}{number\+\_\+of\+\_\+dimensions} = ndim
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_ad7054741564c962156640415d208dc72}{allocate} ()
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a62353dca76c53cee5fb9cfa5f31cd542}{deallocate} ()
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a8f1fa6f1d6408a1b34b35a50bf551733}{reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ $\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}
+\item 
+bool \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds} \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim+1 $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}
+\item 
+std\+::array$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\+\_\+back}
+\item 
+std\+::array$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\+\_\+front}
+\item 
+int \hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_global_array_aa496c51f4f4225904ad62cb63601e053}{Access$<$ ndim, T $>$}
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_a2f0f1152d3993384631952178a21f82e}{get} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_ad96ea2c2b281921d915e7a8834420f06}{put} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\item 
+void \hyperlink{classshark_1_1ndim_1_1_global_array_aa95eda1df3e42435fbeddc71a7bebeb9}{accumulate} (\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&tgt, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+src, \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&src, \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ range\+\_\+tgt)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+Global\+Array$<$ ndim, T $>$}
+
+A global array that is partitioned across a process group according to a domain 
+
+Definition at line 167 of file common.\+hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ac19db430fee866f14a2d8f64aabec734}{}\label{classshark_1_1ndim_1_1_global_array_ac19db430fee866f14a2d8f64aabec734} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!accessor@{accessor}}
+\index{accessor@{accessor}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{accessor}{accessor}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+typedef \hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ndim,T$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_global_array_ac19db430fee866f14a2d8f64aabec734}{accessor}}
+
+
+
+Definition at line 59 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{}\label{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!bounds@{bounds}}
+\index{bounds@{bounds}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{bounds}{bounds}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+typedef std\+::array$<$\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ndim,T$>$,ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds}}
+
+
+
+Definition at line 61 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a776d645cf4cd4ca129af3b082d139936}{}\label{classshark_1_1ndim_1_1_global_array_a776d645cf4cd4ca129af3b082d139936} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!storage@{storage}}
+\index{storage@{storage}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{storage}{storage}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+typedef \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{G\+A\+Ref}$<$ndim,T$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_global_array_a776d645cf4cd4ca129af3b082d139936}{storage}}
+
+
+
+Definition at line 58 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_ac2471050153d015a155f4c7106ae5b7c}{}\label{classshark_1_1ndim_1_1_global_array_ac2471050153d015a155f4c7106ae5b7c} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!value\+\_\+type@{value\+\_\+type}}
+\index{value\+\_\+type@{value\+\_\+type}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{value\+\_\+type}{value\_type}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+typedef T \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_global_array_ac2471050153d015a155f4c7106ae5b7c}{value\+\_\+type}}
+
+
+
+Definition at line 57 of file globalarray.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a5ab08686e28785763adac3fa73673f84}{}\label{classshark_1_1ndim_1_1_global_array_a5ab08686e28785763adac3fa73673f84} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Global\+Array@{Global\+Array}}
+\index{Global\+Array@{Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Global\+Array()}{GlobalArray()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Global\+Array\+::\+Global\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Construct a \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array} (collective). The global array will not be active until it is assigned. 
+
+Definition at line 42 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+42 : \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}(0) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aa1fb3bab347e8bc9c1347f46c2e3e4dd}{}\label{classshark_1_1ndim_1_1_global_array_aa1fb3bab347e8bc9c1347f46c2e3e4dd} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Global\+Array@{Global\+Array}}
+\index{Global\+Array@{Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Global\+Array()}{GlobalArray()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Global\+Array\+::\+Global\+Array (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \&}]{domain,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{ghost\+\_\+width = {\ttfamily \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$()},  }\item[{bool}]{ghost\+\_\+corners = {\ttfamily false},  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds}}]{bd = {\ttfamily \hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds}()} }\end{DoxyParamCaption})}
+
+Construct a \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array} (collective). 
+\begin{DoxyParams}{Parameters}
+{\em domain} & the domain for the distribution of data \\
+\hline
+{\em ghost\+\_\+width} & number of ghost cells for each dimension \\
+\hline
+{\em ghost\+\_\+corners} & whether to maintain the corner ghost cells \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 245 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+245                                                                                                            
+              :
+246   \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}(&domain), \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}(ghost\_width), \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}(\hyperlink{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{ghost\_corners}), \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}(\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}), 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}(\textcolor{keyword}{new} \hyperlink{classshark_1_1ndim_1_1_g_a_impl}{GAImpl<ndim,T>}()), \hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}(0) \{
+247     \hyperlink{classshark_1_1ndim_1_1_global_array_ad7054741564c962156640415d208dc72}{allocate}();
+248 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a97e27f44095bf15566679fbb45377e2f}{}\label{classshark_1_1ndim_1_1_global_array_a97e27f44095bf15566679fbb45377e2f} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Global\+Array@{Global\+Array}}
+\index{Global\+Array@{Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Global\+Array()}{GlobalArray()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Global\+Array\+::\+Global\+Array (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{other,  }\item[{bool}]{copy }\end{DoxyParamCaption})}
+
+
+
+Definition at line 251 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+251                                                                            :
+252   \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}), \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}), \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}), \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}), 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}(\textcolor{keyword}{new} \hyperlink{classshark_1_1ndim_1_1_g_a_impl}{GAImpl<ndim,T>}()), \hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}(0) \{
+253     \hyperlink{classshark_1_1ndim_1_1_global_array_ad7054741564c962156640415d208dc72}{allocate}();
+254 
+255     \textcolor{keywordflow}{if}(copy)
+256         *\textcolor{keyword}{this} = other;
+257 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_acd71722990795db5e20aefc9e5545add}{}\label{classshark_1_1ndim_1_1_global_array_acd71722990795db5e20aefc9e5545add} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!````~Global\+Array@{$\sim$\+Global\+Array}}
+\index{````~Global\+Array@{$\sim$\+Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{$\sim$\+Global\+Array()}{~GlobalArray()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Global\+Array\+::$\sim$\+Global\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destruct a \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array} (collective). If active, the memory of the global array is released 
+
+Definition at line 45 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+46 \{
+47     \textcolor{keywordflow}{if}(*\textcolor{keyword}{this})
+48     \{
+49         assert(\hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc} == 0);
+50         \hyperlink{classshark_1_1ndim_1_1_global_array_a62353dca76c53cee5fb9cfa5f31cd542}{deallocate}();
+51     \}
+52 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ac2140f54377695ea7d2898ebfe69fee9}{}\label{classshark_1_1ndim_1_1_global_array_ac2140f54377695ea7d2898ebfe69fee9} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Global\+Array@{Global\+Array}}
+\index{Global\+Array@{Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Global\+Array()}{GlobalArray()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array} (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a963ccb19d6e77904259a7ca500cfb514}{}\label{classshark_1_1ndim_1_1_global_array_a963ccb19d6e77904259a7ca500cfb514} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Global\+Array@{Global\+Array}}
+\index{Global\+Array@{Global\+Array}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Global\+Array()}{GlobalArray()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Global\+Array\+::\+Global\+Array (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 55 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+55                                                            :
+56     \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom}),
+57     \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}),
+58     \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc}),
+59     \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd})),
+60     \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}(other.\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}),
+61     \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl})),
+62     \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld})),
+63     \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back})),
+64     \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front})),
+65     \hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc}(0),
+66     \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back})),
+67     \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front})),
+68     \hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back})),
+69     \hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front}(std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front}))
+70 \{
+71     assert(!other || other.\hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc} == 0);
+72     other.\hyperlink{classshark_1_1ndim_1_1_global_array_a8f1fa6f1d6408a1b34b35a50bf551733}{reset}();
+73 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a56bc7c60d0516eedcdc4be9c88bdba11}{}\label{classshark_1_1ndim_1_1_global_array_a56bc7c60d0516eedcdc4be9c88bdba11} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!accumulate@{accumulate}}
+\index{accumulate@{accumulate}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{accumulate()}{accumulate()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::accumulate (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src }\end{DoxyParamCaption})}
+
+Increase remote range with local values (one-\/sided). R\+MA operations cannot overlap with local access. 
+\begin{DoxyParams}{Parameters}
+{\em range} & the area of the global array to update \\
+\hline
+{\em ld} & the strides to use for buf (default\+: determined by range) \\
+\hline
+{\em buf} & the source buffer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 946 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+946                                                                                                            
+                     \{
+947     \hyperlink{namespaceshark_1_1ndim_ac2fdde52862b140ea3d88f43d31425fe}{shark::ndim::accumulate}(*\textcolor{keyword}{this}, range\_dst, src, range\_src);
+948 \} 
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ad7054741564c962156640415d208dc72}{}\label{classshark_1_1ndim_1_1_global_array_ad7054741564c962156640415d208dc72} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!allocate@{allocate}}
+\index{allocate@{allocate}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 111 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+112 \{
+113     \textcolor{keyword}{const} \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\_range<ndim>} \hyperlink{classshark_1_1ndim_1_1_global_array_a871fb1acbd9bd46439766121053e20d1}{local} = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local();
+114     \textcolor{keyword}{const} \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw} = \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+115     \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc} = \hyperlink{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{ghost\_corners}(); 
+116 
+117     \textcolor{comment}{// Allocate memory}
+118     \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld} = local.stride(gw);
+119         \textcolor{keywordtype}{unsigned} count = \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}[0];
+120 
+121     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++) \{
+122         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < ndim; d++) \{
+123 \textcolor{preprocessor}{#ifdef SHARK\_STPACK}
+124                         \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} gw\_prev = gw[d];
+125                         \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} gw\_next = gw[d];
+126 \textcolor{preprocessor}{#else}
+127                         \textcolor{keywordtype}{bool} pd = \textcolor{keyword}{dynamic\_cast<}typename 
+      \hyperlink{classshark_1_1ndim_1_1_boundary_1_1periodic__type}{Boundary<ndim,T>::periodic\_type}*\textcolor{keyword}{>}(\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}[di].t.get()) != \textcolor{keyword}{nullptr};
+128                         \textcolor{keywordtype}{int} prev = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di, -1, pd);
+129                         \textcolor{keywordtype}{int} next = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di,  1, pd);
+130                         \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} gw\_prev = prev < 0 ? 0 : gw[d];
+131                         \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} gw\_next = next < 0 ? 0 : gw[d];
+132 \textcolor{preprocessor}{#endif}
+133 
+134             \textcolor{keywordflow}{if}(d == di)
+135             \{
+136                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d] - gw\_prev;
+137                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d];
+138                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d];
+139                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d] + gw\_next;
+140             \}
+141             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(gc && d < di)
+142             \{
+143                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d] - gw\_prev;
+144                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d] + gw\_prev;
+145                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d] - gw\_next;
+146                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d] + gw\_next;
+147             \}
+148             \textcolor{keywordflow}{else}
+149             \{
+150                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d];
+151                 \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} [di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d];
+152                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].lower[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower}[d];
+153                 \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].upper[d] = local.\hyperlink{structshark_1_1ndim_1_1coords__range_ae0101e4bb3ecadf1faa0fc786dfb05db}{upper}[d];
+154             \}
+155                 \}
+156 
+157                 count += 2* \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].count();
+158                 count += 2* \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].count();
+159         \}
+160 
+161     \textcolor{keywordtype}{unsigned} size = count * \textcolor{keyword}{sizeof}(T);
+162 
+163 \textcolor{preprocessor}{#ifndef NDEBUG}
+164     \textcolor{keywordflow}{if}(\hyperlink{namespaceshark_a110e03e8104b06caef346fcc25621aa9}{log\_mask}[\hyperlink{namespaceshark_a067e8941bdd5f38f5ab2e49920787b9d}{verbose\_alloc}])
+165         \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"allocate "} << local << endl;
+166 \textcolor{preprocessor}{#endif}
+167 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined(SHARK\_GPI\_COMM)}
+168     \{
+169         \textcolor{comment}{// Create ghost types}
+170         MPI\_Datatype base = mpi\_type<T>::t;
+171         \textcolor{keywordflow}{if}(mpi\_type<T>::count() != 1)
+172             MPI\_Type\_contiguous(mpi\_type<T>::count(), base, &base);
+173         MPI\_Aint lb, extent;
+174         MPI\_Type\_get\_extent(base, &lb, &extent);
+175 
+176         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++)
+177         \{
+178             MPI\_Type\_dup(base, &\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di]);
+179 
+180             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = ndim-1; d >= 0; d--)
+181             \{
+182                 MPI\_Datatype tmp = \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di];
+183                 \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} n = \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].upper[d] - \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].lower[d];
+184                 MPI\_Type\_create\_hvector(n, 1, \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}[d+1]*extent, tmp, &\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di]);
+185                 MPI\_Type\_free(&tmp);
+186             \}
+187 
+188             MPI\_Type\_commit(&\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di]);
+189         \}
+190 
+191         \textcolor{keywordflow}{if}(mpi\_type<T>::count() != 1)
+192             MPI\_Type\_free(&base);
+193     \}
+194 
+195 
+196 \textcolor{preprocessor}{#if defined(SHARK\_GPI\_COMM)}
+197         \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg = GroupImpl::next\_seg\_id();
+198         success\_or\_die(gaspi\_segment\_create(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg, size, \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.impl->grp, 
+      GASPI\_BLOCK, GASPI\_ALLOC\_DEFAULT));  
+199         gaspi\_segment\_ptr(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg, (gaspi\_pointer\_t*)&\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr});
+200         assert(\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr});
+201 \textcolor{preprocessor}{#else}
+202     MPI\_Alloc\_mem(size, MPI\_INFO\_NULL, &\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr});
+203 \textcolor{preprocessor}{#endif}
+204 
+205     \textcolor{comment}{// Create window}
+206     MPI\_Win\_create(\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}, size, static\_cast<int>(\textcolor{keyword}{sizeof}(T)), MPI\_INFO\_NULL, 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.impl->comm, &\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->win);
+207 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+208     unused(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl});
+209     \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} = \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(mem\_alloc(size));
+210 \textcolor{preprocessor}{#else}
+211 \textcolor{preprocessor}{#error "No comm allocate"}
+212 \textcolor{preprocessor}{#endif}
+213 
+214     \{
+215         \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{Domain<ndim>::pcoords} np = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().np;
+216         \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{Domain<ndim>::pcoords} ip = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().indexp();
+217         \hyperlink{classshark_1_1ndim_1_1_access}{Access<ndim,T>} acc(*\textcolor{keyword}{this});
+218 
+219         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++)
+220                 \{
+221                     \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_boundary_1_1fixed__type}{Boundary<ndim,T>::fixed\_type}* b = \textcolor{keyword}{dynamic\_cast<}
+      typename \hyperlink{classshark_1_1ndim_1_1_boundary_1_1fixed__type}{Boundary<ndim,T>::fixed\_type}*\textcolor{keyword}{>}(\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}[di].t.get());
+222 
+223                     \textcolor{keywordflow}{if}(b == \textcolor{keyword}{nullptr}) \textcolor{keywordflow}{continue};
+224                     \textcolor{keywordflow}{if}(ip[di] == 0) b->\hyperlink{classshark_1_1ndim_1_1_boundary_1_1fixed__type_ad94ec2994049c5107d0ea5d24bf8cff3}{set}(acc, \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di]);
+225                     \textcolor{keywordflow}{if}(ip[di] == np[di]-1) b->\hyperlink{classshark_1_1ndim_1_1_boundary_1_1fixed__type_ad94ec2994049c5107d0ea5d24bf8cff3}{set}(acc, \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di]);
+226                 \}
+227     \}
+228 
+229         \textcolor{keyword}{auto} p = \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} + \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld}[0];
+230     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++) \{
+231                 \hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back}  [di] = \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{GABuf<ndim,T>}(
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a}{ghost\_in\_back}(di), p); 
+232                 p += \hyperlink{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a}{ghost\_in\_back}(di).count();
+233                 \hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front} [di] = \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{GABuf<ndim,T>}(
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097}{ghost\_in\_front}(di), p);
+234                 p += \hyperlink{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097}{ghost\_in\_front}(di).count();
+235                 \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back} [di] = \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{GABuf<ndim,T>}(
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\_out\_back}(di), p);
+236                 p += \hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\_out\_back}(di).count();
+237                 \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di] = \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{GABuf<ndim,T>}(
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\_out\_front}(di), p);
+238                 p += \hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\_out\_front}(di).count();
+239         \}
+240         assert(p == \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} + count);
+241 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_afc41f124baff4e53c97c38c8cbd82398}{}\label{classshark_1_1ndim_1_1_global_array_afc41f124baff4e53c97c38c8cbd82398} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!byte\+\_\+offset@{byte\+\_\+offset}}
+\index{byte\+\_\+offset@{byte\+\_\+offset}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{byte\+\_\+offset()}{byte\_offset()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::byte\+\_\+offset (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 400 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+400                                                                           \{
+401             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1}{offset}(i) * \textcolor{keyword}{sizeof}(T);
+402         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aeadb9a62b97953c4b7a7a047632d117a}{}\label{classshark_1_1ndim_1_1_global_array_aeadb9a62b97953c4b7a7a047632d117a} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!da@{da}}
+\index{da@{da}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{da()}{da()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+T \& \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::da (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 390 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+390                                                               \{
+391             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}[\hyperlink{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1}{offset}(i)];
+392         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a62353dca76c53cee5fb9cfa5f31cd542}{}\label{classshark_1_1ndim_1_1_global_array_a62353dca76c53cee5fb9cfa5f31cd542} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::deallocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 262 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+263 \{
+264 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM)}
+265     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++)
+266         MPI\_Type\_free(&\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di]);
+267 
+268     MPI\_Win\_free(&\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->win);
+269     MPI\_Free\_mem(\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr});
+270 \textcolor{preprocessor}{#elif defined(SHARK\_GPI\_COMM)}
+271     gaspi\_segment\_delete(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg);
+272         GroupImpl::free\_seg\_id(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg);
+273 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+274     mem\_free(\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr});
+275 \textcolor{preprocessor}{#else}
+276 \textcolor{preprocessor}{#error "No comm deallocate"}
+277 \textcolor{preprocessor}{#endif}
+278 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{}\label{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!domain@{domain}}
+\index{domain@{domain}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{domain()}{domain()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ ndim $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::domain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+The domain 
+
+Definition at line 273 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+273                                                                      \{
+274             \textcolor{keywordflow}{return} *\hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom};
+275         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a2afde2694e3e5a09dc1f782b5f0f3b82}{}\label{classshark_1_1ndim_1_1_global_array_a2afde2694e3e5a09dc1f782b5f0f3b82} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!dump@{dump}}
+\index{dump@{dump}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{dump()}{dump()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename $>$ \\
+void Global\+Array\+::dump (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range,  }\item[{std\+::string}]{filename }\end{DoxyParamCaption})}
+
+Dump values of global array to a file 
+
+Definition at line 951 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+951                                                                            \{
+952 \textcolor{preprocessor}{#ifndef NDEBUG}
+953         \textcolor{keywordflow}{if}(\hyperlink{namespaceshark_a110e03e8104b06caef346fcc25621aa9}{log\_mask}[\hyperlink{namespaceshark_a8faafcaa495b6cf0c0eca37a846e45f2}{verbose\_rma}])
+954                 this->\hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"dump to "} << filename << endl;
+955 \textcolor{preprocessor}{#endif}
+956 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM) || defined(SHARK\_GPI\_COMM)}
+957         MPI\_File fh;
+958         MPI\_File\_open(MPI\_COMM\_WORLD, const\_cast<char*>(filename.c\_str()), MPI\_MODE\_CREATE | MPI\_MODE\_RDWR,
+       MPI\_INFO\_NULL, &fh);
+959 
+960         \textcolor{comment}{// type for part to read from}
+961         \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\_range<ndim>} src = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local().overlap(range);
+962         \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim+1>} srcld = src.stride(\hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw});
+963         \textcolor{keyword}{const} T* buf = \hyperlink{classshark_1_1ndim_1_1_global_array_a31a8a5247cc8adbe0602a83de759d915}{pa}(src.\hyperlink{structshark_1_1ndim_1_1coords__range_a46cae2c424d7b20f911a970c92581b19}{lower});
+964         mpi\_type\_block<ndim,T> srct(src.counts(), srcld);
+965         
+966         \textcolor{comment}{// where to write to}
+967         \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\_range<ndim>} dst = \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region}().overlap(range);
+968         \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim+1>} dstld = dst.stride(); \textcolor{comment}{// no ghost regions in file}
+969         \hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} dstoff = dst.lower.\hyperlink{structshark_1_1ndim_1_1coords_a0c905dc9ae7a2ea1c3a8cd4aaf542d73}{offset}(dstld); \textcolor{comment}{// offset wrt to global array}
+970         
+971         MPI\_File\_write\_at(fh, dstoff, const\_cast<T*>(buf), 1, srct.t, MPI\_STATUS\_IGNORE);
+972 
+973         MPI\_File\_close(&fh);
+974 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+975         FILE *fd = fopen(filename.c\_str(), \textcolor{stringliteral}{"w"});
+976         \hyperlink{classshark_1_1ndim_1_1_access}{Access<ndim,T>} acc(*\textcolor{keyword}{this});
+977     range.for\_each([&acc,fd](\hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} ii) \{
+978                 fwrite(&acc(ii), \textcolor{keyword}{sizeof}(T), 1, fd);
+979     \});
+980         fclose(fd);
+981 \textcolor{preprocessor}{#else}
+982 \textcolor{preprocessor}{#error "No comm dump"}
+983 \textcolor{preprocessor}{#endif}
+984 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ac7949ae0526bc0a8ca3b7a3561a3b788}{}\label{classshark_1_1ndim_1_1_global_array_ac7949ae0526bc0a8ca3b7a3561a3b788} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!get@{get}}
+\index{get@{get}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::get (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt }\end{DoxyParamCaption})}
+
+Get remote range (one-\/sided). R\+MA operations cannot overlap with local access. 
+\begin{DoxyParams}{Parameters}
+{\em range} & the area of the global array to retrieve from \\
+\hline
+{\em ld} & the strides to use for buf (default\+: determined by range) \\
+\hline
+{\em buf} & the target buffer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 787 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+787                                                                                                            
+              \{
+788     \textcolor{keyword}{auto} &src = *\textcolor{keyword}{this};
+789     \hyperlink{namespaceshark_1_1ndim_a8a52bf045ab40d975bd382067a266ee8}{shark::ndim::get}(dst, range\_src, src, range\_dst);
+790 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a655f6da8e7f336f63669a0008f324e36}{}\label{classshark_1_1ndim_1_1_global_array_a655f6da8e7f336f63669a0008f324e36} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!get@{get}}
+\index{get@{get}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::get (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range,  }\item[{T $\ast$}]{buf }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 684 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+684                                                                     \{
+685     \textcolor{keyword}{get}(range, essential\_lead<ndim>(range.stride()), buf);
+686 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a7df181f976618d26c70d6a2b364ab459}{}\label{classshark_1_1ndim_1_1_global_array_a7df181f976618d26c70d6a2b364ab459} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!get@{get}}
+\index{get@{get}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+void \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::get (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range,  }\item[{std\+::array$<$ std\+::size\+\_\+t, ndim-\/1 $>$}]{ld,  }\item[{T $\ast$}]{buf }\end{DoxyParamCaption}) const}
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{}\label{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+corners@{ghost\+\_\+corners}}
+\index{ghost\+\_\+corners@{ghost\+\_\+corners}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+corners()}{ghost\_corners()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+corners (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Whether corner ghost cells are maintained. 
+
+Definition at line 283 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+283                                                              \{
+284             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc};
+285         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a}{}\label{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+in\+\_\+back@{ghost\+\_\+in\+\_\+back}}
+\index{ghost\+\_\+in\+\_\+back@{ghost\+\_\+in\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+in\+\_\+back()}{ghost\_in\_back()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+in\+\_\+back (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 375 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+375                                                                                 \{
+376                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[d];
+377                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097}{}\label{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+in\+\_\+front@{ghost\+\_\+in\+\_\+front}}
+\index{ghost\+\_\+in\+\_\+front@{ghost\+\_\+in\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+in\+\_\+front()}{ghost\_in\_front()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+in\+\_\+front (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 370 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+370                                                                                  \{
+371                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[d];
+372                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{}\label{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+out\+\_\+back@{ghost\+\_\+out\+\_\+back}}
+\index{ghost\+\_\+out\+\_\+back@{ghost\+\_\+out\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+out\+\_\+back()}{ghost\_out\_back()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+out\+\_\+back (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 385 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+385                                                                                  \{
+386                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[d].adj(d, 1);
+387                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{}\label{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+out\+\_\+front@{ghost\+\_\+out\+\_\+front}}
+\index{ghost\+\_\+out\+\_\+front@{ghost\+\_\+out\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+out\+\_\+front()}{ghost\_out\_front()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+out\+\_\+front (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 380 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+380                                                                                   \{
+381                     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[d].adj(d, -1);
+382                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{}\label{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+width@{ghost\+\_\+width}}
+\index{ghost\+\_\+width@{ghost\+\_\+width}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+width()}{ghost\_width()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+The number of ghost cells for each dimension. 
+
+Definition at line 278 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+278                                                                    \{
+279             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw};
+280         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a9bba546920e1709b492540d4ef0b0129}{}\label{classshark_1_1ndim_1_1_global_array_a9bba546920e1709b492540d4ef0b0129} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!inner@{inner}}
+\index{inner@{inner}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{inner()}{inner()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::inner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 308 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+308                                                                    \{
+309             \textcolor{keyword}{auto} r = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local();
+310                         r.lower += \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+311                         r.upper -= \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+312                         \textcolor{keywordflow}{return} r;
+313         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a6485a70dbb541c3bc600fb96903169ef}{}\label{classshark_1_1ndim_1_1_global_array_a6485a70dbb541c3bc600fb96903169ef} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!iupdate@{iupdate}}
+\index{iupdate@{iupdate}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{iupdate()}{iupdate()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1_future}{Future}$<$ void $>$ Global\+Array\+::iupdate (\begin{DoxyParamCaption}\item[{long}]{k = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 540 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+541 \{
+542         \hyperlink{globals_8hpp_abbe2b020b65cc72852ccd88c8cb2f4bb}{SHARK\_COUNTER}(\textcolor{stringliteral}{"iupdate"});
+543     \textcolor{keyword}{const} \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw} = \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+544 
+545     \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{Domain<ndim>::pcoords} np = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().np;
+546     \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_domain_a9684ccd8af33cff7639c782290ac37ee}{Domain<ndim>::pcoords} ip = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().indexp();
+547 
+548     \hyperlink{classshark_1_1ndim_1_1_access}{Access<ndim,T>} acc(*\textcolor{keyword}{this});
+549     
+550 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM)}
+551     \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc} = \hyperlink{classshark_1_1ndim_1_1_global_array_abf0c9312657087578f89e1279ee6c451}{ghost\_corners}();
+552     MPI\_Comm \hyperlink{namespaceshark_addbd5781efcffd1b0502c83220027b90}{comm} = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.impl->comm;
+553     unique\_ptr<UpdateHandle<ndim>> h(\textcolor{keyword}{new} UpdateHandle<ndim>());
+554 \textcolor{preprocessor}{#endif}
+555 
+556 \textcolor{preprocessor}{#if defined(SHARK\_GPI\_COMM)}
+557         \textcolor{keyword}{static} \textcolor{keywordtype}{int} notify\_value = 0;
+558         \textcolor{keyword}{auto} handle = \textcolor{keyword}{new} GPIHandle<ndim>(\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg, ++notify\_value);
+559     unique\_ptr<GPIHandle<ndim>> h(handle);
+560 \textcolor{preprocessor}{#endif}
+561 
+562     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} di = 0; di < ndim; di++) \{
+563         \textcolor{keywordflow}{if}(gw[di] <= 0) \textcolor{keywordflow}{continue};
+564 \textcolor{preprocessor}{#ifndef NDEBUG}
+565                 \textcolor{keywordflow}{if}(\hyperlink{namespaceshark_a110e03e8104b06caef346fcc25621aa9}{log\_mask}[\hyperlink{namespaceshark_a054837402a3923de5acc50070b378cd6}{verbose\_update}]) \{
+566                         \hyperlink{classshark_1_1ndim_1_1_access}{Access<ndim,T>} acc(*\textcolor{keyword}{this});
+567                         \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"update back: "} << \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di] << endl;
+568                         \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"update front: "} << \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di] << endl;
+569                 \}
+570 \textcolor{preprocessor}{#endif}
+571                 \textcolor{comment}{// 1) Consider updating ghosts based on boundary}
+572                 \textcolor{keyword}{typename} \hyperlink{classshark_1_1ndim_1_1_boundary_1_1general__type}{Boundary<ndim,T>::general\_type}* b = \textcolor{keyword}{dynamic\_cast<}
+      typename \hyperlink{classshark_1_1ndim_1_1_boundary_1_1general__type}{Boundary<ndim,T>::general\_type}*\textcolor{keyword}{>}(\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}[di].t.get());
+573                 \textcolor{keywordflow}{if}(b != \textcolor{keyword}{nullptr}) \{
+574                         \textcolor{keywordflow}{if}(ip[di] == 0)
+575                                 b->\hyperlink{classshark_1_1ndim_1_1_boundary_1_1general__type_ac73340187c707591d7fc1ccbe85c1b19}{set}(acc, \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di], k);
+576                         \textcolor{keywordflow}{if}(ip[di] == np[di]-1)
+577                                 b->\hyperlink{classshark_1_1ndim_1_1_boundary_1_1general__type_ac73340187c707591d7fc1ccbe85c1b19}{set}(acc, \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di], k);
+578                 \}
+579 
+580                 \textcolor{comment}{// 2) Consider updating ghosts based on communication with neighbors (or periodic
+       equivalents)}
+581                 \textcolor{keywordtype}{bool} pd = \textcolor{keyword}{dynamic\_cast<}typename \hyperlink{classshark_1_1ndim_1_1_boundary_1_1periodic__type}{Boundary<ndim,T>::periodic\_type}
+      *\textcolor{keyword}{>}(\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd}[di].t.get()) != \textcolor{keyword}{nullptr};
+582 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM)}
+583                 \textcolor{keywordtype}{int} prev = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di, -1, pd);
+584                 \textcolor{keywordtype}{int} next = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di,  1, pd);
+585 \textcolor{preprocessor}{#ifdef SHARK\_STPACK}
+586                 \textcolor{comment}{// backward}
+587                 MPI\_Isend(&acc(\hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\_out\_back}(di).lower), 1, \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di], prev, 2*di,
+       comm, &h->req[4*di]);
+588                 MPI\_Irecv(&acc(\hyperlink{classshark_1_1ndim_1_1_global_array_a8432959070aee7062f09cae8e7f20097}{ghost\_in\_front}(di).lower), 1, \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di], next, 2*di,
+       comm, &h->req[4*di+1]);
+589                 \textcolor{comment}{// forward}
+590                 MPI\_Isend(&acc(\hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\_out\_front}(di).lower), 1, 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di], next, 2*di+1, comm, &h->req[4*di+2]);
+591                 MPI\_Irecv(&acc(\hyperlink{classshark_1_1ndim_1_1_global_array_a55074d9d00de584f5817668e0c69f58a}{ghost\_in\_back}(di).lower), 1, \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->ghost[di], prev, 2*di+1,
+       comm, &h->req[4*di+3]);
+592 \textcolor{preprocessor}{#else}
+593                 \textcolor{comment}{// backward}
+594                 \textcolor{keyword}{const} \textcolor{keywordtype}{int} size\_out\_back   = \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].r.count();
+595                 \textcolor{keyword}{const} \textcolor{keywordtype}{int} size\_out\_front  = \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].r.count();
+596 
+597                 MPI\_Isend(\hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}, size\_out\_back, mpi\_type<T>::t, prev, 2*di, comm,
+       &h->req[4*di]);
+598                 MPI\_Irecv(\hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front}[di].\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}, size\_out\_front, mpi\_type<T>::t, next, 2*di, comm
+      , &h->req[4*di+1]);
+599                 \textcolor{comment}{// forward}
+600                 MPI\_Isend(\hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}, size\_out\_front, mpi\_type<T>::t, next, 2*di+1, 
+      comm, &h->req[4*di+2]);
+601                 MPI\_Irecv(\hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back}[di].\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}, size\_out\_back, mpi\_type<T>::t, prev, 2*di+1, comm,
+       &h->req[4*di+3]);
+602 \textcolor{preprocessor}{#endif}
+603                 \textcolor{keywordflow}{if}(gc)
+604                         MPI\_Waitall(4, &h->req[4*di], MPI\_STATUSES\_IGNORE);
+605 \textcolor{preprocessor}{#elif defined(SHARK\_GPI\_COMM)}
+606                 assert(!pd && \textcolor{stringliteral}{"Periodic domains not yet supported in GASPI!"});
+607                 \textcolor{keywordtype}{int} prev = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di, -1, pd);
+608                 \textcolor{keywordtype}{int} next = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().shiftd(di,  1, pd);
+609 
+610 \textcolor{preprocessor}{#ifdef SHARK\_STPACK}
+611                 \hyperlink{classshark_1_1ndim_1_1_global_array}{GlobalArray<ndim, T>} &ga = \textcolor{keyword}{const\_cast<}
+      \hyperlink{classshark_1_1ndim_1_1_global_array}{GlobalArray<ndim, T>} &\textcolor{keyword}{>}(*this);
+612                 gaspi\_write\_notify\_block(ga, \hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\_out\_back}(di), ga, 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ae4618013580af820c76c7e48d6de874a}{ghost\_out\_back}(di), prev, di*2+1, notify\_value);
+613                 gaspi\_write\_notify\_block(ga, \hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\_out\_front}(di), ga, 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad004cd3a0deeaee55d7f3590063d5a20}{ghost\_out\_front}(di), next, di*2+2, notify\_value);
+614                 \textcolor{keywordflow}{if} (next >= 0) h->add(di*2+1);
+615                 \textcolor{keywordflow}{if} (prev >= 0) h->add(di*2+2);
+616 \textcolor{preprocessor}{#else}
+617                 \textcolor{keyword}{const} gaspi\_segment\_id\_t seg = \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg;
+618 
+619                 \textcolor{keywordflow}{if} (next >= 0) \{
+620                     \textcolor{keyword}{const} gaspi\_offset\_t off\_out\_front = (\hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].ptr - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}) * \textcolor{keyword}{sizeof}(T);
+621                     \textcolor{keyword}{const} gaspi\_offset\_t off\_in\_back   = (\hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back}[di].ptr - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}) * \textcolor{keyword}{sizeof}(T);
+622                     \textcolor{keyword}{const} gaspi\_size\_t size\_out\_front  = \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].r.count() * \textcolor{keyword}{sizeof}(T);
+623                     \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"front side out:  sending "} << 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].r << std::endl;
+624                     \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"front side out:  sending "} << &
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di] << std::endl;
+625                     assert(\hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].full);
+626                     \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front}[di].full = \textcolor{keyword}{false};
+627                     SUCCESS\_OR\_DIE(gaspi\_write\_notify(seg, off\_out\_front, next, seg, off\_in\_back, 
+      size\_out\_front, di*2+1, notify\_value, 0, GASPI\_BLOCK));
+628                     h->add(di*2+2);
+629                 \}
+630 
+631                 \textcolor{keywordflow}{if} (prev >= 0) \{
+632                     \textcolor{keyword}{const} gaspi\_offset\_t off\_out\_back  = (\hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].ptr - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}) * \textcolor{keyword}{sizeof}(T);
+633                     \textcolor{keyword}{const} gaspi\_offset\_t off\_in\_front  = (\hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front}[di].ptr - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr}) * \textcolor{keyword}{sizeof}(T);
+634                     \textcolor{keyword}{const} gaspi\_size\_t size\_out\_back   = \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].r.count() * \textcolor{keyword}{sizeof}(T);
+635                     \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"back side out: sending"} << \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].r << std::endl
+      ;
+636                     \hyperlink{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{log\_out}() << \textcolor{stringliteral}{"back side out:  sending "} << &
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di] << std::endl;
+637                     assert(\hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].full);
+638                     \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back}[di].full = \textcolor{keyword}{false};
+639                     SUCCESS\_OR\_DIE(gaspi\_write\_notify(seg, off\_out\_back, prev, seg, off\_in\_front, 
+      size\_out\_back, di*2+2, notify\_value, 0, GASPI\_BLOCK));
+640                     h->add(di*2+1);
+641                 \}
+642 \textcolor{preprocessor}{#endif}
+643                
+644 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+645 
+646                 \textcolor{comment}{// note: potential candidate for for\_each\_range}
+647                 \textcolor{keywordflow}{if}(pd) \{
+648                     \{
+649                         \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} off = \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].adj(di, 1).lower - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].lower;
+650                         \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].for\_each([&acc,&off](
+      \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} ii) \{
+651                                 acc(ii) = acc(ii+off);
+652                                 \});
+653                     \}
+654                     \{
+655                         \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} off = \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front}[di].adj(di, -1).lower - 
+      \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].lower;
+656                         \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back}[di].for\_each([&acc,&off](
+      \hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>} ii) \{
+657                                 acc(ii) = acc(ii+off);
+658                                 \});
+659                     \}
+660                 \}
+661 \textcolor{preprocessor}{#else}
+662 \textcolor{preprocessor}{#error "No comm update"}
+663 \textcolor{preprocessor}{#endif}
+664 
+665     \}
+666 
+667 \textcolor{preprocessor}{#if defined(SHARK\_MPI\_COMM)}
+668     \textcolor{keywordflow}{if}(!gc)
+669         \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_3_01void_01_4}{Future<void>}(std::move(h));
+670     \textcolor{keywordflow}{else}
+671         \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_3_01void_01_4}{Future<void>}(make\_unique<DoneHandle>());
+672 \textcolor{preprocessor}{#elif defined(SHARK\_NO\_COMM)}
+673     \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_3_01void_01_4}{Future<void>}(make\_unique<DoneHandle>());
+674 \textcolor{preprocessor}{#elif defined(SHARK\_GPI\_COMM)}
+675         \textcolor{keywordflow}{return} \hyperlink{structshark_1_1_future_3_01void_01_4}{Future<void>}(std::move(h));
+676 \textcolor{preprocessor}{#else}
+677 \textcolor{preprocessor}{#error "No comm update"}
+678 \textcolor{preprocessor}{#endif}
+679 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a871fb1acbd9bd46439766121053e20d1}{}\label{classshark_1_1ndim_1_1_global_array_a871fb1acbd9bd46439766121053e20d1} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!local@{local}}
+\index{local@{local}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{local()}{local()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::local (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 303 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+303                                                                    \{
+304             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local();
+305         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c}{}\label{classshark_1_1ndim_1_1_global_array_ae56b93f4ac19003102749015275a6d0c} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!log\+\_\+out@{log\+\_\+out}}
+\index{log\+\_\+out@{log\+\_\+out}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{log\+\_\+out()}{log\_out()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+ostream \& Global\+Array\+::log\+\_\+out (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line 30 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+31 \{
+32     \textcolor{keywordflow}{return} *\hyperlink{namespaceshark_a503a509b9d2d2710abe48d6c3338abc0}{shark::log\_out} << \textcolor{stringliteral}{"GA:["} << \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} << \textcolor{stringliteral}{"]"}
+33 \textcolor{preprocessor}{#if defined(SHARK\_GPI\_COMM)}
+34             << (int)\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl}->seg << \textcolor{stringliteral}{"@"}
+35 #endif
+36             << \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().group.procid << \textcolor{stringliteral}{":"};
+37 
+38 
+39 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1}{}\label{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!offset@{offset}}
+\index{offset@{offset}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{offset()}{offset()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{namespaceshark_a767a92d5dd82cb82266473bff42fa6d9}{coord} \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::offset (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 395 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+395                                                                      \{
+396             \textcolor{keywordflow}{return} (i + \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}).offset(\hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld});
+397         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aca73ba70ecbbc7f3224fd48582a15447}{}\label{classshark_1_1ndim_1_1_global_array_aca73ba70ecbbc7f3224fd48582a15447} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns whether this global array is active. 
+
+Definition at line 288 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+288                                                         \{
+289             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom} != 0;
+290         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_ab76900c34fa648d9a953fbfb55c5131e}{}\label{classshark_1_1ndim_1_1_global_array_ab76900c34fa648d9a953fbfb55c5131e} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!operator$<$$<$=@{operator$<$$<$=}}
+\index{operator$<$$<$=@{operator$<$$<$=}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{operator$<$$<$=()}{operator<<=()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename S $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::operator$<$$<$= (\begin{DoxyParamCaption}\item[{const S \&}]{src }\end{DoxyParamCaption})}
+
+
+
+Definition at line 428 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+428                                                                           \{
+429             \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region}(\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().total(), \textcolor{keyword}{true}) = src;
+430             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+431         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a65fd825eff8e4b3d49f1111e487991f3}{}\label{classshark_1_1ndim_1_1_global_array_a65fd825eff8e4b3d49f1111e487991f3} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& Global\+Array\+::operator= (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 76 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+77 \{
+78     assert(!other || other.\hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc} == 0);
+79     \textcolor{keywordflow}{if}(*\textcolor{keyword}{this})
+80         \hyperlink{classshark_1_1ndim_1_1_global_array_a62353dca76c53cee5fb9cfa5f31cd542}{deallocate}();
+81     \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom} = other.\hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom};
+82     \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw} = other.\hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw};
+83     \hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc} = other.\hyperlink{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{gc};
+84     \hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{bd});
+85     \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} = other.\hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr};
+86     \hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{impl});
+87     \hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{ld});
+88     \hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{ghost\_back});
+89     \hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{ghost\_front});
+90     \hyperlink{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{lc} = 0;
+91     \hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{g\_out\_back});
+92     \hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{g\_out\_front});
+93     \hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{g\_in\_back});
+94     \hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front} = std::move(other.\hyperlink{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{g\_in\_front});
+95     other.\hyperlink{classshark_1_1ndim_1_1_global_array_a8f1fa6f1d6408a1b34b35a50bf551733}{reset}();
+96     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+97 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a34d08c80663eaade55f75682e3c12e2f}{}\label{classshark_1_1ndim_1_1_global_array_a34d08c80663eaade55f75682e3c12e2f} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& Global\+Array\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 100 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+100                                                                                     \{
+101     \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region}(\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().total(), \textcolor{keyword}{false}) = other;
+102     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+103 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a4a66a7ee10a7ba6c22690c74824ce73e}{}\label{classshark_1_1ndim_1_1_global_array_a4a66a7ee10a7ba6c22690c74824ce73e} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename S $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const S \&}]{src }\end{DoxyParamCaption})}
+
+
+
+Definition at line 422 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+422                                                                         \{
+423             \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region}(\hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().total(), \textcolor{keyword}{false}) = src;
+424             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+425         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a93f43e778ca040cb2ca8ad05dcb02ab0}{}\label{classshark_1_1ndim_1_1_global_array_a93f43e778ca040cb2ca8ad05dcb02ab0} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!outer@{outer}}
+\index{outer@{outer}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{outer()}{outer()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+std\+::vector$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::outer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 342 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+342                                                                               \{
+343                         \textcolor{keyword}{auto} r = std::vector<coords\_range<ndim>>(2*ndim);
+344                         seq<0,ndim>::for\_each([\textcolor{keyword}{this},&r](\textcolor{keywordtype}{int} d) \{ 
+345                                 r[2*d  ] = \hyperlink{classshark_1_1ndim_1_1_global_array_a991cfff5cda18b938bc52cfc1c383680}{outer\_front}(d);
+346                                 r[2*d+1] = \hyperlink{classshark_1_1ndim_1_1_global_array_a6f07daf32776f286cffa8620a456a3cd}{outer\_back}(d);
+347                         \});
+348                         \textcolor{keywordflow}{return} r;
+349         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a6f07daf32776f286cffa8620a456a3cd}{}\label{classshark_1_1ndim_1_1_global_array_a6f07daf32776f286cffa8620a456a3cd} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!outer\+\_\+back@{outer\+\_\+back}}
+\index{outer\+\_\+back@{outer\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{outer\+\_\+back()}{outer\_back()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::outer\+\_\+back (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 329 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+329                                                                              \{
+330                         assert(d >= 0 && d < ndim);
+331                         \textcolor{keyword}{const} \textcolor{keyword}{auto} \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw} = \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+332                         \textcolor{keyword}{auto} r = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local();
+333                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<d; ++i) \{
+334                             r.lower[i] += \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}[i];
+335                             r.upper[i] -= \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}[i];
+336                         \}
+337                         r.lower[d] = r.upper[d] - \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}[d];
+338                         \textcolor{keywordflow}{return} r;
+339         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a991cfff5cda18b938bc52cfc1c383680}{}\label{classshark_1_1ndim_1_1_global_array_a991cfff5cda18b938bc52cfc1c383680} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!outer\+\_\+front@{outer\+\_\+front}}
+\index{outer\+\_\+front@{outer\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{outer\+\_\+front()}{outer\_front()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::outer\+\_\+front (\begin{DoxyParamCaption}\item[{int}]{d }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 316 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+316                                                                               \{
+317                         assert(d >= 0 && d < ndim);
+318                         \textcolor{keyword}{const} \textcolor{keyword}{auto} \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw} = \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}();
+319             \textcolor{keyword}{auto} r = \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().local();
+320                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<d; ++i) \{ 
+321                             r.lower[i] += \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}[i];
+322                             r.upper[i] -= \hyperlink{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{gw}[i];
+323                         \}
+324                         r.upper[d] = r.lower[d] + \hyperlink{classshark_1_1ndim_1_1_global_array_a5331f21887f3c14791b758e99656a676}{ghost\_width}()[d];
+325                         \textcolor{keywordflow}{return} r;
+326         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a31a8a5247cc8adbe0602a83de759d915}{}\label{classshark_1_1ndim_1_1_global_array_a31a8a5247cc8adbe0602a83de759d915} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!pa@{pa}}
+\index{pa@{pa}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{pa()}{pa()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+T $\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::pa (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ ndim $>$}]{i }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 298 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+298                                                               \{
+299             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{ptr} + \hyperlink{classshark_1_1ndim_1_1_global_array_a63c8f10949e3f8d7ffdf532440190ca1}{offset}(i);
+300                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a243017e228365f73049fdb7136bb40a6}{}\label{classshark_1_1ndim_1_1_global_array_a243017e228365f73049fdb7136bb40a6} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!put@{put}}
+\index{put@{put}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::put (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src }\end{DoxyParamCaption})}
+
+Put remote range (one-\/sided). R\+MA operations cannot overlap with local access. 
+\begin{DoxyParams}{Parameters}
+{\em range} & the area of the global array to store to \\
+\hline
+{\em ld} & the strides to use for buf (default\+: determined by range) \\
+\hline
+{\em buf} & the source buffer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 855 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+855                                                                                                            
+              \{
+856     \textcolor{keyword}{auto} &dst = *\textcolor{keyword}{this};
+857     \hyperlink{namespaceshark_1_1ndim_afb46dbb15b06e4fc1fe871b457cc0695}{shark::ndim::put}(dst, range\_dst, src, range\_src);
+858 \} 
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a068b9c1fc5d00815b8be060454e14d6d}{}\label{classshark_1_1ndim_1_1_global_array_a068b9c1fc5d00815b8be060454e14d6d} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!put@{put}}
+\index{put@{put}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::put (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range,  }\item[{const T $\ast$}]{buf }\end{DoxyParamCaption})}
+
+
+
+Definition at line 861 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+861                                                                     \{
+862     \hyperlink{classshark_1_1ndim_1_1_global_array_ad96ea2c2b281921d915e7a8834420f06}{put}(range, essential\_lead<ndim>(range.stride()), buf);
+863 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a078514cc8388c3c48964b958d2ff5dc7}{}\label{classshark_1_1ndim_1_1_global_array_a078514cc8388c3c48964b958d2ff5dc7} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!put@{put}}
+\index{put@{put}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+void \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::put (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range,  }\item[{std\+::array$<$ std\+::size\+\_\+t, ndim-\/1 $>$}]{ld,  }\item[{const T $\ast$}]{buf }\end{DoxyParamCaption})}
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{}\label{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!region@{region}}
+\index{region@{region}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{region()}{region()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::region (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+The total/inner/outer region of elements 
+
+Definition at line 293 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+293                                                                     \{
+294             \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_global_array_a435ee8ff23c3feadf2ef2be64d4f375c}{domain}().total();
+295         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aab2d58e37ec78fd0aca6a6366e9b7aac}{}\label{classshark_1_1ndim_1_1_global_array_aab2d58e37ec78fd0aca6a6366e9b7aac} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!region@{region}}
+\index{region@{region}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{region()}{region()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_g_a_dest}{G\+A\+Dest}$<$ ndim, T $>$ Global\+Array\+::region (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r,  }\item[{bool}]{pack = {\ttfamily true} }\end{DoxyParamCaption})}
+
+Select a region of elements as destination 
+
+Definition at line 987 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+987                                                                           \{
+988     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{GADest<ndim,T>}(*\textcolor{keyword}{this}, r, pack);
+989 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a8f1fa6f1d6408a1b34b35a50bf551733}{}\label{classshark_1_1ndim_1_1_global_array_a8f1fa6f1d6408a1b34b35a50bf551733} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!reset@{reset}}
+\index{reset@{reset}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 106 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+106                                 \{
+107     \hyperlink{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{dom} = 0;
+108 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a9c72fd2f409389cb47a6f47bdfb77582}{}\label{classshark_1_1ndim_1_1_global_array_a9c72fd2f409389cb47a6f47bdfb77582} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!split@{split}}
+\index{split@{split}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{split()}{split()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+std\+::vector$<$ \hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::split (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{r }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 352 of file globalarray.\+hpp.
+
+
+\begin{DoxyCode}
+352                                                                                                           \{
+353                     \textcolor{keywordtype}{int} count = 0;
+354                     \textcolor{keywordflow}{if} (r == \hyperlink{classshark_1_1ndim_1_1_global_array_a40939e7384b55a49b59c63dc717224d2}{region}()) \{
+355                         \textcolor{comment}{//log\_out() << "split " << r << " into " << std::endl;}
+356                         \textcolor{keyword}{auto} ret = \hyperlink{classshark_1_1ndim_1_1_global_array_a93f43e778ca040cb2ca8ad05dcb02ab0}{outer}();
+357                         ret.push\_back(\hyperlink{classshark_1_1ndim_1_1_global_array_a9bba546920e1709b492540d4ef0b0129}{inner}());
+358                         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} r : ret) \{
+359                             \textcolor{comment}{//log\_out() << " " << r << std::endl;}
+360                             count += r.count();
+361                         \}
+362                         assert(count == \hyperlink{classshark_1_1ndim_1_1_global_array_a871fb1acbd9bd46439766121053e20d1}{local}().count());
+363                         \textcolor{keywordflow}{return} ret;
+364                     \}
+365                     \textcolor{keywordflow}{return} std::vector<coords\_range<ndim>>(1,r);
+366                 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_global_array_a27631077480a0cda76b968d6b21f0da4}{}\label{classshark_1_1ndim_1_1_global_array_a27631077480a0cda76b968d6b21f0da4} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!update@{update}}
+\index{update@{update}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+void Global\+Array\+::update (\begin{DoxyParamCaption}\item[{long}]{k = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+
+
+
+
+ 
+
+Update the ghost cells with data from their original locations (collective). R\+MA operations cannot overlap with local access.
+
+iupdate is a non-\/blocking variant if circumstances permit this (aync communication support, no ghost corners)
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & update phase (only used for general boundaries) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 524 of file globalarray.\+cpp.
+
+
+\begin{DoxyCode}
+524                                              \{
+525     \hyperlink{globals_8hpp_abbe2b020b65cc72852ccd88c8cb2f4bb}{SHARK\_COUNTER}(\textcolor{stringliteral}{"update"});
+526     \hyperlink{classshark_1_1ndim_1_1_global_array_a6485a70dbb541c3bc600fb96903169ef}{iupdate}(k).\hyperlink{structshark_1_1_future_3_01void_01_4_ab44321f72b9e3c40b622d612a772156c}{wait}();
+527 \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aa496c51f4f4225904ad62cb63601e053}{}\label{classshark_1_1ndim_1_1_global_array_aa496c51f4f4225904ad62cb63601e053} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!Access$<$ ndim, T $>$@{Access$<$ ndim, T $>$}}
+\index{Access$<$ ndim, T $>$@{Access$<$ ndim, T $>$}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{Access$<$ ndim, T $>$}{Access< ndim, T >}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_access}{Access}$<$ ndim, T $>$\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 51 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_aa95eda1df3e42435fbeddc71a7bebeb9}{}\label{classshark_1_1ndim_1_1_global_array_aa95eda1df3e42435fbeddc71a7bebeb9} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!accumulate@{accumulate}}
+\index{accumulate@{accumulate}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{accumulate}{accumulate}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+void accumulate (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{tgt,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a2f0f1152d3993384631952178a21f82e}{}\label{classshark_1_1ndim_1_1_global_array_a2f0f1152d3993384631952178a21f82e} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!get@{get}}
+\index{get@{get}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{get}{get}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+void get (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{tgt,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_ad96ea2c2b281921d915e7a8834420f06}{}\label{classshark_1_1ndim_1_1_global_array_ad96ea2c2b281921d915e7a8834420f06} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!put@{put}}
+\index{put@{put}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{put}{put}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+void put (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{tgt,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+src,  }\item[{\hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$ \&}]{src,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ ndim $>$}]{range\+\_\+tgt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c}{}\label{classshark_1_1ndim_1_1_global_array_aead89700a3d1d960432c6dc971251a9c} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!bd@{bd}}
+\index{bd@{bd}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{bd}{bd}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{classshark_1_1ndim_1_1_global_array_a5376df376a8de6a0a756def884c55864}{bounds} \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::bd\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 68 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e}{}\label{classshark_1_1ndim_1_1_global_array_a412e192f4c7a15888da625ae833e8d3e} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!dom@{dom}}
+\index{dom@{dom}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{dom}{dom}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+const \hyperlink{classshark_1_1ndim_1_1_domain}{Domain}$<$ndim$>$$\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::dom\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 65 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702}{}\label{classshark_1_1ndim_1_1_global_array_a148e8382e63e8ff0c9fece28f1131702} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!g\+\_\+in\+\_\+back@{g\+\_\+in\+\_\+back}}
+\index{g\+\_\+in\+\_\+back@{g\+\_\+in\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{g\+\_\+in\+\_\+back}{g\_in\_back}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ndim,T$>$, ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::g\+\_\+in\+\_\+back}
+
+
+
+Definition at line 90 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe}{}\label{classshark_1_1ndim_1_1_global_array_a2f3fe48d925bc0c3a489b83203eaddfe} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!g\+\_\+in\+\_\+front@{g\+\_\+in\+\_\+front}}
+\index{g\+\_\+in\+\_\+front@{g\+\_\+in\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{g\+\_\+in\+\_\+front}{g\_in\_front}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ndim,T$>$, ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::g\+\_\+in\+\_\+front}
+
+
+
+Definition at line 90 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9}{}\label{classshark_1_1ndim_1_1_global_array_a1f7c189d498d7e7c1c79d9a613d1c5a9} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!g\+\_\+out\+\_\+back@{g\+\_\+out\+\_\+back}}
+\index{g\+\_\+out\+\_\+back@{g\+\_\+out\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{g\+\_\+out\+\_\+back}{g\_out\_back}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ndim,T$>$, ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::g\+\_\+out\+\_\+back}
+
+
+
+Definition at line 90 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04}{}\label{classshark_1_1ndim_1_1_global_array_ad811cd36846992d5671148e7da49bb04} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!g\+\_\+out\+\_\+front@{g\+\_\+out\+\_\+front}}
+\index{g\+\_\+out\+\_\+front@{g\+\_\+out\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{g\+\_\+out\+\_\+front}{g\_out\_front}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{classshark_1_1ndim_1_1_g_a_buf}{G\+A\+Buf}$<$ndim,T$>$, ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::g\+\_\+out\+\_\+front}
+
+
+
+Definition at line 90 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2}{}\label{classshark_1_1ndim_1_1_global_array_a100f4d523420deffde330079df7501e2} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!gc@{gc}}
+\index{gc@{gc}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{gc}{gc}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+bool \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::gc\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 67 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310}{}\label{classshark_1_1ndim_1_1_global_array_a97eb47a8cd80d98627706e673259a310} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+back@{ghost\+\_\+back}}
+\index{ghost\+\_\+back@{ghost\+\_\+back}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+back}{ghost\_back}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ndim$>$,ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+back\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 79 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942}{}\label{classshark_1_1ndim_1_1_global_array_a48ce861293f294f003ef16ebd49eb942} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ghost\+\_\+front@{ghost\+\_\+front}}
+\index{ghost\+\_\+front@{ghost\+\_\+front}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ghost\+\_\+front}{ghost\_front}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::array$<$\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$ndim$>$,ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ghost\+\_\+front\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 80 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc}{}\label{classshark_1_1ndim_1_1_global_array_a38d93d114d585e5e5491c5ecd35c6bfc} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!gw@{gw}}
+\index{gw@{gw}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{gw}{gw}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::gw\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 66 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f}{}\label{classshark_1_1ndim_1_1_global_array_a70684121da4badfef791c15d7076282f} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!impl@{impl}}
+\index{impl@{impl}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{impl}{impl}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::unique\+\_\+ptr$<$\hyperlink{classshark_1_1ndim_1_1_g_a_impl}{G\+A\+Impl}$<$ndim, T$>$ $>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::impl}
+
+
+
+Definition at line 73 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c}{}\label{classshark_1_1ndim_1_1_global_array_a8248f4bd6e1f48d25148dd6d5288cb4c} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!lc@{lc}}
+\index{lc@{lc}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{lc}{lc}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+int \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::lc\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+
+Definition at line 83 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49}{}\label{classshark_1_1ndim_1_1_global_array_afdc4665e0fde4a703785436af351df49} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ld@{ld}}
+\index{ld@{ld}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ld}{ld}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ndim+1$>$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ld\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 76 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_aa97c2cc7bef528fca0118cac8e8a5c39}{}\label{classshark_1_1ndim_1_1_global_array_aa97c2cc7bef528fca0118cac8e8a5c39} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!number\+\_\+of\+\_\+dimensions@{number\+\_\+of\+\_\+dimensions}}
+\index{number\+\_\+of\+\_\+dimensions@{number\+\_\+of\+\_\+dimensions}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{number\+\_\+of\+\_\+dimensions}{number\_of\_dimensions}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+const int Global\+Array\+::number\+\_\+of\+\_\+dimensions = ndim\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 60 of file globalarray.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432}{}\label{classshark_1_1ndim_1_1_global_array_ad4af3b8307a3a7107186cf699b5a2432} 
+\index{shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}!ptr@{ptr}}
+\index{ptr@{ptr}!shark\+::ndim\+::\+Global\+Array@{shark\+::ndim\+::\+Global\+Array}}
+\subsubsection{\texorpdfstring{ptr}{ptr}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+T$\ast$ \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$ ndim, T $>$\+::ptr}
+
+
+
+Definition at line 72 of file globalarray.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{common_8hpp}{common.\+hpp}\item 
+include/shark/\hyperlink{globalarray_8hpp}{globalarray.\+hpp}\item 
+src/\hyperlink{globalarray_8cpp}{globalarray.\+cpp}\end{DoxyCompactItemize}

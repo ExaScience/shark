@@ -1,0 +1,105 @@
+\hypertarget{globalarray_8cpp}{}\section{src/globalarray.cpp File Reference}
+\label{globalarray_8cpp}\index{src/globalarray.\+cpp@{src/globalarray.\+cpp}}
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$shark/access.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/boundary.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/domain.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/globalarray.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/globals.\+hpp$>$}\newline
+{\ttfamily \#include $<$shark/common.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}comm\+\_\+impl.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include \char`\"{}types\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}inst\+\_\+dimtype\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$;
+\item 
+\#define \hyperlink{globalarray_8cpp_a1e00f1e2d05281ba772632fa617d867e}{S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH}
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template void  \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$\+::dump(\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$ range, std\+::string);
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template ostream\& shark\+::ndim\+::operator$<$$<$ $<$d,T$>$(ostream\& os, const \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$ \&ga);
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$d,T$>$;
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{shark\+::ndim\+::\+G\+A\+Ref}$<$d,T$>$;
+\item 
+\#define \hyperlink{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{S\+Y\+M\+B\+DT}(d,  T)~template class \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{shark\+::ndim\+::\+G\+A\+Buf}$<$d,T$>$;
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{globalarray_8cpp_a1e00f1e2d05281ba772632fa617d867e}{}\label{globalarray_8cpp_a1e00f1e2d05281ba772632fa617d867e} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH@{S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH}}
+\index{S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH@{S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH}{SYMB\_ARITH}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+\_\+\+A\+R\+I\+TH}
+
+
+
+Definition at line 1015 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$;}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template void  \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$\+::dump(\hyperlink{structshark_1_1ndim_1_1coords__range}{coords\+\_\+range}$<$d$>$ range, std\+::string);}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template ostream\& shark\+::ndim\+::operator$<$$<$ $<$d,T$>$(ostream\& os, const \hyperlink{classshark_1_1ndim_1_1_global_array}{shark\+::ndim\+::\+Global\+Array}$<$d,T$>$ \&ga);}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_g_a_dest}{shark\+::ndim\+::\+G\+A\+Dest}$<$d,T$>$;}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_g_a_ref}{shark\+::ndim\+::\+G\+A\+Ref}$<$d,T$>$;}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+
+\hypertarget{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85}{}\label{globalarray_8cpp_ad35bd1d3042c0ed07a069d2fbc4bbf85} 
+\index{globalarray.\+cpp@{globalarray.\+cpp}!S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}}
+\index{S\+Y\+M\+B\+DT@{S\+Y\+M\+B\+DT}!globalarray.\+cpp@{globalarray.\+cpp}}
+\subsubsection{\texorpdfstring{S\+Y\+M\+B\+DT}{SYMBDT}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily \#define S\+Y\+M\+B\+DT(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{T }\end{DoxyParamCaption})~template class \hyperlink{classshark_1_1ndim_1_1_g_a_buf}{shark\+::ndim\+::\+G\+A\+Buf}$<$d,T$>$;}
+
+
+
+Definition at line 1035 of file globalarray.\+cpp.
+

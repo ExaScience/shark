@@ -1,0 +1,105 @@
+\hypertarget{classshark_1_1ndim_1_1_unary_acc}{}\section{shark\+:\+:ndim\+:\+:Unary\+Acc$<$ S, Func $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_unary_acc}\index{shark\+::ndim\+::\+Unary\+Acc$<$ S, Func $>$@{shark\+::ndim\+::\+Unary\+Acc$<$ S, Func $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_unary_acc_a776fc8713e13051d4fb52eeef18c067f}{Unary\+Acc} (const \hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp}$<$ S, Func $>$ \&exp)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_unary_acc_a4069b14973b6098c878dd467d695f7a7}{$\sim$\+Unary\+Acc} ()
+\item 
+decltype(std\+::declval$<$ Func $>$()(std\+::declval$<$ typename S\+::accessor $>$(), std\+::declval$<$ \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$$>$())) \hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_unary_acc_ab9a95cebe1e0acf123a375b32743453b}{operator()} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const S\+::accessor \hyperlink{classshark_1_1ndim_1_1_unary_acc_af254b8e0cfc968269a4e03d80f45a4eb}{a}
+\item 
+const Func \& \hyperlink{classshark_1_1ndim_1_1_unary_acc_a8a6488ae3b1f64726413bd49721e05b3}{f}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S, typename Func$>$\newline
+class shark\+::ndim\+::\+Unary\+Acc$<$ S, Func $>$}
+
+Unary expressions 
+
+Definition at line 126 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_acc_a776fc8713e13051d4fb52eeef18c067f}{}\label{classshark_1_1ndim_1_1_unary_acc_a776fc8713e13051d4fb52eeef18c067f} 
+\index{shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}!Unary\+Acc@{Unary\+Acc}}
+\index{Unary\+Acc@{Unary\+Acc}!shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}}
+\subsubsection{\texorpdfstring{Unary\+Acc()}{UnaryAcc()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc}$<$ S, Func $>$\+::\hyperlink{classshark_1_1ndim_1_1_unary_acc}{Unary\+Acc} (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_unary_exp}{Unary\+Exp}$<$ S, Func $>$ \&}]{exp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 177 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+177 : \hyperlink{classshark_1_1ndim_1_1_unary_acc_af254b8e0cfc968269a4e03d80f45a4eb}{a}(exp.src), \hyperlink{classshark_1_1ndim_1_1_unary_acc_a8a6488ae3b1f64726413bd49721e05b3}{f}(exp.f) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_unary_acc_a4069b14973b6098c878dd467d695f7a7}{}\label{classshark_1_1ndim_1_1_unary_acc_a4069b14973b6098c878dd467d695f7a7} 
+\index{shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}!````~Unary\+Acc@{$\sim$\+Unary\+Acc}}
+\index{````~Unary\+Acc@{$\sim$\+Unary\+Acc}!shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}}
+\subsubsection{\texorpdfstring{$\sim$\+Unary\+Acc()}{~UnaryAcc()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc}$<$ S, Func $>$\+::$\sim$\hyperlink{classshark_1_1ndim_1_1_unary_acc}{Unary\+Acc} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 180 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+180 \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_acc_ab9a95cebe1e0acf123a375b32743453b}{}\label{classshark_1_1ndim_1_1_unary_acc_ab9a95cebe1e0acf123a375b32743453b} 
+\index{shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+decltype(std\+::declval$<$Func$>$()(std\+::declval$<$typename S\+::accessor$>$(), std\+::declval$<$\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$S\+::number\+\_\+of\+\_\+dimensions$>$$>$())) \hyperlink{common_8hpp_a2eb6f9e0395b47b8d5e3eeae4fe0c116}{I\+N\+L\+I\+NE} \hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc}$<$ S, Func $>$\+::operator() (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_unary_acc_af254b8e0cfc968269a4e03d80f45a4eb}{}\label{classshark_1_1ndim_1_1_unary_acc_af254b8e0cfc968269a4e03d80f45a4eb} 
+\index{shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}!a@{a}}
+\index{a@{a}!shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}}
+\subsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+const S\+::accessor \hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc}$<$ S, Func $>$\+::a\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 164 of file expr.\+hpp.
+
+\hypertarget{classshark_1_1ndim_1_1_unary_acc_a8a6488ae3b1f64726413bd49721e05b3}{}\label{classshark_1_1ndim_1_1_unary_acc_a8a6488ae3b1f64726413bd49721e05b3} 
+\index{shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}!f@{f}}
+\index{f@{f}!shark\+::ndim\+::\+Unary\+Acc@{shark\+::ndim\+::\+Unary\+Acc}}
+\subsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily template$<$typename S , typename Func $>$ \\
+const Func\& \hyperlink{classshark_1_1ndim_1_1_unary_acc}{shark\+::ndim\+::\+Unary\+Acc}$<$ S, Func $>$\+::f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 165 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

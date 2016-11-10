@@ -25,7 +25,7 @@ REQUIREMENTS
      * gcc 4.6, 4.7 and 4.8
      * icc 12.1 and 13 with libstdc++ from gcc 4.4
  - pkg-config
- - An MPI2 implementation (recommended)
+ - An MPI3 implementation (recommended)
  - POSIX threads with spin locks (optional)
  - OpenMP 2.5 support (optional)
  - Intel Threading Building Blocks (TBB) 2.2 or newer (optional)

@@ -1,0 +1,86 @@
+\hypertarget{classshark_1_1ndim_1_1_shift}{}\section{shark\+:\+:ndim\+:\+:Shift$<$ S $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_shift}\index{shark\+::ndim\+::\+Shift$<$ S $>$@{shark\+::ndim\+::\+Shift$<$ S $>$}}
+
+
+{\ttfamily \#include $<$expr.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_shift_adb6138a4655f902116238e4e08e47e68}{Shift} (\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \hyperlink{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331}{sw})
+\item 
+auto \hyperlink{classshark_1_1ndim_1_1_shift_ac2095531d2a9060eae224166379e4e39}{operator()} (const typename S\+::accessor \&a, \hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ ii) const -\/$>$ decltype(a(ii))
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$ \hyperlink{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331}{sw}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename S$>$\newline
+class shark\+::ndim\+::\+Shift$<$ S $>$}
+
+\hyperlink{classshark_1_1ndim_1_1_shift}{Shift} 
+
+Definition at line 653 of file expr.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_shift_adb6138a4655f902116238e4e08e47e68}{}\label{classshark_1_1ndim_1_1_shift_adb6138a4655f902116238e4e08e47e68} 
+\index{shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}!Shift@{Shift}}
+\index{Shift@{Shift}!shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}}
+\subsubsection{\texorpdfstring{Shift()}{Shift()}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_shift}{shark\+::ndim\+::\+Shift}$<$ S $>$\+::\hyperlink{classshark_1_1ndim_1_1_shift}{Shift} (\begin{DoxyParamCaption}\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{sw }\end{DoxyParamCaption})}
+
+
+
+Definition at line 663 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+663 : \hyperlink{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331}{sw}(sw) \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_shift_ac2095531d2a9060eae224166379e4e39}{}\label{classshark_1_1ndim_1_1_shift_ac2095531d2a9060eae224166379e4e39} 
+\index{shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}!operator()@{operator()}}
+\index{operator()@{operator()}!shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}}
+\subsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+auto \hyperlink{classshark_1_1ndim_1_1_shift}{shark\+::ndim\+::\+Shift}$<$ S $>$\+::operator() (\begin{DoxyParamCaption}\item[{const typename S\+::accessor \&}]{a,  }\item[{\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$ S\+::number\+\_\+of\+\_\+dimensions $>$}]{ii }\end{DoxyParamCaption}) const -\/$>$ decltype(a(ii)) \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 657 of file expr.\+hpp.
+
+
+\begin{DoxyCode}
+657                                                                                                            
+               \{
+658                 \textcolor{keywordflow}{return} a(ii+\hyperlink{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331}{sw});
+659             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331}{}\label{classshark_1_1ndim_1_1_shift_a3bd6f579c282ca70d391bd43bc582331} 
+\index{shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}!sw@{sw}}
+\index{sw@{sw}!shark\+::ndim\+::\+Shift@{shark\+::ndim\+::\+Shift}}
+\subsubsection{\texorpdfstring{sw}{sw}}
+{\footnotesize\ttfamily template$<$typename S $>$ \\
+\hyperlink{structshark_1_1ndim_1_1coords}{coords}$<$S\+::number\+\_\+of\+\_\+dimensions$>$ \hyperlink{classshark_1_1ndim_1_1_shift}{shark\+::ndim\+::\+Shift}$<$ S $>$\+::sw\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 654 of file expr.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{expr_8hpp}{expr.\+hpp}\end{DoxyCompactItemize}

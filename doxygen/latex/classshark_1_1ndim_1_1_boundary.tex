@@ -1,0 +1,366 @@
+\hypertarget{classshark_1_1ndim_1_1_boundary}{}\section{shark\+:\+:ndim\+:\+:Boundary$<$ ndim, T $>$ Class Template Reference}
+\label{classshark_1_1ndim_1_1_boundary}\index{shark\+::ndim\+::\+Boundary$<$ ndim, T $>$@{shark\+::ndim\+::\+Boundary$<$ ndim, T $>$}}
+
+
+{\ttfamily \#include $<$boundary.\+hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1fixed__type}{fixed\+\_\+type}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1fun__fixed__type}{fun\+\_\+fixed\+\_\+type}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1fun__general__type}{fun\+\_\+general\+\_\+type}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1general__type}{general\+\_\+type}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1periodic__type}{periodic\+\_\+type}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_1_1type}{type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_boundary_a7c4c8db45b13dab630e4c6ed7a958e71}{Boundary} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_boundary_a86eab4f2362618c5b1e3d0df3a5f7f42}{$\sim$\+Boundary} ()
+\item 
+\hyperlink{classshark_1_1ndim_1_1_boundary_a530ae26f4011eaf93935de5a357ea22a}{Boundary} (const \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \&other)
+\item 
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \& \hyperlink{classshark_1_1ndim_1_1_boundary_afbdf2a3d58ac7c831e5911c6ff86cfb8}{operator=} (const \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \&other)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_ad2764d304ad8f207a882d1aaa93b96e1}{all\+\_\+unmanaged} ()
+\item 
+static \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_af999765d8c5dccc13a4e8e224f966fc5}{periodic} ()
+\item 
+static std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_a79f22388bb5c66d131918c1b68125a90}{all\+\_\+periodic} ()
+\item 
+static \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_a8e8433bf2c6f1f27f0e4192fd03f70a5}{constant} (const T \&val)
+\item 
+static std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_afe55524d0fe2276ec019549ab88fb1a3}{all\+\_\+constant} (const T \&val)
+\item 
+{\footnotesize template$<$typename Func $>$ }\\static \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_a713a06547690904ed24cdb3c92190ea5}{fixed} (const Func \&f)
+\item 
+{\footnotesize template$<$typename Func $>$ }\\static std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_ac4a1c6582cb46a3f1eb59acf416860a7}{all\+\_\+fixed} (const Func \&f)
+\item 
+{\footnotesize template$<$typename Func $>$ }\\static \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_a1820cabb4bd234cd1e08179f39bf5a8d}{general} (const Func \&f)
+\item 
+{\footnotesize template$<$typename Func $>$ }\\static std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_abad9349a25882ff5d9f6b7d4db8e27ce}{all\+\_\+general} (const Func \&f)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1ndim_1_1_boundary_a3f693c16698630570f577f618f9f02ff}{Boundary} (\hyperlink{classshark_1_1ndim_1_1_boundary_1_1type}{type} $\ast$\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t})
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{classshark_1_1ndim_1_1_boundary_1_1type}{type} $>$ \hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshark_1_1ndim_1_1_boundary_ae56b9154646ac1569c81ea1215860995}{Global\+Array$<$ ndim, T $>$}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$int ndim, typename T$>$\newline
+class shark\+::ndim\+::\+Boundary$<$ ndim, T $>$}
+
+A boundary configuration for a global array 
+
+Definition at line 26 of file boundary.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a3f693c16698630570f577f618f9f02ff}{}\label{classshark_1_1ndim_1_1_boundary_a3f693c16698630570f577f618f9f02ff} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!Boundary@{Boundary}}
+\index{Boundary@{Boundary}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{Boundary()}{Boundary()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Boundary\+::\+Boundary (\begin{DoxyParamCaption}\item[{\hyperlink{classshark_1_1ndim_1_1_boundary_1_1type}{type} $\ast$}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 33 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+33 : \hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}(\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a7c4c8db45b13dab630e4c6ed7a958e71}{}\label{classshark_1_1ndim_1_1_boundary_a7c4c8db45b13dab630e4c6ed7a958e71} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!Boundary@{Boundary}}
+\index{Boundary@{Boundary}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{Boundary()}{Boundary()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Boundary\+::\+Boundary (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Create an unmanaged boundary 
+
+Definition at line 36 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+36 : \hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}(\textcolor{keyword}{new} type()) \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a86eab4f2362618c5b1e3d0df3a5f7f42}{}\label{classshark_1_1ndim_1_1_boundary_a86eab4f2362618c5b1e3d0df3a5f7f42} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!````~Boundary@{$\sim$\+Boundary}}
+\index{````~Boundary@{$\sim$\+Boundary}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{$\sim$\+Boundary()}{~Boundary()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Boundary\+::$\sim$\+Boundary (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 44 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+44 \{ \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a530ae26f4011eaf93935de5a357ea22a}{}\label{classshark_1_1ndim_1_1_boundary_a530ae26f4011eaf93935de5a357ea22a} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!Boundary@{Boundary}}
+\index{Boundary@{Boundary}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{Boundary()}{Boundary()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+Boundary\+::\+Boundary (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+Copy semantics 
+
+Definition at line 47 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+47 : \hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}(other.\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}->clone()) \{ \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_boundary_afe55524d0fe2276ec019549ab88fb1a3}{}\label{classshark_1_1ndim_1_1_boundary_afe55524d0fe2276ec019549ab88fb1a3} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!all\+\_\+constant@{all\+\_\+constant}}
+\index{all\+\_\+constant@{all\+\_\+constant}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{all\+\_\+constant()}{all\_constant()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ Boundary\+::all\+\_\+constant (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 76 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+76                                                                         \{
+77     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_boundary_ac4a1c6582cb46a3f1eb59acf416860a7}{all\_fixed}([val](\hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>}) \{
+78         \textcolor{keywordflow}{return} val;
+79     \});
+80 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_ac4a1c6582cb46a3f1eb59acf416860a7}{}\label{classshark_1_1ndim_1_1_boundary_ac4a1c6582cb46a3f1eb59acf416860a7} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!all\+\_\+fixed@{all\+\_\+fixed}}
+\index{all\+\_\+fixed@{all\+\_\+fixed}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{all\+\_\+fixed()}{all\_fixed()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename Func $>$ \\
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary}$<$ ndim, T $>$\+::all\+\_\+fixed (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 164 of file boundary.\+hpp.
+
+
+\begin{DoxyCode}
+164                                                                                  \{
+165             std::array<Boundary<ndim,T>,ndim> bds;
+166             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < ndim; d++)
+167                 bds[d].\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}.reset(\textcolor{keyword}{new} fun\_fixed\_type<Func>(f));
+168             \textcolor{keywordflow}{return} bds;
+169         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_abad9349a25882ff5d9f6b7d4db8e27ce}{}\label{classshark_1_1ndim_1_1_boundary_abad9349a25882ff5d9f6b7d4db8e27ce} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!all\+\_\+general@{all\+\_\+general}}
+\index{all\+\_\+general@{all\+\_\+general}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{all\+\_\+general()}{all\_general()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename Func $>$ \\
+std\+::array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary}$<$ ndim, T $>$\+::all\+\_\+general (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 177 of file boundary.\+hpp.
+
+
+\begin{DoxyCode}
+177                                                                                    \{
+178             std::array<Boundary<ndim,T>,ndim> bds;
+179             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < ndim; d++)
+180                 bds[d].\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}.reset(\textcolor{keyword}{new} fun\_general\_type<Func>(f));
+181             \textcolor{keywordflow}{return} bds;
+182         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a79f22388bb5c66d131918c1b68125a90}{}\label{classshark_1_1ndim_1_1_boundary_a79f22388bb5c66d131918c1b68125a90} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!all\+\_\+periodic@{all\+\_\+periodic}}
+\index{all\+\_\+periodic@{all\+\_\+periodic}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{all\+\_\+periodic()}{all\_periodic()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ Boundary\+::all\+\_\+periodic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 61 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+61                                                             \{
+62     array<Boundary<ndim,T>,ndim> bds;
+63     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} d = 0; d < ndim; d++)
+64         bds[d].\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}.reset(\textcolor{keyword}{new} periodic\_type());
+65     \textcolor{keywordflow}{return} bds;
+66 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_ad2764d304ad8f207a882d1aaa93b96e1}{}\label{classshark_1_1ndim_1_1_boundary_ad2764d304ad8f207a882d1aaa93b96e1} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!all\+\_\+unmanaged@{all\+\_\+unmanaged}}
+\index{all\+\_\+unmanaged@{all\+\_\+unmanaged}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{all\+\_\+unmanaged()}{all\_unmanaged()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+array$<$ \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$, ndim $>$ Boundary\+::all\+\_\+unmanaged (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 39 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+39                                                              \{
+40     \textcolor{keywordflow}{return} array<Boundary<ndim,T>,ndim>();
+41 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a8e8433bf2c6f1f27f0e4192fd03f70a5}{}\label{classshark_1_1ndim_1_1_boundary_a8e8433bf2c6f1f27f0e4192fd03f70a5} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!constant@{constant}}
+\index{constant@{constant}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{constant()}{constant()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ Boundary\+::constant (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a boundary with a constant value over space and time 
+
+Definition at line 69 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+69                                                         \{
+70     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_boundary_a713a06547690904ed24cdb3c92190ea5}{fixed}([val](\hyperlink{structshark_1_1ndim_1_1coords}{coords<ndim>}) \{
+71         \textcolor{keywordflow}{return} val;
+72     \});
+73 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a713a06547690904ed24cdb3c92190ea5}{}\label{classshark_1_1ndim_1_1_boundary_a713a06547690904ed24cdb3c92190ea5} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!fixed@{fixed}}
+\index{fixed@{fixed}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{fixed()}{fixed()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary}$<$ ndim, T $>$\+::fixed (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a boundary with values fixed over time 
+
+Definition at line 159 of file boundary.\+hpp.
+
+
+\begin{DoxyCode}
+159                                                               \{
+160             \textcolor{keywordflow}{return} Boundary<ndim,T>(\textcolor{keyword}{new} fun\_fixed\_type<Func>(f));
+161         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a1820cabb4bd234cd1e08179f39bf5a8d}{}\label{classshark_1_1ndim_1_1_boundary_a1820cabb4bd234cd1e08179f39bf5a8d} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!general@{general}}
+\index{general@{general}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{general()}{general()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+template$<$typename Func $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary}$<$ ndim, T $>$\+::general (\begin{DoxyParamCaption}\item[{const Func \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a general boundary 
+
+Definition at line 172 of file boundary.\+hpp.
+
+
+\begin{DoxyCode}
+172                                                                 \{
+173             \textcolor{keywordflow}{return} Boundary<ndim,T>(\textcolor{keyword}{new} fun\_general\_type<Func>(f));
+174         \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_afbdf2a3d58ac7c831e5911c6ff86cfb8}{}\label{classshark_1_1ndim_1_1_boundary_afbdf2a3d58ac7c831e5911c6ff86cfb8} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!operator=@{operator=}}
+\index{operator=@{operator=}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \& Boundary\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Definition at line 50 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+50                                                                            \{
+51     \hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}.reset(other.\hyperlink{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{t}->clone());
+52     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+53 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1ndim_1_1_boundary_af999765d8c5dccc13a4e8e224f966fc5}{}\label{classshark_1_1ndim_1_1_boundary_af999765d8c5dccc13a4e8e224f966fc5} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!periodic@{periodic}}
+\index{periodic@{periodic}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{periodic()}{periodic()}}
+{\footnotesize\ttfamily template$<$int ndim, typename T $>$ \\
+\hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary}$<$ ndim, T $>$ Boundary\+::periodic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a periodic boundary 
+
+Definition at line 56 of file boundary.\+cpp.
+
+
+\begin{DoxyCode}
+56                                             \{
+57     \textcolor{keywordflow}{return} \hyperlink{classshark_1_1ndim_1_1_boundary}{Boundary<ndim,T>}(\textcolor{keyword}{new} periodic\_type());
+58 \}
+\end{DoxyCode}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classshark_1_1ndim_1_1_boundary_ae56b9154646ac1569c81ea1215860995}{}\label{classshark_1_1ndim_1_1_boundary_ae56b9154646ac1569c81ea1215860995} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!Global\+Array$<$ ndim, T $>$@{Global\+Array$<$ ndim, T $>$}}
+\index{Global\+Array$<$ ndim, T $>$@{Global\+Array$<$ ndim, T $>$}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{Global\+Array$<$ ndim, T $>$}{GlobalArray< ndim, T >}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+friend class \hyperlink{classshark_1_1ndim_1_1_global_array}{Global\+Array}$<$ ndim, T $>$\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 27 of file boundary.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7}{}\label{classshark_1_1ndim_1_1_boundary_a16fdfa33d88480b4127ff36c1f1a2ce7} 
+\index{shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}!t@{t}}
+\index{t@{t}!shark\+::ndim\+::\+Boundary@{shark\+::ndim\+::\+Boundary}}
+\subsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily template$<$int ndim, typename T$>$ \\
+std\+::unique\+\_\+ptr$<$\hyperlink{classshark_1_1ndim_1_1_boundary_1_1type}{type}$>$ \hyperlink{classshark_1_1ndim_1_1_boundary}{shark\+::ndim\+::\+Boundary}$<$ ndim, T $>$\+::t\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 72 of file boundary.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{boundary_8hpp}{boundary.\+hpp}\item 
+src/\hyperlink{boundary_8cpp}{boundary.\+cpp}\end{DoxyCompactItemize}

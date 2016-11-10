@@ -1,0 +1,134 @@
+\hypertarget{classshark_1_1_handle}{}\section{shark\+:\+:Handle Class Reference}
+\label{classshark_1_1_handle}\index{shark\+::\+Handle@{shark\+::\+Handle}}
+
+
+{\ttfamily \#include $<$future.\+hpp$>$}
+
+Inheritance diagram for shark\+:\+:Handle\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classshark_1_1_handle}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshark_1_1_handle_a4e3b97f227b72125e595164e0a6629a7}{Handle} ()
+\item 
+virtual \hyperlink{classshark_1_1_handle_ad63422289041b1a0fbebae079786ae22}{$\sim$\+Handle} ()
+\item 
+virtual bool \hyperlink{classshark_1_1_handle_a79ac46bc643e22c2a1fb28d45634fa68}{test} ()=0
+\item 
+virtual void \hyperlink{classshark_1_1_handle_a36117a898368730a1619a1a771cca424}{wait} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classshark_1_1_handle_a2c999eeeb8dd6283b9b792515a10e6aa}{make\+\_\+progress} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::set$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$ $>$ \hyperlink{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838}{ongoing}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 18 of file future.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classshark_1_1_handle_a4e3b97f227b72125e595164e0a6629a7}{}\label{classshark_1_1_handle_a4e3b97f227b72125e595164e0a6629a7} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!Handle@{Handle}}
+\index{Handle@{Handle}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{Handle()}{Handle()}}
+{\footnotesize\ttfamily Handle\+::\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 24 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+24                \{
+25 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_handle_ad63422289041b1a0fbebae079786ae22}{}\label{classshark_1_1_handle_ad63422289041b1a0fbebae079786ae22} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!````~Handle@{$\sim$\+Handle}}
+\index{````~Handle@{$\sim$\+Handle}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{$\sim$\+Handle()}{~Handle()}}
+{\footnotesize\ttfamily Handle\+::$\sim$\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Definition at line 27 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+27                 \{
+28 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classshark_1_1_handle_a2c999eeeb8dd6283b9b792515a10e6aa}{}\label{classshark_1_1_handle_a2c999eeeb8dd6283b9b792515a10e6aa} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!make\+\_\+progress@{make\+\_\+progress}}
+\index{make\+\_\+progress@{make\+\_\+progress}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{make\+\_\+progress()}{make\_progress()}}
+{\footnotesize\ttfamily void Handle\+::make\+\_\+progress (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 17 of file future.\+cpp.
+
+
+\begin{DoxyCode}
+17                            \{
+18     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = \hyperlink{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838}{ongoing}.begin(); it != \hyperlink{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838}{ongoing}.end(); ) \{
+19         \textcolor{keywordflow}{if} ((*it)->test()) it = \hyperlink{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838}{ongoing}.erase(it);
+20         \textcolor{keywordflow}{else} ++it;
+21     \}
+22 \}
+\end{DoxyCode}
+\hypertarget{classshark_1_1_handle_a79ac46bc643e22c2a1fb28d45634fa68}{}\label{classshark_1_1_handle_a79ac46bc643e22c2a1fb28d45634fa68} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!test@{test}}
+\index{test@{test}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily virtual bool shark\+::\+Handle\+::test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classshark_1_1_done_handle_aa2207dc4b61f0bffcbfb56aa9f9b0b46}{shark\+::\+Done\+Handle}.
+
+\hypertarget{classshark_1_1_handle_a36117a898368730a1619a1a771cca424}{}\label{classshark_1_1_handle_a36117a898368730a1619a1a771cca424} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!wait@{wait}}
+\index{wait@{wait}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{wait()}{wait()}}
+{\footnotesize\ttfamily virtual void shark\+::\+Handle\+::wait (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classshark_1_1_done_handle_a99b4b58b01738073650b9c452e35b7e8}{shark\+::\+Done\+Handle}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838}{}\label{classshark_1_1_handle_a0ade8d8ad19d5620c10381a7e26db838} 
+\index{shark\+::\+Handle@{shark\+::\+Handle}!ongoing@{ongoing}}
+\index{ongoing@{ongoing}!shark\+::\+Handle@{shark\+::\+Handle}}
+\subsubsection{\texorpdfstring{ongoing}{ongoing}}
+{\footnotesize\ttfamily std\+::set$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{classshark_1_1_handle}{Handle} $>$ $>$ Handle\+::ongoing\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 20 of file future.\+hpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/shark/\hyperlink{future_8hpp}{future.\+hpp}\item 
+src/\hyperlink{future_8cpp}{future.\+cpp}\end{DoxyCompactItemize}
